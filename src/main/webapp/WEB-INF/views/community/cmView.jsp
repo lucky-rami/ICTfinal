@@ -361,7 +361,7 @@ function showTab(commtype) {
                           let comm = '<div class="comment-item comment-' + comment.idx + '" style="margin-left: ' + indentLevel + 'px;">';
 
                           comm += '<div class="comment-header">';
-                          comm += '<p class="comment-user"><strong>' + comment.userid + '</strong></p>';
+                          comm += '<span class="comment-user"><strong>' + comment.userid + '</strong></span>';
                           comm += '<button id="reportCommentBtn-' + comment.idx + '" class="btn btn-link reportBtn" data-author-id="' + comment.userid + '" data-content="' + comment.content + '">' +
                                   '<img src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyMycgaGVpZ2h0PScyMycgdmlld0JveD0nMCAwIDIzIDIzJz48cGF0aCBkPSdNNDEuNjI4IDQyLjAyaDIzdjIzaC0yM3onIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00MS42MjggLTQyLjAyKScgc3R5bGU9J2ZpbGw6bm9uZScvPjxwYXRoIGQ9J000NS42NDUgNTguNTkxdi00Ljg1N2E2LjExNiA2LjExNiAwIDAgMSAyLjkyNC01LjU5MSA2LjA1IDYuMDUgMCAwIDEgNi4yODQgMCA2LjExNiA2LjExNiAwIDAgMSAyLjkyNCA1LjU5MXY0Ljg1N2gyLjF2MS42MTlINDMuNTQ0di0xLjYxOXptMS41MTctNC44NTdoMS41MTdBMy4xNDEgMy4xNDEgMCAwIDEgNTEuNzEgNTAuNXYtMS42MjNhNC43MTIgNC43MTIgMCAwIDAtNC41NDkgNC44NTd6bTMuNzkxLTkuNzE0aDEuNTE3djIuNDI4aC0xLjUxOHptNi42NTUgMi4yNzMgMS4wNzQgMS4xNDQtMS42MTIgMS43MThMNTYgNDguMDExem0tMTIuODY3IDEuMTQ0IDEuMDc0LTEuMTQ0IDEuNiAxLjcxNi0xLjA3NCAxLjE0N3onIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00MC4yMTEgLTQxLjYxNSknIHN0eWxlPSdmaWxsOiNjY2NjZDAnLz48L3N2Zz4K"></button>';
                           comm += '</div>';
@@ -387,7 +387,7 @@ function showTab(commtype) {
 
                               comm += '<div id="edit-form-' + comment.idx + '" class="reply_input" style="display:none;">' +
                                 '<textarea id="edit-textarea-' + comment.idx + '">' + comment.content + '</textarea>' +
-                                '<button onclick="updateComment(' + comment.idx + ',' + comment.comm_idx + ')">수정하기</button>' +
+                                '<button id="test" onclick="updateComment(' + comment.idx + ',' + comment.comm_idx + ')">수정하기</button>' +
                                 '</div>';
                           }
 

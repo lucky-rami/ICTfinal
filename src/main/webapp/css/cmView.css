@@ -1,5 +1,5 @@
 body {
-    margin: 130px 0 0 0;
+    margin: 130px 0 100px 0;
     background-color: #F4F2EF;
     animation: none;
 }
@@ -97,8 +97,8 @@ body {
 }
 
 .row img{
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     margin-right:5px;
     align-items: center;
     color: #737881;
@@ -130,8 +130,6 @@ body {
 
 .reply_input{
     width:100%;
-    display: flex;
-    align-items: stretch; /* 높이를 맞추기 */
     margin: 0 20px;
 }
 
@@ -165,7 +163,8 @@ body {
     width: 100px;
     height: 90px;
 }
-
+#test{
+margin: auto 0}
 
 /* 댓글로드 스타일 정렬*/
 /* 댓글의 정렬을 위해 comment-header에 flex 스타일 적용 */
@@ -210,7 +209,7 @@ body {
 .comment-item {
     border-bottom: 1px solid #ddd; /* 아래쪽 실선 추가 */
     padding-bottom: 20px; /* 실선과 내용 간의 여백 */
-    margin-bottom: 10px; /* 다음 댓글과의 간격 */
+    margin:10px 25px 0 0;
 }
 
 .comment-item:last-child {
