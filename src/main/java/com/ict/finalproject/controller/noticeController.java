@@ -155,7 +155,7 @@ public class noticeController {
     // 이미지 서버로 파일을 전송하는 메소드
     private void uploadFileToImageServer(MultipartFile file, String uniqueFilename) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
-        String imageServerUrl = "http://192.168.1.92:8000/upload";
+        String imageServerUrl = "http://192.168.1.180:8000/upload";
 
         // 파일을 MultiValueMap으로 준비
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -193,7 +193,7 @@ public class noticeController {
     // 파일 삭제
     private void fileDel(String filename) {
         RestTemplate restTemplate = new RestTemplate();
-        String deleteUrl = "http://192.168.1.92:8000/delete/" + filename;
+        String deleteUrl = "http://192.168.1.180:8000/delete/" + filename;
 
         try {
             restTemplate.delete(deleteUrl);

@@ -150,7 +150,7 @@ body {
     color: #333;
     border: 1px solid #dde1e5;
     background-color: #FAFAFA;
-    width: 90%;
+    width: 87%;
     min-height: 90px;
     padding: 8px;
     margin-bottom: 10px; /* 여백 추가 */
@@ -167,7 +167,7 @@ body {
 }
 
 
-/* 날짜와 답글쓰기, 수정, 삭제의 공통 스타일 */
+/* 댓글로드 스타일 정렬*/
 /* 댓글의 정렬을 위해 comment-header에 flex 스타일 적용 */
 .comment-header {
     display: flex;
@@ -191,28 +191,25 @@ body {
     margin-right: 10px; /* 요소 간 여백 추가 */
 }
 
-.comment-user {
-    margin-right: 5px; /* 아이디와 아이콘 사이의 간격 추가 */
+/* 아이콘 스타일 */
+.report-icon {
+    display: inline-block;
+    margin-left: 5px; /* 아이디와 아이콘 사이의 간격 */
 }
 
-.comment-meta-wrapper {
+/* 날짜와 답글쓰기, 수정, 삭제 버튼들을 같은 줄에 배치 */
+/*.comment-meta-wrapper {
     display: flex;
-    align-items: center; /* 날짜와 버튼들을 같은 줄에 배치 */
-    justify-content: space-between; /* 버튼들을 오른쪽 정렬 */
-}
+    align-items: center; /* 날짜와 버튼들을 수직 가운데 정렬 */
+    /*justify-content: flex-start; /* 왼쪽 정렬 */
+    /*gap: 10px; /* 날짜와 버튼 사이의 간격 */
+/*}*/
 
-/* 하단 버튼들 정렬을 위해 별도의 wrapper를 사용 */
-.comment-actions {
-    display: flex;
-    justify-content: flex-end; /* 오른쪽 정렬 */
-    gap: 10px; /* 버튼 사이의 간격 */
-    margin-top: 5px;
-}
 
 /* 댓글 요소 스타일 */
 .comment-item {
     border-bottom: 1px solid #ddd; /* 아래쪽 실선 추가 */
-    padding-bottom: 10px; /* 실선과 내용 간의 여백 */
+    padding-bottom: 20px; /* 실선과 내용 간의 여백 */
     margin-bottom: 10px; /* 다음 댓글과의 간격 */
 }
 
@@ -220,8 +217,13 @@ body {
     border-bottom: none; /* 마지막 댓글의 보더바텀 제거 */
 }
 
-
-
+/*수정, 삭제버튼*/
+.edit-btn,
+.delete-btn {
+    border: 1px solid #ddd; /* 보더 추가 */
+    padding: 2px 6px; /* 버튼 크기 조정 */
+    background-color: transparent; /* 배경색 투명 */
+}
 
 
 

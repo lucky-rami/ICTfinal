@@ -193,13 +193,14 @@
         UPDATE t_community
         SET title = #{title},
         content = #{content},
+        modifyState = 1,
         modifyDT = NOW()
         WHERE idx = #{idx}
     </update>
 
-    <delete id="Delete" parameterType="int">
-        delete from t_community where idx = #{idx}
-    </delete>
+    <update id="Delete" parameterType="int">
+        update t_community set delState = 1, delDT = NOW() where idx = #{idx}
+    </update>
 
 
     <insert id="insertComment" parameterType="com.ict.finalproject.vo.CommentVO">
