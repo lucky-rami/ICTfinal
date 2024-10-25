@@ -149,7 +149,7 @@ $(document).ready(function() {
 
                     // 이미지 파일이 존재할 경우만 이미지 경로 설정
                     if (response.imgfile1) {
-                        const imgPath1 = "http://192.168.1.92:8000/" + encodeURIComponent(response.imgfile1);
+                        const imgPath1 = "http://192.168.1.180:8000/" + encodeURIComponent(response.imgfile1);
                         $('#imgFile1').attr('src', imgPath1).show();
                     } else {
                         $('#imgFile1').hide();
@@ -157,7 +157,7 @@ $(document).ready(function() {
                     }
 
                     if (response.imgfile2) {
-                        const imgPath2 = "http://192.168.1.92:8000/" + encodeURIComponent(response.imgfile2);
+                        const imgPath2 = "http://192.168.1.180:8000/" + encodeURIComponent(response.imgfile2);
                         $('#imgFile2').attr('src', imgPath2).show();
                     } else {
                         $('#imgFile2').hide();

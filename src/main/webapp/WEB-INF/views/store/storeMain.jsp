@@ -74,7 +74,7 @@
                                 <div class="pop-product">
                                       <a href="/storeDetail/${product.idx}">
                                         <!-- 서버에서 불러온 이미지 경로 사용 -->
-                                        <img src="http://192.168.1.92:8000/${product.thumImg}" alt="${product.title}">
+                                        <img src="http://192.168.1.180:8000/${product.thumImg}" alt="${product.title}">
                                         <!-- <span class="rcont"></span> -->
                                         <div class="tit">${product.title}</div>
                                         <span class="price">
@@ -129,7 +129,7 @@
                                             <c:forEach var="product" items="${recentProducts}">
                                                     <div class="new-product">
                                                     <a href="/storeDetail/${product.idx}">
-                                                        <img src="http://192.168.1.92:8000/${product.thumImg}" alt="${product.title}">
+                                                        <img src="http://192.168.1.180:8000/${product.thumImg}" alt="${product.title}">
                                                         <!-- <span class="rcont"></span> -->
                                                         <div class="tit">${product.title}</div>
                                                         <span class="price">

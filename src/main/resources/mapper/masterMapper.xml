@@ -740,14 +740,15 @@
         SELECT
         DATE(pm.createDT) AS orderDate,    -- 주문 일자
         COUNT(DISTINCT o.idx) AS orderCount,        -- 주문 건수
-        SUM(DISTINCT pm.amount) - SUM(IFNULL(pmc.cancelAmount, 0)) AS totalSales       -- 총 매출
+        SUM(pm.amount) - SUM(IFNULL(pmc.totalCancelAmount, 0)) AS totalSales       -- 총 매출
         FROM
         T_payment pm
         JOIN
         T_order o ON pm.order_idx = o.idx
         LEFT JOIN
-        T_payment_cancel pmc ON pm.payment_id = pmc.payment_id
-        AND DATE(pmc.cancelDT) = DATE(pm.createDT)
+        (SELECT payment_id, SUM(cancelAmount) AS totalCancelAmount  -- 취소 금액을 그룹화하여 합산
+        FROM T_payment_cancel
+        GROUP BY payment_id) pmc ON pm.payment_id = pmc.payment_id
         WHERE
         pm.successYN = 1
         AND o.payState = 1

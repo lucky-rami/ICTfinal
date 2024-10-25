@@ -19,6 +19,7 @@ public class CancelResDTO {
     private String approvedAt;
     private boolean useEscrow;
     private boolean cultureExpense;
+    private int balanceAmount;//취소 남은 금액
 
     private CardInfo card;
     private List<CancelInfo> cancels;

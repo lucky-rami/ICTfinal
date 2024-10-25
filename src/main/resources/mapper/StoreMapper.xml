@@ -45,7 +45,7 @@
         p.idx,
         p.title,
         p.price,
-        CONCAT('http://192.168.1.92:8000/', COALESCE(p.thumImg, 'default_image.png')) AS thumImg,
+        CONCAT('http://192.168.1.180:8000/', COALESCE(p.thumImg, 'default_image.png')) AS thumImg,
         p.ani_title,
         p.relDT,
         p.brand,
@@ -53,7 +53,7 @@
         p.stock,
         p.pro_detail,
         p.category,
-        CONCAT('http://192.168.1.92:8000/', COALESCE(MIN(i.detailImg), 'default_image.png')) AS detailImg
+        CONCAT('http://192.168.1.180:8000/', COALESCE(MIN(i.detailImg), 'default_image.png')) AS detailImg
         FROM t_product p
         LEFT JOIN t_productimg i ON p.idx = i.pro_idx
         WHERE p.idx = #{storeId}
@@ -64,7 +64,7 @@
     <!-- 디테일페이지 숨은상품 이미지 가져오기 -->
     <select id="getImagesByProductId" parameterType="int" resultType="String">
         SELECT
-        CONCAT('http://192.168.1.92:8000/', detailImg) AS detailImg
+        CONCAT('http://192.168.1.180:8000/', detailImg) AS detailImg
         FROM t_productimg
         WHERE pro_idx = #{pro_idx}
     </select>

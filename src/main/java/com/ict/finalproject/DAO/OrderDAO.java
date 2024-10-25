@@ -57,6 +57,9 @@ public interface OrderDAO {
     void updateOrderListState(int pro_idx, int order_idx, int orderState, int cancelCount);
     void increaseProductStock(int pro_idx, int cancelCount);
     List<OrderListVO> getOrderProducts(int order_idx);
+    Integer getBalanceAmount(long payment_id);
+    Integer getBalancePoint(long payment_id);
+    int getAmount(String paymentkey);
     //구매확정
     void updateOrderStateConfirm(int order_idx,int pro_idx);
     OrderListVO getOrderProductPriceAmount(int order_idx,int pro_idx);

@@ -1,5 +1,6 @@
 package com.ict.finalproject.Service;
 
+import com.ict.finalproject.DTO.CancelResultDTO;
 import com.ict.finalproject.DTO.PayCancelDTO;
 import com.ict.finalproject.DTO.PaymentApprovalDTO;
 import com.ict.finalproject.DTO.PaymentReqDTO;
@@ -45,10 +46,15 @@ public interface OrderService {
     // 결제 취소
     ResponseEntity<String> cancelPayment(PayCancelDTO sessionPayCancelDTO);
     List<OrderListVO> getOrderProducts(int order_idx);
+    long getPaymentId(String paymentkey);
+    Integer getBalanceAmount(long payment_id);
+    Integer getBalancePoint(long payment_id);
+    int getAmount(String paymentkey);
+
     // 구매확정
     int confirmOrder(int order_idx,int pro_idx);
 
     //환불
-    String refundPayment(int cancelAmount,String paymentkey);
+//    String refundPayment(int cancelAmount,String paymentkey);
 
 }

@@ -16,6 +16,8 @@ var tag = ``;
 // 리뷰 모달창 삭제(닫기)
 function review_write_exit(){
     $(".review_modal_body").remove();
+    deletedFiles = [];  // 삭제된 파일 목록 초기화
+    allFiles = [];  // 업로드된 파일 목록 초기화
 }
 
 // 리뷰 작성 전 데이터 전역변수 선언

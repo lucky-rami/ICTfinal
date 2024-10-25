@@ -83,7 +83,7 @@ fetch(url)
 
                         listItem.innerHTML = `
                             <a href="/storeDetail/${product.idx}">
-                                <img src="http://192.168.1.92:8000/${product.thumImg}" alt="${product.title}">
+                                <img src="http://192.168.1.180:8000/${product.thumImg}" alt="${product.title}">
                             </a>
                             <p>${product.title}</p>
                             <p>${product.price.toLocaleString()} 원</p>
@@ -201,7 +201,7 @@ function updateProductList(products) {
         listItem.className = 'list-product';
         listItem.innerHTML = `
             <a href="/storeDetail/${product.idx}">
-                <img src="http://192.168.1.92:8000/${product.thumImg}" alt="${product.title}">
+                <img src="http://192.168.1.180:8000/${product.thumImg}" alt="${product.title}">
             </a>
             <p>${product.title}</p>
             <p>${product.price.toLocaleString()} 원</p>

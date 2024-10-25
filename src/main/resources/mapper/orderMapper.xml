@@ -196,4 +196,19 @@
         JOIN T_product p ON ol.pro_idx = p.idx
         where ol.order_idx = ${param1} and pro_idx=${param2}
     </select>
+    <select id="getBalanceAmount">
+        select sum(cancelAmount)
+        from T_payment_cancel
+        where payment_id=#{param1}
+    </select>
+    <select id="getBalancePoint">
+        select sum(refundUsePoint)
+        from T_payment_cancel
+        where payment_id=#{param1}
+    </select>
+    <select id="getAmount">
+        select amount
+        from T_payment
+        where paymentkey=#{param1}
+    </select>
 </mapper>

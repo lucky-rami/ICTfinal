@@ -222,4 +222,6 @@
     let use_point = ${use_point};
     let refundDeliveryFee = ${refundDeliveryFee};
     let totalProductPrice = ${totalProductPrice};
+    let balanceAmount = ${balanceAmount};
+    let balancePoint = use_point-${balancePoint};
 </script>

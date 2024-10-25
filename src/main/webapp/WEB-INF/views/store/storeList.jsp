@@ -116,7 +116,7 @@
                                     <li class="list-product">
                                         <!-- idx 값을 사용하여 링크 생성 -->
                                      <a href="<c:url value='/storeDetail/${product.idx}' />">
-                                         <img src="http://192.168.1.92:8000/${product.thumImg}" alt="${product.title}">
+                                         <img src="http://192.168.1.180:8000/${product.thumImg}" alt="${product.title}">
                                      </a>
 
                                         <p>${product.title}</p>

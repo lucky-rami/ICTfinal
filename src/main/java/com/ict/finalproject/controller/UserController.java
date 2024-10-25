@@ -8,8 +8,6 @@ import com.ict.finalproject.JWT.JWTUtil;
 import com.ict.finalproject.Service.MasterService;
 import com.ict.finalproject.Service.MemberService;
 import com.ict.finalproject.vo.*;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import javax.inject.Inject;
@@ -29,7 +27,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -601,19 +598,24 @@ public class UserController {
         try {
             // 파일이 있는 경우에만 처리
             if (files != null && !files.isEmpty()) {
+                log.info("files : {}",files);
                 // 파일 업로드 처리
                 for (int i = 0; i < files.size(); i++) {
                     MultipartFile file = files.get(i);
                     if (!file.isEmpty()) {
                         uniqueFilename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
 
-                        // 로컬 서버에 파일 저장하지 않고, 이미지 서버로 전송
+                        // 로컬 서버에 파일 저장하지 않고, 이미지 서버로 전송 -> 잘 들어오고있음 근데 디비에 저장되는게 이상함
                         uploadFileToImageServer(file, uniqueFilename);
+
+                        log.info("i = {}",i);
 
                         if (i == 0) {
                             imgfile1 = uniqueFilename;
+                            log.info("imgfile1 = {}",imgfile1);
                         } else if (i == 1) {
                             imgfile2 = uniqueFilename;
+                            log.info("imgfile2 = {}",imgfile2);
                         }
                     }
                 }
@@ -650,7 +652,7 @@ public class UserController {
     // 이미지 서버로 파일을 전송하는 메소드
     private void uploadFileToImageServer(MultipartFile file, String uniqueFilename) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
-        String imageServerUrl = "http://192.168.1.92:8000/upload"; // 이미지 서버의 파일 업로드 엔드포인트
+        String imageServerUrl = "http://192.168.1.180:8000/upload"; // 이미지 서버의 파일 업로드 엔드포인트
 
         // 파일을 MultiValueMap으로 준비
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -688,7 +690,7 @@ public class UserController {
     // 파일 삭제
     public void fileDel(String filename) {
         RestTemplate restTemplate = new RestTemplate();
-        String deleteUrl = "http://192.168.1.92:8000/delete/" + filename;
+        String deleteUrl = "http://192.168.1.180:8000/delete/" + filename;
 
         try {
             restTemplate.delete(deleteUrl);
@@ -719,8 +721,11 @@ public class UserController {
 
         // 업데이트 전 데이터 저장
         ReviewVO reviewEditbefore = service.getReviewEditbefore(orderList_Idx);
+        log.info("reviewEditbefore : {}",reviewEditbefore);
         reviewEditbefore.setGrade(grade);
         reviewEditbefore.setContent(content);
+
+        log.info("deletedFilesJson : {}",deletedFilesJson);
 
         // JSON 형식의 삭제된 파일 목록을 배열로 변환
         List<String> deletedFiles = new ArrayList<>();
@@ -744,6 +749,13 @@ public class UserController {
                 fileDel(deletedFile);
             }
 
+            // img1이 삭제됐는지 확인+img2에 이미지가 있다면 img1로 옮기기
+            boolean moveImgfile2ToImgfile1 = false;  // 이미지 파일 옮기고나면 img2에 원래 이미지 넣으면 안됨
+            if (imgfile1 == null && reviewEditbefore.getImgfile2() != null) {//img1이 없는데 img2는 있으면?
+                imgfile1 = reviewEditbefore.getImgfile2();  // DB에 저장된 img2를 img1로 이동
+                moveImgfile2ToImgfile1 = true;  // imgfile2를 imgfile1으로 이동했음을 표시
+            }
+
             // 파일이 있는 경우에만 처리
             if (files != null && !files.isEmpty()) {
                 // 파일 업로드 처리
@@ -754,26 +766,38 @@ public class UserController {
                         // 로컬 서버에 파일 저장하지 않고, 이미지 서버로 전송
                         uploadFileToImageServer(file, uniqueFilename);
 
+                        log.info("i = {}",i);
+
                         if (i == 0) {
                             imgfile1 = uniqueFilename;
+                            log.info("imgfile1-1 = {}",imgfile1);
                         } else if (i == 1) {
                             imgfile2 = uniqueFilename;
+                            log.info("imgfile2-1 = {}",imgfile2);
                         }
                     }
                 }
             }
 
-            // 기존 파일이 있으면 유지
-            // 받아온 파일이 존재하지 않는데 기존이미지파일이 존재하고 삭제된 파일도 아니다 -> 기존 파일이 존재한다!
+            log.info("imgfile1-2 = {}",imgfile1);
+            log.info("imgfile2-2 = {}",imgfile2);
+
+            // 기존 파일 유지 처리
             if (imgfile1 == null && reviewEditbefore.getImgfile1() != null && !deletedFiles.contains(reviewEditbefore.getImgfile1())) {
                 imgfile1 = reviewEditbefore.getImgfile1();
             }
-            if (imgfile2 == null && reviewEditbefore.getImgfile2() != null && !deletedFiles.contains(reviewEditbefore.getImgfile2())) {
-                imgfile2 = reviewEditbefore.getImgfile2();
+            if (imgfile2 == null && !moveImgfile2ToImgfile1 && reviewEditbefore.getImgfile2() != null && !deletedFiles.contains(reviewEditbefore.getImgfile2())) {
+                imgfile2 = reviewEditbefore.getImgfile2();  // imgfile2가 이동되지 않았을 때만 기존 이미지 넣어주기
             }
+
+            log.info("imgfile1-3 = {}",imgfile1);
+            log.info("imgfile2-3 = {}",imgfile2);
 
             reviewEditbefore.setImgfile1(imgfile1);
             reviewEditbefore.setImgfile2(imgfile2);
+
+            log.info("imgfile1-4 = {}",reviewEditbefore.getImgfile1());
+            log.info("imgfile2-4 = {}",reviewEditbefore.getImgfile2());
 
             int result = service.updateReview(reviewEditbefore); // 리뷰 저장 서비스 호출
 

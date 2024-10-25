@@ -11,8 +11,11 @@ $(function(){
     calculateRefund();  // calculateRefund 함수 호출
 });
 
-function truncatePrice(number) {
-    return Math.floor(number);  // 소수점 아래 자리를 모두 버림
+function roundUpIfDecimalExists(value) {
+    if (value % 1 !== 0) {  // 소수점이 있는지 확인
+        return Math.ceil(value);  // 소수점이 있으면 올림
+    }
+    return value;  // 정수면 그대로 반환
 }
 
 function calculateRefund() {
@@ -20,36 +23,30 @@ function calculateRefund() {
     let cancelProductPrice = 0;  // 취소 상품 금액 합산
     let totalRefundUsePoint = 0;  // 적립금 총 사용 금액
     let refundUsePoint = 0;  // 개별 상품의 적립금 환불 금액
-    let totalRoundedCancelAmount = 0;  // 소수점 버림 후 총 취소 금액 합계
-    let lastProductIndex = prices.length - 1;  // 마지막 상품 인덱스
-    let totalDifference = 0; // 전체 차이 값 저장
 
     // 상품 가격과 취소 수량을 기준으로 취소 금액을 계산
     for (let i = 0; i < prices.length; i++) {
         let productCancelPrice = prices[i] * cancelCounts[i];  // 개별 상품 가격 * 수량
         cancelProductPrice += productCancelPrice;  // 취소 상품 금액 합산
 
-        // 적립금 비율을 계산하여 적용
-        refundUsePoint = Math.floor(use_point * (productCancelPrice / totalProductPrice));
+        // 적립금 비율을 계산하여 적용(사용적립금*((취소상품수량*취소상품갯수)/구매상품가격(배송비제외)))
+        refundUsePoint =  roundUpIfDecimalExists(use_point * (productCancelPrice / totalProductPrice));
 
         totalRefundUsePoint += refundUsePoint;  // 적립금 총 사용 금액 합산
-
-        // 소수점 버림 후 취소 금액 합산
-        totalRoundedCancelAmount += Math.floor(productCancelPrice);
-
-        // 마지막 항목에선 소수점 잔여 차이를 반영하지 않고, 마지막에서 보정
-        if (i === lastProductIndex) {
-            totalDifference = cancelProductPrice - totalRoundedCancelAmount;
-        }
     }
 
-    // 마지막 상품에서 발생한 소수점 차이 보정
-    if (totalDifference > 0) {
-        cancelProductPrice -= totalDifference;  // 소수점 차이만큼 마지막 금액에서 보정
+    // 취소 가능 적립금과 취소 요청 적립금 비교
+    if(balancePoint!=totalRefundUsePoint && balancePoint<=totalRefundUsePoint){
+        totalRefundUsePoint=balancePoint;//취소가능이 더 작거나 같으면 취소가능으로 변경
     }
 
     // 최종 카드 환불 금액 계산
-    cancelAmount = Math.floor(cancelProductPrice - totalRefundUsePoint + refundDeliveryFee);
+    cancelAmount = roundUpIfDecimalExists(cancelProductPrice - totalRefundUsePoint + refundDeliveryFee);
+
+    // 취소 가능 금액과 취소 요청 금액 비교
+    if(balanceAmount!=cancelAmount && balanceAmount<=cancelAmount){
+        cancelAmount=balanceAmount;//취소가능이 더 작거나 같으면 취소가능으로 변경
+    }
 
     // 환불 예정 금액을 화면에 표시
     $('.cancelProductPrice').text(formatNumber(cancelProductPrice) + "원");
@@ -64,8 +61,8 @@ function calculateRefund() {
 
 // 결제 취소하기
 $(document).on('click', '#cancel_input_btn', function() {
-    let cancelAmount = $('.cancel_amount').text().replace("원", "").replace(",", "");
-    let refundUsePoint = $('.cancel_point').text().replace("원", "").replace(",", "");
+    let cancelAmount = $('.cancel_amount').text().replace("원", "").replaceAll(",", "");
+    let refundUsePoint = $('.cancel_point').text().replace("원", "").replaceAll(",", "");
 
     console.log("cancelAmount", cancelAmount);
     console.log("refundUsePoint", refundUsePoint);
