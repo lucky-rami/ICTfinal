@@ -475,25 +475,30 @@ font-size : 2em;
 /* 리뷰 리스트 */
 
 .review-item {
-
      border-top: 1px solid #ddd;
      padding: 15px;
-     margin-bottom: 20px;
+     margin-bottom: 10px;
+     border-radius: 8px;
+     background-color: #f9f9f9;
+}
+.review-item.photo{
+     border-top: 1px solid #ddd;
+     padding: 15px;
      border-radius: 8px;
      background-color: #f9f9f9;
 
 }
-.review-item img{
-    float:right;
-    width:120px;
-    height:120px;
-    bolder-radius:5px;
-}
 
-/* 콘텐츠 섹션 */
-.review-content {
-    flex-grow: 1;             /* 남은 공간을 차지 */
-    margin-right: 20px;       /* 이미지와 간격 */
+
+.review-image img{
+    position:relative;
+    margin-top:-115px;
+    float: right;
+    width:125px;
+    height:125px;
+    border-radius:5px;
+
+
 }
 
 

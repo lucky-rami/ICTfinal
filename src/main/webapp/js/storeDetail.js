@@ -313,10 +313,16 @@ function changePage(pageNumber) {
 }
 
 // 페이지 네이션 적용 함수
-// 페이지 네이션 적용 함수
 function applyPagination() {
     let reviews = Array.from(document.getElementsByClassName("review-item"));  // 모든 리뷰 아이템을 가져옴
     const reviewList = document.getElementById("review-list");
+
+    // 최신순으로 정렬 (등록 날짜 기준, 내림차순 정렬)
+    reviews.sort((a, b) => {
+        const dateA = new Date(a.getAttribute("data-date"));
+        const dateB = new Date(b.getAttribute("data-date"));
+        return dateB - dateA;  // 최신순 정렬
+    });
 
     // 모든 리뷰를 일단 숨김 처리
     reviews.forEach(review => review.style.display = "none");
