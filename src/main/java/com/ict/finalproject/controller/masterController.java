@@ -472,7 +472,7 @@ public class masterController {
 
         // 각 유저별로 개별 신고 횟수를 계산
         for (MasterVO user : reportingUser) {
-            int totalUserReport = masterService.getTotalUserReport(user.getUseridx());
+            int totalUserReport = masterService.getTotalUserReport(user.getUserid()); // user.getUseridx() 대신 userid 사용
             user.setTotalUserReport(totalUserReport);
         }
 
@@ -490,6 +490,7 @@ public class masterController {
         mav.setViewName("master/reportinguserMasterList");
         return mav;
     }
+
 
 
     //  Dashboard - 게시판, 댓글, 리뷰 - 게시판 전체 목록
@@ -1431,9 +1432,11 @@ public class masterController {
                                   @RequestParam("endDT") String endDT,        // 제재 종료 날짜
                                   @RequestParam("handleState") int handleState, // 처리 상태 코드
                                   @RequestParam("idx") int idx,               // 신고 ID
+                                  @RequestParam("comment_idx") int comment_idx, // 댓글 ID
                                   HttpServletRequest request) {
-        System.out.println("Received idx: " + idx);  // idx 값 확인을 위해 콘솔에 출력
+        System.out.println("Received idx: " + idx);  // 신고 ID 확인
         System.out.println("Received userid: " + userid);
+        System.out.println("Received comment_idx: " + comment_idx);  // 댓글 ID 확인
 
         LocalDateTime stopDT = LocalDateTime.now();  // 신고 시작 시간
 
@@ -1468,10 +1471,11 @@ public class masterController {
         }
 
         // 서비스에 신고 내역 추가 요청
-        masterService.updateReportAndBan(idx, userid, reason, stopDT, parsedHandleDT, parsedEndDT, handleState);
+        masterService.updateReportAndBan(idx, userid, reason, stopDT, parsedHandleDT, parsedEndDT, handleState, comment_idx);
 
         return "redirect:/master/reportinguserListMaster";  // 신고 목록 페이지로 리다이렉트
     }
+
 
     // 이벤트 페이지 글 쓰기
     @PostMapping("/EventAddMasterOk")

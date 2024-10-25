@@ -31,57 +31,7 @@
         }
 
 
-      $(document).ready(function() {
-          console.log("페이지가 로드되었습니다.");
-          console.log("현재 URL:", window.location.href);  // 현재 URL 출력
 
-          const urlParams = new URLSearchParams(window.location.search);
-          console.log("URL 파라미터:", urlParams.toString());  // URL 파라미터 출력
-          const code = urlParams.get('code'); // Google 인증 코드 추출
-
-          if (code) {
-              console.log("인증 코드가 발견되었습니다:", code);  // 인증 코드 출력
-              socialLogin(code);
-          } else {
-              console.error("인증 코드가 URL에 없습니다.");
-              alert("인증 코드가 없어서 로그인을 진행할 수 없습니다.");
-          }
-      });
-
-      function socialLogin(code) {
-          if (!code) {
-              console.error("구글 인증 코드가 없습니다.");
-              alert("로그인에 실패했습니다.");
-              return;
-          }
-
-          console.log("소셜 로그인 요청을 시작합니다. 코드:", code); // 확인용 로그 추가
-          $.ajax({
-              url: '/user/socialLogin',
-              type: 'POST',
-              contentType: 'application/json',
-              data: JSON.stringify({ code: code }),
-              success: function(response) {
-                  console.log("서버 응답:", response);
-                  if (response && response.token) {
-                      const token = response.token;
-                      console.log("받은 토큰:", token); // 받은 토큰 로그 출력
-                      localStorage.setItem("token", token);
-                      alert("로그인 성공!");
-                      window.location.href = response.redirectUrl || "/";
-                  } else {
-                      console.error("유효하지 않은 응답 또는 토큰이 없습니다.");
-                      alert("로그인 실패: " + (response.errorMessage || "다시 시도해 주세요."));
-                  }
-              },
-              error: function(xhr, status, error) {
-                  console.error("로그인 중 오류 발생:", error);
-                  console.log("XHR 상태:", xhr);
-                  console.log("상태 코드:", status);
-                  alert("로그인 실패: 다시 시도해 주세요.");
-              }
-          });
-          }
 
 
 </script>

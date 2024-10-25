@@ -27,13 +27,13 @@ public interface MasterService {
     public List<MasterVO> getAniAllList();
     List<MasterVO> getNoticeList();
     List<MasterVO> getReviewList();
-    void addReport(String userid, String reason, LocalDateTime stopDT, LocalDateTime endDT);
+    void addReport(String userid, String reason, LocalDateTime stopDT, LocalDateTime endDT, int comment_idx);
     boolean checkUserBanStatus(String userid);
     boolean checkUserDelected(int idx);
     Integer findUserIdxByUserid(String userid);
     List<MasterVO> getMemberDelList(MasterVO vo);
     List<MasterVO> getReportinguserList(MasterVO vo);
-    void updateReportAndBan(int idx,String userid, String reason, LocalDateTime stopDT, LocalDateTime handleDT, LocalDateTime endDT, int handleState);
+    void updateReportAndBan(int idx,String userid, String reason, LocalDateTime stopDT, LocalDateTime handleDT, LocalDateTime endDT, int handleState, int comment_idx);
     List<MasterVO> getReplyList(MasterVO vo);
     MasterVO getReviewDetail(int idx);
     boolean updateAnimation(MasterVO vo);
@@ -43,7 +43,7 @@ public interface MasterService {
     int getUnansweredQnaCount();
     List<MasterVO>getReportingUser();
     int getTotalReportCount();
-    int getTotalUserReport(int useridx);
+    int getTotalUserReport(String userid);
     void updateQnaAndReply(int idx, String reply, int adminIdx);
     Integer findAdminIdxByUserid(String adminId);
     void addAnimation(MasterVO aniVO);
@@ -115,4 +115,5 @@ public interface MasterService {
     int getTotalSalesListCount(String startDate, String endDate);
     List<CurrentOrderDataDTO> getSalesDetailList(int page, int pageSize, String orderDate);
     int getTotalSalesDetailListCount(String orderDate);
+
 }

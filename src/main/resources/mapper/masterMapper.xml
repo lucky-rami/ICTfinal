@@ -102,10 +102,8 @@
 
     <!-- 신고 추가 -->
     <insert id="insertReport">
-        INSERT INTO t_ban (useridx, stopDT, endDT, reason)
-        SELECT c.useridx, NOW(), #{endDT}, #{reason}
-        FROM t_comment c
-        WHERE c.idx = #{comment_idx}
+        INSERT INTO t_ban (userid, reason, stopDT, endDT, comment_idx)
+        VALUES (#{userid}, #{reason}, #{stopDT}, #{endDT}, #{comment_idx})
     </insert>
 
     <!-- 신고 기능 목록 보여주기 -->
@@ -116,7 +114,8 @@
         DATE_FORMAT(r.reportDT, '%Y-%m-%d') as reportDT,
         u.userid AS reportedUser,  -- 신고 당한 댓글 작성자의 아이디
         r.handleState,
-        DATE_FORMAT(r.handleDT, '%Y-%m-%d') as handleDT
+        DATE_FORMAT(r.handleDT, '%Y-%m-%d') as handleDT,
+        r.comment_idx
         FROM t_report r
         JOIN t_comment c ON r.comment_idx = c.idx  -- comment_idx로 댓글 테이블과 조인
         JOIN t_user u ON c.useridx = u.idx  -- 댓글 작성자의 useridx로 사용자 정보 조인
@@ -210,23 +209,23 @@
     <!-- 신고 목록 보여주기 -->
     <select id="getReportingUser">
         SELECT
-        b.useridx,
-        u.userid,
+        b.useridx AS bannedUserIdx,
+        u.userid AS bannedUserId,
+        COUNT(*) AS report_count,  -- 신고 횟수
+        MAX(b.endDT) AS endDT,  -- 가장 최신의 endDT
         MAX(r.report_type) AS report_type,
-        DATE_FORMAT(b.stopDT, '%Y-%m-%d') as stopDT,
-        DATE_FORMAT(b.endDT, '%Y-%m-%d') as endDT,
+        DATE_FORMAT(b.stopDT, '%Y-%m-%d') AS stopDT,
         b.reason
         FROM t_ban b
         LEFT JOIN t_report r ON b.useridx = r.useridx
-        LEFT JOIN t_comment c ON r.comment_idx = c.idx  -- comment_idx로 댓글 테이블과 조인
-        LEFT JOIN t_user u ON c.useridx = u.idx  -- 댓글 작성자의 useridx로 사용자 정보 조인
-        GROUP BY b.useridx, u.userid, b.stopDT, b.endDT, b.reason
+        LEFT JOIN t_user u ON b.useridx = u.idx
+        GROUP BY b.useridx, u.userid
         ORDER BY b.endDT DESC
     </select>
 
     <!-- 특정 유저의 신고 횟수를 구하는 쿼리 -->
-    <select id="getTotalUserReport" parameterType="int" resultType="int">
-        SELECT COUNT(DISTINCT useridx) FROM t_ban WHERE useridx = #{useridx}
+    <select id="getTotalUserReport" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM t_ban WHERE useridx = #{useridx}
     </select>
 
     <!-- 전체 신고 횟수를 구하는 쿼리 -->
@@ -244,6 +243,12 @@
         INSERT INTO t_reply (qna_idx, reply, adminidx, regDT)
         VALUES (#{idx}, #{reply}, #{adminIdx}, #{regDT})
     </insert>
+
+    <update id="updateEndDT">
+        UPDATE t_ban
+        SET endDT = #{endDT}
+        WHERE useridx = #{userid}
+    </update>
 
     <!-- 애니 데이터 베이스 생성 -->
     <insert id="insertAnimation" parameterType="com.ict.finalproject.vo.MasterVO">

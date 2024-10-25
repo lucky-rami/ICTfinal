@@ -41,10 +41,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())  // CSRF 비활성화
                 .formLogin(form -> form.disable())  // 기본 폼 로그인 비활성화
                 .httpBasic(httpBasic -> httpBasic.disable())  // HTTP 기본 인증 비활성화
-               /* .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("/", true)  // 성공 시 리디렉션할 URL
-                        .failureUrl("/login?error=true")  // 실패 시 리디렉션할 URL
-                )*/
+
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 세션 관리 설정
                 .logout(logout -> logout
                         .logoutUrl("/logoutOk")  // 로그아웃 요청을 처리할 URL

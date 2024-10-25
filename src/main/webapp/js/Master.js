@@ -81,12 +81,12 @@ $(document).ready(function() {
         // 버튼에서 data-userid와 해당 행의 idx 가져오기
         const userid = $(this).data('userid');
         const idx = $(this).closest('tr').find('td:eq(1)').text();  // No 컬럼에서 idx 가져오기
-        const commentId = $(this).data('comment-id');  // 버튼에서 data-comment-id 가져오기
+        const commentIdx = $(this).data('comment-idx'); // 버튼에서 data-comment-id 가져오기
 
         // 모달의 hidden input에 값 설정
         $('#userid').val(userid);
         $('#idx').val(idx);
-        $('#comment_idx').val(commentId); // comment_idx 설정
+        $('#comment_idx').val(commentIdx); // comment_idx 설정
 
         // 모달창 띄우기
         $('#reportModal').modal('show');
@@ -110,6 +110,7 @@ $(document).ready(function() {
         }
 
         const formData = $(this).serialize(); // 폼 데이터 직렬화
+        console.log("전송할 데이터:", formData); // 전송할 데이터 로그 확인
 
         $.ajax({
             type: 'POST',
@@ -122,7 +123,9 @@ $(document).ready(function() {
                 alert('신고가 성공적으로 처리되었습니다.');
                 location.reload(); // 페이지 새로고침
             },
-            error: function() {
+            error: function(xhr, status, error) {
+                console.error("신고 처리 중 오류 발생:", error);
+                console.log("서버 응답:", xhr.responseText); // 서버에서 반환된 오류 메시지 출력
                 alert('신고 처리 중 오류가 발생했습니다.');
             }
         });
