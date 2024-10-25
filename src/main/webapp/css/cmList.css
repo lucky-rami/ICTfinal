@@ -232,6 +232,17 @@ li{
     font-weight:700;
 }
 
+/* Bootstrap 기본 스타일 덮어쓰기 */
+.active > .page-link, .page-link.active,
+.disabled> .page-link, .page-link.disabled,
+.page-link:hover{
+    z-index: auto; /* 기본 값에서 변경 */
+    color: inherit; /* 기본 색상으로 변경 */
+    background-color: transparent; /* 배경색을 제거 */
+    border-color: transparent; /* 테두리 색상을 제거 */
+}
+
+
 @media all and (max-width:680px) {
     html{
         font-size: 80%
