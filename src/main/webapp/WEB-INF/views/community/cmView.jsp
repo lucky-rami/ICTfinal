@@ -77,23 +77,40 @@
 
         <!-- 리스트 목록 -->
            <div class="list_section">
-               <c:if test="${previousPost != null}"></c:if>
-                    <a href="/cmView/${go.idx}">
+            <!-- 이전 페이지 처리 -->
+                <c:if test="${previousPost != null}">
+                    <a href="/cmView/${previousPost.idx}">
                         <div class="list_pre">
                             <i class="bi bi-chevron-up"></i>이전페이지
                         </div>
                     </a>
-               <c:if test="${previousPost == null}"></c:if>
+                </c:if>
+                <c:if test="${previousPost == null}">
+                    <a href="javascript:void(0);" onclick="alert('첫번째 페이지입니다.');">
+                        <div class="list_pre">
+                            <i class="bi bi-chevron-up"></i>이전페이지
+                        </div>
+                    </a>
+                </c:if>
 
-               <c:if test="${nextPost != null}"></c:if>
-               <a href="/cmView/${tun.idx}">
-                   <div class="list_next">
-                       <i class="bi bi-chevron-down"></i>다음페이지
-                   </div>
-               </a>
-
-               <c:if test="${nextPost == null}"></c:if>
+                <!-- 다음 페이지 처리 -->
+                <c:if test="${nextPost != null}">
+                    <a href="/cmView/${nextPost.idx}">
+                        <div class="list_next">
+                            <i class="bi bi-chevron-down"></i>다음페이지
+                        </div>
+                    </a>
+                </c:if>
+                <c:if test="${nextPost == null}">
+                    <a href="javascript:void(0);" onclick="alert('마지막 페이지입니다.');">
+                        <div class="list_next">
+                            <i class="bi bi-chevron-down"></i>다음페이지
+                        </div>
+                    </a>
+                </c:if>
            </div>
+
+
             <div class="listBt">
                 <a class="btn btn-secondary btn-sm btn-edit" href="/cmEdit/${vo.idx}" role="button" style="display: none;">
                     수정
@@ -483,7 +500,7 @@ function showTab(commtype) {
            }
        }
 
-     // 댓글 수정
+
      // 댓글 수정
      function editComment(commentIdx) {
          const commentDiv = document.querySelector(".comment-" + commentIdx);
