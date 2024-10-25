@@ -42,17 +42,18 @@
     <div class="container">
         <div class="cmView">
             <div class="viewInfo">
-                <div class="row">
-                    <div class="col-sm-1 custom-col">${vo.commtype}</div>
-                    <div class="col-sm-9 custom-col">${vo.title}</div>
-                    <div class="col-sm-2 text-end custom-style">${vo.regDT}</div>
+                <div class="title-box">
+                    <p>${vo.commtype}</p>
+                    <div>${vo.title}</div>
                 </div>
-                <div class="row bg-highlight">
-                    <div class="col-sm-10 p-2 author-id">${vo.userid}</div>
-                    <div class="col-sm-1 text-end"><img src="/img/cm/ico_view.png">${vo.hit}</div>
-                    <div class="col-sm-1 text-end"><button id="reportPostBtn" class="btn btn-link">
+
+                <div class="content-box">
+                    <div class="author-id">${vo.userid}</div>
+                    <span class="date">${vo.regDT}</span>
+                    <span class="hit"><img src="/img/cm/ico_view.png">${vo.hit}</span>
+                    <span class="post_report"><button id="reportPostBtn" class="btn btn-link">
                     <img src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyMycgaGVpZ2h0PScyMycgdmlld0JveD0nMCAwIDIzIDIzJz48cGF0aCBkPSdNNDEuNjI4IDQyLjAyaDIzdjIzaC0yM3onIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00MS42MjggLTQyLjAyKScgc3R5bGU9J2ZpbGw6bm9uZScvPjxwYXRoIGQ9J000NS42NDUgNTguNTkxdi00Ljg1N2E2LjExNiA2LjExNiAwIDAgMSAyLjkyNC01LjU5MSA2LjA1IDYuMDUgMCAwIDEgNi4yODQgMCA2LjExNiA2LjExNiAwIDAgMSAyLjkyNCA1LjU5MXY0Ljg1N2gyLjF2MS42MTlINDMuNTQ0di0xLjYxOXptMS41MTctNC44NTdoMS41MTdBMy4xNDEgMy4xNDEgMCAwIDEgNTEuNzEgNTAuNXYtMS42MjNhNC43MTIgNC43MTIgMCAwIDAtNC41NDkgNC44NTd6bTMuNzkxLTkuNzE0aDEuNTE3djIuNDI4aC0xLjUxOHptNi42NTUgMi4yNzMgMS4wNzQgMS4xNDQtMS42MTIgMS43MThMNTYgNDguMDExem0tMTIuODY3IDEuMTQ0IDEuMDc0LTEuMTQ0IDEuNiAxLjcxNi0xLjA3NCAxLjE0N3onIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00MC4yMTEgLTQxLjYxNSknIHN0eWxlPSdmaWxsOiNjY2NjZDAnLz48L3N2Zz4K">
-                    </button></div>
+                    </button></span>
                 </div>
             </div>
 

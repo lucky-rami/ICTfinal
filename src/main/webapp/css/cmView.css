@@ -80,39 +80,47 @@ body {
 
 .viewInfo{
     margin:10px 0px 10px 0px;
-    padding: 10px 0px;
     border-bottom: 1px solid #ddd;
-
 }
 
-.row{
-    display:flex;
+.title-box p{
+    margin-left:2px;
+    font-size:13px;
+    color:var(--primary);
+}
+
+.title-box div{
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.4em;
+    margin-bottom:20px;
+}
+
+.content-box{
     align-items: center;
     margin:5px 0px 5px 0px;
-}
-
-.custom-style {
     color: #737881;
     font-size: 14px;
 }
 
-.row img{
-    width: 20px;
-    height: 20px;
+.date{
     margin-right:5px;
+}
+
+.hit img{
+    width: 18.5px;
+    height: 15px;
     align-items: center;
     color: #737881;
-
+    margin:0 2px 2px 3;
 }
 
-.bg-highlight {
-    background-color:#FAFAFA;
-    color: #737881;
-    font-size:14px;
+.post_report{
+    float:right;
 }
 
-.bg-highlight img{
-    font-size:16px;
+#reportPostBtn {
+    padding:0;
 }
 
 
@@ -162,8 +170,7 @@ body {
     width: 100px;
     height: 90px;
 }
-#test{
-margin: auto 0}
+
 
 /* 댓글로드 스타일 정렬*/
 /* 댓글의 정렬을 위해 comment-header에 flex 스타일 적용 */
@@ -190,18 +197,14 @@ margin: auto 0}
 }
 
 /* 아이콘 스타일 */
-.report-icon {
-    display: inline-block;
-    margin-left: 5px; /* 아이디와 아이콘 사이의 간격 */
+.btn {
+    padding:0;
 }
 
-/* 날짜와 답글쓰기, 수정, 삭제 버튼들을 같은 줄에 배치 */
-/*.comment-meta-wrapper {
-    display: flex;
-    align-items: center; /* 날짜와 버튼들을 수직 가운데 정렬 */
-    /*justify-content: flex-start; /* 왼쪽 정렬 */
-    /*gap: 10px; /* 날짜와 버튼 사이의 간격 */
-/*}*/
+.btn img{
+    width:20px;
+    height:20px;
+}
 
 
 /* 댓글 요소 스타일 */
