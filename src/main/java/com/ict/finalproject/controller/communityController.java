@@ -53,6 +53,9 @@ public class communityController {
             @RequestParam(value = "searchKeyword", defaultValue = "") String searchKeyword,
             Model model) {
 
+        System.out.println("페이지 요청 - page: " + page + ", size: " + size + ", commtype: " + commtype +
+                ", orderBy: " + orderBy + ", searchCategory: " + searchCategory + ", searchKeyword: " + searchKeyword);
+
 
 
         // PagingVO 객체를 생성하여 필요한 값 설정

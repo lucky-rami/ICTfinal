@@ -117,13 +117,12 @@ body {
 
 
 .cmContent {
-    height:20%;
-    font-family: "맑은 고딕";
+    height:auto;
     font-size: 12pt;
     text-align: left;
     line-height: normal;
-    margin: 0 20px;
-    height:auto;
+    margin: 0 0 50px 20px;
+
 }
 
 

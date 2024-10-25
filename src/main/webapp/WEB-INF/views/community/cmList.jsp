@@ -214,7 +214,9 @@ function submitSearchForm() {
     document.getElementById("searchForm").submit();
 }
 
+// 페이지 번호를 클릭했을 때 페이지 이동 함수
 function reloadPage(page) {
+    console.log("선택한 페이지 번호: " + page);
     const commtype = document.getElementById("commtype").value || 'all';
     const orderBy = document.getElementById("selectDirection").value || 'DEFAULT';
     const searchCategory = document.getElementById("selectCategory").value || 'TITLE_AND_CONTENT';
@@ -222,7 +224,9 @@ function reloadPage(page) {
 
     // URL 파라미터에 초기화된 값을 사용하여 페이지를 이동
     window.location.href = `/cmList?commtype=${commtype}&page=${2}&orderBy=${orderBy}&searchCategory=${searchCategory}&searchKeyword=${searchKeyword}`;
+
 }
+
 
 
 var useridx; // 해당 페이지에서 모두 사용 가능하도록! 전역변수로 선언
