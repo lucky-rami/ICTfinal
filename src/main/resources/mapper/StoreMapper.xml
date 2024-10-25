@@ -27,6 +27,19 @@
             LIMIT #{pageSize} OFFSET #{offset}
         </select>
 
+    <select id="getPagedProductsCnt" resultType="int">
+        SELECT COUNT(*)
+        FROM t_product
+        <where>
+            <if test="category != null">
+                AND category = #{category}
+            </if>
+            <if test="second_category != null">
+                AND second_category = #{second_category}
+            </if>
+        </where>
+    </select>
+
 
     <select id="getProductsByCategory" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
         SELECT * FROM t_product
@@ -76,7 +89,7 @@
     </select>
 
     <!-- 정렬을 위한 필터 (sort 기반 필터) -->
-    <select id="getStoreListBySortFilter" parameterType="String" resultType="com.ict.finalproject.vo.StoreVO">
+    <select id="getStoreListBySortFilter" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
         SELECT * FROM t_product
         <choose>
             <when test="filterType == 'latest'">
