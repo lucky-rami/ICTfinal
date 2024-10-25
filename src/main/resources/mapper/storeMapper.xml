@@ -114,13 +114,13 @@
     </select>
 
 
-
-<!--    <select id="getSubcategoriesByFirstCategory1" parameterType="int" resultType="com.ict.finalproject.vo.ProductFilterVO">-->
-<!--        SELECT s.type-->
-<!--        FROM t_secondcategory s-->
-<!--        JOIN t_firstcategory f ON s.first_code = f.code-->
-<!--        WHERE f.code = #{category}-->
-<!--     </select>-->
+        <!-- 이거 사용 -->
+    <select id="getSubcategoriesByFirstCategory" parameterType="int" resultType="String">
+        SELECT s.type
+        FROM t_secondcategory s
+        JOIN t_firstcategory f ON s.first_code = f.code
+        WHERE f.code = #{code}
+     </select>
 
     <select id="getFirstCategories" resultType="ProductFilterVO">
         SELECT code, type
@@ -129,12 +129,12 @@
 
 <!--두번째 카테고리-->
 
-    <select id="getSubcategoriesByFirstCategory" parameterType="int" resultType="String">
-        SELECT s.type
-        FROM t_secondcategory s
-        JOIN t_firstcategory f ON s.first_code = f.code
-        WHERE f.code = #{code}
-    </select>
+<!--    <select id="getSubcategoriesByFirstCategory1" parameterType="int" resultType="String">-->
+<!--        SELECT s.type-->
+<!--        FROM t_secondcategory s-->
+<!--        JOIN t_firstcategory f ON s.first_code = f.code-->
+<!--        WHERE f.code = #{code}-->
+<!--    </select>-->
     <!--  좋아요 카운팅-->
     <select id="getStoreWithPopularity" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
         SELECT s.*,

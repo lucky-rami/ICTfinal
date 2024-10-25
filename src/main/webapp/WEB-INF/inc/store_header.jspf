@@ -106,7 +106,7 @@
         <ul class="nav" style="display: block">
           <li><a href="/aniList">애니</a></li>
           <li><a class="active">쇼핑</a></li>
-          <li><a href="#">이벤트</a></li>
+          <li><a href="/Event">이벤트</a></li>
         </ul>
         <ul class="nav_util">
         </ul>
@@ -122,8 +122,8 @@
                 <li class=""><a href="/storeList?category=2">완구/취미</a></li>
                 <li class=""><a href="/storeList?category=3">문구/오피스</a></li>
                 <li class=""><a href="/storeList?category=4">생활용품</a></li>
-                <li class=""><a href="/storeList?filterType=popular"># 인기굿즈</a></li>
-                <li class=""><a href="/storeList?filterType=new"># 신상굿즈</a></li>
+                <li class=""><a href="/storeList"># 인기굿즈</a></li>
+                <li class=""><a href="/storeList"># 신상굿즈</a></li>
               </ul>
             </nav>
           </div>

@@ -158,16 +158,14 @@
      </c:if>
  </div>
 
-<!-- 카테고리 변경 시 페이지 넘버를 1로 설정 -->
+<!-- 하위 카테고리 변경 시 페이지 넘버를 1로 설정 -->
 <div class="category-filter">
     <c:forEach var="category" items="${categories}">
-        <a href="/storeList?pageNum=1&category=${category.id}
-            ${selectedFilterType != null ? '&filterType=' + selectedFilterType : ''}">
+        <a href="/storeList?pageNum=1&category=${category.id}">
             ${category.name}
         </a>
     </c:forEach>
 </div>
-
 
 
 
