@@ -313,24 +313,26 @@ function changePage(pageNumber) {
 }
 
 // 페이지 네이션 적용 함수
+// 페이지 네이션 적용 함수
 function applyPagination() {
     let reviews = Array.from(document.getElementsByClassName("review-item"));  // 모든 리뷰 아이템을 가져옴
     const reviewList = document.getElementById("review-list");
 
-    reviewList.innerHTML = "";  // 기존 리뷰 삭제
+    // 모든 리뷰를 일단 숨김 처리
+    reviews.forEach(review => review.style.display = "none");
 
     // 현재 페이지에 맞는 리뷰 시작/끝 인덱스 계산
     let startIndex = (currentPage - 1) * reviewsPerPage;
     let endIndex = startIndex + reviewsPerPage;
 
+    // 해당하는 페이지의 리뷰만 보이게 처리
     let paginatedReviews = reviews.slice(startIndex, endIndex);  // 현재 페이지의 리뷰만 가져옴
-
-    // 필터링된 리뷰를 화면에 추가
-    paginatedReviews.forEach(review => reviewList.appendChild(review));
+    paginatedReviews.forEach(review => review.style.display = "block");
 
     // 페이지 버튼 활성화 처리
     createPaginationButtons(reviews.length);  // 동적으로 페이지 버튼 생성
 }
+
 
 // 페이지 버튼 동적 생성 함수
 function createPaginationButtons(totalReviews) {

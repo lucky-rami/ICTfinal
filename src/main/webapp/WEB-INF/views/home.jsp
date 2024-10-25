@@ -238,7 +238,7 @@
                         <div
                           class="thum_img"
                           style="
-                            background: url('http://192.168.1.92:8000/${goods.thumImg}')
+                            background: url('http://192.168.1.180:8000/${goods.thumImg}')
                               no-repeat center / cover;
                           "
                         ></div>

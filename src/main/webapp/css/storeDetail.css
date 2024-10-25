@@ -475,26 +475,29 @@ font-size : 2em;
 /* 리뷰 리스트 */
 
 .review-item {
-    display: flex;
-    justify-content: space-between;  /* 텍스트와 이미지를 양쪽으로 띄움 */
-    align-items: center;  /* 세로축 가운데 정렬 */
-    padding: 15px;
-    border-top: 1px solid #ddd; /* 각 리뷰 아래에 구분선 추가 */
-    margin-bottom: 20px;
-    gap: 20px;  /* 텍스트와 이미지 간 간격 */
+
+     border-top: 1px solid #ddd;
+     padding: 15px;
+     margin-bottom: 20px;
+     border-radius: 8px;
+     background-color: #f9f9f9;
 
 }
-
-.review-item.photo{
-    display: flex;
-    justify-content: space-between;  /* 텍스트와 이미지를 양쪽으로 띄움 */
-    align-items: center;  /* 세로축 가운데 정렬 */
-    padding: 15px;
-    border-top: 1px solid #ddd; /* 각 리뷰 아래에 구분선 추가 */
-    margin-bottom: 20px;
-    gap: 20px;  /* 텍스트와 이미지 간 간격 */
-
+.review-item img{
+    float:right;
+    width:120px;
+    height:120px;
+    bolder-radius:5px;
 }
+
+/* 콘텐츠 섹션 */
+.review-content {
+    flex-grow: 1;             /* 남은 공간을 차지 */
+    margin-right: 20px;       /* 이미지와 간격 */
+}
+
+
+
 
 
 
@@ -510,20 +513,13 @@ font-size : 2em;
 
 /* 리뷰 내용 넓게 표시 */
 .review-content {
-    width: 90%;
+    width: 100%;
     font-size: 1.1em;
     color: #333;
-    padding: 50px;
+    padding: 30px;
     margin-bottom: 10px;
 }
 
-.review-image img {
-    float: right;
-    width: 120px;
-    height: 120px;
-    margin-right: 10px;
-    border-radius: 4px;
-}
 
 
 /* 페이지 네이션 간결한 스타일 */

@@ -20,7 +20,7 @@
         <li>
             <a>
               <div class="search_ani_img">
-                <img src="http://192.168.1.92:8000/${aniSearch.post_img}" />
+                <img src="http://192.168.1.180:8000/${aniSearch.post_img}" />
               </div>
               <div class="search_ani_title">
                 <p>${aniSearch.title}</p>
