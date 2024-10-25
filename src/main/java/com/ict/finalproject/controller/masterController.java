@@ -307,7 +307,7 @@ public class masterController {
 
     private String uploadFileToExternalServer(MultipartFile file) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
-        String imageServerUrl = "http://192.168.1.92:8000/upload"; // 이미지 서버의 파일 업로드 엔드포인트
+        String imageServerUrl = "http://192.168.1.180:8000/upload"; // 이미지 서버의 파일 업로드 엔드포인트
 
         // 파일을 MultiValueMap으로 준비
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -792,15 +792,17 @@ public class masterController {
     // Dashboard - 기타관리 - 문의사항 리스트
     @GetMapping("/QNAMasterList")
     public ModelAndView QNAMasterList(
-            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "currentPage", defaultValue = "1") double currentPage, // Double로 변경
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+
+        int currentPageInt = (int) currentPage; // double을 int로 변환
 
         // 전체 QNA 개수 조회
         int totalRecords = masterService.getTotalQnaCount();
 
         // 페이징 계산
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-        int startRecord = (currentPage - 1) * pageSize;
+        int startRecord = (currentPageInt - 1) * pageSize;
 
         // 페이징된 QNA 목록 조회
         List<MasterVO> qnaList = masterService.getQNAListByPage(startRecord, pageSize);
@@ -809,15 +811,16 @@ public class masterController {
         int unanswerCount = masterService.getUnansweredQnaCount();
 
         // ModelAndView 설정
-        mav = new ModelAndView();
+        ModelAndView mav = new ModelAndView();
         mav.addObject("qnaList", qnaList);
         mav.addObject("unanswerCount", unanswerCount);
-        mav.addObject("currentPage", currentPage);
+        mav.addObject("currentPage", currentPageInt); // int로 설정
         mav.addObject("pageSize", pageSize);
         mav.addObject("totalPages", totalPages);
         mav.setViewName("master/QNAMasterList");
         return mav;
     }
+
 
     // 답변 내용 확인하기
     @GetMapping("/getQnaReply/{idx}")
@@ -872,15 +875,36 @@ public class masterController {
 
     // Dashboard - 기타관리 - 자주묻는질문
     @GetMapping("/FAQMasterList")
-    public ModelAndView FAQMasterList() {
-        // 자주묻는 질문 목록 불러오기
-        System.out.println("자주묻는질문 목록 불러오기");
-        List<MasterVO> faqList = masterService.getFAQList();
-        mav = new ModelAndView();
+    public ModelAndView FAQMasterList(
+            @RequestParam(value = "currentPage", defaultValue = "1") String currentPageStr,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+
+        int currentPage;
+        try {
+            currentPage = (int) Math.floor(Double.parseDouble(currentPageStr));
+        } catch (NumberFormatException e) {
+            currentPage = 1; // Default to 1 if parsing fails
+        }
+
+        // 전체 FAQ 개수 조회
+        int totalRecords = masterService.getTotalFAQCount();
+
+        // 페이징 계산
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+        int startRecord = (currentPage - 1) * pageSize;
+
+        // 페이징된 FAQ 목록 조회
+        List<MasterVO> faqList = masterService.getFAQListByPage(startRecord, pageSize);
+
+        ModelAndView mav = new ModelAndView();
         mav.addObject("faqList", faqList);
+        mav.addObject("currentPage", currentPage);
+        mav.addObject("totalPages", totalPages);
+        mav.addObject("pageSize", pageSize);
         mav.setViewName("master/FAQMasterList");
         return mav;
     }
+
 
     // Dashboard - 기타관리 - 자주묻는질문 - 작성
     @GetMapping("/FAQAddMaster")
@@ -1003,10 +1027,32 @@ public class masterController {
 
     // Dashboard - 기타관리 - 이벤트
     @GetMapping("/EventMasterList")
-    public ModelAndView EventMasterList() {
-        List<MasterVO> eventList = masterService.getEventList();
-        mav = new ModelAndView();
+    public ModelAndView EventMasterList(
+            @RequestParam(value = "currentPage", defaultValue = "1") String currentPageStr,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+
+        int currentPage;
+        try {
+            currentPage = (int) Math.floor(Double.parseDouble(currentPageStr));
+        } catch (NumberFormatException e) {
+            currentPage = 1; // Default to 1 if parsing fails
+        }
+
+        // 전체 이벤트 개수 조회
+        int totalRecords = masterService.getTotalEventCount();
+
+        // 페이징 계산
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+        int startRecord = (currentPage - 1) * pageSize;
+
+        // 페이징된 이벤트 목록 조회
+        List<MasterVO> eventList = masterService.getEventListByPage(startRecord, pageSize);
+
+        ModelAndView mav = new ModelAndView();
         mav.addObject("eventList", eventList);
+        mav.addObject("currentPage", currentPage);
+        mav.addObject("totalPages", totalPages);
+        mav.addObject("pageSize", pageSize);
         mav.setViewName("master/EventMasterList");
         return mav;
     }

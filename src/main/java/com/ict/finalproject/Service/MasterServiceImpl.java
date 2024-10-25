@@ -558,4 +558,24 @@ public class MasterServiceImpl implements MasterService {
     public int getTotalSalesDetailListCount(String orderDate) {
         return dao.getTotalSalesDetailListCount(orderDate);
     }
+
+    @Override
+    public int getTotalFAQCount() {
+        return dao.getTotalFAQCount();
+    }
+
+    @Override
+    public List<MasterVO> getFAQListByPage(int startRecord, int pageSize) {
+        return dao.getFAQListByPage(startRecord, pageSize);
+    }
+
+    @Override
+    public int getTotalEventCount() {
+        return dao.getTotalEventCount();
+    }
+
+    @Override
+    public List<MasterVO> getEventListByPage(int startRecord, int pageSize) {
+        return dao.getEventListByPage(startRecord, pageSize);
+    }
 }

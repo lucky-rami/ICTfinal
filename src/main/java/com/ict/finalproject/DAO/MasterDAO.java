@@ -231,4 +231,12 @@ public interface MasterDAO {
     int getTotalSalesDetailListCount(@Param("orderDate") String orderDate);
 
     void updateEndDT(String userid, LocalDateTime endDT);
+
+    // 전체 FAQ 개수 조회
+    int getTotalFAQCount();
+
+    // 특정 범위의 FAQ 목록 조회
+    List<MasterVO> getFAQListByPage(int startRecord, int pageSize);
+    int getTotalEventCount(); // 전체 이벤트 개수 조회
+    List<MasterVO> getEventListByPage(int startRecord, int pageSize);
 }

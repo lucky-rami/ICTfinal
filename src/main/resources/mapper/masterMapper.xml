@@ -158,6 +158,31 @@
         FROM t_userDel d JOIN t_user t ON d.useridx = t.idx
     </select>
 
+    <!-- 전체 FAQ 개수 조회 쿼리 -->
+    <select id="getTotalFAQCount" resultType="int">
+        SELECT COUNT(*) FROM t_faq
+    </select>
+
+
+    <!-- 전체 이벤트 개수 조회 -->
+    <select id="getTotalEventCount" resultType="int">
+        SELECT COUNT(*) FROM t_event; <!-- Adjust the table name as needed -->
+    </select>
+
+    <!-- 페이징된 이벤트 목록 조회 -->
+    <select id="getEventListByPage" parameterType="map" resultType="MasterVO">
+        SELECT * FROM t_event
+        LIMIT #{startRecord}, #{pageSize}; <!-- Adjust the table name as needed -->
+    </select>
+
+    <!-- 특정 범위의 FAQ 목록 조회 쿼리 -->
+    <select id="getFAQListByPage" parameterType="map" resultType="MasterVO">
+        SELECT *
+        FROM t_faq
+        ORDER BY regDT DESC
+        LIMIT #{startRecord}, #{pageSize}
+    </select>
+
     <!-- idx의 해당하는 ani 값 불러오기 -->
     <select id="aniSelect" resultType="com.ict.finalproject.vo.MasterVO">
         select idx, title, director, outline from t_animation where idx = #{idx}
