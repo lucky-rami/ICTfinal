@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@include file="/WEB-INF/inc/Masterheader.jspf" %>
 <title>DashBoard - 신고계정 유저리스트</title>
 <link href="/css/masterStyle.css" rel="stylesheet" type="text/css"></link>
@@ -23,19 +24,13 @@
                 <c:forEach var="ban" items="${reportingUser}">
                     <tr>
                         <td>${ban.userid}</td>
-
                         <td>
-                            <c:choose>
-                                <c:when test="${ban.report_type == 1}">관련없는 이미지</c:when>
-                                <c:when test="${ban.report_type == 2}">관련없는 내용</c:when>
-                                <c:when test="${ban.report_type == 3}">욕설/비방</c:when>
-                                <c:when test="${ban.report_type == 4}">광고/홍보글</c:when>
-                                <c:when test="${ban.report_type == 5}">개인정보 유출</c:when>
-                                <c:when test="${ban.report_type == 6}">게시글 도배</c:when>
-                                <c:when test="${ban.report_type == 7}">음란/선정성</c:when>
-                                <c:when test="${ban.report_type == 8}">기타</c:when>
-                                <c:otherwise>알 수 없음</c:otherwise>
-                            </c:choose>
+                            <c:if test="${not empty ban.report_type}">
+                                    <c:forEach var="type" items="${fn:split(ban.report_type, ',')}">
+                                        ${type}<br/>
+                                    </c:forEach>
+                                </c:if>
+                                <c:if test="${empty ban.report_type}">신고 유형 없음</c:if>
                         </td>
                         <td>${ban.reason}</td>
                         <td>${ban.stopDT}</td>

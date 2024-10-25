@@ -122,6 +122,5 @@ public interface MasterService {
     List<MasterVO> getFAQListByPage(int startRecord, int pageSize);
     int getTotalEventCount(); // 전체 이벤트 개수 조회
     List<MasterVO> getEventListByPage(int startRecord, int pageSize);
-
-
+    void updateAllEndDT(Integer useridx, LocalDateTime endDT);
 }

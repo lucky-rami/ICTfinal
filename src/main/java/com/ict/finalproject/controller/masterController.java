@@ -472,8 +472,9 @@ public class masterController {
 
         // 각 유저별로 개별 신고 횟수를 계산
         for (MasterVO user : reportingUser) {
-            int totalUserReport = masterService.getTotalUserReport(user.getUserid()); // user.getUseridx() 대신 userid 사용
+            int totalUserReport = masterService.getTotalUserReport(user.getUserid());
             user.setTotalUserReport(totalUserReport);
+            System.out.println("User ID: " + user.getUserid() + ", Report Type: " + user.getReport_type());
         }
 
         // 전체 신고 누적 횟수 계산
@@ -1472,55 +1473,35 @@ public class masterController {
 
 
     @PostMapping("/reportinguserOK")
-    public String reportinguserOK(@RequestParam("userid") String userid,
+    public String reportinguserOK(@RequestParam("useridx") Integer useridx,
                                   @RequestParam("reason") String reason,
-                                  @RequestParam("handleDT") String handleDT,  // 처리 날짜
-                                  @RequestParam("endDT") String endDT,        // 제재 종료 날짜
-                                  @RequestParam("handleState") int handleState, // 처리 상태 코드
-                                  @RequestParam("idx") int idx,               // 신고 ID
-                                  @RequestParam("comment_idx") int comment_idx, // 댓글 ID
+                                  @RequestParam("handleDT") String handleDT,
+                                  @RequestParam("endDT") String endDT,
+                                  @RequestParam("handleState") int handleState,
+                                  @RequestParam("idx") int idx,
+                                  @RequestParam("comment_idx") int comment_idx,
                                   HttpServletRequest request) {
-        System.out.println("Received idx: " + idx);  // 신고 ID 확인
-        System.out.println("Received userid: " + userid);
-        System.out.println("Received comment_idx: " + comment_idx);  // 댓글 ID 확인
 
-        LocalDateTime stopDT = LocalDateTime.now();  // 신고 시작 시간
+        LocalDateTime stopDT = LocalDateTime.now();
+        LocalDateTime parsedHandleDT = LocalDate.parse(handleDT).atStartOfDay();
+        LocalDateTime parsedEndDT = LocalDate.parse(endDT).atStartOfDay();
 
-        // handleDT 및 endDT를 LocalDateTime으로 변환
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime parsedHandleDT = LocalDate.parse(handleDT, formatter).atStartOfDay();
-        LocalDateTime parsedEndDT = LocalDate.parse(endDT, formatter).atStartOfDay();
-
-        // 헤더에서 Authorization 토큰 추출
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new RuntimeException("토큰이 없습니다.");
-        }
-
-        Integer useridx = masterService.findUserIdxByUserid(userid);
+        // 사용자 존재 확인
+        Integer useridx = masterService.findUserIdxByUserid(useridx);
         if (useridx == null) {
             throw new RuntimeException("유효하지 않은 사용자입니다.");
         }
 
-        String token = authorizationHeader.substring(7);  // "Bearer " 부분을 제거한 JWT 토큰
-        Claims claims;
-        try {
-            claims = jwtUtil.getClaims(token);  // JWT 파싱하여 Claims 객체로 변환
-        } catch (Exception e) {
-            throw new RuntimeException("유효하지 않은 토큰입니다.");
-        }
+        // 새 신고 추가
+        masterService.addReport(useridx, reason, stopDT, parsedEndDT, comment_idx);
 
-        // 사용자 정지 여부 확인
-        boolean isBanned = masterService.checkUserBanStatus(userid);
-        if (isBanned) {
-            return "redirect:/master/reportinguserListMaster";  // 이미 정지된 사용자는 처리할 필요 없음
-        }
-
-        // 서비스에 신고 내역 추가 요청
-        masterService.updateReportAndBan(idx, userid, reason, stopDT, parsedHandleDT, parsedEndDT, handleState, comment_idx);
+        // 모든 유형의 endDT 업데이트 (마지막 신고의 endDT로)
+        masterService.updateAllEndDT(useridx, parsedEndDT);
 
         return "redirect:/master/reportinguserListMaster";  // 신고 목록 페이지로 리다이렉트
     }
+
+
 
 
     // 이벤트 페이지 글 쓰기

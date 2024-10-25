@@ -102,8 +102,8 @@
 
     <!-- 신고 추가 -->
     <insert id="insertReport">
-        INSERT INTO t_ban (userid, reason, stopDT, endDT, comment_idx)
-        VALUES (#{userid}, #{reason}, #{stopDT}, #{endDT}, #{comment_idx})
+        INSERT INTO t_ban (useridx, reason, stopDT, endDT, comment_idx)
+        VALUES (#{useridx}, #{reason}, #{stopDT}, #{endDT}, #{comment_idx})
     </insert>
 
     <!-- 신고 기능 목록 보여주기 -->
@@ -114,6 +114,7 @@
         DATE_FORMAT(r.reportDT, '%Y-%m-%d') as reportDT,
         u.userid AS reportedUser,  -- 신고 당한 댓글 작성자의 아이디
         r.handleState,
+        r.report_type,
         DATE_FORMAT(r.handleDT, '%Y-%m-%d') as handleDT,
         r.comment_idx
         FROM t_report r
@@ -226,10 +227,37 @@
         LEFT JOIN t_reply r ON q.idx = r.qna_idx
     </select>
 
+    <select id="existsReport" parameterType="map" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM t_ban
+        WHERE useridx = #{useridx} AND reason = #{reason} AND comment_idx = #{comment_idx}
+    </select>
+
     <!-- 문의 안한 실시간 갯수 카운팅 -->
     <select id="getUnansweredQnaCount">
         select count(*) from t_qna where handleState = 0
     </select>
+
+    <update id="updateEndDT">
+        UPDATE t_ban
+        SET endDT = #{endDT}
+        WHERE useridx = #{useridx}
+    </update>
+
+    <!-- 중복 신고 확인 -->
+    <select id="checkReportExists" parameterType="map" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM t_ban
+        WHERE userid = #{userid}
+        AND reason = #{reason}
+        AND comment_idx = #{comment_idx}
+    </select>
+
+    <!-- 신고 추가 -->
+    <insert id="addReport">
+        INSERT INTO t_ban (useridx, reason, stopDT, endDT, comment_idx)
+        VALUES (#{useridx}, #{reason}, #{stopDT}, #{endDT}, #{comment_idx})
+    </insert>
 
     <!-- 신고 목록 보여주기 -->
     <select id="getReportingUser">
