@@ -292,16 +292,7 @@
                 <div class="content" id="tap4">
                     <div class="terms-container">
                         <h2>서비스 이용약관</h2>
-                        <div class="terms-content">
-                            <p><strong>제 1 조 (목적)</strong></p>
-                            <p>본 약관은 주식회사 애니플러스(이하 "회사")가 제공하는 콘텐츠와 재화 또는 용역(이하 "상품")을 구입하는 경우(이하 "구매")와 관련하여 회사와 이용자와의 권리, 의무 및 책임사항 등을 규정함을 목적으로 합니다.</p>
-
-                            <p><strong>제 2 조 (용어의 정의)</strong></p>
-                            <p>이 약관에서 사용하는 용어의 정의는 다음과 같습니다. <br>
-                            1. "회사" : 회사 또는 회원이 서비스 계약을 통해 이용 계약을 체결하여 제공받는 서비스 전반을 의미합니다.<br>
-                            2. "이용자" : 회원 가입을 완료하고 회사의 서비스에 접근하여 이용하는 모든 개인 및 단체를 의미합니다.<br>
-                            3. "서비스" : 회사가 제공하는 모든 온라인, 오프라인 서비스를 의미합니다.</p>
-                        </div>
+                        <img src="/img/notice/notice_tap4.png">
                     </div>
                 </div>
             </div>
@@ -476,6 +467,8 @@ function checkLoginStatus() {
         if (defaultTag) {
             defaultTag.classList.add('on');
         }
+
+        test();
     });
 
 
