@@ -21,8 +21,11 @@ public interface StoreDAO {
     public int getTotalProductCount();
     //페이지네이션 처리를 위한 상품목록 가져오기
     public List<StoreVO> getPagedProducts(@Param("pageSize") int pageSize, @Param("offset") int offset, @Param("category") Integer category,@Param("second_category") Integer second_category); //페이지네이션
+    public int getPagedProductsCnt(@Param("category") Integer category,@Param("second_category") Integer second_category);
     // 필터 타입에 따른 상품 리스트 가져오기 (필터 타입: 최신순, 인기순 등)
     public List<StoreVO> getStoreListByFilter(@Param("filterType")String filterType);
+
+
     // 검색어에 따른 상품 검색
     public List<StoreVO> searchStoreList(@Param("keyword") String keyword);
     // 첫 번째 카테고리 목록 가져오기
@@ -37,8 +40,6 @@ public interface StoreDAO {
     public List<String> getSubcategoriesByFirstCategory(@Param("code") int code);
     // 추가된 부분: 카테고리별 상품 목록 가져오기
     public List<StoreVO> getProductsByCategory(@Param("pageSize") int pageSize, @Param("offset") int offset, @Param("category") int category);
-
-    public List<StoreVO> getStoreWithPopularity(Map<String, Object> params);
 
     public String getCategoryType(int categoryCode);
     //별점 가져오기

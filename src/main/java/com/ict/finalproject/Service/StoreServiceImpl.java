@@ -34,7 +34,10 @@ public class StoreServiceImpl implements StoreService {
     public List<StoreVO> getPagedProducts(int pageSize, int offset, Integer category,  Integer second_category) {
         return dao.getPagedProducts(pageSize, offset, category, second_category);
     }
-
+    @Override
+    public int getPagedProductsCnt(Integer category,  Integer second_category) {
+        return dao.getPagedProductsCnt(category, second_category);
+    }
     @Override
     public int getTotalProductCount() {
         return dao.getTotalProductCount();
@@ -77,10 +80,6 @@ public class StoreServiceImpl implements StoreService {
         return dao.getProductsByCategory(pageSize, offset, category);
     }
 
-    @Override
-    public List<StoreVO> getStoreWithPopularity(Map<String, Object> params) {
-        return dao.getStoreWithPopularity(params);
-    }
 
     @Override
     public String getCategoryType(int categoryCode) {

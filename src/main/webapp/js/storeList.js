@@ -235,37 +235,128 @@ let subcategoryMap = {
       '기타': 43
   };
 
-  window.applyFilter = function(category, second_category) {
+//  window.applyFilter = function(category, second_category) {
+//
+//      const pageNum = 1;
+//      const pageSize = 12;
+//
+//      // second_category 값을 subcategoryMap에서 가져옴
+//      const secondCategoryValue = subcategoryMap[second_category] || null;
+//
+//      // category 값이 없을 때는 파라미터에서 제외
+//      const requestData = {
+//          pageNum: pageNum,
+//          pageSize: pageSize,
+//          second_category: secondCategoryValue
+//      };
+//
+//      // AJAX 요청에서 category와 secondCategory를 서버로 전달
+//      $.ajax({
+//          url: `/pagedProducts`,
+//          method: 'GET',
+//          data: requestData,
+//          success: function(data) {
+//              console.log("필터링된 상품 목록: ", data);
+//              products = data;
+//              updateProductList(data); // 필터링된 상품 목록을 화면에 업데이트하는 함수
+//          },
+//          error: function(error) {
+//              console.error("필터 적용 중 오류 발생: ", error);
+//              console.log("전달된 데이터:", requestData);
+//          }
+//      });
+//  };
+window.applyFilter = function(category, second_category, pageNum = 1) {
+    const pageSize = 12;
+    const secondCategoryValue = subcategoryMap[second_category] || null;
 
-      const pageNum = 1;
-      const pageSize = 10;
+    const requestData = {
+        pageNum: pageNum,
+        pageSize: pageSize,
+        category: category,
+        second_category: secondCategoryValue
+    };
 
-      // second_category 값을 subcategoryMap에서 가져옴
-      const secondCategoryValue = subcategoryMap[second_category] || null;
+    // URL 변경
+    const newUrl = `/storeList?pageNum=${pageNum}&category=${category}`;
+    history.pushState(null, '', newUrl);
 
-      // category 값이 없을 때는 파라미터에서 제외
-      const requestData = {
-          pageNum: pageNum,
-          pageSize: pageSize,
-          second_category: secondCategoryValue
-      };
+    // AJAX 요청
+    $.ajax({
+        url: `/pagedProducts`,
+        method: 'GET',
+        data: requestData,
+        success: function(data) {
+            console.log("필터링된 상품 목록: ", data.pagedProducts);
+            updateProductList(data.pagedProducts);
 
-      // AJAX 요청에서 category와 secondCategory를 서버로 전달
-      $.ajax({
-          url: `/pagedProducts`,
-          method: 'GET',
-          data: requestData,
-          success: function(data) {
-              console.log("필터링된 상품 목록: ", data);
-              products = data;
-              updateProductList(data); // 필터링된 상품 목록을 화면에 업데이트하는 함수
-          },
-          error: function(error) {
-              console.error("필터 적용 중 오류 발생: ", error);
-              console.log("전달된 데이터:", requestData);
-          }
-      });
-  };
+            // 페이지네이션 초기화, 현재 페이지를 인수로 전달
+            const totalPages = Math.ceil(data.pagedProductscnt / pageSize);
+            resetPaginationToFirstPage(totalPages, category, second_category, pageNum);
+        },
+        error: function(error) {
+            console.error("필터 적용 중 오류 발생: ", error);
+        }
+    });
+};
+
+
+
+function resetPaginationToFirstPage(totalPages, category, second_category, currentPage) {
+    const paginationElement = document.querySelector(".pagination");
+    paginationElement.innerHTML = ''; // 기존 페이지네이션 요소 초기화
+
+    // 이전 페이지 링크 추가 (첫 페이지가 아닐 경우에만 표시)
+    if (currentPage > 1) {
+        const prevPage = document.createElement('a');
+        prevPage.textContent = '« 이전';
+        prevPage.href = '#';
+        prevPage.addEventListener('click', function(event) {
+            event.preventDefault();
+            applyFilter(category, second_category, currentPage - 1);
+        });
+        paginationElement.appendChild(prevPage);
+    }
+
+    // 페이지 번호 링크 생성
+    // 시작 페이지와 끝 페이지 계산
+    const startPage = Math.max(1, currentPage - 2);
+    const endPage = Math.min(totalPages, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+        const pageItem = document.createElement('a');
+        pageItem.textContent = i;
+        pageItem.href = '#';
+
+        // 현재 페이지에 'current' 클래스 추가
+        if (i === currentPage) {
+            pageItem.classList.add('current');
+        }
+
+        // 페이지 클릭 이벤트 추가
+        pageItem.addEventListener('click', function(event) {
+            event.preventDefault();
+            applyFilter(category, second_category, i); // 클릭한 페이지로 이동
+        });
+
+        paginationElement.appendChild(pageItem);
+    }
+
+    // 다음 페이지 링크 추가 (마지막 페이지가 아닐 경우에만 표시)
+    if (currentPage < totalPages) {
+        const nextPage = document.createElement('a');
+        nextPage.textContent = '다음 »';
+        nextPage.href = '#';
+        nextPage.addEventListener('click', function(event) {
+            event.preventDefault();
+            applyFilter(category, second_category, currentPage + 1);
+        });
+        paginationElement.appendChild(nextPage);
+    }
+}
+
+
+
 
 
 
