@@ -124,14 +124,14 @@
                                 <c:if test="${pVO.hasPrevious}">
                                     <li class="pre">
                                         <a class="page-link" href="javascript:reloadPage(${pVO.nowPage - 1});">
-                                            <img src="/img/cm/left-chevron.png" />
+                                            이전
                                         </a>
                                     </li>
                                 </c:if>
                                 <c:if test="${!pVO.hasPrevious}">
                                     <li class="pre disabled">
                                         <a class="page-link" href="javascript:void(0);">
-                                            <img src="/img/cm/left-chevron.png" style="width:20px; height:18px;" />
+                                            이전
                                         </a>
                                     </li>
                                 </c:if>
@@ -149,14 +149,14 @@
                                 <c:if test="${pVO.hasNext}">
                                     <li class="next">
                                         <a class="page-link" href="javascript:reloadPage(${pVO.nowPage + 1});">
-                                            <img src="/img/cm/right-chevron.png" style="width:20px; height:18px;" />
+                                            다음
                                         </a>
                                     </li>
                                 </c:if>
                                 <c:if test="${!pVO.hasNext}">
                                     <li class="next disabled">
                                         <a class="page-link" href="javascript:void(0);">
-                                            <img src="/img/cm/right-chevron.png" style="width:20px; height:18px;" />
+                                            다음
                                         </a>
                                     </li>
                                 </c:if>
