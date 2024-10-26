@@ -13,32 +13,19 @@
 
 
     <!-- 페이징 처리된 상품 목록 가져오기 -->
-    <select id="getPagedProducts" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
-        SELECT *
-        FROM t_product
-        <where>
-            <if test="category != null">
-                AND category = #{category}
-            </if>
-            <if test="second_category != null">
-                AND second_category = #{second_category}
-            </if>
-        </where>
-        LIMIT #{pageSize} OFFSET #{offset}
-    </select>
-
-    <select id="getPagedProductsCnt" resultType="int">
-        SELECT COUNT(*)
-        FROM t_product
-        <where>
-            <if test="category != null">
-                AND category = #{category}
-            </if>
-            <if test="second_category != null">
-                AND second_category = #{second_category}
-            </if>
-        </where>
-    </select>
+        <select id="getPagedProducts" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
+            SELECT *
+            FROM t_product
+            <where>
+                <if test="category != null">
+                    AND category = #{category}
+                </if>
+                <if test="second_category != null">
+                    AND second_category = #{second_category}
+                </if>
+            </where>
+            LIMIT #{pageSize} OFFSET #{offset}
+        </select>
 
 
     <select id="getProductsByCategory" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
@@ -83,13 +70,13 @@
     </select>
 
     <select id="getStoreList" resultType="com.ict.finalproject.vo.StoreVO">
-        SELECT
-        idx, title, price, thumImg , ani_title, relDT, brand, fee, stock, pro_detail, category
+        SELECT 
+            idx, title, price, thumImg , ani_title, relDT, brand, fee, stock, pro_detail, category 
         FROM t_product
     </select>
 
     <!-- 정렬을 위한 필터 (sort 기반 필터) -->
-    <select id="getStoreListBySortFilter" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
+    <select id="getStoreListBySortFilter" parameterType="String" resultType="com.ict.finalproject.vo.StoreVO">
         SELECT * FROM t_product
         <choose>
             <when test="filterType == 'latest'">
@@ -115,39 +102,39 @@
     <select id="searchStoreList" parameterType="String" resultType="com.ict.finalproject.vo.StoreVO">
         SELECT * FROM t_product
         WHERE title LIKE CONCAT('%', #{keyword}, '%')
-        OR description LIKE CONCAT('%', #{keyword}, '%')
+           OR description LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
     <!-- 카테고리와 재고 기반 필터링 -->
     <select id="getFirstCategoryList" resultType="com.ict.finalproject.vo.ProductFilterVO">
-        SELECT DISTINCT f.type
-        FROM t_firstcategory f
-        JOIN t_product p ON p.category = f.code
-        where f.type is not null
+    SELECT DISTINCT f.type
+    FROM t_firstcategory f
+    JOIN t_product p ON p.category = f.code
+    where f.type is not null
     </select>
 
 
-    <!-- 이거 사용 -->
+        <!-- 이거 사용 -->
     <select id="getSubcategoriesByFirstCategory" parameterType="int" resultType="String">
         SELECT s.type
         FROM t_secondcategory s
         JOIN t_firstcategory f ON s.first_code = f.code
         WHERE f.code = #{code}
-    </select>
+     </select>
 
     <select id="getFirstCategories" resultType="ProductFilterVO">
         SELECT code, type
         FROM t_firstcategory
     </select>
 
-    <!--두번째 카테고리-->
+<!--두번째 카테고리-->
 
-    <!--    <select id="getSubcategoriesByFirstCategory1" parameterType="int" resultType="String">-->
-    <!--        SELECT s.type-->
-    <!--        FROM t_secondcategory s-->
-    <!--        JOIN t_firstcategory f ON s.first_code = f.code-->
-    <!--        WHERE f.code = #{code}-->
-    <!--    </select>-->
+<!--    <select id="getSubcategoriesByFirstCategory1" parameterType="int" resultType="String">-->
+<!--        SELECT s.type-->
+<!--        FROM t_secondcategory s-->
+<!--        JOIN t_firstcategory f ON s.first_code = f.code-->
+<!--        WHERE f.code = #{code}-->
+<!--    </select>-->
     <!--  좋아요 카운팅-->
     <select id="getStoreWithPopularity" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
         SELECT s.*,
