@@ -175,6 +175,7 @@ function searchProducts() {
     });
 }
 
+//이게 작동
 function updateProductList(products) {
     console.log("updateProductList(products)=>",products);
     productList = document.querySelector('.list-carousel-images');
@@ -183,9 +184,7 @@ function updateProductList(products) {
         return;  // productList가 정의되지 않았을 경우 함수 종료
     }
 
-
     productList.innerHTML = '';  // 기존의 상품 목록을 지움
-
 
     products.forEach(product => {
         const listItem = document.createElement('li');
