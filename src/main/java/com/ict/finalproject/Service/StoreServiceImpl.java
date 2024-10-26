@@ -50,8 +50,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<StoreVO> searchStoreList(String keyword) {
-        return dao.searchStoreList(keyword);
+    public List<StoreVO> searchStoreList(String query) {
+        return dao.searchStoreList(query);
     }
 
     @Override

@@ -108,15 +108,14 @@ public class storeMainController {
             @RequestParam(required = false) Integer second_category,
             @RequestParam(required = false) String filterType) {
 
-        System.out.println("Filter Type: " + filterType);
-        System.out.println("pageNum : " + pageNum +", "+ pageSize +", "+ category +", "+ second_category);
+
+
         // offset 계산
         int offset = (pageNum - 1) * pageSize;
 
 
         // 페이징 처리된 상품 목록을 가져옴 (카테고리와 필터 타입을 처리)
         List<StoreVO> pagedProducts;
-
 
         // 1. 카테고리 필터링이 있는 경우
         if (category != null) {
@@ -126,6 +125,7 @@ public class storeMainController {
         else if (filterType != null) {
             pagedProducts = storeService.getStoreListByFilter(filterType);
         }
+
         // 3. 필터링 조건이 없는 경우 전체 상품을 가져옴
         else {
             pagedProducts = storeService.getPagedProducts(pageSize, offset, null,null);
@@ -140,11 +140,11 @@ public class storeMainController {
         }
         // 총 페이지 수 계산
         int totalPages = totalProducts > 0 ? (int) Math.ceil((double) totalProducts / pageSize) : 0;
-        System.out.println(totalPages);
 
 
         // 카테고리 목록을 가져옴
         List<ProductFilterVO> firstCategoryList = storeService.getFirstCategoryList();
+
 
 
         // ModelAndView 설정
@@ -202,16 +202,12 @@ public class storeMainController {
 
 
     // 검색된 상품 목록 가져오기
-    @GetMapping("/searchStoreList")
-    public ModelAndView searchStoreList(@RequestParam("keyword") String keyword) {
-        List<StoreVO> searchResults = storeService.searchStoreList(keyword);
-
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("storeList", searchResults);
-        mav.setViewName("store/storeList");
-
-        return mav;
+    @GetMapping("/searchProducts")
+    @ResponseBody
+    public List<StoreVO> searchProducts(@RequestParam("query") String query) {
+        return storeService.searchStoreList(query);
     }
+
 
     // 필터링된 상품 목록 가져오기 (AJAX 요청 처리)
     @PostMapping("/filterStoreList")
