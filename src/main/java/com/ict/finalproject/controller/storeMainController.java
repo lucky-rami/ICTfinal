@@ -103,12 +103,13 @@ public class storeMainController {
     @GetMapping("/storeList")
     public ModelAndView getStoreListAndView(
             @RequestParam(defaultValue = "1") int pageNum,
-            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "12") int pageSize,
             @RequestParam(required = false) Integer category,
             @RequestParam(required = false) Integer second_category,
             @RequestParam(required = false) String filterType) {
 
-
+        System.out.println("Filter Type: " + filterType);
+        System.out.println("pageNum : " + pageNum +", "+ pageSize +", "+ category +", "+ second_category);
         // offset 계산
         int offset = (pageNum - 1) * pageSize;
 
@@ -131,10 +132,15 @@ public class storeMainController {
         }
 
         // 총 상품 개수를 가져옴
-        int totalProducts = pagedProducts.isEmpty() ? 0 : storeService.getTotalProductCount();
+        int totalProducts = 0;
+        if(category != null){
+            totalProducts = storeService.getPagedProductsCnt(category, second_category);
+        }else{
+            totalProducts = pagedProducts.isEmpty() ? 0 : storeService.getTotalProductCount();
+        }
         // 총 페이지 수 계산
         int totalPages = totalProducts > 0 ? (int) Math.ceil((double) totalProducts / pageSize) : 0;
-
+        System.out.println(totalPages);
 
 
         // 카테고리 목록을 가져옴
@@ -154,9 +160,26 @@ public class storeMainController {
     }
 
     //API구현
+//    @GetMapping("/pagedProducts")
+//    @ResponseBody  // JSON으로 데이터를 반환하기 위해 추가
+//    public List<StoreVO> getPagedProducts(
+//            @RequestParam int pageNum,
+//            @RequestParam int pageSize,
+//            @RequestParam(required = false) Integer category,
+//            @RequestParam(required = false) Integer second_category) {
+//
+//        int offset = (pageNum - 1) * pageSize;
+//
+//        // 두 번째 카테고리를 포함한 상품 목록을 가져옵니다.
+//        List<StoreVO> pagedProducts = storeService.getPagedProducts(pageSize, offset, category, second_category);
+//
+//
+//
+//        return pagedProducts; // JSON으로 반환
+//    }
     @GetMapping("/pagedProducts")
     @ResponseBody  // JSON으로 데이터를 반환하기 위해 추가
-    public List<StoreVO> getPagedProducts(
+    public Map<String, Object> getPagedProducts(
             @RequestParam int pageNum,
             @RequestParam int pageSize,
             @RequestParam(required = false) Integer category,
@@ -164,13 +187,18 @@ public class storeMainController {
 
         int offset = (pageNum - 1) * pageSize;
 
-        // 두 번째 카테고리를 포함한 상품 목록을 가져옵니다.
+        // 두 번째 카테고리를 포함한 상품 목록과 상품 개수를 가져옵니다.
         List<StoreVO> pagedProducts = storeService.getPagedProducts(pageSize, offset, category, second_category);
+        int pagedProductscnt = storeService.getPagedProductsCnt(category, second_category);
 
+        // 두 데이터를 Map에 담아 반환합니다.
+        Map<String, Object> response = new HashMap<>();
+        response.put("pagedProducts", pagedProducts);
+        response.put("pagedProductscnt", pagedProductscnt);
 
-
-        return pagedProducts; // JSON으로 반환
+        return response;
     }
+
 
 
     // 검색된 상품 목록 가져오기

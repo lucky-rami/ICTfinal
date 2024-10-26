@@ -54,24 +54,24 @@
                                    <h3>하위 카테고리</h3>
                                    <!-- mapper에서 커리문을 들고와서 해당하는 서브카테고리가 있으면 display : block, default는 none -->
                                    <ul id="subcategory-list" class="filter-list">
-                                       <li class="filter-item" onclick="applyFilter(null,'아우터')"><span class="filter-text">아우터</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'상의')"><span class="filter-text">상의</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'하의')"><span class="filter-text">하의</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'잡화')"><span class="filter-text">잡화</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'아크릴')"><span class="filter-text">아크릴</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'피규어')"><span class="filter-text">피규어</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'캔뱃지')"><span class="filter-text">캔뱃지</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'슬로건')"><span class="filter-text">슬로건</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'포스터')"><span class="filter-text">포스터</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'기타')"><span class="filter-text">기타</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'필기류')"><span class="filter-text">필기류</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'노트&메모지')"><span class="filter-text">노트&메모지</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'파일')"><span class="filter-text">파일</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'스티커')"><span class="filter-text">스티커</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'달력')"><span class="filter-text">달력</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'컵&텀블러')"><span class="filter-text">컵&텀블러</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'쿠션')"><span class="filter-text">쿠션</span></li>
-                                       <li class="filter-item" onclick="applyFilter(null,'담요')"><span class="filter-text">담요</span></li>
+                                       <li class="filter-item" onclick="applyFilter(1,'아우터')"><span class="filter-text">아우터</span></li>
+                                       <li class="filter-item" onclick="applyFilter(1,'상의')"><span class="filter-text">상의</span></li>
+                                       <li class="filter-item" onclick="applyFilter(1,'하의')"><span class="filter-text">하의</span></li>
+                                       <li class="filter-item" onclick="applyFilter(1,'잡화')"><span class="filter-text">잡화</span></li>
+                                       <li class="filter-item" onclick="applyFilter(2,'아크릴')"><span class="filter-text">아크릴</span></li>
+                                       <li class="filter-item" onclick="applyFilter(2,'피규어')"><span class="filter-text">피규어</span></li>
+                                       <li class="filter-item" onclick="applyFilter(2,'캔뱃지')"><span class="filter-text">캔뱃지</span></li>
+                                       <li class="filter-item" onclick="applyFilter(2,'슬로건')"><span class="filter-text">슬로건</span></li>
+                                       <li class="filter-item" onclick="applyFilter(2,'포스터')"><span class="filter-text">포스터</span></li>
+                                       <li class="filter-item" onclick="applyFilter(2,'기타')"><span class="filter-text">기타</span></li>
+                                       <li class="filter-item" onclick="applyFilter(3,'필기류')"><span class="filter-text">필기류</span></li>
+                                       <li class="filter-item" onclick="applyFilter(3,'노트&메모지')"><span class="filter-text">노트&메모지</span></li>
+                                       <li class="filter-item" onclick="applyFilter(3,'파일')"><span class="filter-text">파일</span></li>
+                                       <li class="filter-item" onclick="applyFilter(3,'스티커')"><span class="filter-text">스티커</span></li>
+                                       <li class="filter-item" onclick="applyFilter(3,'달력')"><span class="filter-text">달력</span></li>
+                                       <li class="filter-item" onclick="applyFilter(4,'컵&텀블러')"><span class="filter-text">컵&텀블러</span></li>
+                                       <li class="filter-item" onclick="applyFilter(4,'쿠션')"><span class="filter-text">쿠션</span></li>
+                                       <li class="filter-item" onclick="applyFilter(4,'담요')"><span class="filter-text">담요</span></li>
                                    </ul>
 
                             </div>
@@ -129,34 +129,53 @@
                     </div>
                 </section>
 <div class="pagination">
-     <!-- 이전 페이지 링크 -->
-     <c:if test="${currentPage > 1}">
-         <a href="/storeList?pageNum=${currentPage - 1}
-            <c:if test='${selectedCategory != null}'>&category=${selectedCategory}</c:if>
-            <c:if test='${selectedFilterType != null}'>&filterType=${selectedFilterType}</c:if>">&laquo; 이전</a>
-     </c:if>
+    <!-- 이전 페이지 링크 -->
+    <c:if test="${currentPage > 1}">
+        <a href="<c:url value='/storeList'>
+            <c:param name='pageNum' value='${currentPage - 1}' />
+            <c:if test='${selectedCategory != null}'>
+                <c:param name='category' value='${selectedCategory}' />
+            </c:if>
+            <c:if test='${selectedFilterType != null}'>
+                <c:param name='filterType' value='${selectedFilterType}' />
+            </c:if>
+        </c:url>">&laquo; 이전</a>
+    </c:if>
 
-     <!-- 페이지 번호 링크 -->
-     <c:forEach var="i" begin="${currentPage - 2 > 0 ? currentPage - 2 : 1}" end="${currentPage + 1 < totalPages ? currentPage + 1 : totalPages}">
-         <c:choose>
-             <c:when test="${i == currentPage}">
-                 <span class="current">${i}</span>
-             </c:when>
-             <c:otherwise>
-                 <a href="/storeList?pageNum=${i}
-                    <c:if test='${selectedCategory != null}'>&category=${selectedCategory}</c:if>
-                    <c:if test='${selectedFilterType != null}'>&filterType=${selectedFilterType}</c:if>">${i}</a>
-             </c:otherwise>
-         </c:choose>
-     </c:forEach>
+    <!-- 페이지 번호 링크 -->
+    <c:forEach var="i" begin="${currentPage - 2 > 0 ? currentPage - 2 : 1}" end="${currentPage + 1 < totalPages ? currentPage + 1 : totalPages}">
+        <c:choose>
+            <c:when test="${i == currentPage}">
+                <span class="current">${i}</span>
+            </c:when>
+            <c:otherwise>
+                <a href="<c:url value='/storeList'>
+                    <c:param name='pageNum' value='${i}' />
+                    <c:if test='${selectedCategory != null}'>
+                        <c:param name='category' value='${selectedCategory}' />
+                    </c:if>
+                    <c:if test='${selectedFilterType != null}'>
+                        <c:param name='filterType' value='${selectedFilterType}' />
+                    </c:if>
+                </c:url>">${i}</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
 
-     <!-- 다음 페이지 링크 -->
-     <c:if test="${currentPage < totalPages}">
-         <a href="/storeList?pageNum=${currentPage + 1}
-            <c:if test='${selectedCategory != null}'>&category=${selectedCategory}</c:if>
-            <c:if test='${selectedFilterType != null}'>&filterType=${selectedFilterType}</c:if>">다음 &raquo;</a>
-     </c:if>
- </div>
+    <!-- 다음 페이지 링크 -->
+    <c:if test="${currentPage < totalPages}">
+        <a href="<c:url value='/storeList'>
+            <c:param name='pageNum' value='${currentPage + 1}' />
+            <c:if test='${selectedCategory != null}'>
+                <c:param name='category' value='${selectedCategory}' />
+            </c:if>
+            <c:if test='${selectedFilterType != null}'>
+                <c:param name='filterType' value='${selectedFilterType}' />
+            </c:if>
+        </c:url>">다음 &raquo;</a>
+    </c:if>
+</div>
+
 
 <!-- 카테고리 변경 시 페이지 넘버를 1로 설정 -->
 <div class="category-filter">
