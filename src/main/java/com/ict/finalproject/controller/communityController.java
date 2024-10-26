@@ -229,14 +229,38 @@ public class communityController {
     //게시글 또는 댓글 신고
     @PostMapping("/submitReport")
     public ResponseEntity<String> submitReport(@RequestBody ReportDTO reportDTO) {
-
         System.out.println("Received Report Data: " + reportDTO);
         try {
-            // 데이터 저장 로직
+            int reportExists = 0;
+
+            // 게시물 신고일 경우 (comunity_idx만 존재)
+            if (reportDTO.getComunity_idx() != null && reportDTO.getComment_idx() == null) {
+                reportExists = commuService.checkPostReportExists(reportDTO);
+
+                // 댓글 신고일 경우 (comunity_idx와 comment_idx 모두 존재)
+            } else if (reportDTO.getComunity_idx() != null && reportDTO.getComment_idx() != null) {
+                reportExists = commuService.checkCommentReportExists(reportDTO);
+
+            } else {
+                // 잘못된 요청에 대한 예외 처리
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 요청입니다.");
+            }
+
+            // 이미 신고된 경우 예외 처리
+            if (reportExists > 0) {
+                if (reportDTO.getComment_idx() != null) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 신고된 댓글입니다.");
+                } else {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 신고된 게시물입니다.");
+                }
+            }
+
+            // 신고 데이터 저장
             commuService.insertReport(reportDTO);
             return ResponseEntity.ok("신고가 접수되었습니다.");
+
         } catch (Exception e) {
-            e.printStackTrace(); // 콘솔에 오류 스택 트레이스를 출력하여 어디에서 문제가 발생했는지 확인
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("신고 처리 중 오류가 발생했습니다.");
         }
     }

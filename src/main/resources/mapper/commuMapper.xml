@@ -80,6 +80,18 @@
         )
     </insert>
 
+    <select id="checkPostReportExists" parameterType="com.ict.finalproject.DTO.ReportDTO" resultType="int">
+        SELECT COUNT(*)
+        FROM t_report
+        WHERE useridx = #{useridx} AND comunity_idx = #{comunity_idx}
+    </select>
+
+    <select id="checkCommentReportExists" parameterType="com.ict.finalproject.DTO.ReportDTO" resultType="int">
+        SELECT COUNT(*)
+        FROM t_report
+        WHERE useridx = #{useridx} AND comment_idx = #{comment_idx} AND comunity_idx = #{comunity_idx}
+    </select>
+
 
 
 

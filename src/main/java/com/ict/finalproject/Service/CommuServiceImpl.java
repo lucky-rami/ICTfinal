@@ -79,5 +79,15 @@ public class CommuServiceImpl implements CommuService {
         return commuDAO.insertReport(reportDTO);
     }
 
+    @Override
+    public int checkPostReportExists(ReportDTO reportDTO) {
+        return commuDAO.checkPostReportExists(reportDTO);
+    }
+
+    @Override
+    public int checkCommentReportExists(ReportDTO reportDTO) {
+        return commuDAO.checkCommentReportExists(reportDTO);
+    }
+
 
 }

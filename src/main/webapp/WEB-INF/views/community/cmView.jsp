@@ -691,6 +691,7 @@ function showTab(commtype) {
                 initializeReportModal(); // 모달을 닫을 때도 초기화
             });
 
+
         // 신고 데이터 전송 함수
         function sendReportData(data) {
             $.ajax({
@@ -699,12 +700,23 @@ function showTab(commtype) {
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function (response) {
+                    console.log("신고 성공:", response); // 요청이 성공했을 때 로그
                     alert("신고가 접수되었습니다.");
                     reportModal.style.visibility = "hidden";
                 },
-                error: function (error) {
-                    alert("신고 처리 중 오류가 발생했습니다.");
-                    console.error("신고 오류:", error);
+                error: function (jqXHR) {
+                    console.log("신고 오류:", jqXHR.status, jqXHR.responseText); // 오류 세부 정보 출력
+                    if (jqXHR.status === 409) {
+                        const errorMessage = jqXHR.responseText;
+                        if (errorMessage === "이미 신고된 게시물입니다.") {
+                            alert("이미 신고된 게시물입니다.");
+                        } else if (errorMessage === "이미 신고된 댓글입니다.") {
+                            alert("이미 신고된 댓글입니다.");
+                        }
+                    } else {
+                        alert("신고 처리 중 오류가 발생했습니다.");
+                        console.error("신고 오류:", jqXHR);
+                    }
                 }
             });
         }
