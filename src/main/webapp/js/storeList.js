@@ -18,8 +18,7 @@ function getParameterByName(name) {
 
 // 필터를 적용하는 함수
 function applyFilter(category, second_category, pageNum = 1, pageSize = 12, filterType) {
- currentFilterType = filterType;
- currentPage = pageNum;
+
 
         // 하위 카테고리가 선택되면 상위 카테고리를 제거 (null로 설정)
         if (second_category) {
