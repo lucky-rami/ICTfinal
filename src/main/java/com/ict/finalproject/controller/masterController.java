@@ -1468,11 +1468,11 @@ public class masterController {
             return "redirect:/master/reportinguserListMaster";
         }
 
-        // 중복 여부와 관계없이 새로운 신고 추가
-        masterService.insertReport(useridx, reason, stopDT, parsedEndDT, comment_idx);
-
-        // 같은 useridx에 대한 모든 endDT 업데이트
-        masterService.updateAllEndDT(useridx, parsedEndDT);
+//        // 중복 여부와 관계없이 새로운 신고 추가
+//        masterService.insertReport(useridx, reason, stopDT, parsedEndDT, comment_idx);
+//
+//        // 같은 useridx에 대한 모든 endDT 업데이트
+//        masterService.updateAllEndDT(useridx, parsedEndDT);
 
         return "redirect:/master/reportinguserListMaster";
     }
