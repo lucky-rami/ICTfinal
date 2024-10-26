@@ -9,4 +9,5 @@ public interface HomeService {
     List<StoreVO> getGoodsList();
     List<AniListVO> aniSearchAll(String searchKey);
     List<StoreVO> goodsSearchAll(String searchKey);
+    List<String> getAniPoster(int num);
 }

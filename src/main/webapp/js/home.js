@@ -22,6 +22,23 @@ gsap.registerPlugin(ScrollTrigger);
     setTimeout(function () {
       $("#mainVisual .txt02").addClass("active");
     }, 800);
+
+    const scrollList1 = $('#scrollList1');
+    const scrollList2 = $('#scrollList2');
+
+    // 리스트 복제
+    scrollList1.append(scrollList1.html());
+    scrollList2.append(scrollList2.html());
+
+    function resetAnimation(element) {
+        element.style.animation = 'none'; // 애니메이션을 일시적으로 해제
+        element.offsetHeight; // 브라우저가 다시 계산하도록 트리거
+        element.style.animation = ''; // 애니메이션 다시 적용
+    }
+
+    // 애니메이션 재설정 함수 호출
+    resetAnimation(document.querySelector('.content1_img ul.active'));
+    resetAnimation(document.querySelector('.content1_img ul:nth-of-type(2).active'));
 });
 
 feather.replace();

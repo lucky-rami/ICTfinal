@@ -587,7 +587,7 @@ public class storeMainController {
         Integer useridx = (Integer) responseBody.get("useridx");
 
         reportVO.setUseridx(useridx);
-        // 장바구니에 이미 있는지 검증
+        // 신고했는지 검증
         int reportExists = storeService.checkReportExists(reportVO);
         if (reportExists > 0) {
             // 이미 신고한 글인 경우

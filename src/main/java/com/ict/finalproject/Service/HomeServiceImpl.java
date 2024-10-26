@@ -27,4 +27,9 @@ public class HomeServiceImpl implements HomeService{
     public List<StoreVO> goodsSearchAll(String searchKey) {
         return dao.goodsSearchAll(searchKey);
     }
+
+    @Override
+    public List<String> getAniPoster(int num) {
+        return dao.getAniPoster(num);
+    }
 }

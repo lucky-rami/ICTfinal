@@ -20,4 +20,12 @@
         where title like concat('%', #{param1}, '%')
         or ani_title like concat('%', #{param1}, '%')
     </select>
+    <select id="getAniPoster">
+        SELECT a.post_img
+        FROM T_animation AS a
+        JOIN T_aniLike AS al ON a.idx = al.ani_idx
+        GROUP BY a.idx, a.post_img, a.title
+        ORDER BY COUNT(al.ani_idx) DESC
+        LIMIT 14 OFFSET ${param1}
+    </select>
 </mapper>

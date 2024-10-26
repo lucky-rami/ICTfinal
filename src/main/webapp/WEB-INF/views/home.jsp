@@ -68,128 +68,37 @@
 
 <div class="mainContents">
   <div class="mainContent1">
-    <div
-      class="inc01 aos-init aos-animate"
-      data-aos="fade-up"
-      data-aos-delay="100"
-      data-aos-easing="ease-out-cubic"
-      data-aos-duration="500"
-    >
-      <div class="tit">
-        <p class="content_title">Recommend List</p>
-        <p class="recommend_list">당신에게 추천하는 애니예요!</p>
-        <div class="pl">
-          <span style="margin-bottom: 5px"
-            >모두가 애니메이션을 즐기는 세상</span
-          >
-          <br />
-          sing2727님이 선호할만한 애니메이션을 만나보세요!
+      <div class="inc01">
+        <div class="site-wrap">
+          <div class="content1-title">
+            <p>POPULAR ANIMATION</p>
+            <h3>인기많은 애니메이션을 만나보세요!</h3>
+            <p>
+              모두가 애니메이션을 즐기는 세상<br />
+              많은 유저들에게 선택받은 애니메이션을 즐겨보세요.
+            </p>
+            <div class="more_btn_div">
+              <a class="more_btn" href="/aniList">MORE VIEW</a>
+            </div>
+          </div>
+          <div class="content1_img">
+            <ul class="active" id="scrollList1">
+              <c:forEach var="ani_poster1" items="${ani_poster1}">
+                <li>
+                  <img src="http://192.168.1.180:8000/${ani_poster1}" width="100%" height="100%" />
+                </li>
+              </c:forEach>
+            </ul>
+            <ul class="active" id="scrollList2">
+              <c:forEach var="ani_poster2" items="${ani_poster2}">
+                <li>
+                  <img src="http://192.168.1.180:8000/${ani_poster2}" width="100%" height="100%" />
+                </li>
+              </c:forEach>
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="recommend_ani">
-        <ul class="grid_imgs">
-          <li data-aos="zoom-in" data-aos-offset="300">
-            <a href="">
-              <div class="mask"></div>
-              <div class="txt">
-                <p>정적인 공간, 나만의 아늑한 안식처</p>
-                <span
-                  >View more<i class="on fa fa-long-arrow-right"></i
-                ></span>
-              </div>
-              <img class="thum" src="/img/main_img/anipost1.png" alt="" />
-            </a>
-          </li>
-          <li data-aos="zoom-in" data-aos-offset="300">
-            <a href="">
-              <div class="mask"></div>
-              <div class="txt">
-                <p>정적인 공간, 나만의 아늑한 안식처</p>
-                <span
-                  >View more<i class="on fa fa-long-arrow-right"></i
-                ></span>
-              </div>
-              <img class="thum" src="/img/main_img/anipost2.png" alt="" />
-            </a>
-          </li>
-          <li data-aos="zoom-in" data-aos-offset="300">
-            <a href="">
-              <div class="mask"></div>
-              <div class="txt">
-                <p>정적인 공간, 나만의 아늑한 안식처</p>
-                <span
-                  >View more<i class="on fa fa-long-arrow-right"></i
-                ></span>
-              </div>
-              <img class="thum" src="/img/main_img/anipost3.png" alt="" />
-            </a>
-          </li>
-          <li data-aos="zoom-in" data-aos-offset="300">
-            <a href="">
-              <div class="mask"></div>
-              <div class="txt">
-                <p>정적인 공간, 나만의 아늑한 안식처</p>
-                <span
-                  >View more<i class="on fa fa-long-arrow-right"></i
-                ></span>
-              </div>
-              <img class="thum" src="/img/main_img/anipost4.png" alt="" />
-            </a>
-          </li>
-          <li data-aos="zoom-in" data-aos-offset="300">
-            <a href="">
-              <div class="mask"></div>
-              <div class="txt">
-                <p>정적인 공간, 나만의 아늑한 안식처</p>
-                <span
-                  >View more<i class="on fa fa-long-arrow-right"></i
-                ></span>
-              </div>
-              <img class="thum" src="/img/main_img/anipost5.png" alt="" />
-            </a>
-          </li>
-          <li data-aos="zoom-in" data-aos-offset="300">
-            <a href="">
-              <div class="mask"></div>
-              <div class="txt">
-                <p>정적인 공간, 나만의 아늑한 안식처</p>
-                <span
-                  >View more<i class="on fa fa-long-arrow-right"></i
-                ></span>
-              </div>
-              <img class="thum" src="/img/main_img/anipost6.png" alt="" />
-            </a>
-          </li>
-          <li data-aos="zoom-in" data-aos-offset="300">
-            <a href="">
-              <div class="mask"></div>
-              <div class="txt">
-                <p>정적인 공간, 나만의 아늑한 안식처</p>
-                <span
-                  >View more<i class="on fa fa-long-arrow-right"></i
-                ></span>
-              </div>
-              <img class="thum" src="/img/main_img/anipost7.jpg" alt="" />
-            </a>
-          </li>
-          <li data-aos="zoom-in" data-aos-offset="300">
-            <a href="">
-              <div class="mask"></div>
-              <div class="txt">
-                <p>정적인 공간, 나만의 아늑한 안식처</p>
-                <span
-                  >View more<i class="on fa fa-long-arrow-right"></i
-                ></span>
-              </div>
-              <img class="thum" src="/img/main_img/anipost8.jpg" alt="" />
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="more_btn_div">
-        <a class="more_btn" href="/aniList">MORE VIEW</a>
-      </div>
-    </div>
   </div>
   <div class="mainContent2">
     <div class="inc02">
@@ -202,7 +111,7 @@
           data-aos-easing="ease-out-cubic"
           data-aos-duration="500"
         >
-          <p class="content_title">New Goods</p>
+          <p class="content_title">NEW GOODS</p>
           <div class="control">
             <div class="swiper-button-prev prev">
               <i data-feather="chevron-left"></i>
@@ -235,13 +144,9 @@
                             >View more<i class="on fa fa-long-arrow-right"></i
                           ></span>
                         </div>
-                        <div
-                          class="thum_img"
-                          style="
-                            background: url('http://192.168.1.180:8000/${goods.thumImg}')
-                              no-repeat center / cover;
-                          "
-                        ></div>
+                        <div class="thum_img">
+                            <img src="http://192.168.1.180:8000/${goods.thumImg}">
+                        </div>
                       </div>
                     </a>
                 </li>
@@ -266,8 +171,104 @@
   >
     <div class="inc03">
       <div class="inner">
-        <div class="l_txt">
-          <p class="content_title">Community Space</p>
+
+        <div class="r_cont">
+          <div class="cont">
+            <a href="/cmList">
+              <div>
+                <p class="img"></p>
+                <p class="txt">
+                  <span>커뮤니티</span>
+                  커뮤니티는 애니메이션을 사랑하는 유저들이 서로 소통하고
+                  정보를 공유할 수 있는 공간입니다. 이곳에서는 애니메이션
+                  관련 의견을 나누고, 굿즈에 대한 다양한 이야기를 나누며,
+                  함께 즐거운 경험을 만들어 갈 수 있습니다!
+                </p>
+              </div>
+              <p class="view_btn">
+                  view<svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="feather feather-plus"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+            </p>
+            </a>
+          </div>
+          <div class="cont">
+            <a href="">
+              <p class="view_btn">
+                  view<svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="feather feather-plus"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+              </p>
+              <div>
+                <p class="img"></p>
+                <p class="txt">
+                  <span>이벤트</span>
+                  유저들은 이곳에서 참여할 수 있는 이벤트 정보를 확인하고,
+                  다양한 혜택과 보상을 받을 수 있는 기회를 얻을 수 있습니다.
+                  최신 이벤트 소식을 놓치지 않고, 특별한 즐거움을 경험해
+                  보세요!
+                </p>
+              </div>
+            </a>
+          </div>
+          <div class="cont">
+            <a href="">
+              <div>
+                <p class="img"></p>
+                <p class="txt">
+                  <span>1:1 문의</span>
+                  유저들은 이곳을 통해 다양한 질문이나 문제를 쉽게 해결할 수
+                  있으며, 관리자와 소통하여 더 나은 서비스를 경험할 수
+                  있습니다. 빠르고 정확한 답변을 통해 불편함을 최소화할 수
+                  있는 문의 페이지를 활용해보세요!
+                </p>
+              </div>
+              <p class="view_btn">
+                  view<svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="feather feather-plus"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+              </p>
+            </a>
+          </div>
+        </div>
+      <div class="l_txt">
+          <p class="content_title">COMMUNITY SPACE</p>
           <div class="big_txt">
             <p class="b_txt" style="background-size: 100%">
               유저들과 소통하고,
@@ -280,102 +281,8 @@
             </p>
           </div>
         </div>
-        <div class="r_cont">
-          <div class="cont">
-            <a href="/cmList">
-              <p class="view_btn">
-                view<svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-plus"
-                >
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </p>
-              <div>
-                <p class="img"></p>
-                <p class="txt">
-                  <span>커뮤니티</span>
-                  커뮤니티는 애니메이션을 사랑하는 유저들이 서로 소통하고
-                  정보를 공유할 수 있는 공간입니다. 이곳에서는 애니메이션
-                  관련 의견을 나누고, 굿즈에 대한 다양한 이야기를 나누며,
-                  함께 즐거운 경험을 만들어 갈 수 있습니다!
-                </p>
-              </div>
-            </a>
-          </div>
-          <div class="cont">
-            <a href="">
-              <div>
-                <p class="img"></p>
-                <p class="txt">
-                  <span>이벤트</span>
-                  유저들은 이곳에서 참여할 수 있는 이벤트 정보를 확인하고,
-                  다양한 혜택과 보상을 받을 수 있는 기회를 얻을 수 있습니다.
-                  최신 이벤트 소식을 놓치지 않고, 특별한 즐거움을 경험해
-                  보세요!
-                </p>
-              </div>
-              <p class="view_btn">
-                view<svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-plus"
-                >
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </p>
-            </a>
-          </div>
-          <div class="cont">
-            <a href="">
-              <p class="view_btn">
-                view<svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-plus"
-                >
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </p>
-              <div>
-                <p class="img"></p>
-                <p class="txt">
-                  <span>1:1 문의</span>
-                  유저들은 이곳을 통해 다양한 질문이나 문제를 쉽게 해결할 수
-                  있으며, 관리자와 소통하여 더 나은 서비스를 경험할 수
-                  있습니다. 빠르고 정확한 답변을 통해 불편함을 최소화할 수
-                  있는 문의 페이지를 활용해보세요!
-                </p>
-              </div>
-            </a>
-          </div>
-        </div>
       </div>
+
     </div>
     <div
       class="inc04 aos-init aos-animate"

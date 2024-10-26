@@ -28,13 +28,17 @@ public class HomeController {
     @GetMapping("/")
     public ModelAndView Home() {
         // 홈
-        // 1. 애니 8개 -> 일단 아무거나 띄워두고 나중에 좋아요나 별점순으로 변경 또는 추천알고리즘 변경
+        // 1. 좋아요 많은 애니 포스터 28개
+        List<String> ani_poster1 = service.getAniPoster(0);
+        List<String> ani_poster2 = service.getAniPoster(14);
 
         // 2. 굿즈 5개 -> 최신순 (굿즈idx, 썸네일이미지, 굿즈명)
         List<StoreVO> goods_list= service.getGoodsList();
 
         mav = new ModelAndView();
 
+        mav.addObject("ani_poster1", ani_poster1);
+        mav.addObject("ani_poster2", ani_poster2);
         mav.addObject("goods_list", goods_list);
         mav.setViewName("home");
 
