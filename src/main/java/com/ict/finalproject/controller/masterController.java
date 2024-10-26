@@ -307,7 +307,7 @@ public class masterController {
 
     private String uploadFileToExternalServer(MultipartFile file) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
-        String imageServerUrl = "http://192.168.1.92:8000/upload"; // 이미지 서버의 파일 업로드 엔드포인트
+        String imageServerUrl = "http://192.168.1.180:8000/upload"; // 이미지 서버의 파일 업로드 엔드포인트
 
         // 파일을 MultiValueMap으로 준비
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -472,7 +472,8 @@ public class masterController {
 
         // 각 유저별로 개별 신고 횟수를 계산
         for (MasterVO user : reportingUser) {
-            int totalUserReport = masterService.getTotalUserReport(user.getUserid()); // user.getUseridx() 대신 userid 사용
+            // user.getUserid()를 사용하여 총 신고 횟수 계산
+            int totalUserReport = masterService.getTotalUserReport(user.getUserid()); // user.getUserid() 사용
             user.setTotalUserReport(totalUserReport);
         }
 
@@ -1428,24 +1429,22 @@ public class masterController {
     @PostMapping("/reportinguserOK")
     public String reportinguserOK(@RequestParam("userid") String userid,
                                   @RequestParam("reason") String reason,
-                                  @RequestParam("handleDT") String handleDT,  // 처리 날짜
-                                  @RequestParam("endDT") String endDT,        // 제재 종료 날짜
-                                  @RequestParam("handleState") int handleState, // 처리 상태 코드
-                                  @RequestParam("idx") int idx,               // 신고 ID
-                                  @RequestParam("comment_idx") int comment_idx, // 댓글 ID
+                                  @RequestParam("handleDT") String handleDT,
+                                  @RequestParam("endDT") String endDT,
+                                  @RequestParam("handleState") int handleState,
+                                  @RequestParam("idx") int idx,
+                                  @RequestParam("comment_idx") int comment_idx,
                                   HttpServletRequest request) {
-        System.out.println("Received idx: " + idx);  // 신고 ID 확인
+
+        System.out.println("Received idx: " + idx);
         System.out.println("Received userid: " + userid);
-        System.out.println("Received comment_idx: " + comment_idx);  // 댓글 ID 확인
+        System.out.println("Received comment_idx: " + comment_idx);
 
-        LocalDateTime stopDT = LocalDateTime.now();  // 신고 시작 시간
-
-        // handleDT 및 endDT를 LocalDateTime으로 변환
+        LocalDateTime stopDT = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime parsedHandleDT = LocalDate.parse(handleDT, formatter).atStartOfDay();
         LocalDateTime parsedEndDT = LocalDate.parse(endDT, formatter).atStartOfDay();
 
-        // 헤더에서 Authorization 토큰 추출
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             throw new RuntimeException("토큰이 없습니다.");
@@ -1456,25 +1455,29 @@ public class masterController {
             throw new RuntimeException("유효하지 않은 사용자입니다.");
         }
 
-        String token = authorizationHeader.substring(7);  // "Bearer " 부분을 제거한 JWT 토큰
+        String token = authorizationHeader.substring(7);
         Claims claims;
         try {
-            claims = jwtUtil.getClaims(token);  // JWT 파싱하여 Claims 객체로 변환
+            claims = jwtUtil.getClaims(token);
         } catch (Exception e) {
             throw new RuntimeException("유효하지 않은 토큰입니다.");
         }
 
-        // 사용자 정지 여부 확인
         boolean isBanned = masterService.checkUserBanStatus(userid);
         if (isBanned) {
-            return "redirect:/master/reportinguserListMaster";  // 이미 정지된 사용자는 처리할 필요 없음
+            return "redirect:/master/reportinguserListMaster";
         }
 
-        // 서비스에 신고 내역 추가 요청
-        masterService.updateReportAndBan(idx, userid, reason, stopDT, parsedHandleDT, parsedEndDT, handleState, comment_idx);
+        // 중복 여부와 관계없이 새로운 신고 추가
+        masterService.insertReport(useridx, reason, stopDT, parsedEndDT, comment_idx);
 
-        return "redirect:/master/reportinguserListMaster";  // 신고 목록 페이지로 리다이렉트
+        // 같은 useridx에 대한 모든 endDT 업데이트
+        masterService.updateAllEndDT(useridx, parsedEndDT);
+
+        return "redirect:/master/reportinguserListMaster";
     }
+
+
 
 
     // 이벤트 페이지 글 쓰기

@@ -47,7 +47,7 @@ public interface MasterDAO {
     List<MasterVO> getReviewList();
 
     // 신고 추가
-    void insertReport(@Param("userid") String userid, @Param("reason") String reason, @Param("stopDT") LocalDateTime stopDT, @Param("endDT") LocalDateTime endDT, int comment_idx);
+    void insertReport(@Param("useridx") Integer useridx, @Param("reason") String reason, @Param("stopDT") LocalDateTime stopDT, @Param("endDT") LocalDateTime endDT, @Param("comment_idx") Integer comment_idx);
 
     // 유저가 정지 상태인지 확인
     boolean isUserBanned(@Param("userid") String userid);
@@ -63,7 +63,7 @@ public interface MasterDAO {
     List<MasterVO> getReportinguserList(MasterVO vo);
 
     // 신고 내역을 t_report 테이블에 삽입
-    void updateReport(int idx, String userid, String reason, LocalDateTime reportDT, LocalDateTime handleDT, int handleState, int comment_idx);
+    void updateReport(int idx, Integer useridx, String reason, LocalDateTime reportDT, LocalDateTime handleDT, int handleState, int comment_idx);
 
     // 모든 리뷰 불러오기
     List<MasterVO> getReplyList(MasterVO vo);

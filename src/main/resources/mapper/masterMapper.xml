@@ -102,8 +102,13 @@
 
     <!-- 신고 추가 -->
     <insert id="insertReport">
-        INSERT INTO t_ban (userid, reason, stopDT, endDT, comment_idx)
-        VALUES (#{userid}, #{reason}, #{stopDT}, #{endDT}, #{comment_idx})
+        INSERT INTO t_ban (useridx, reason, stopDT, endDT, comment_idx)
+        VALUES (#{useridx}, #{reason}, #{stopDT}, #{endDT}, #{comment_idx})
+    </insert>
+
+    <insert id="addReport">
+        INSERT INTO t_ban (useridx, reason, stopDT, endDT, comment_idx)
+        VALUES (#{useridx}, #{reason}, #{stopDT}, #{endDT}, #{comment_idx})
     </insert>
 
     <!-- 신고 기능 목록 보여주기 -->
@@ -117,8 +122,8 @@
         DATE_FORMAT(r.handleDT, '%Y-%m-%d') as handleDT,
         r.comment_idx
         FROM t_report r
-        JOIN t_comment c ON r.comment_idx = c.idx  -- comment_idx로 댓글 테이블과 조인
-        JOIN t_user u ON c.useridx = u.idx  -- 댓글 작성자의 useridx로 사용자 정보 조인
+        JOIN t_comment c ON r.comment_idx = c.idx
+        JOIN t_user u ON c.useridx = u.idx
     </select>
 
     <!-- 신고 테이블에 아이디 있는지 체크 -->

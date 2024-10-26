@@ -47,8 +47,8 @@ public class MasterServiceImpl implements MasterService {
     @Override
     @Transactional
     public int createStore(MasterVO storeAdd) {
-         dao.createStore(storeAdd);
-         return storeAdd.getIdx();
+        dao.createStore(storeAdd);
+        return storeAdd.getIdx();
     }
 
     @Override
@@ -96,10 +96,6 @@ public class MasterServiceImpl implements MasterService {
         return dao.getReviewList();
     }
 
-    @Override
-    public void addReport(String userid, String reason, LocalDateTime stopDT, LocalDateTime endDT, int comment_idx) {
-        dao.insertReport(userid, reason, stopDT, endDT, comment_idx);
-    }
 
     @Override
     public boolean checkUserBanStatus(String userid) {
@@ -127,20 +123,9 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public void updateReportAndBan(int idx, String userid, String reason, LocalDateTime stopDT, LocalDateTime handleDT, LocalDateTime endDT, int handleState, int comment_idx) {
-        // userid는 String이어야 함
-        int reportCount = dao.getTotalUserReport(userid);  // 여기에서 userid가 String인지 확인
-
-        if (reportCount > 0) {
-            // 신고가 이미 존재하는 경우: 기존 신고 업데이트
-            dao.updateReport(idx, userid, reason, stopDT, handleDT, handleState, comment_idx);
-
-            // 기존 신고의 endDT를 업데이트
-            dao.updateEndDT(userid, endDT);
-        } else {
-            // 신고가 존재하지 않는 경우: 새 신고 추가
-            dao.insertReport(userid, reason, stopDT, endDT, comment_idx);
-        }
+    public void updateReportAndBan(int idx,Integer useridx, String reason, LocalDateTime stopDT, LocalDateTime handleDT, LocalDateTime endDT, int handleState, int comment_idx) {
+        dao.updateReport(idx,useridx, reason, LocalDateTime.now(),handleDT, handleState, comment_idx);
+        dao.insertReport(useridx, reason, stopDT, endDT, comment_idx);
     }
 
     @Override
@@ -193,7 +178,6 @@ public class MasterServiceImpl implements MasterService {
     public int getTotalUserReport(String userid) {
         return dao.getTotalUserReport(userid);
     }
-
 
     @Override
     public void updateQnaAndReply(int idx, String reply, int adminIdx) {
