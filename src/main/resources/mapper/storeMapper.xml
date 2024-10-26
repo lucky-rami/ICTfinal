@@ -210,7 +210,21 @@
         set amount=amount-1, total=${param3}
         where idx=${param1} and useridx=${param2}
     </update>
-
+    <select id="getReportedData" resultType="com.ict.finalproject.vo.ReviewVO">
+        select r.idx, r.content, u.userid
+        from T_review r
+        join T_user u on r.useridx = u.idx
+        where r.idx = ${param1}
+    </select>
+    <select id="checkReportExists" parameterType="com.ict.finalproject.vo.ReportVO">
+        SELECT COUNT(*)
+        FROM T_report
+        WHERE useridx = #{useridx} AND review_idx = #{review_idx}
+    </select>
+    <insert id="reportInput" parameterType="com.ict.finalproject.vo.ReportVO">
+        insert into T_report(useridx, review_idx, report_type, reason)
+        values(#{useridx}, #{review_idx}, #{report_type}, #{reason})
+    </insert>
 
 
 </mapper>

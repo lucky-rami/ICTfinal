@@ -399,7 +399,6 @@ public class storeMainController {
         }else{
             return new ResponseEntity<>(tokenResponse.getHeaders(), HttpStatus.SEE_OTHER);
         }
-
     }
 
     //장바구니 페이지로 이동
@@ -560,5 +559,51 @@ public class storeMainController {
             return new ResponseEntity<>(tokenResponse.getHeaders(), HttpStatus.SEE_OTHER);
         }
     }
+
+    // 리뷰 신고데이터 가져오기(신고당하는 유저아이디, 신고당하는 글 내용)
+    @PostMapping("/reviewReportInfo")
+    public ResponseEntity<Map<String, Object>> basketList(@RequestParam("review_idx") int review_idx){
+        // 신고데이터
+        ReviewVO reportedData = storeService.getReportedData(review_idx);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("reportedData", reportedData);  // 장바구니 리스트를 맵에 저장
+
+        return ResponseEntity.ok(response);
+    }
+
+    //리뷰 신고접수
+    @PostMapping("/reviewReportOk")
+    public ResponseEntity<String> reviewReportOk(@RequestBody ReportVO reportVO,
+                                           @RequestHeader("Authorization") String Headertoken){
+        // JWT 토큰 검증 및 useridx 추출
+        ResponseEntity<Map<String, Object>> tokenResponse = extractUserIdFromToken(Headertoken);
+        if (!tokenResponse.getStatusCode().is2xxSuccessful()) {
+            return new ResponseEntity<>(tokenResponse.getHeaders(), tokenResponse.getStatusCode());
+        }
+
+        // useridx 가져오기
+        Map<String, Object> responseBody = tokenResponse.getBody();
+        Integer useridx = (Integer) responseBody.get("useridx");
+
+        reportVO.setUseridx(useridx);
+        // 장바구니에 이미 있는지 검증
+        int reportExists = storeService.checkReportExists(reportVO);
+        if (reportExists > 0) {
+            // 이미 신고한 글인 경우
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 신고한 글입니다.");
+        }
+
+        // 장바구니에 데이터 저장
+        int result = storeService.reportInput(reportVO);
+        log.info("**********reportVO : {}",reportVO.toString());
+
+        if(result>0){
+            return ResponseEntity.ok("리뷰 신고 접수 완료");
+        }else{
+            return new ResponseEntity<>(tokenResponse.getHeaders(), HttpStatus.SEE_OTHER);
+        }
+    }
+
 }
 

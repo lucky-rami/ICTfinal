@@ -1,10 +1,7 @@
 package com.ict.finalproject.Service;
 
 import com.ict.finalproject.DTO.BasketDTO;
-import com.ict.finalproject.vo.BasketVO;
-import com.ict.finalproject.vo.ProductFilterVO;
-import com.ict.finalproject.vo.ReviewVO;
-import com.ict.finalproject.vo.StoreVO;
+import com.ict.finalproject.vo.*;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
@@ -70,7 +67,10 @@ public interface StoreService {
     int basketPlusAmount(int idx,int useridx, int newTotal);
     //장바구니 상품갯수 -
     int basketMinusAmount(int idx,int useridx, int newTotal);
-
-
-
+    //리뷰 신고당한 데이터
+    ReviewVO getReportedData(int review_idx);
+    // 리뷰 신고접수 -> 이미 신고한 글인지 확인
+    int checkReportExists(ReportVO reportVO);
+    // 리뷰 신고 접수
+    int reportInput(ReportVO reportVO);
 }

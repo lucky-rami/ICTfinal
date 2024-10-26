@@ -16,6 +16,8 @@
 </script>
 <link rel="stylesheet" href="/css/basketmodal.css" type="text/css" />
 <script src="/js/storeDetail_input.js"></script>
+<script src="/js/review_report.js"></script>
+<link rel="stylesheet" href="/css/reportModal.css" type="text/css" />
 
 <!-- 상품 상세 페이지 컨테이너 -->
 <div class="product-container">
@@ -196,7 +198,7 @@
            <h3>사용자 총 평점</h3>
            <div class="stars">
                <c:forEach var="i" begin="1" end="5">
-                   <span class="${i <= averageRating ? 'filled-star' : 'empty-star'}">★</span>
+                   <i class="${i <= averageRating ? 'fa-solid fa-star' : 'fa-regular fa-star'}"></i>
                </c:forEach>
            </div>
            <div class="rating-number">
@@ -223,50 +225,53 @@
           </div>
     </div>
             <!-- 리뷰 리스트 -->
-      <div id="review-list">
-          <c:forEach var="review" items="${reviews}">
-               <div class="review-item ${not empty review.imgfile1 || not empty review.imgfile2 ? 'photo' : 'text'}"
-                           data-rating="${review.grade}"  data-date="${review.regDT}">
-                      <div class="review-content-container>
-                          <span class="review-rating">
-                              <!-- 별점 출력 -->
-                              <c:forEach var="i" begin="1" end="5">
-                                  <span class="${i <= review.grade ? 'filled-star' : 'empty-star'}">★</span>
-                              </c:forEach>
-                          </span>
-                          <span class="reviewer-name">
-                              <!-- 아이디 중간에 마스킹 처리 -->
-                              <c:out value="${fn:substring(review.useridx, 0, 3)}"/>*****
-                          </span>
-                          <span class="review-date">${review.regDT}</span>
-
-
-                            <div class="review-content">${review.content}</div>
-
-                          <!-- 이미지 파일1이 있을 경우 출력 -->
-                          <c:if test="${not empty review.imgfile1}">
-                              <div class="review-image">
-                                  <img src="http://192.168.1.180:8000/${review.imgfile1}" alt="리뷰 이미지">
-                              </div>
-                          </c:if>
-
-                          <!-- 이미지 파일2가 있을 경우 출력 -->
-                          <c:if test="${not empty review.imgfile2}">
-                              <div class="review-image">
-                                  <img src="http://192.168.1.180:8000/${review.imgfile2}" alt="리뷰 이미지 2">
-                              </div>
-                          </c:if>
+    <div id="review-list">
+        <c:forEach var="review" items="${reviews}">
+            <div class="review-item ${not empty review.imgfile1 || not empty review.imgfile2 ? 'photo' : 'text'}"
+            data-rating="${review.grade}"  data-date="${review.regDT}" data-idx="${review.idx}">
+                <div class="review-content-container">
+                    <div>
+                        <!-- 별점 출력 -->
+                        <div>
+                            <c:forEach var="i" begin="1" end="5">
+                                <i class="${i <= averageRating ? 'fa-solid fa-star' : 'fa-regular fa-star'}"></i>
+                            </c:forEach>
+                        </div>
+                        <span class="reviewer-name">
+                            <!-- 아이디 중간에 마스킹 처리 -->
+                            <c:out value="${fn:substring(review.useridx, 0, 3)}"/>*****
+                        </span>
+                        <span class="review-date">${review.regDT}</span>
+                        <img src="http://192.168.1.180:8000/emergency.svg" class="emergency_icon">
                     </div>
-              </div>
-          </c:forEach>
-      </div>
+
+
+                    <div class="review-content">${review.content}</div>
+
+                    <!-- 이미지 파일1이 있을 경우 출력 -->
+                    <c:if test="${not empty review.imgfile1}">
+                        <div class="review-image">
+                            <img src="http://192.168.1.180:8000/${review.imgfile1}" alt="리뷰 이미지">
+                        </div>
+                    </c:if>
+
+                    <!-- 이미지 파일2가 있을 경우 출력 -->
+                    <c:if test="${not empty review.imgfile2}">
+                        <div class="review-image">
+                            <img src="http://192.168.1.180:8000/${review.imgfile2}" alt="리뷰 이미지 2">
+                        </div>
+                    </c:if>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
 
 
     
-        <!-- 페이지 네이션 -->
-        <div class="pagination">
+    <!-- 페이지 네이션 -->
+    <div class="pagination">
 
-        </div>
+    </div>
 
     <!-- Sticky Footer -->
     <div class="sticky-footer">
@@ -288,4 +293,4 @@
   </div>
 </div>
 
- <%@include file="/WEB-INF/inc/store_footer.jspf"%> 
+<%@include file="/WEB-INF/inc/store_footer.jspf"%>

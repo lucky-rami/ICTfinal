@@ -21,4 +21,5 @@ public class ReviewVO {
     private int delState;
     private String delDT;
     private String token;
+    private String userid;
 }

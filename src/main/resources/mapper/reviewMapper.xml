@@ -23,7 +23,7 @@
 
     <!-- 리뷰 리스트 가져오기-->
     <select id="getReviewsByProductId" parameterType="int" resultType="ReviewVO">
-        SELECT r.useridx, r.content, r.grade, r.imgfile1, r.imgfile2, r.regDT
+        SELECT r.idx, r.useridx, r.content, r.grade, r.imgfile1, r.imgfile2, r.regDT
         FROM t_review r
         JOIN t_orderlist ol ON r.orderList_idx = ol.idx
         JOIN t_product p ON ol.pro_idx = p.idx

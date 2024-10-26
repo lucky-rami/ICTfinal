@@ -682,3 +682,17 @@ font-size : 2em;
     border: 1px solid var(--fff, #fff);
     background: var(--333, #333);
 }
+
+/*
+채원*/
+.emergency_icon{
+    cursor:pointer;
+}
+.emergency_icon:hover{
+    filter: brightness(0) saturate(100%) invert(55%) sepia(32%) saturate(4308%) hue-rotate(327deg) brightness(93%) contrast(117%);
+}
+
+.fa-star{
+    margin-right:0;
+    color: #fdba39;
+}

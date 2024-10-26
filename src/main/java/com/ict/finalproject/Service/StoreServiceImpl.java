@@ -2,10 +2,7 @@ package com.ict.finalproject.Service;
 
 import com.ict.finalproject.DAO.StoreDAO;
 import com.ict.finalproject.DTO.BasketDTO;
-import com.ict.finalproject.vo.BasketVO;
-import com.ict.finalproject.vo.ProductFilterVO;
-import com.ict.finalproject.vo.ReviewVO;
-import com.ict.finalproject.vo.StoreVO;
+import com.ict.finalproject.vo.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -149,6 +146,21 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public int basketMinusAmount(int idx, int useridx, int newTotal) {
         return dao.basketMinusAmount(idx, useridx,newTotal);
+    }
+
+    @Override
+    public ReviewVO getReportedData(int review_idx) {
+        return dao.getReportedData(review_idx);
+    }
+
+    @Override
+    public int checkReportExists(ReportVO reportVO) {
+        return dao.checkReportExists(reportVO);
+    }
+
+    @Override
+    public int reportInput(ReportVO reportVO) {
+        return dao.reportInput(reportVO);
     }
 
 }
