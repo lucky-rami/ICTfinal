@@ -152,7 +152,7 @@ $(document).ready(function() {
 
                     // 이미지 파일이 존재할 경우만 이미지 경로 설정
                     if (response.imgfile1) {
-                        const imgPath1 = "http://192.168.1.180:8000/" + encodeURIComponent(response.imgfile1);
+                        const imgPath1 = "http://192.168.1.92:8000/" + encodeURIComponent(response.imgfile1);
                         $('#imgFile1').attr('src', imgPath1).show();
                     } else {
                         $('#imgFile1').hide();
@@ -160,7 +160,7 @@ $(document).ready(function() {
                     }
 
                     if (response.imgfile2) {
-                        const imgPath2 = "http://192.168.1.180:8000/" + encodeURIComponent(response.imgfile2);
+                        const imgPath2 = "http://192.168.1.92:8000/" + encodeURIComponent(response.imgfile2);
                         $('#imgFile2').attr('src', imgPath2).show();
                     } else {
                         $('#imgFile2').hide();
@@ -194,7 +194,7 @@ $(document).ready(function() {
         const title = $(this).data('title');  // 문의 제목
         const content = $(this).data('content');  // 문의 내용
         const attachment = $(this).data('attachment'); // 첨부파일 이름
-        var attachmentUrl = "http://192.168.1.180:8000/" + attachment; // 동적 URL
+        var attachmentUrl = "http://192.168.1.92:8000/" + attachment; // 동적 URL
 
         // 모달의 hidden input과 문의 제목, 내용 설정
         $('#idx').val(idx);

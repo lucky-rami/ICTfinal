@@ -119,14 +119,6 @@
                     table = document.querySelector(".anime-list");
                     switching = true;
                     dir = "asc"; // 기본 정렬 방향: 오름차순
-                     var headers = table.querySelectorAll("th");
-                                    headers.forEach(function(header) {
-                                        header.innerHTML = header.innerHTML.replace(" ▼", "").replace(" ▲", "");
-                                    });
-
-                                    // 현재 정렬할 컬럼에 화살표 추가
-                                    headers[columnIndex].innerHTML += dir === "asc" ? " ▼" : " ▲";
-
                     while (switching) {
                         switching = false;
                         rows = table.rows;
@@ -153,83 +145,11 @@
                         } else {
                             if (switchcount == 0 && dir == "asc") {
                                 dir = "desc";
-                                headers[columnIndex].innerHTML = headers[columnIndex].innerHTML.replace(" ▼", " ▲");
                                 switching = true;
                             }
                         }
                     }
                 }
-
-                // 테이블 정렬 기능
-                        function sortTable3(columnIndex) {
-                            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-                            table = document.querySelector(".store-list");
-                            switching = true;
-                            dir = "asc"; // 기본 정렬 방향: 오름차순
-                            var headers = table.querySelectorAll("th");
-                                headers.forEach(function(header) {
-                                    header.innerHTML = header.innerHTML.replace(" ▼", "").replace(" ▲", "");
-                                });
-
-                                // 현재 정렬할 컬럼에 화살표 추가
-                                headers[columnIndex].innerHTML += dir === "asc" ? " ▼" : " ▲";
-
-                                while (switching) {
-                                    switching = false;
-                                    rows = table.rows;
-                                    for (i = 1; i < (rows.length - 1); i++) {
-                                        shouldSwitch = false;
-                                        x = rows[i].getElementsByTagName("TD")[columnIndex];
-                                        y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
-                                        if (dir == "asc") {
-                                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                                                shouldSwitch = true;
-                                                break;
-                                            }
-                                        } else if (dir == "desc") {
-                                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                                                shouldSwitch = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if (shouldSwitch) {
-                                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                                        switching = true;
-                                        switchcount++;
-                                    } else {
-                                        if (switchcount == 0 && dir == "asc") {
-                                            dir = "desc";
-                                            headers[columnIndex].innerHTML = headers[columnIndex].innerHTML.replace(" ▼", " ▲");
-                                            switching = true;
-                                        }
-                                    }
-                            }
-                        }
-
-                        function searchTable3() {
-                                    var input, filter, table, tr, td, i, j, txtValue;
-                                    input = document.getElementById("searchInput");
-                                    filter = input.value.toLowerCase();
-                                    table = document.querySelector(".store-list tbody");
-                                    tr = table.getElementsByTagName("tr");
-
-                                    for (i = 0; i < tr.length; i++) {
-                                        tr[i].style.display = "none"; // 기본적으로 숨김 처리
-                                        td = tr[i].getElementsByTagName("td");
-                                        for (j = 0; j < td.length; j++) {
-                                            if (td[j]) {
-                                                txtValue = td[j].textContent || td[j].innerText;
-                                                if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                                                    tr[i].style.display = ""; // 검색어와 일치하면 보여줌
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-
 
 // ------------------------------------------------------
 // 일/월별 매출 관리

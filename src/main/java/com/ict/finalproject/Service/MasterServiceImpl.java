@@ -558,39 +558,4 @@ public class MasterServiceImpl implements MasterService {
     public int getTotalSalesDetailListCount(String orderDate) {
         return dao.getTotalSalesDetailListCount(orderDate);
     }
-
-    @Override
-    public int getTotalFAQCount() {
-        return dao.getTotalFAQCount();
-    }
-
-    @Override
-    public List<MasterVO> getFAQListByPage(int startRecord, int pageSize) {
-        return dao.getFAQListByPage(startRecord, pageSize);
-    }
-
-    @Override
-    public int getTotalEventCount() {
-        return dao.getTotalEventCount();
-    }
-
-    @Override
-    public List<MasterVO> getEventListByPage(int startRecord, int pageSize) {
-        return dao.getEventListByPage(startRecord, pageSize);
-    }
-
-    @Override
-    public void updateAllEndDT(Integer useridx, LocalDateTime endDT) {
-        dao.updateAllEndDT(useridx, endDT);
-    }
-
-    @Override
-    public boolean checkReportExists(String userid, String reason, int comment_idx) {
-        return dao.existsReport(userid, reason, comment_idx);
-    }
-
-    @Override
-    public void updateReport(int idx, String userid, String reason, LocalDateTime stopDT, LocalDateTime handleDT, int handleState, int comment_idx) {
-        dao.updateReport(idx, userid, reason, stopDT, handleDT, handleState, comment_idx);
-    }
 }

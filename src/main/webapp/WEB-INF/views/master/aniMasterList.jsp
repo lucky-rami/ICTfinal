@@ -4,7 +4,6 @@
 <title>DashBoard - 애니리스트</title>
 <link href="/css/masterStyle.css" rel="stylesheet" type="text/css"></link>
 <script src="/js/Master.js"></script>
-<script src="/js/MasterPage.js"></script>
  <div class="anime-list-container">
          <h2>애니 목록</h2>
 
@@ -41,11 +40,11 @@
              <thead>
                  <tr>
                      <th style="width:2%"><input type="checkbox" name="selectAll" id="selectAll"/></th>
-                     <th style="width:8%" class="sortable" onclick="sortTable1(1)">애니번호</th>
-                     <th style="width:8%" class="sortable" onclick="sortTable1(2)">카테고리</th>
+                     <th style="width:6%" class="sortable" onclick="sortTable1(1)">애니번호</th>
+                     <th style="width:6%" class="sortable" onclick="sortTable1(2)">카테고리</th>
                      <th style="width:35%" class="sortable" onclick="sortTable1(3)">작품명</th>
-                     <th style="width:10%" class="sortable" onclick="sortTable1(4)">감독</th>
-                     <th style="width:8%" class="sortable" onclick="sortTable1(5)">등급</th>
+                     <th style="width:9%" class="sortable" onclick="sortTable1(4)">감독</th>
+                     <th style="width:6%" class="sortable" onclick="sortTable1(5)">등급</th>
                      <th style="width:15%">관리<a href="/master/aniAddMaster" class="btn btn-outline-success btn-sm">추가</a></th>
                  </tr>
              </thead>

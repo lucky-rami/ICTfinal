@@ -63,7 +63,7 @@ public interface MasterDAO {
     List<MasterVO> getReportinguserList(MasterVO vo);
 
     // 신고 내역을 t_report 테이블에 삽입
-    void updateReport(int idx, String userid, String reason, LocalDateTime stopDT, LocalDateTime handleDT, int handleState, int comment_idx);
+    void updateReport(int idx, String userid, String reason, LocalDateTime reportDT, LocalDateTime handleDT, int handleState, int comment_idx);
 
     // 모든 리뷰 불러오기
     List<MasterVO> getReplyList(MasterVO vo);
@@ -231,14 +231,4 @@ public interface MasterDAO {
     int getTotalSalesDetailListCount(@Param("orderDate") String orderDate);
 
     void updateEndDT(String userid, LocalDateTime endDT);
-
-    // 전체 FAQ 개수 조회
-    int getTotalFAQCount();
-
-    // 특정 범위의 FAQ 목록 조회
-    List<MasterVO> getFAQListByPage(int startRecord, int pageSize);
-    int getTotalEventCount(); // 전체 이벤트 개수 조회
-    List<MasterVO> getEventListByPage(int startRecord, int pageSize);
-    boolean existsReport(String userid, String reason, int comment_idx);
-    void updateAllEndDT(Integer useridx, LocalDateTime endDT);
 }

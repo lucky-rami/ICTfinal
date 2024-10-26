@@ -76,63 +76,19 @@
     </div>
 </div>
 
-<!-- 페이지네이션 -->
-        <nav>
-            <ul class="pagination justify-content-center">
-                <c:set var="pageGroupSize" value="5" />
-                <c:set var="totalPages" value="${totalPages}" />
-                <c:set var="startPage" value="${((currentPage - 1) / pageGroupSize) * pageGroupSize + 1}" />
-                <c:set var="endPage" value="${startPage + pageGroupSize - 1}" />
-
-                <!-- endPage가 totalPages보다 크면 totalPages로 설정 -->
-                <c:if test="${endPage > totalPages}">
-                    <c:set var="endPage" value="${totalPages}" />
-                </c:if>
-
-                <!-- 첫 번째 페이지로 이동 -->
-                <c:if test="${startPage > 1}">
-                    <li class="page-item">
-                        <a class="page-link" href="/master/EventMasterList?currentPage=1&pageSize=${pageSize}">
-                            &laquo;&laquo;
-                        </a>
-                    </li>
-                </c:if>
-
-                <!-- 이전 그룹으로 이동 -->
-                <c:if test="${startPage > 1}">
-                    <li class="page-item">
-                        <a class="page-link" href="/master/EventMasterList?currentPage=${startPage - 1}&pageSize=${pageSize}">
-                            &lsaquo;
-                        </a>
-                    </li>
-                </c:if>
-
-                <!-- 페이지 번호 -->
-                   <c:if test="${not empty currentPage}">
-                                   <!-- 페이지 번호 -->
-                                   <c:forEach var="i" begin="${startPage}" end="${endPage}">
-                                       <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                           <a class="page-link" href="/master/EventMasterList?currentPage=${i}&pageSize=${pageSize}">${i}</a>
-                                       </li>
-                                   </c:forEach>
-                               </c:if>
-
-                <!-- 다음 그룹으로 이동 -->
-               <c:if test="${endPage < totalPages}">
-                   <li class="page-item">
-                       <a class="page-link" href="/master/EventMasterList?currentPage=${endPage + 1}&pageSize=${pageSize}">
-                           &rsaquo;
-                       </a>
-                   </li>
-               </c:if>
-
-                <!-- 마지막 페이지로 이동 -->
-                <c:if test="${endPage < totalPages}">
-                    <li class="page-item">
-                        <a class="page-link" href="/master/EventMasterList?currentPage=${totalPages}&pageSize=${pageSize}">
-                            &raquo;&raquo;
-                        </a>
-                    </li>
-                </c:if>
-            </ul>
-        </nav>
+<!-- 페이징 영역 -->
+<div class="EventPageing">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">이전</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">다음</a>
+            </li>
+        </ul>
+    </nav>
+</div>

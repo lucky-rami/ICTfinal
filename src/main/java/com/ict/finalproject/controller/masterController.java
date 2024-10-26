@@ -307,7 +307,7 @@ public class masterController {
 
     private String uploadFileToExternalServer(MultipartFile file) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
-        String imageServerUrl = "http://192.168.1.180:8000/upload"; // 이미지 서버의 파일 업로드 엔드포인트
+        String imageServerUrl = "http://192.168.1.92:8000/upload"; // 이미지 서버의 파일 업로드 엔드포인트
 
         // 파일을 MultiValueMap으로 준비
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -472,9 +472,8 @@ public class masterController {
 
         // 각 유저별로 개별 신고 횟수를 계산
         for (MasterVO user : reportingUser) {
-            int totalUserReport = masterService.getTotalUserReport(user.getUserid());
+            int totalUserReport = masterService.getTotalUserReport(user.getUserid()); // user.getUseridx() 대신 userid 사용
             user.setTotalUserReport(totalUserReport);
-            System.out.println("User ID: " + user.getUserid() + ", Report Type: " + user.getReport_type());
         }
 
         // 전체 신고 누적 횟수 계산
@@ -793,17 +792,15 @@ public class masterController {
     // Dashboard - 기타관리 - 문의사항 리스트
     @GetMapping("/QNAMasterList")
     public ModelAndView QNAMasterList(
-            @RequestParam(value = "currentPage", defaultValue = "1") double currentPage, // Double로 변경
+            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-
-        int currentPageInt = (int) currentPage; // double을 int로 변환
 
         // 전체 QNA 개수 조회
         int totalRecords = masterService.getTotalQnaCount();
 
         // 페이징 계산
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-        int startRecord = (currentPageInt - 1) * pageSize;
+        int startRecord = (currentPage - 1) * pageSize;
 
         // 페이징된 QNA 목록 조회
         List<MasterVO> qnaList = masterService.getQNAListByPage(startRecord, pageSize);
@@ -812,16 +809,15 @@ public class masterController {
         int unanswerCount = masterService.getUnansweredQnaCount();
 
         // ModelAndView 설정
-        ModelAndView mav = new ModelAndView();
+        mav = new ModelAndView();
         mav.addObject("qnaList", qnaList);
         mav.addObject("unanswerCount", unanswerCount);
-        mav.addObject("currentPage", currentPageInt); // int로 설정
+        mav.addObject("currentPage", currentPage);
         mav.addObject("pageSize", pageSize);
         mav.addObject("totalPages", totalPages);
         mav.setViewName("master/QNAMasterList");
         return mav;
     }
-
 
     // 답변 내용 확인하기
     @GetMapping("/getQnaReply/{idx}")
@@ -876,36 +872,15 @@ public class masterController {
 
     // Dashboard - 기타관리 - 자주묻는질문
     @GetMapping("/FAQMasterList")
-    public ModelAndView FAQMasterList(
-            @RequestParam(value = "currentPage", defaultValue = "1") String currentPageStr,
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-
-        int currentPage;
-        try {
-            currentPage = (int) Math.floor(Double.parseDouble(currentPageStr));
-        } catch (NumberFormatException e) {
-            currentPage = 1; // Default to 1 if parsing fails
-        }
-
-        // 전체 FAQ 개수 조회
-        int totalRecords = masterService.getTotalFAQCount();
-
-        // 페이징 계산
-        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-        int startRecord = (currentPage - 1) * pageSize;
-
-        // 페이징된 FAQ 목록 조회
-        List<MasterVO> faqList = masterService.getFAQListByPage(startRecord, pageSize);
-
-        ModelAndView mav = new ModelAndView();
+    public ModelAndView FAQMasterList() {
+        // 자주묻는 질문 목록 불러오기
+        System.out.println("자주묻는질문 목록 불러오기");
+        List<MasterVO> faqList = masterService.getFAQList();
+        mav = new ModelAndView();
         mav.addObject("faqList", faqList);
-        mav.addObject("currentPage", currentPage);
-        mav.addObject("totalPages", totalPages);
-        mav.addObject("pageSize", pageSize);
         mav.setViewName("master/FAQMasterList");
         return mav;
     }
-
 
     // Dashboard - 기타관리 - 자주묻는질문 - 작성
     @GetMapping("/FAQAddMaster")
@@ -1028,32 +1003,10 @@ public class masterController {
 
     // Dashboard - 기타관리 - 이벤트
     @GetMapping("/EventMasterList")
-    public ModelAndView EventMasterList(
-            @RequestParam(value = "currentPage", defaultValue = "1") String currentPageStr,
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-
-        int currentPage;
-        try {
-            currentPage = (int) Math.floor(Double.parseDouble(currentPageStr));
-        } catch (NumberFormatException e) {
-            currentPage = 1; // Default to 1 if parsing fails
-        }
-
-        // 전체 이벤트 개수 조회
-        int totalRecords = masterService.getTotalEventCount();
-
-        // 페이징 계산
-        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-        int startRecord = (currentPage - 1) * pageSize;
-
-        // 페이징된 이벤트 목록 조회
-        List<MasterVO> eventList = masterService.getEventListByPage(startRecord, pageSize);
-
-        ModelAndView mav = new ModelAndView();
+    public ModelAndView EventMasterList() {
+        List<MasterVO> eventList = masterService.getEventList();
+        mav = new ModelAndView();
         mav.addObject("eventList", eventList);
-        mav.addObject("currentPage", currentPage);
-        mav.addObject("totalPages", totalPages);
-        mav.addObject("pageSize", pageSize);
         mav.setViewName("master/EventMasterList");
         return mav;
     }
@@ -1473,35 +1426,55 @@ public class masterController {
 
 
     @PostMapping("/reportinguserOK")
-    public String reportinguserOK(@RequestParam("useridx") Integer useridx,
+    public String reportinguserOK(@RequestParam("userid") String userid,
                                   @RequestParam("reason") String reason,
-                                  @RequestParam("handleDT") String handleDT,
-                                  @RequestParam("endDT") String endDT,
-                                  @RequestParam("handleState") int handleState,
-                                  @RequestParam("idx") int idx,
-                                  @RequestParam("comment_idx") int comment_idx,
+                                  @RequestParam("handleDT") String handleDT,  // 처리 날짜
+                                  @RequestParam("endDT") String endDT,        // 제재 종료 날짜
+                                  @RequestParam("handleState") int handleState, // 처리 상태 코드
+                                  @RequestParam("idx") int idx,               // 신고 ID
+                                  @RequestParam("comment_idx") int comment_idx, // 댓글 ID
                                   HttpServletRequest request) {
+        System.out.println("Received idx: " + idx);  // 신고 ID 확인
+        System.out.println("Received userid: " + userid);
+        System.out.println("Received comment_idx: " + comment_idx);  // 댓글 ID 확인
 
-        LocalDateTime stopDT = LocalDateTime.now();
-        LocalDateTime parsedHandleDT = LocalDate.parse(handleDT).atStartOfDay();
-        LocalDateTime parsedEndDT = LocalDate.parse(endDT).atStartOfDay();
+        LocalDateTime stopDT = LocalDateTime.now();  // 신고 시작 시간
 
-        // 사용자 존재 확인
-        Integer useridx = masterService.findUserIdxByUserid(useridx);
+        // handleDT 및 endDT를 LocalDateTime으로 변환
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime parsedHandleDT = LocalDate.parse(handleDT, formatter).atStartOfDay();
+        LocalDateTime parsedEndDT = LocalDate.parse(endDT, formatter).atStartOfDay();
+
+        // 헤더에서 Authorization 토큰 추출
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new RuntimeException("토큰이 없습니다.");
+        }
+
+        Integer useridx = masterService.findUserIdxByUserid(userid);
         if (useridx == null) {
             throw new RuntimeException("유효하지 않은 사용자입니다.");
         }
 
-        // 새 신고 추가
-        masterService.addReport(useridx, reason, stopDT, parsedEndDT, comment_idx);
+        String token = authorizationHeader.substring(7);  // "Bearer " 부분을 제거한 JWT 토큰
+        Claims claims;
+        try {
+            claims = jwtUtil.getClaims(token);  // JWT 파싱하여 Claims 객체로 변환
+        } catch (Exception e) {
+            throw new RuntimeException("유효하지 않은 토큰입니다.");
+        }
 
-        // 모든 유형의 endDT 업데이트 (마지막 신고의 endDT로)
-        masterService.updateAllEndDT(useridx, parsedEndDT);
+        // 사용자 정지 여부 확인
+        boolean isBanned = masterService.checkUserBanStatus(userid);
+        if (isBanned) {
+            return "redirect:/master/reportinguserListMaster";  // 이미 정지된 사용자는 처리할 필요 없음
+        }
+
+        // 서비스에 신고 내역 추가 요청
+        masterService.updateReportAndBan(idx, userid, reason, stopDT, parsedHandleDT, parsedEndDT, handleState, comment_idx);
 
         return "redirect:/master/reportinguserListMaster";  // 신고 목록 페이지로 리다이렉트
     }
-
-
 
 
     // 이벤트 페이지 글 쓰기

@@ -115,12 +115,5 @@ public interface MasterService {
     int getTotalSalesListCount(String startDate, String endDate);
     List<CurrentOrderDataDTO> getSalesDetailList(int page, int pageSize, String orderDate);
     int getTotalSalesDetailListCount(String orderDate);
-    // 전체 FAQ 개수 조회
-    int getTotalFAQCount();
 
-    // 특정 범위의 FAQ 목록 조회
-    List<MasterVO> getFAQListByPage(int startRecord, int pageSize);
-    int getTotalEventCount(); // 전체 이벤트 개수 조회
-    List<MasterVO> getEventListByPage(int startRecord, int pageSize);
-    void updateAllEndDT(Integer useridx, LocalDateTime endDT);
 }
