@@ -95,8 +95,8 @@ function loadNoticeTitlesAndDates() {
                 const noticeItem = document.createElement('div');
                 noticeItem.className = 'notice-item';
                 noticeItem.innerHTML = `
-                    <p>제목: ${notice.title}</p>
-                    <p>등록일: ${notice.regDT}</p>
+                    <p>${notice.title}</p>
+                    <p>${notice.regDT}</p>
                 `;
                 noticeListElement.appendChild(noticeItem);
             });

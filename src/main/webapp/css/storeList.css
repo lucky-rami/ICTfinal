@@ -52,25 +52,34 @@
     margin-bottom: 10px;
 }
 
+.filter-list{
+    display: flex;
+    flex-wrap: wrap; /* 항목들이 가로로 배치되고 넘치면 줄 바꿈 */
+    gap: 10px; /* 항목 간 간격을 설정 */
+    padding: 10px; /* 컨테이너의 내부 여백 */
+}
+
 .filter-item {
     align-items: center;
     text-align: center; /* 텍스트를 가운데 정렬 */
-    padding: 10px 15px;
+    padding: 10px;
     border-radius: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     display: inline-block; /* 필터 아이템이 가로로 배치되도록 설정 */
     display:none;
+    width: fit-content; /* 텍스트 길이에 맞춰 너비 조정 */
+    white-space: wrap; /* 텍스트가 길어도 한 줄로 유지 */
 }
 .filter-item.active {
-    background-color: #dcdcdc; /* 클릭 시 배경색 변경 */
-    border-color: #333; /* 클릭 시 경계선 색상 변경 */
-    color: #000; /* 클릭 시 텍스트 색상 변경 */
+      background-color: #ccc; /* 클릭된 상태의 배경색 */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 클릭된 상태의 그림자 효과 */
+      transform: scale(1.05); /* 살짝 확대 */
 }
 
 .filter-item:hover {
-    transform: translateX(10px);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transform: scale(0.95); /* 마우스를 올렸을 때 약간 커짐 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* hover 시 그림자 효과 추가 */
 }
 
 

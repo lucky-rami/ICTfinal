@@ -195,26 +195,20 @@ a {
     margin: 0 auto;
     cursor: pointer;
 }
-.icon {
-    font-size: 24px;
-    margin-right: 10px;
-}
+
 .notice-item {
     display: flex;
     justify-content: space-between;  /* 제목과 등록일을 양쪽으로 배치 */
     padding: 10px 0;                 /* 상하 여백 */
 }
 
-.notice-title {
-    font-weight: bold;
-    color: #333;
+.notification p{
+    font-size: 1.1em;
+    font-weight : bolder;
+    margin-right: 60px;
+    margin-left: 40px;
 }
 
-.notice-date {
-    color: #777;  /* 등록일 색상 조정 */
-    font-size: 14px;
-    text-align: right;
-}
 
 
 .pagination {

@@ -52,7 +52,7 @@
 
         <!--Notification-->
         <section>
-            <div class="notification">
+            <div class="notification" onclick="goToNoticePage()">
                 <div id="noticeList">
 
                     <!-- 제목과 등록일자가 여기에 표시됩니다 -->
