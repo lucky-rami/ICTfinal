@@ -52,7 +52,7 @@
     </div>
 </section>
 
-
+    <!-- 공지사항 모달 -->
     <div class="detail_layer_pop" style="display:none;">
         <div class="detail_view">
             <div class="detail_layer_close" style="cursor:pointer;">
@@ -289,12 +289,18 @@
                     </div>
                 </div>
 
-                <div class="content" id="tap4">
-                    <div class="terms-container">
-                        <h2>서비스 이용약관</h2>
-                        <img src="/img/notice/notice_tap4.png">
+                <div class="content-terms-container" id="tap4">
+                    <h2 class="tap4SelectTag">
+                        <a class="tab-link active" data-content="terms" style="cursor:pointer">이용약관</a>
+                        <a class="tab-link" data-content="privacy" style="cursor:pointer">개인정보 처리방침</a>
+                    </h2>
+
+                    <h2 id="termsTitle">서비스 이용약관</h2>
+                    <div class="terms-content" id="termsContent">
+                    <img src="/img/notice/tap4_1.png" alt="이용약관 이미지">
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -641,6 +647,32 @@ function checkLoginStatus() {
         return false;  // 기본 폼 제출 방지
     }
 
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabs = document.querySelectorAll(".tab-link");
+        const termsTitle = document.getElementById("termsTitle");
+        const termsContent = document.getElementById("termsContent");
+
+        tabs.forEach(tab => {
+            tab.addEventListener("click", function () {
+                // 모든 탭에서 active 클래스 제거
+                tabs.forEach(t => t.classList.remove("active"));
+
+                // 선택한 탭에 active 클래스 추가
+                tab.classList.add("active");
+
+                // 선택한 탭에 따라 제목과 콘텐츠 변경
+                const contentType = tab.getAttribute("data-content");
+                if (contentType === "terms") {
+                    termsTitle.textContent = "서비스 이용약관";
+                    termsContent.innerHTML = '<img src="/img/notice/tap4_1.png" alt="이용약관 이미지">';
+                } else if (contentType === "privacy") {
+                    termsTitle.textContent = "개인정보 처리방침";
+                    termsContent.innerHTML = '<img src="/img/notice/tap4_2.png" alt="개인정보 처리방침 이미지">';
+                }
+            });
+        });
+    });
 
 
 

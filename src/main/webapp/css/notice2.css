@@ -60,9 +60,9 @@ a:hover {
 
 .detil_new .titarea .tit {
     font-size: 24px;
-        font-weight: bold;
-        color: #ffffff;
-        margin-bottom: 10px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
 
 }
 
@@ -486,12 +486,22 @@ img {
 }
 
 
+/*이용약관 및 개인정보취급방침*/
+.tap4SelectTag{
+    text-align: center;
+}
+
+.tap4SelectTag a{
+    color: #999999;
+    text-decoration: none;
+    font-size: 16px;
+    padding-bottom: 24px;
+}
 
 
 /* 서비스 약관 컨테이너 */
 .terms-container {
     margin: 50px auto;
-    width: 80%;
     max-width: 1400px;
     color: #d9d9d9;
     padding: 95px 70px 100px;
@@ -500,30 +510,29 @@ img {
 }
 
 /* 서비스 약관 제목 */
-.terms-container h2 {
-    text-align: center;
+.content-terms-container h2 {
+    margin-top:50px;
+    padding-bottom: 24px;
     font-size: 24px;
-    color: #d9d9d9;
-    margin-bottom: 30px;
+    color: #fff;
+    font-weight: 700;
+    line-height: 25px;
 }
 
 /* 서비스 약관 내용 */
-/*.terms-content {
-    line-height: 1.8;
-    font-size: 16px;
-    background: #333;
-    padding: 30px;
-    border-radius: 5px;
-    border: 1px solid #444;
-}*/
-
-.terms-content p {
-    margin: 20px 0;
+.terms-content {
+    background: #0c0c0c;
+    border-top: 1px solid #333;
+    padding: 42px;
+    height: 312px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    font-size: 12px;
+    line-height: 18px;
+    color: #b2b2b2;
+    overflow-y: scroll;
 }
 
-.terms-content strong {
-    color: #ffffff;
-}
 
 
 /*페이징 부분*/
@@ -642,17 +651,17 @@ img {
         }
 
         .search-tags a {
-                margin: 0 3px 0 0;
-                font-size: 14px !important;
-                width: auto;
-                height: 38px;
-                line-height: 38px;
-                padding: 0 13px;
-                border-radius: 6px;
-                color: #666 !important;
-                background: rgb(48, 48, 48);
-                background: linear-gradient(90deg, rgba(48, 48, 48, 1) 0%, rgba(38, 38, 38, 1) 70%, rgba(28, 28, 28, 1) 100%);
-            }
+            margin: 0 3px 0 0;
+            font-size: 14px !important;
+            width: auto;
+            height: 38px;
+            line-height: 38px;
+            padding: 0 13px;
+            border-radius: 6px;
+            color: #666 !important;
+            background: rgb(48, 48, 48);
+            background: linear-gradient(90deg, rgba(48, 48, 48, 1) 0%, rgba(38, 38, 38, 1) 70%, rgba(28, 28, 28, 1) 100%);
+        }
 
 }
 

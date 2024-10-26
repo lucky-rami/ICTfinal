@@ -225,6 +225,8 @@ public class communityController {
         return new ResponseEntity<>(bodyTag, headers, HttpStatus.OK);
     }
 
+    
+    //게시글 또는 댓글 신고
     @PostMapping("/submitReport")
     public ResponseEntity<String> submitReport(@RequestBody ReportDTO reportDTO) {
 

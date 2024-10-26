@@ -123,6 +123,9 @@ body {
     padding:0;
 }
 
+.emergency_icon:hover{
+    filter: brightness(0) saturate(100%) invert(55%) sepia(32%) saturate(4308%) hue-rotate(327deg) brightness(93%) contrast(117%);
+}
 
 .cmContent {
     height:auto;
