@@ -3,6 +3,8 @@
 <%@include file="/WEB-INF/inc/Masterheader.jspf" %>
 <title>DashBoard - 이벤트</title>
 <link href="/css/masterStyle.css" rel="stylesheet" type="text/css"></link>
+
+
 <style>
 /* 모달 본문의 최대 높이 설정 및 스크롤 활성화 */
 .modal-body {
@@ -21,6 +23,7 @@
 }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script src="/js/Master.js"></script>
 <div class="Event-list-container">
     <h2>이벤트 리스트</h2>
