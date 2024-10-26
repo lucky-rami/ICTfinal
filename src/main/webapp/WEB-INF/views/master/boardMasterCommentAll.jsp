@@ -65,23 +65,23 @@
                     </li>
                 </c:if>
 
-                <!-- 페이지 번호 -->
-                <c:forEach var="i" begin="${startPage}" end="${endPage}">
-                    <li class="page-item ${i == currentPage ? 'active' : ''}">
-                        <a class="page-link" href="/master/boardMasterCommentAll?currentPage=${i}&pageSize=${pageSize}">
-                            ${i}
-                        </a>
-                    </li>
-                </c:forEach>
+               <c:if test="${not empty currentPage}">
+                                                  <!-- 페이지 번호 -->
+                                                  <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                                                      <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                          <a class="page-link" href="/master/boardMasterCommentAll?currentPage=${i}&pageSize=${pageSize}">${i}</a>
+                                                      </li>
+                                                  </c:forEach>
+                                              </c:if>
 
-                <!-- 다음 그룹으로 이동 -->
-                <c:if test="${endPage < totalPages}">
-                    <li class="page-item">
-                        <a class="page-link" href="/master/boardMasterCommentAll?currentPage=${endPage + 1}&pageSize=${pageSize}">
-                            &rsaquo;
-                        </a>
-                    </li>
-                </c:if>
+                               <!-- 다음 그룹으로 이동 -->
+                              <c:if test="${endPage < totalPages}">
+                                  <li class="page-item">
+                                      <a class="page-link" href="/master/boardMasterCommentAll?currentPage=${endPage + 1}&pageSize=${pageSize}">
+                                          &rsaquo;
+                                      </a>
+                                  </li>
+                              </c:if>
 
                 <!-- 마지막 페이지로 이동 -->
                 <c:if test="${endPage < totalPages}">

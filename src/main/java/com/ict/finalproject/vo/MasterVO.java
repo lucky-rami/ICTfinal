@@ -79,7 +79,7 @@ public class MasterVO {
     // 관리자페이지에서 사용하는 신고 기능 사용하는것들
     private int comment_idx;
     private int review_idx;
-    private int report_type;
+    private Integer report_type;
     private String reportDT;
     private String handleState;
     private String handleDT;
@@ -87,6 +87,7 @@ public class MasterVO {
     private int totalUserReport;
     private String reportedUser;
     private int commentIdx;
+    private Integer report_count;
 
     // 관리자페이지에서 사용하는 리뷰 기능 사용하는 것들
     private int grade;

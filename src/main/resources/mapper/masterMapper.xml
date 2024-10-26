@@ -106,10 +106,12 @@
         VALUES (#{useridx}, #{reason}, #{stopDT}, #{endDT}, #{comment_idx})
     </insert>
 
-    <insert id="addReport">
-        INSERT INTO t_ban (useridx, reason, stopDT, endDT, comment_idx)
-        VALUES (#{useridx}, #{reason}, #{stopDT}, #{endDT}, #{comment_idx})
-    </insert>
+    <!-- 같은 useridx에 대한 모든 endDT 업데이트 -->
+    <update id="updateAllEndDT">
+        UPDATE t_ban
+        SET endDT = #{endDT}
+        WHERE useridx = #{useridx}
+    </update>
 
     <!-- 신고 기능 목록 보여주기 -->
     <select id="getReportinguserList" resultType="MasterVO">
@@ -184,11 +186,10 @@
     <!-- 신고 테이블에서 신고가 완료 되었을 때 처리 상태 및 처리날짜 업데이트  -->
     <update id="updateReport">
         UPDATE t_report
-        SET handleState = #{handleState}, handleDT = #{handleDT}
+        SET handleState = #{handleState},
+        handleDT = #{handleDT}
         WHERE idx = #{idx}
-        <if test="handleState != null">
-            AND handleState != #{handleState}
-        </if>
+        AND handleState != 2
     </update>
 
     <select id="findAdminIdxByUserid" resultType="int" parameterType="string">
@@ -212,19 +213,20 @@
     </select>
 
     <!-- 신고 목록 보여주기 -->
-    <select id="getReportingUser">
+    <select id="getReportingUser" resultType="MasterVO">
         SELECT
         b.useridx AS bannedUserIdx,
         u.userid AS bannedUserId,
-        COUNT(*) AS report_count,  -- 신고 횟수
-        MAX(b.endDT) AS endDT,  -- 가장 최신의 endDT
-        MAX(r.report_type) AS report_type,
+        COUNT(r.idx) AS report_count,  -- 신고 횟수
+        MAX(b.endDT) AS endDT,         -- 가장 최신의 endDT
         DATE_FORMAT(b.stopDT, '%Y-%m-%d') AS stopDT,
-        b.reason
+        b.reason,
+        r.report_type                 -- 최신 report_type
         FROM t_ban b
         LEFT JOIN t_report r ON b.useridx = r.useridx
+        AND r.reportDT = (SELECT MAX(reportDT) FROM t_report WHERE useridx = b.useridx)  -- 최신 신고 유형 조회
         LEFT JOIN t_user u ON b.useridx = u.idx
-        GROUP BY b.useridx, u.userid
+        GROUP BY b.useridx, u.userid, r.report_type
         ORDER BY b.endDT DESC
     </select>
 
@@ -438,12 +440,19 @@
 
     <!-- 페이징을 적용한 신고된 유저 목록 조회 -->
     <select id="getReportingUserWithPaging" parameterType="map" resultType="MasterVO">
-        SELECT b.useridx, u.userid, r.report_type, b.stopDT, b.endDT, b.reason
+        SELECT
+        b.useridx AS useridx,
+        u.userid AS userid,
+        COUNT(DISTINCT r.idx) AS report_count,  -- 각 유저별 신고 횟수
+        MAX(b.endDT) AS endDT,                   -- 가장 최신의 endDT
+        DATE_FORMAT(MAX(b.stopDT), '%Y-%m-%d') AS stopDT,  -- 가장 최신의 stopDT
+        b.reason,
+        MAX(r.report_type) AS report_type        -- 가장 최신의 신고 유형
         FROM t_ban b
-        LEFT JOIN t_user u ON b.useridx = u.idx
         LEFT JOIN t_report r ON b.useridx = r.useridx
-        GROUP BY b.useridx, u.userid, r.report_type, b.stopDT, b.endDT, b.reason
-        ORDER BY b.useridx
+        LEFT JOIN t_user u ON b.useridx = u.idx
+        GROUP BY b.useridx, u.userid, b.reason
+        ORDER BY MAX(b.endDT) DESC
         LIMIT #{offset}, #{pageSize}
     </select>
 
@@ -511,6 +520,31 @@
     <delete id="deleteReport" parameterType="int">
         DELETE FROM t_report WHERE idx = #{idx}
     </delete>
+
+    <!-- 전체 FAQ 개수 조회 쿼리 -->
+    <select id="getTotalFAQCount" resultType="int">
+        SELECT COUNT(*) FROM t_faq
+    </select>
+
+
+    <!-- 전체 이벤트 개수 조회 -->
+    <select id="getTotalEventCount" resultType="int">
+        SELECT COUNT(*) FROM t_event; <!-- Adjust the table name as needed -->
+    </select>
+
+    <!-- 페이징된 이벤트 목록 조회 -->
+    <select id="getEventListByPage" parameterType="map" resultType="MasterVO">
+        SELECT * FROM t_event
+        LIMIT #{startRecord}, #{pageSize}; <!-- Adjust the table name as needed -->
+    </select>
+
+    <!-- 특정 범위의 FAQ 목록 조회 쿼리 -->
+    <select id="getFAQListByPage" parameterType="map" resultType="MasterVO">
+        SELECT *
+        FROM t_faq
+        ORDER BY regDT DESC
+        LIMIT #{startRecord}, #{pageSize}
+    </select>
 
     <select id="getCategoryCodeCountByani" resultType="map" parameterType="int">
         SELECT

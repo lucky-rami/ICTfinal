@@ -97,8 +97,8 @@
         <!-- 리뷰 상세 정보가 들어갈 영역 -->
         <div id="reviewDetail">
             <p><strong>OrderList_idx:</strong> <span id="orderListIdx"></span></p>
-            <p><strong>Image File 1:</strong> <img id="imgFile1" src="http://192.168.1.92:8000/${reply.imgFile1}" alt="Image 1" style="width: 100px;" /></p>
-            <p><strong>Image File 2:</strong> <img id="imgFile2" src="http://192.168.1.92:8000/${reply.imgFile2}" alt="Image 2" style="width: 100px;" /></p>
+            <p><strong>Image File 1:</strong> <img id="imgFile1" src="http://192.168.1.180:8000/${reply.imgFile1}" alt="Image 1" style="width: 100px;" /></p>
+            <p><strong>Image File 2:</strong> <img id="imgFile2" src="http://192.168.1.180:8000/${reply.imgFile2}" alt="Image 2" style="width: 100px;" /></p>
         </div>
       </div>
       <div class="modal-footer">

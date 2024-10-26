@@ -124,7 +124,17 @@ public class MasterServiceImpl implements MasterService {
 
     @Override
     public void updateReportAndBan(int idx,Integer useridx, String reason, LocalDateTime stopDT, LocalDateTime handleDT, LocalDateTime endDT, int handleState, int comment_idx) {
-        dao.updateReport(idx,useridx, reason, LocalDateTime.now(),handleDT, handleState, comment_idx);
+        if (handleState == 2) {
+            return;
+        }
+
+        // 특정 idx에 대한 handleState와 handleDT 업데이트
+        dao.updateReport(idx, handleState, handleDT);
+
+        // 같은 useridx에 대한 모든 endDT 업데이트
+        dao.updateAllEndDT(useridx, endDT);
+
+        // t_ban에 새로운 제재 추가
         dao.insertReport(useridx, reason, stopDT, endDT, comment_idx);
     }
 
@@ -541,5 +551,40 @@ public class MasterServiceImpl implements MasterService {
     @Override
     public int getTotalSalesDetailListCount(String orderDate) {
         return dao.getTotalSalesDetailListCount(orderDate);
+    }
+
+    @Override
+    public void updateAllEndDT(int useridx, LocalDateTime endDT) {
+        dao.updateAllEndDT(useridx, endDT);
+    }
+
+    @Override
+    public void insertReport(int useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, int comment_idx) {
+        dao.insertReport(useridx,reason,stopDT,endDT,comment_idx);
+    }
+
+    @Override
+    public void updateReport(int idx, int handleState, LocalDateTime handleDT) {
+        dao.updateReport(idx, handleState, handleDT);
+    }
+
+    @Override
+    public int getTotalFAQCount() {
+        return dao.getTotalFAQCount();
+    }
+
+    @Override
+    public List<MasterVO> getFAQListByPage(int startRecord, int pageSize) {
+        return dao.getFAQListByPage(startRecord, pageSize);
+    }
+
+    @Override
+    public int getTotalEventCount() {
+        return dao.getTotalEventCount();
+    }
+
+    @Override
+    public List<MasterVO> getEventListByPage(int startRecord, int pageSize) {
+        return dao.getEventListByPage(startRecord, pageSize);
     }
 }

@@ -116,5 +116,14 @@ public interface MasterService {
     int getTotalSalesListCount(String startDate, String endDate);
     List<CurrentOrderDataDTO> getSalesDetailList(int page, int pageSize, String orderDate);
     int getTotalSalesDetailListCount(String orderDate);
+    void updateAllEndDT(int useridx, LocalDateTime endDT);
+    void insertReport(int useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, int comment_idx);
+    void updateReport(int idx, int handleState, LocalDateTime handleDT);
+    // 전체 FAQ 개수 조회
+    int getTotalFAQCount();
 
+    // 특정 범위의 FAQ 목록 조회
+    List<MasterVO> getFAQListByPage(int startRecord, int pageSize);
+    int getTotalEventCount(); // 전체 이벤트 개수 조회
+    List<MasterVO> getEventListByPage(int startRecord, int pageSize);
 }
