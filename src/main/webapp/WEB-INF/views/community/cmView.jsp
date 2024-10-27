@@ -391,19 +391,28 @@ function showTab(commtype) {
                           comm += '<span class="comment-meta">' + comment.regDT + '</span>';
 
                           // 댓글의 depth가 2 이상이면 답글 쓰기 비활성화 (자식 댓글은 depth가 2이므로)
+                          // 답글 쓰기 버튼
                           if (comment.depth < 2) {// depth가 2 미만일 경우에만 답글 허용
                               comm += '<span class="reply-btn" onclick="toggleReplyInput(' + comment.idx + ')">답글쓰기</span>';
+                           }
+
+                          // 수정/삭제 버튼
+                          if (parseInt(comment.useridx) === parseInt(useridx)) {
+                              comm += '<span class="edit-btn" onclick="editComment(' + comment.idx + ')">수정</span>';
+                              comm += '<span class="delete-btn" onclick="deleteComment(' + comment.idx + ')">삭제</span>';
+                          }
+
+                          // 댓글의 depth가 2 이상이면 답글 쓰기 비활성화 (자식 댓글은 depth가 2이므로)
+                          // 답글 쓰기 폼
+                         if (comment.depth < 2) {// depth가 2 미만일 경우에만 답글 허용
                               comm += '<div id="replyInput-' + comment.idx + '" class="reply_input" style="display:none;">' +
                                   '<input type="text" id="replyContent-' + comment.idx + '" placeholder="답글을 남겨보세요." />' +
                                   '<button onclick="regiReply(' + comment.idx + ',' + comment.comm_idx + ')">등록</button>' +
                                   '</div>';
                           }
 
-                          // 수정/삭제 버튼
+                          // 수정 폼
                           if (parseInt(comment.useridx) === parseInt(useridx)) {
-                              comm += '<span class="edit-btn" onclick="editComment(' + comment.idx + ')">수정</span>';
-                              comm += '<span class="delete-btn" onclick="deleteComment(' + comment.idx + ')">삭제</span>';
-
                               comm += '<div id="edit-form-' + comment.idx + '" class="reply_input" style="display:none;">' +
                                 '<textarea id="edit-textarea-' + comment.idx + '">' + comment.content + '</textarea>' +
                                 '<button id="test" onclick="updateComment(' + comment.idx + ',' + comment.comm_idx + ')">수정하기</button>' +
@@ -517,7 +526,7 @@ function showTab(commtype) {
 
              const editForm = document.querySelector("#edit-form-" + commentIdx);
              if (editForm) {
-                 editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
+                 editForm.style.display = editForm.style.display === 'none' ? 'flex' : 'none';
              } else {
                  console.error("수정 폼을 찾을 수 없습니다: edit-form-" + commentIdx);
              }
