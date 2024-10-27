@@ -61,7 +61,9 @@
                         <td>${reportinguser.handleDT}</td>
                         <td>
                             <!-- 신고내역추가 버튼 클릭 시 모달에 유저 ID 설정 -->
-                            <button class="btn btn-outline-success btn-sm addReportBtn" data-userid="${reportinguser.reportedUser}">신고내역추가</button>
+                            <button class="btn btn-outline-success btn-sm addReportBtn"
+                                    data-userid="${reportinguser.reportedUser}"
+                                    data-comment-idx="${reportinguser.comment_idx}">신고내역추가</button>
                             <button class="btn btn-outline-danger btn-sm deleteBtn" data-idx="${reportinguser.idx}">삭제</button>
                         </td>
                     </tr>
@@ -86,7 +88,7 @@
                                 <div class="form-group">
                                     <input type="hidden" id="userid" name="userid">
                                     <input type="hidden" id="idx" name="idx" value="">
-                                    <input type="hidden" name="comment_idx" id="comment_idx">
+                                    <input type="hidden" id="comment_idx" name="comment_idx" value="">
                                     <label for="reason">신고 사유</label>
                                     <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
                                 </div>

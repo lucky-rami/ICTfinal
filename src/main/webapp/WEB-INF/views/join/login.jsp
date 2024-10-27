@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="/css/login.css" type="text/css" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // 서버에서 전달된 값들을 JavaScript 변수로 저장
      var errorMessage = "${errorMessage}" || null;
@@ -28,6 +29,11 @@
         if (isDeleted === 'true') {
             alert("회원 탈퇴된 사용자입니다.");
         }
+
+
+
+
+
 </script>
   </head>
   <body>
@@ -92,8 +98,7 @@
           </div>
           <div class="sns_login_div">
             <div class="sns_login google">
-              <a href="#"
-                ><svg
+              <a href="/oauth2/authorization/google" onclick="socialLogin()"><svg
                   width="100%"
                   height="100%"
                   viewBox="0 0 24 24"

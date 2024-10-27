@@ -102,7 +102,6 @@ public class noticeController {
         int useridx= mservice.getUseridx(userid);
 
         String imgfile1 = null;
-        String imgfile2 = null;
         String uniqueFilename = "";
 
         try {
@@ -118,8 +117,6 @@ public class noticeController {
 
                         if (i == 0) {
                             imgfile1 = uniqueFilename;
-                        } else if (i == 1) {
-                            imgfile2 = uniqueFilename;
                         }
                     }
                 }
@@ -132,7 +129,7 @@ public class noticeController {
             qna.setQnatype(qnatype);
             qna.setUseridx(useridx);
             qna.setImgfile1(imgfile1);
-            qna.setImgfile2(imgfile2);
+
 
             // QNA 데이터 저장
             int result = noticeService.saveQna(qna);
@@ -141,12 +138,10 @@ public class noticeController {
                 return ResponseEntity.ok("1:1 문의가 성공적으로 등록되었습니다.");
             } else {
                 fileDel(imgfile1);
-                fileDel(imgfile2);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("문의 등록 실패");
             }
         } catch (Exception e) {
             fileDel(imgfile1);
-            fileDel(imgfile2);
             log.error("1:1 문의 등록 중 오류 발생", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("1:1 문의 등록 중 오류 발생");
         }
@@ -155,7 +150,7 @@ public class noticeController {
     // 이미지 서버로 파일을 전송하는 메소드
     private void uploadFileToImageServer(MultipartFile file, String uniqueFilename) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
-        String imageServerUrl = "http://192.168.1.92:8000/upload";
+        String imageServerUrl = "http://192.168.1.180:8000/upload";
 
         // 파일을 MultiValueMap으로 준비
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -193,7 +188,7 @@ public class noticeController {
     // 파일 삭제
     private void fileDel(String filename) {
         RestTemplate restTemplate = new RestTemplate();
-        String deleteUrl = "http://192.168.1.92:8000/delete/" + filename;
+        String deleteUrl = "http://192.168.1.180:8000/delete/" + filename;
 
         try {
             restTemplate.delete(deleteUrl);

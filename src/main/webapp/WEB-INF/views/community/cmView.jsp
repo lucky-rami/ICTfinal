@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@include file="/WEB-INF/inc/page_header.jspf"%>
+<%@include file="/WEB-INF/inc/page_header.jspf" %>
+
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
@@ -108,84 +110,84 @@
         </div>
 
         <!-- 신고 모달 -->
-        <div class="reportModal_body" id="reportModal" style="visibility: hidden;">
-            <div class="reportModal_background"></div>
-            <div class="reportModal_container">
-                <div class="reportModal_layer">
-                    <div class="reportModal_top">
-                        <p>작성 글 신고하기</p>
-                        <button id="closeModal"><i class="fa-solid fa-x"></i></button>
-                    </div>
-                    <div class="reportModal_bottom">
-                        <strong>신고대상 ID 및 내용</strong>
-                        <div class="report_info">
-                            <span>sing2727</span>
-                            <p>제 첫 키보드인데 굉장히 만족합니다!...</p>
-                        </div>
-                        <strong>신고사유</strong>
-                        <ul class="report_reason_ul">
-                            <li>
-                                <input type="radio" id="not_relevant_img" name="report_reason" value="1" />
-                                <label for="not_relevant_img">관련없는 이미지</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="not_relevant_content" name="report_reason" value="2" />
-                                <label for="not_relevant_content">관련없는 내용</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="abuse" name="report_reason" value="3" />
-                                <label for="abuse">욕설/비방</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="PromotionalPost" name="report_reason" value="4" />
-                                <label for="PromotionalPost">광고/홍보글</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="perPersonal_info_leak" name="report_reason" value="5" />
-                                <label for="perPersonal_info_leak">개인정보 유출</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="over_post" name="report_reason" value="6" />
-                                <label for="over_post">게시글 도배</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="adult" name="report_reason" value="7" />
-                                <label for="adult">음란/선정성</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="etc" name="report_reason" value="8" />
-                                <label for="etc">기타</label>
-                            </li>
-                        </ul>
-                        <div class="report_reason_text">
-                            <textarea placeholder="이 외 사유를 적어주세요.(100자까지 작성가능)" maxlength="100"></textarea>
-                        </div>
-                        <div class="report_reason_bottom">
-                            <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="-4 -4 38 38"
-                            id="icon_exclamation_30x30_gray"
-                            x="740"
-                            y="77"
-                            >
-                            <path
-                              fill="#888"
-                              fill-rule="evenodd"
-                              d="M15 30C6.716 30 0 23.284 0 15 0 6.716 6.716 0 15 0c8.284 0 15 6.716 15 15 0 8.284-6.716 15-15 15zm0-28.72C7.423 1.28 1.28 7.423 1.28 15c0 7.577 6.143 13.72 13.72 13.72 7.577 0 13.72-6.143 13.72-13.72 0-7.577-6.143-13.72-13.72-13.72zM14 19h2v2h-2v-2zm0-10h2v8h-2V9z"
-                            />
-                            </svg>
-                            <p>신고해주신 내용은 관리자 검토 후 내부정책에 의거 조치가 진행됩니다.</p>
-                        </div>
-                        <div class="report_btn_div">
-                            <button id="cancelReport">취소</button>
-                            <button id="submitReport">신고</button>
+                <div class="reportModal_body" id="reportModal" style="visibility: hidden;">
+                    <div class="reportModal_background"></div>
+                    <div class="reportModal_container">
+                        <div class="reportModal_layer">
+                            <div class="reportModal_top">
+                                <p>작성 글 신고하기</p>
+                                <button id="closeModal"><i class="fa-solid fa-x"></i></button>
+                            </div>
+                            <div class="reportModal_bottom">
+                                <strong>신고대상 ID 및 내용</strong>
+                                <div class="report_info">
+                                    <span>sing2727</span>
+                                    <p>제 첫 키보드인데 굉장히 만족합니다!...</p>
+                                </div>
+                                <strong>신고사유</strong>
+                                <ul class="report_reason_ul">
+                                    <li>
+                                        <input type="radio" id="not_relevant_img" name="report_reason" value="1" />
+                                        <label for="not_relevant_img">관련없는 이미지</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="not_relevant_content" name="report_reason" value="2" />
+                                        <label for="not_relevant_content">관련없는 내용</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="abuse" name="report_reason" value="3" />
+                                        <label for="abuse">욕설/비방</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="PromotionalPost" name="report_reason" value="4" />
+                                        <label for="PromotionalPost">광고/홍보글</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="perPersonal_info_leak" name="report_reason" value="5" />
+                                        <label for="perPersonal_info_leak">개인정보 유출</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="over_post" name="report_reason" value="6" />
+                                        <label for="over_post">게시글 도배</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="adult" name="report_reason" value="7" />
+                                        <label for="adult">음란/선정성</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="etc" name="report_reason" value="8" />
+                                        <label for="etc">기타</label>
+                                    </li>
+                                </ul>
+                                <div class="report_reason_text">
+                                    <textarea placeholder="이 외 사유를 적어주세요.(100자까지 작성가능)" maxlength="100"></textarea>
+                                </div>
+                                <div class="report_reason_bottom">
+                                    <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="-4 -4 38 38"
+                                    id="icon_exclamation_30x30_gray"
+                                    x="740"
+                                    y="77"
+                                    >
+                                    <path
+                                      fill="#888"
+                                      fill-rule="evenodd"
+                                      d="M15 30C6.716 30 0 23.284 0 15 0 6.716 6.716 0 15 0c8.284 0 15 6.716 15 15 0 8.284-6.716 15-15 15zm0-28.72C7.423 1.28 1.28 7.423 1.28 15c0 7.577 6.143 13.72 13.72 13.72 7.577 0 13.72-6.143 13.72-13.72 0-7.577-6.143-13.72-13.72-13.72zM14 19h2v2h-2v-2zm0-10h2v8h-2V9z"
+                                    />
+                                    </svg>
+                                    <p>신고해주신 내용은 관리자 검토 후 내부정책에 의거 조치가 진행됩니다.</p>
+                                </div>
+                                <div class="report_btn_div">
+                                    <button id="cancelReport">취소</button>
+                                    <button id="submitReport">신고</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
 
 <script>
@@ -650,7 +652,7 @@ function showTab(commtype) {
             sendReportData(reportData);
         });
 
-         // 모달 닫기 버튼 클릭 시 모달 닫기
+            // 모달 닫기 버튼 클릭 시 모달 닫기
             closeModal.addEventListener("click", function () {
                 reportModal.style.visibility = "hidden";
                 initializeReportModal(); // 모달을 닫을 때도 초기화
@@ -662,6 +664,7 @@ function showTab(commtype) {
                 initializeReportModal(); // 모달을 닫을 때도 초기화
             });
 
+
         // 신고 데이터 전송 함수
         function sendReportData(data) {
             $.ajax({
@@ -670,12 +673,23 @@ function showTab(commtype) {
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function (response) {
+                    console.log("신고 성공:", response); // 요청이 성공했을 때 로그
                     alert("신고가 접수되었습니다.");
-                    reportModal.style.display = "none";
+                    reportModal.style.visibility = "hidden";
                 },
-                error: function (error) {
-                    alert("신고 처리 중 오류가 발생했습니다.");
-                    console.error("신고 오류:", error);
+                error: function (jqXHR) {
+                    console.log("신고 오류:", jqXHR.status, jqXHR.responseText); // 오류 세부 정보 출력
+                    if (jqXHR.status === 409) {
+                        const errorMessage = jqXHR.responseText;
+                        if (errorMessage === "이미 신고된 게시물입니다.") {
+                            alert("이미 신고된 게시물입니다.");
+                        } else if (errorMessage === "이미 신고된 댓글입니다.") {
+                            alert("이미 신고된 댓글입니다.");
+                        }
+                    } else {
+                        alert("신고 처리 중 오류가 발생했습니다.");
+                        console.error("신고 오류:", jqXHR);
+                    }
                 }
             });
         }

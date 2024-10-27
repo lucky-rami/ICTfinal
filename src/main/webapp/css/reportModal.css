@@ -1,8 +1,8 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css");
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 
-body,
-html {
+.reportModal_body body,
+.reportModal_body html {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -15,23 +15,23 @@ html {
   --k-font: "Pretendard";
   --e-font: "Outfit";
 }
-ul,
-li,
-dl,
-dt,
-dd,
-p,
-span {
+.reportModal_body ul,
+.reportModal_body li,
+.reportModal_body dl,
+.reportModal_body dt,
+.reportModal_body dd,
+.reportModal_body p,
+.reportModal_body span {
   margin: 0;
   padding: 0;
 }
-a {
+.reportModal_body a {
   text-decoration: none;
 }
-li {
+.reportModal_body li {
   list-style: none;
 }
-a {
+.reportModal_body a {
   text-decoration: none;
 }
 

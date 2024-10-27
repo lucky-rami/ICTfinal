@@ -36,6 +36,8 @@ import java.util.*;
 @RequestMapping("/user")
 @Slf4j
 public class UserController {
+
+
     @Inject
     MemberService service;
     @Autowired
@@ -43,6 +45,12 @@ public class UserController {
     ModelAndView mav = null;
     @Autowired
     JWTUtil jwtUtil;
+    @Autowired
+    public UserController( MemberService service, JWTUtil jwtUtil, MasterService masterService) {
+        this.service = service;
+        this.jwtUtil = jwtUtil;
+        this.masterService = masterService;
+    }
 
     //로그인 페이지 view
     @GetMapping("/login")
@@ -88,6 +96,8 @@ public class UserController {
             return userid;
         }
     }*/
+
+    // 구글 소설 로그인
 
 
     @PostMapping("/loginOk")
@@ -652,7 +662,7 @@ public class UserController {
     // 이미지 서버로 파일을 전송하는 메소드
     private void uploadFileToImageServer(MultipartFile file, String uniqueFilename) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
-        String imageServerUrl = "http://192.168.1.180:8000/upload"; // 이미지 서버의 파일 업로드 엔드포인트
+        String imageServerUrl = "http://192.168.1.92:8000/upload"; // 이미지 서버의 파일 업로드 엔드포인트
 
         // 파일을 MultiValueMap으로 준비
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -690,7 +700,7 @@ public class UserController {
     // 파일 삭제
     public void fileDel(String filename) {
         RestTemplate restTemplate = new RestTemplate();
-        String deleteUrl = "http://192.168.1.180:8000/delete/" + filename;
+        String deleteUrl = "http://192.168.1.92:8000/delete/" + filename;
 
         try {
             restTemplate.delete(deleteUrl);

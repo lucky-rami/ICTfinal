@@ -43,5 +43,11 @@ public interface CommuService {
     //신고 등록 메서드
     int insertReport(ReportDTO reportDTO);
 
+    //게시물 신고 여부
+    int checkPostReportExists(ReportDTO reportDTO);
+
+    //댓글 신고 여부
+    int checkCommentReportExists(ReportDTO reportDTO);
+
 
 }

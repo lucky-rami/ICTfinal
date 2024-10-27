@@ -3,6 +3,7 @@ package com.ict.finalproject.DAO;
 import com.ict.finalproject.DTO.*;
 import com.ict.finalproject.vo.MasterVO;
 import com.ict.finalproject.vo.OrderListVO;
+import com.ict.finalproject.vo.OrderVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -47,7 +48,7 @@ public interface MasterDAO {
     List<MasterVO> getReviewList();
 
     // 신고 추가
-    void insertReport(@Param("userid") String userid, @Param("reason") String reason, @Param("stopDT") LocalDateTime stopDT, @Param("endDT") LocalDateTime endDT);
+    void insertReport(@Param("useridx") Integer useridx, @Param("reason") String reason, @Param("stopDT") LocalDateTime stopDT, @Param("endDT") LocalDateTime endDT, @Param("comment_idx") Integer comment_idx);
 
     // 유저가 정지 상태인지 확인
     boolean isUserBanned(@Param("userid") String userid);
@@ -63,7 +64,7 @@ public interface MasterDAO {
     List<MasterVO> getReportinguserList(MasterVO vo);
 
     // 신고 내역을 t_report 테이블에 삽입
-    void updateReport(int idx, String userid, String reason, LocalDateTime reportDT, LocalDateTime handleDT, int handleState);
+    void updateReport(@Param("idx") int idx, @Param("handleState") int handleState, @Param("handleDT") LocalDateTime handleDT);
 
     // 모든 리뷰 불러오기
     List<MasterVO> getReplyList(MasterVO vo);
@@ -93,7 +94,7 @@ public interface MasterDAO {
     int getTotalReportCount();
 
     // 특정 아이디의 신고 횟수 카운트
-    int getTotalUserReport(int useridx);
+    int getTotalUserReport(String userid);
 
     void insertReply(@Param("idx") int idx, @Param("reply") String reply, @Param("adminIdx") int adminIdx, @Param("regDT") LocalDateTime regDT);
 
@@ -229,6 +230,22 @@ public interface MasterDAO {
                                                  @Param("offset") int offset,
                                                  @Param("orderDate") String orderDate);
     int getTotalSalesDetailListCount(@Param("orderDate") String orderDate);
+
+    void updateAllEndDT(@Param("useridx") int useridx,
+                        @Param("endDT") LocalDateTime endDT);
+    // 전체 FAQ 개수 조회
+    int getTotalFAQCount();
+
+    // 특정 범위의 FAQ 목록 조회
+    List<MasterVO> getFAQListByPage(int startRecord, int pageSize);
+    int getTotalEventCount(); // 전체 이벤트 개수 조회
+    List<MasterVO> getEventListByPage(int startRecord, int pageSize);
+
+    List<MasterVO> getLatestActivities();
+    List<MasterVO> getRecentOrders();
+    Integer findAdminIdxByAdminid(String adminid);
+    boolean checkAdminDeleted(int idx);
+    MasterVO adminLogin(String adminid, String adminpwd);
     List<SalesListDTO> getMonthlySales();
     List<SalesListDTO> getDailySales();
     List<SalesListDTO> getAniSales();

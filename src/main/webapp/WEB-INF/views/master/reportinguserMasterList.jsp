@@ -11,41 +11,42 @@
                 <thead class="table-light">
                     <tr>
                         <th style="width:5%">아이디</th>
+                        <th style="width:12%">신고유형</th>
                         <th style="width:30%">제제내용</th>
-                        <th style="width:10%">사유</th>
-                        <th style="width:15%">Start</th>
-                        <th style="width:15%">End</th>
+                        <th style="width:12%">Start</th>
+                        <th style="width:12%">End</th>
                         <th style="width:8%">신고횟수</th>
                         <th style="width:20%">관리</th>
                     </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="ban" items="${reportingUser}">
-                    <tr>
-                        <td>${ban.userid}</td>
-                        <td>${ban.reason}</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${ban.report_type == 1}">관련없는 이미지</c:when>
-                                <c:when test="${ban.report_type == 2}">관련없는 내용</c:when>
-                                <c:when test="${ban.report_type == 3}">욕설/비방</c:when>
-                                <c:when test="${ban.report_type == 4}">광고/홍보글</c:when>
-                                <c:when test="${ban.report_type == 5}">개인정보 유출</c:when>
-                                <c:when test="${ban.report_type == 6}">게시글 도배</c:when>
-                                <c:when test="${ban.report_type == 7}">음란/선정성</c:when>
-                                <c:when test="${ban.report_type == 8}">기타</c:when>
-                                <c:otherwise>알 수 없음</c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>${ban.stopDT}</td>
-                        <td>${ban.endDT}</td>
-                        <td>${ban.totalUserReport}</td>
-                        <td>
-                            <button class="btn btn-outline-primary btn-sm">메모</button>
-                            <button class="btn btn-outline-danger btn-sm">삭제</button>
-                        </td>
-                    </tr>
-                    </c:forEach>
+               <c:forEach var="ban" items="${reportingUser}">
+                   <tr>
+                       <td>${ban.userid}</td>
+
+                       <td>
+                           <c:choose>
+                               <c:when test="${ban.report_type == 1}">관련없는 이미지</c:when>
+                               <c:when test="${ban.report_type == 2}">관련없는 내용</c:when>
+                               <c:when test="${ban.report_type == 3}">욕설/비방</c:when>
+                               <c:when test="${ban.report_type == 4}">광고/홍보글</c:when>
+                               <c:when test="${ban.report_type == 5}">개인정보 유출</c:when>
+                               <c:when test="${ban.report_type == 6}">게시글 도배</c:when>
+                               <c:when test="${ban.report_type == 7}">음란/선정성</c:when>
+                               <c:when test="${ban.report_type == 8}">기타</c:when>
+                               <c:otherwise>알 수 없음</c:otherwise>
+                           </c:choose>
+                       </td>
+                       <td>${ban.reason}</td>
+                       <td>${ban.stopDT}</td>
+                       <td>${ban.endDT}</td>
+                       <td>${ban.report_count}</td>  <!-- 신고 횟수 출력 -->
+                       <td>
+                           <button class="btn btn-outline-primary btn-sm">메모</button>
+                           <button class="btn btn-outline-danger btn-sm">삭제</button>
+                       </td>
+                   </tr>
+               </c:forEach>
                 </tbody>
             </table>
 

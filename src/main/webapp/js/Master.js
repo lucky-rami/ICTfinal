@@ -81,12 +81,12 @@ $(document).ready(function() {
         // 버튼에서 data-userid와 해당 행의 idx 가져오기
         const userid = $(this).data('userid');
         const idx = $(this).closest('tr').find('td:eq(1)').text();  // No 컬럼에서 idx 가져오기
-        const commentId = $(this).data('comment-id');  // 버튼에서 data-comment-id 가져오기
+        const commentIdx = $(this).data('comment-idx'); // 버튼에서 data-comment-id 가져오기
 
         // 모달의 hidden input에 값 설정
         $('#userid').val(userid);
         $('#idx').val(idx);
-        $('#comment_idx').val(commentId); // comment_idx 설정
+        $('#comment_idx').val(commentIdx); // comment_idx 설정
 
         // 모달창 띄우기
         $('#reportModal').modal('show');
@@ -110,6 +110,7 @@ $(document).ready(function() {
         }
 
         const formData = $(this).serialize(); // 폼 데이터 직렬화
+        console.log("전송할 데이터:", formData); // 전송할 데이터 로그 확인
 
         $.ajax({
             type: 'POST',
@@ -122,7 +123,9 @@ $(document).ready(function() {
                 alert('신고가 성공적으로 처리되었습니다.');
                 location.reload(); // 페이지 새로고침
             },
-            error: function() {
+            error: function(xhr, status, error) {
+                console.error("신고 처리 중 오류 발생:", error);
+                console.log("서버 응답:", xhr.responseText); // 서버에서 반환된 오류 메시지 출력
                 alert('신고 처리 중 오류가 발생했습니다.');
             }
         });
@@ -191,7 +194,7 @@ $(document).ready(function() {
         const title = $(this).data('title');  // 문의 제목
         const content = $(this).data('content');  // 문의 내용
         const attachment = $(this).data('attachment'); // 첨부파일 이름
-        var attachmentUrl = "http://192.168.1.92:8000/" + attachment; // 동적 URL
+        var attachmentUrl = "http://192.168.1.180:8000/" + attachment; // 동적 URL
 
         // 모달의 hidden input과 문의 제목, 내용 설정
         $('#idx').val(idx);
@@ -313,29 +316,33 @@ $(document).ready(function() {
     });
 
     // 스토어 삭제 버튼 클릭 시
-    $('.btn-outline-danger.store-delete').on('click', function() {
-        var idx = $(this).data('idx'); // 삭제할 스토어의 idx 값
+    $(document).ready(function() {
+        // 삭제 버튼 클릭 이벤트 핸들러
+        $('.btn-outline-danger.store-delete').on('click', function() {
+            var idx = $(this).data('idx'); // 삭제할 스토어의 idx 값
 
-        if (confirm("정말로 삭제하시겠습니까?")) {
-            $.ajax({
-                type: 'POST',
-                url: '/master/storeDeleteMaster/' + idx,
-                success: function(response) {
-                    if (response.success) {
-                        alert('해당 ' + idx + ' 번호의 스토어가 삭제되었습니다.');
-                        window.location.href = '/master/storeMasterList';  // 성공 시 스토어 리스트로 리다이렉트
-                    } else {
-                        alert(response.message);
+            if (confirm("정말로 삭제하시겠습니까?")) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/master/storeDeleteMaster/' + idx,
+                    success: function(response) {
+                        // 서버에서 JSON 형식의 응답을 반환한다고 가정하고 처리
+                        if (response.success) {
+                            alert('해당 ' + idx + ' 번호의 스토어가 삭제되었습니다.');
+                            window.location.href = '/master/storeMasterList';  // 성공 시 스토어 리스트로 리다이렉트
+                        } else {
+                            // 실패 시 서버에서 반환한 메시지를 표시
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('삭제 중 에러 발생:', xhr.responseText);
+                        alert('삭제 중 오류가 발생했습니다.');
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('삭제 중 에러 발생:', xhr.responseText);
-                    alert('삭제 중 오류가 발생했습니다.');
-                }
-            });
-        }
+                });
+            }
+        });
     });
-});
 
 // 굿즈 상품 수정 --------------------------------------------------------------------------
  $(document).ready(function() {
@@ -734,4 +741,5 @@ $(document).ready(function() {
              });
          }
      });
+ });
  });

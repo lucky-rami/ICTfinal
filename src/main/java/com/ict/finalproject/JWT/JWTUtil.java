@@ -87,6 +87,16 @@ public class JWTUtil {
                 .compact();
     }
 
+    public String createJwtWithEmail(String email, long expirationTime) {
+        return Jwts.builder()
+                .setSubject(email) // Subject에 email 설정
+                .claim("email", email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(SignatureAlgorithm.HS256, secretKey) // 비밀키로 서명
+                .compact();
+    }
+
 
     // HTTP 요청 헤더에서 JWT 토큰을 추출하는 메서드
     public String resolveToken(HttpServletRequest request) {

@@ -79,4 +79,9 @@ public interface MemberService {
     String findPwd(String userid,String username ,String email);
     boolean changePassword(String userid, String userpwd);
     boolean checkIdDuplicate(String userid);
+
+    MemberVO findUserByEmail(String email);
+
+    List<MemberVO> getLatestMembers();
+
 }

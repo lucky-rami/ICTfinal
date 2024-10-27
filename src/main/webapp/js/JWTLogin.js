@@ -74,7 +74,7 @@ async function adminLogin(adminid, adminpwd) {
     console.log("관리자 로그인 함수 실행됨"); // 함수 시작 시 로그
 
     try {
-        const response = await fetch('/master/masterLoginOK', {
+        const response = await fetch('/master/masterLoginOk', {  // 컨트롤러 경로와 일치하도록 수정
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

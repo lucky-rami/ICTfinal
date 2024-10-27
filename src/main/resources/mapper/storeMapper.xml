@@ -89,33 +89,48 @@
     </select>
 
     <!-- 정렬을 위한 필터 (sort 기반 필터) -->
-    <select id="getStoreListBySortFilter" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
-        SELECT * FROM t_product
+    <select id="getStoreListByFilter" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
+        SELECT s.*, COALESCE(likeData.likeCount, 0) AS popularity
+        FROM t_product s
+        LEFT JOIN (
+        SELECT pro_idx, COUNT(*) AS likeCount
+        FROM t_prolike
+        GROUP BY pro_idx
+        ) likeData ON s.idx = likeData.pro_idx
+        <where>
+            <if test="category != null">
+                AND s.category = #{category}
+            </if>
+            <if test="second_category != null">
+                AND s.second_category = #{second_category}
+            </if>
+        </where>
         <choose>
             <when test="filterType == 'latest'">
-                ORDER BY created_date DESC
+                ORDER BY s.regDT DESC
             </when>
             <when test="filterType == 'popular'">
                 ORDER BY popularity DESC
             </when>
             <when test="filterType == 'high-price'">
-                ORDER BY price DESC
+                ORDER BY s.price DESC
             </when>
             <when test="filterType == 'low-price'">
-                ORDER BY price ASC
+                ORDER BY s.price ASC
             </when>
             <otherwise>
                 <!-- 기본 정렬 -->
-                ORDER BY created_date DESC
+                ORDER BY s.created_date DESC
             </otherwise>
         </choose>
     </select>
 
 
+
     <select id="searchStoreList" parameterType="String" resultType="com.ict.finalproject.vo.StoreVO">
         SELECT * FROM t_product
-        WHERE title LIKE CONCAT('%', #{keyword}, '%')
-           OR description LIKE CONCAT('%', #{keyword}, '%')
+        WHERE LOWER(title) LIKE CONCAT('%', LOWER(#{query}), '%')
+        OR LOWER(description) LIKE CONCAT('%', LOWER(#{query}), '%')
     </select>
 
     <!-- 카테고리와 재고 기반 필터링 -->
@@ -140,14 +155,6 @@
         FROM t_firstcategory
     </select>
 
-<!--두번째 카테고리-->
-
-<!--    <select id="getSubcategoriesByFirstCategory1" parameterType="int" resultType="String">-->
-<!--        SELECT s.type-->
-<!--        FROM t_secondcategory s-->
-<!--        JOIN t_firstcategory f ON s.first_code = f.code-->
-<!--        WHERE f.code = #{code}-->
-<!--    </select>-->
     <!--  좋아요 카운팅-->
     <select id="getStoreWithPopularity" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
         SELECT s.*,

@@ -4,8 +4,8 @@
 <mapper namespace="com.ict.finalproject.DAO.MemberDAO">
     <!-- 회원 가입 시 사용되는 쿼리 -->
     <insert id="memberCreate" parameterType="memberVO">
-        insert into t_user(userid, userpwd, username, email, zipcode, addr, birth, addrdetail)
-        values(#{userid}, #{userpwd}, #{username}, #{email}, #{zipcode}, #{addr}, #{birth}, #{addrdetail})
+        insert into t_user(userid, userpwd, username, email, zipcode, addr, birth, addrdetail, login_type)
+        values(#{userid}, #{userpwd}, #{username}, #{email}, #{zipcode}, #{addr}, #{birth}, #{addrdetail},#{login_type})
     </insert>
 
     <!-- 로그인 시 사용되는 쿼리 (권한 정보 포함) -->
@@ -392,5 +392,21 @@
 
     <select id="checkUserIdExists" parameterType="String" resultType="int">
         SELECT COUNT(*) FROM t_user WHERE LOWER(userid) = LOWER(#{userid})
+    </select>
+
+    <select id="getLatestMembers" resultType="MemberVO">
+        SELECT
+        userid,
+        email,
+        regDT,
+        CASE
+        WHEN DATEDIFF(NOW(), regDT) &lt;= 30 THEN '신규 가입'
+        ELSE '일반 회원'
+        END AS join_status
+        FROM
+        t_user
+        ORDER BY
+        regDT DESC
+        LIMIT 2
     </select>
 </mapper>

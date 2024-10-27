@@ -20,20 +20,21 @@ public interface MasterService {
     int createStore(MasterVO storeAdd);
     public List<MasterVO> getFAQList();
     public List<MasterVO> getStoreList();
-     int getTotalStore();
+    int getTotalStore();
     Map<String, Object> getCategoryCountByCode(@Param("categoryCode") int categoryCode);
     List<MasterVO> getBoardList();
     Integer getAdminIdxByAdminid(String adminid);
     public List<MasterVO> getAniAllList();
     List<MasterVO> getNoticeList();
     List<MasterVO> getReviewList();
-    void addReport(String userid, String reason, LocalDateTime stopDT, LocalDateTime endDT);
+
     boolean checkUserBanStatus(String userid);
     boolean checkUserDelected(int idx);
     Integer findUserIdxByUserid(String userid);
     List<MasterVO> getMemberDelList(MasterVO vo);
     List<MasterVO> getReportinguserList(MasterVO vo);
-    void updateReportAndBan(int idx,String userid, String reason, LocalDateTime stopDT, LocalDateTime handleDT, LocalDateTime endDT, int handleState);
+    void updateReportAndBan(int idx, Integer useridx, String reason, LocalDateTime stopDT,
+                            LocalDateTime handleDT, LocalDateTime endDT, int handleState, int comment_idx);
     List<MasterVO> getReplyList(MasterVO vo);
     MasterVO getReviewDetail(int idx);
     boolean updateAnimation(MasterVO vo);
@@ -43,7 +44,7 @@ public interface MasterService {
     int getUnansweredQnaCount();
     List<MasterVO>getReportingUser();
     int getTotalReportCount();
-    int getTotalUserReport(int useridx);
+    int getTotalUserReport(String userid);
     void updateQnaAndReply(int idx, String reply, int adminIdx);
     Integer findAdminIdxByUserid(String adminId);
     void addAnimation(MasterVO aniVO);
@@ -121,4 +122,19 @@ public interface MasterService {
     List<SalesListDTO> getDailySales();
     List<SalesListDTO> getAniSales();
     List<SalesListDTO> getCategorySales();
+    void updateAllEndDT(int useridx, LocalDateTime endDT);
+    void insertReport(int useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, int comment_idx);
+    void updateReport(int idx, int handleState, LocalDateTime handleDT);
+    // 전체 FAQ 개수 조회
+    int getTotalFAQCount();
+
+    // 특정 범위의 FAQ 목록 조회
+    List<MasterVO> getFAQListByPage(int startRecord, int pageSize);
+    int getTotalEventCount(); // 전체 이벤트 개수 조회
+    List<MasterVO> getEventListByPage(int startRecord, int pageSize);
+    List<MasterVO> getLatestActivities();
+    List<MasterVO> getRecentOrders();
+    Integer findAdminIdxByAdminid(String adminid);
+    boolean checkAdminDeleted(int idx);
+    MasterVO adminLogin(String adminid, String adminpwd);
 }
