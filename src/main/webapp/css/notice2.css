@@ -44,15 +44,14 @@ a:hover {
     background: #1f1f1f;
     box-sizing: border-box;
     margin: auto;
-    width: 60%;
-    min-width: 800px;
+    width: 1400px;
     position: relative;
-    overflow: hidden;
+    min-height:500px;
 }
 
 .titarea {
     background: url(/img/notice/view_top_bg.png) repeat-x 0 0;
-    padding: 30px 20px;
+    padding: 50px 20px;
     text-align: center;
     margin-bottom: 10px;
     height: 162px;
@@ -246,8 +245,6 @@ a:hover {
     height: 47px;
     border-radius: 5px;
     border: 1px solid #565656;
-    right: 0;
-    top: 0;
     font-size: 14px;
     line-height: 47px;
     color: #fff;
@@ -637,32 +634,45 @@ img {
         padding: 20px !important;
     }
 
-        .search-tags{
-            padding: 15px 0;
-            width: calc(100% + 40px);
-            margin-left: -20px;
-            -webkit-overflow-scrolling: touch;
-            overflow-x: auto;
-            overflow-y: visible;
-            white-space: nowrap;
-            display: flex;
-            justify-content: ;
-            background: linear-gradient(#000, #181818);
-        }
+    .search-tags{
+        padding: 15px 0;
+        width: calc(100% + 40px);
+        margin-left: -20px;
+        -webkit-overflow-scrolling: touch;
+        overflow-x: auto;
+        overflow-y: visible;
+        white-space: nowrap;
+        display: flex;
+        justify-content: ;
+        background: linear-gradient(#000, #181818);
+    }
 
-        .search-tags a {
-            margin: 0 3px 0 0;
-            font-size: 14px !important;
-            width: auto;
-            height: 38px;
-            line-height: 38px;
-            padding: 0 13px;
-            border-radius: 6px;
-            color: #666 !important;
-            background: rgb(48, 48, 48);
-            background: linear-gradient(90deg, rgba(48, 48, 48, 1) 0%, rgba(38, 38, 38, 1) 70%, rgba(28, 28, 28, 1) 100%);
-        }
+    .search-tags a {
+        margin: 0 3px 0 0;
+        font-size: 14px !important;
+        width: auto;
+        height: 38px;
+        line-height: 38px;
+        padding: 0 13px;
+        border-radius: 6px;
+        color: #666 !important;
+        background: rgb(48, 48, 48);
+        background: linear-gradient(90deg, rgba(48, 48, 48, 1) 0%, rgba(38, 38, 38, 1) 70%, rgba(28, 28, 28, 1) 100%);
+    }
 
+}
+
+@media screen and (min-width: 100px) and (max-width: 1400px) {
+    .detail_view {
+        padding: 10vw 9.6vw;
+    }
+}
+
+@media screen and (min-width: 100px) and (max-width: 1400px) {
+    .detail_view_layer {
+        width: 100%;
+        box-sizing: border-box;
+    }
 }
 
 

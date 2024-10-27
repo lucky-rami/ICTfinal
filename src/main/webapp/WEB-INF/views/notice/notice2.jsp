@@ -102,12 +102,12 @@
                             <div class="col-sm-2 p-2">등록일</div>
                         </div>
 
-                        <!-- 공지사항 리스트 반복 출력 -->
+                            <!-- 공지사항 리스트 반복 출력 -->
                             <c:forEach var="notice" items="${list}">
                                 <div class="row">
                                     <div class="col-sm-1 p-2">${notice.idx}</div>
                                     <div class="col-sm-9 p-2">
-                                        <a href="#" class="noticeTitle" data-title="${notice.title}" data-content="${notice.content}">
+                                        <a href="#" class="noticeTitle" data-date="${notice.regDT}" data-title="${notice.title}" data-content="${notice.content}">
                                             ${notice.title}
                                         </a>
                                     </div>
@@ -536,12 +536,16 @@ function checkLoginStatus() {
                 e.preventDefault(); // 링크 기본 동작 방지
 
                 // 모달 내용 업데이트
+                const date = this.getAttribute('data-date');
                 const title = this.getAttribute('data-title');
                 const content = this.getAttribute('data-content');
 
+                document.getElementById('modalDate').innerHTML = date;
                 document.getElementById('modalTitle').innerHTML = title;
                 document.getElementById('modalContent').innerHTML = content;
                 document.querySelector('.detail_layer_pop').style.display = 'flex'; // 모달 보이기
+
+                console.log(date);
             });
         });
     }
