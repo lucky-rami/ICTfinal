@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@include file="/WEB-INF/inc/page_header.jspf" %>
+
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -41,17 +43,18 @@
     <div class="container">
         <div class="cmView">
             <div class="viewInfo">
-                <div class="row">
-                    <div class="col-sm-1 custom-col">${vo.commtype}</div>
-                    <div class="col-sm-9 custom-col">${vo.title}</div>
-                    <div class="col-sm-2 text-end custom-style">${vo.regDT}</div>
+                <div class="title-box">
+                    <p>${vo.commtype}</p>
+                    <div>${vo.title}</div>
                 </div>
-                <div class="row bg-highlight">
-                    <div class="col-sm-10 p-2 author-id">${vo.userid}</div>
-                    <div class="col-sm-1 text-end"><img src="/img/cm/ico_view.png">${vo.hit}</div>
-                    <div class="col-sm-1 text-end"><button id="reportPostBtn" class="btn btn-link">
-                    <img src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyMycgaGVpZ2h0PScyMycgdmlld0JveD0nMCAwIDIzIDIzJz48cGF0aCBkPSdNNDEuNjI4IDQyLjAyaDIzdjIzaC0yM3onIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00MS42MjggLTQyLjAyKScgc3R5bGU9J2ZpbGw6bm9uZScvPjxwYXRoIGQ9J000NS42NDUgNTguNTkxdi00Ljg1N2E2LjExNiA2LjExNiAwIDAgMSAyLjkyNC01LjU5MSA2LjA1IDYuMDUgMCAwIDEgNi4yODQgMCA2LjExNiA2LjExNiAwIDAgMSAyLjkyNCA1LjU5MXY0Ljg1N2gyLjF2MS42MTlINDMuNTQ0di0xLjYxOXptMS41MTctNC44NTdoMS41MTdBMy4xNDEgMy4xNDEgMCAwIDEgNTEuNzEgNTAuNXYtMS42MjNhNC43MTIgNC43MTIgMCAwIDAtNC41NDkgNC44NTd6bTMuNzkxLTkuNzE0aDEuNTE3djIuNDI4aC0xLjUxOHptNi42NTUgMi4yNzMgMS4wNzQgMS4xNDQtMS42MTIgMS43MThMNTYgNDguMDExem0tMTIuODY3IDEuMTQ0IDEuMDc0LTEuMTQ0IDEuNiAxLjcxNi0xLjA3NCAxLjE0N3onIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00MC4yMTEgLTQxLjYxNSknIHN0eWxlPSdmaWxsOiNjY2NjZDAnLz48L3N2Zz4K">
-                    </button></div>
+
+                <div class="content-box">
+                    <div class="author-id">${vo.userid}</div>
+                    <span class="date">${vo.regDT}</span>
+                    <span class="hit"><img src="/img/cm/ico_view.png">${vo.hit}</span>
+                    <span class="post_report"><button id="reportPostBtn" class="btn btn-link">
+                    <img src="http://192.168.1.180:8000/emergency.svg" class="emergency_icon">
+                    </button></span>
                 </div>
             </div>
 
@@ -76,23 +79,40 @@
 
         <!-- 리스트 목록 -->
            <div class="list_section">
-               <c:if test="${previousPost != null}"></c:if>
+            <!-- 이전 페이지 처리 -->
+                <c:if test="${go != null}">
                     <a href="/cmView/${go.idx}">
                         <div class="list_pre">
                             <i class="bi bi-chevron-up"></i>이전페이지
                         </div>
                     </a>
-               <c:if test="${previousPost == null}"></c:if>
+                </c:if>
+                <c:if test="${go == null}">
+                    <a href="javascript:void(0);" onclick="alert('첫번째 페이지입니다.');">
+                        <div class="list_pre">
+                            <i class="bi bi-chevron-up"></i>이전페이지
+                        </div>
+                    </a>
+                </c:if>
 
-               <c:if test="${nextPost != null}"></c:if>
-               <a href="/cmView/${tun.idx}">
-                   <div class="list_next">
-                       <i class="bi bi-chevron-down"></i>다음페이지
-                   </div>
-               </a>
-
-               <c:if test="${nextPost == null}"></c:if>
+                <!-- 다음 페이지 처리 -->
+                <c:if test="${tun != null}">
+                    <a href="/cmView/${tun.idx}">
+                        <div class="list_next">
+                            <i class="bi bi-chevron-down"></i>다음페이지
+                        </div>
+                    </a>
+                </c:if>
+                <c:if test="${tun == null}">
+                    <a href="javascript:void(0);" onclick="alert('마지막 페이지입니다.');">
+                        <div class="list_next">
+                            <i class="bi bi-chevron-down"></i>다음페이지
+                        </div>
+                    </a>
+                </c:if>
            </div>
+
+
             <div class="listBt">
                 <a class="btn btn-secondary btn-sm btn-edit" href="/cmEdit/${vo.idx}" role="button" style="display: none;">
                     수정
@@ -108,69 +128,85 @@
         </div>
 
         <!-- 신고 모달 -->
-        <div class="reportModal_body" id="reportModal" style="display: none;">
-            <div class="reportModal_background"></div>
-            <div class="reportModal_container">
-                <div class="reportModal_layer">
-                    <div class="reportModal_top">
-                        <p>작성 글 신고하기</p>
-                        <button id="closeModal"><i class="fa-solid fa-x"></i></button>
-                    </div>
-                    <div class="reportModal_bottom">
-                        <strong>신고대상 ID 및 내용</strong>
-                        <div class="report_info">
-                            <span>sing2727</span>
-                            <p>제 첫 키보드인데 굉장히 만족합니다!...</p>
-                        </div>
-                        <strong>신고사유</strong>
-                        <ul class="report_reason_ul">
-                            <li>
-                                <input type="radio" id="not_relevant_img" name="report_reason" value="1" />
-                                <label for="not_relevant_img">관련없는 이미지</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="not_relevant_content" name="report_reason" value="2" />
-                                <label for="not_relevant_content">관련없는 내용</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="abuse" name="report_reason" value="3" />
-                                <label for="abuse">욕설/비방</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="PromotionalPost" name="report_reason" value="4" />
-                                <label for="PromotionalPost">광고/홍보글</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="perPersonal_info_leak" name="report_reason" value="5" />
-                                <label for="perPersonal_info_leak">개인정보 유출</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="over_post" name="report_reason" value="6" />
-                                <label for="over_post">게시글 도배</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="adult" name="report_reason" value="7" />
-                                <label for="adult">음란/선정성</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="etc" name="report_reason" value="8" />
-                                <label for="etc">기타</label>
-                            </li>
-                        </ul>
-                        <div class="report_reason_text">
-                            <textarea placeholder="이 외 사유를 적어주세요.(100자까지 작성가능)" maxlength="100"></textarea>
-                        </div>
-                        <div class="report_reason_bottom">
-                            <p>신고해주신 내용은 관리자 검토 후 내부정책에 의거 조치가 진행됩니다.</p>
-                        </div>
-                        <div class="report_btn_div">
-                            <button id="cancelReport">취소</button>
-                            <button id="submitReport">신고</button>
+                <div class="reportModal_body" id="reportModal" style="visibility: hidden;">
+                    <div class="reportModal_background"></div>
+                    <div class="reportModal_container">
+                        <div class="reportModal_layer">
+                            <div class="reportModal_top">
+                                <p>작성 글 신고하기</p>
+                                <button id="closeModal"><i class="fa-solid fa-x"></i></button>
+                            </div>
+                            <div class="reportModal_bottom">
+                                <strong>신고대상 ID 및 내용</strong>
+                                <div class="report_info">
+                                    <span>sing2727</span>
+                                    <p>제 첫 키보드인데 굉장히 만족합니다!...</p>
+                                </div>
+                                <strong>신고사유</strong>
+                                <ul class="report_reason_ul">
+                                    <li>
+                                        <input type="radio" id="not_relevant_img" name="report_reason" value="1" />
+                                        <label for="not_relevant_img">관련없는 이미지</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="not_relevant_content" name="report_reason" value="2" />
+                                        <label for="not_relevant_content">관련없는 내용</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="abuse" name="report_reason" value="3" />
+                                        <label for="abuse">욕설/비방</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="PromotionalPost" name="report_reason" value="4" />
+                                        <label for="PromotionalPost">광고/홍보글</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="perPersonal_info_leak" name="report_reason" value="5" />
+                                        <label for="perPersonal_info_leak">개인정보 유출</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="over_post" name="report_reason" value="6" />
+                                        <label for="over_post">게시글 도배</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="adult" name="report_reason" value="7" />
+                                        <label for="adult">음란/선정성</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="etc" name="report_reason" value="8" />
+                                        <label for="etc">기타</label>
+                                    </li>
+                                </ul>
+                                <div class="report_reason_text">
+                                    <textarea placeholder="이 외 사유를 적어주세요.(100자까지 작성가능)" maxlength="100"></textarea>
+                                </div>
+                                <div class="report_reason_bottom">
+                                    <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="-4 -4 38 38"
+                                    id="icon_exclamation_30x30_gray"
+                                    x="740"
+                                    y="77"
+                                    >
+                                    <path
+                                      fill="#888"
+                                      fill-rule="evenodd"
+                                      d="M15 30C6.716 30 0 23.284 0 15 0 6.716 6.716 0 15 0c8.284 0 15 6.716 15 15 0 8.284-6.716 15-15 15zm0-28.72C7.423 1.28 1.28 7.423 1.28 15c0 7.577 6.143 13.72 13.72 13.72 7.577 0 13.72-6.143 13.72-13.72 0-7.577-6.143-13.72-13.72-13.72zM14 19h2v2h-2v-2zm0-10h2v8h-2V9z"
+                                    />
+                                    </svg>
+                                    <p>신고해주신 내용은 관리자 검토 후 내부정책에 의거 조치가 진행됩니다.</p>
+                                </div>
+                                <div class="report_btn_div">
+                                    <button id="cancelReport">취소</button>
+                                    <button id="submitReport">신고</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+
 
 
 <script>
@@ -208,7 +244,7 @@ function checkLoginStatusForCommunity() {
                 loadComments(comm_idx);
 
                 // 게시물 작성자의 아이디와 로그인된 사용자의 아이디가 같은지 확인
-                var postAuthorId = "{vo.userid}"; // JSP에서 게시물 작성자의 아이디를 가져온다고 가정
+                var postAuthorId = "${vo.userid}";
 
                 if (userid === postAuthorId) {
                     // 로그인된 사용자가 게시물 작성자인 경우 수정, 삭제 버튼을 표시
@@ -339,28 +375,42 @@ function showTab(commtype) {
 
                       // 댓글을 렌더링
                       comments.forEach(comment => {
-                          let indentLevel = comment.depth * 30;  // depth에 따라 들여쓰기 설정
+                          let indentLevel = comment.depth * 30;
 
                           let comm = '<div class="comment-item comment-' + comment.idx + '" style="margin-left: ' + indentLevel + 'px;">';
+
                           comm += '<div class="comment-header">';
-                          comm += '<p class="comment-user"><strong>' + comment.userid + '</strong></p>';
+                          comm += '<span class="comment-user"><strong>' + comment.userid + '</strong></span>';
                           comm += '<button id="reportCommentBtn-' + comment.idx + '" class="btn btn-link reportBtn" data-author-id="' + comment.userid + '" data-content="' + comment.content + '">' +
-                                  '<img src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyMycgaGVpZ2h0PScyMycgdmlld0JveD0nMCAwIDIzIDIzJz48cGF0aCBkPSdNNDEuNjI4IDQyLjAyaDIzdjIzaC0yM3onIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00MS42MjggLTQyLjAyKScgc3R5bGU9J2ZpbGw6bm9uZScvPjxwYXRoIGQ9J000NS42NDUgNTguNTkxdi00Ljg1N2E2LjExNiA2LjExNiAwIDAgMSAyLjkyNC01LjU5MSA2LjA1IDYuMDUgMCAwIDEgNi4yODQgMCA2LjExNiA2LjExNiAwIDAgMSAyLjkyNCA1LjU5MXY0Ljg1N2gyLjF2MS42MTlINDMuNTQ0di0xLjYxOXptMS41MTctNC44NTdoMS41MTdBMy4xNDEgMy4xNDEgMCAwIDEgNTEuNzEgNTAuNXYtMS42MjNhNC43MTIgNC43MTIgMCAwIDAtNC41NDkgNC44NTd6bTMuNzkxLTkuNzE0aDEuNTE3djIuNDI4aC0xLjUxOHptNi42NTUgMi4yNzMgMS4wNzQgMS4xNDQtMS42MTIgMS43MThMNTYgNDguMDExem0tMTIuODY3IDEuMTQ0IDEuMDc0LTEuMTQ0IDEuNiAxLjcxNi0xLjA3NCAxLjE0N3onIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00MC4yMTEgLTQxLjYxNSknIHN0eWxlPSdmaWxsOiNjY2NjZDAnLz48L3N2Zz4K"></button>';
-                          comm += '</div>'; // comment-header 종료
+                                  '<img src="http://192.168.1.180:8000/emergency.svg" class="emergency_icon"></button>';
+                          comm += '</div>';
 
-                          comm += '<div class="comment-content">' + comment.content + '</div>'; // 댓글 내용 표시
+                          comm += '<div class="comment-content">' + comment.content + '</div>';
 
-                          // 날짜 및 하단 버튼들
-                          comm += '<div class="comment-meta">' + comment.regDT + '</div>';
-                          comm += '<div class="comment-actions">';
-                          if (comment.depth < 2) {
+                          comm += '<div class="comment-meta-wrapper">';
+                          comm += '<span class="comment-meta">' + comment.regDT + '</span>';
+
+                          // 댓글의 depth가 2 이상이면 답글 쓰기 비활성화 (자식 댓글은 depth가 2이므로)
+                          if (comment.depth < 2) {// depth가 2 미만일 경우에만 답글 허용
                               comm += '<span class="reply-btn" onclick="toggleReplyInput(' + comment.idx + ')">답글쓰기</span>';
+                              comm += '<div id="replyInput-' + comment.idx + '" class="reply_input" style="display:none;">' +
+                                  '<input type="text" id="replyContent-' + comment.idx + '" placeholder="답글을 남겨보세요." />' +
+                                  '<button onclick="regiReply(' + comment.idx + ',' + comment.comm_idx + ')">등록</button>' +
+                                  '</div>';
                           }
+
+                          // 수정/삭제 버튼
                           if (parseInt(comment.useridx) === parseInt(useridx)) {
                               comm += '<span class="edit-btn" onclick="editComment(' + comment.idx + ')">수정</span>';
                               comm += '<span class="delete-btn" onclick="deleteComment(' + comment.idx + ')">삭제</span>';
+
+                              comm += '<div id="edit-form-' + comment.idx + '" class="reply_input" style="display:none;">' +
+                                '<textarea id="edit-textarea-' + comment.idx + '">' + comment.content + '</textarea>' +
+                                '<button id="test" onclick="updateComment(' + comment.idx + ',' + comment.comm_idx + ')">수정하기</button>' +
+                                '</div>';
                           }
-                          comm += '</div>'; // comment-actions 종료
+
+                          comm += '</div>'; // comment-meta-wrapper 종료
 
                           comm += '</div>'; // comment-item 종료
                           replyList.append(comm);
@@ -443,7 +493,7 @@ function showTab(commtype) {
 
         //댓글입력폼
        function toggleReplyInput(commentIdx) { //뭘쓰든 상관이 없어요! 본인만 알아부보세요!
-        alert(commentIdx);
+        //alert(commentIdx);
            const replyInput = document.getElementById("replyInput-"+commentIdx);
            if (replyInput.style.display === 'none') {
                replyInput.style.display = 'block'; // 보여주기
@@ -452,33 +502,27 @@ function showTab(commtype) {
            }
        }
 
+
      // 댓글 수정
-     function editComment(commentIdx) {//원댓글의 인덱스값
-          const className = ".comment-"+commentIdx;
-          console.log("a" + className);
-         // 댓글 내용을 가져오기 위해 댓글의 텍스트를 담고 있는 요소를 찾습니다.
-         const commentDiv = document.querySelector(".comment-"+commentIdx);
-         console.log("b", commentDiv, commentIdx);
-
+     function editComment(commentIdx) {
+         const commentDiv = document.querySelector(".comment-" + commentIdx);
          if (commentDiv) {
-            console.log("check", commentDiv);
-             // 댓글 내용 가져오기
-             const commentContent = commentDiv.querySelectorAll('p')[1].textContent;
-             //const commentContent = commentDiv.querySelector('p').textContent;
-
-             // 수정 폼의 textarea에 댓글 내용을 설정합니다.
-             const editTextarea = document.querySelector("#edit-textarea-"+commentIdx);
+             const commentContent = commentDiv.querySelector('.comment-content').textContent; // 수정된 부분
+             const editTextarea = document.querySelector("#edit-textarea-" + commentIdx);
              if (editTextarea) {
-                 editTextarea.value = commentContent; // 댓글 내용을 textarea에 설정
+                 editTextarea.value = commentContent;
+             } else {
+                 console.error("수정 textarea를 찾을 수 없습니다.");
              }
 
-             // 수정 폼 보이기
-             const editForm = document.querySelector("#edit-form-"+commentIdx);
-             if (editForm.style.display === 'none') {
-                 editForm.style.display = 'block'; // 수정 폼을 보여줍니다.
+             const editForm = document.querySelector("#edit-form-" + commentIdx);
+             if (editForm) {
+                 editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
              } else {
-                 editForm.style.display = 'none'; // 숨기기
+                 console.error("수정 폼을 찾을 수 없습니다: edit-form-" + commentIdx);
              }
+         } else {
+             console.error("댓글 요소를 찾을 수 없습니다: comment-" + commentIdx);
          }
      }
 
@@ -571,7 +615,7 @@ function showTab(commtype) {
             document.querySelector("#reportModal .report_info p").textContent = postContent;
 
             // 모달 열기
-            reportModal.style.display = "block";
+            reportModal.style.visibility = "visible";
         });
 
         // 댓글 신고 버튼 클릭 시 모달 띄우기 (댓글마다 개별 이벤트 등록)
@@ -592,7 +636,7 @@ function showTab(commtype) {
             currentCommentIdx = commentIdx;
 
             // 모달 열기
-            reportModal.style.display = "block";
+            reportModal.style.visibility = "visible";
         });
 
         // 모달 열릴 때 초기화 처리
@@ -635,17 +679,18 @@ function showTab(commtype) {
             sendReportData(reportData);
         });
 
-         // 모달 닫기 버튼 클릭 시 모달 닫기
+            // 모달 닫기 버튼 클릭 시 모달 닫기
             closeModal.addEventListener("click", function () {
-                reportModal.style.display = "none";
+                reportModal.style.visibility = "hidden";
                 initializeReportModal(); // 모달을 닫을 때도 초기화
             });
 
             // 취소 버튼 클릭 시 모달 닫기
             cancelReport.addEventListener("click", function () {
-                reportModal.style.display = "none";
+                reportModal.style.visibility = "hidden";
                 initializeReportModal(); // 모달을 닫을 때도 초기화
             });
+
 
         // 신고 데이터 전송 함수
         function sendReportData(data) {
@@ -655,12 +700,23 @@ function showTab(commtype) {
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function (response) {
+                    console.log("신고 성공:", response); // 요청이 성공했을 때 로그
                     alert("신고가 접수되었습니다.");
-                    reportModal.style.display = "none";
+                    reportModal.style.visibility = "hidden";
                 },
-                error: function (error) {
-                    alert("신고 처리 중 오류가 발생했습니다.");
-                    console.error("신고 오류:", error);
+                error: function (jqXHR) {
+                    console.log("신고 오류:", jqXHR.status, jqXHR.responseText); // 오류 세부 정보 출력
+                    if (jqXHR.status === 409) {
+                        const errorMessage = jqXHR.responseText;
+                        if (errorMessage === "이미 신고된 게시물입니다.") {
+                            alert("이미 신고된 게시물입니다.");
+                        } else if (errorMessage === "이미 신고된 댓글입니다.") {
+                            alert("이미 신고된 댓글입니다.");
+                        }
+                    } else {
+                        alert("신고 처리 중 오류가 발생했습니다.");
+                        console.error("신고 오류:", jqXHR);
+                    }
                 }
             });
         }

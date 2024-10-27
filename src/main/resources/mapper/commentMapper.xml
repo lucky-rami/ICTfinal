@@ -85,14 +85,14 @@
     <!-- 댓글 수정 -->
     <update id="updateCommnet" parameterType="com.ict.finalproject.vo.CommentVO">
         UPDATE t_comment
-        SET content = #{content}, modifyDT = NOW()
+        SET content = #{content}, modifyState = 1, modifyDT = NOW()
         WHERE idx = #{idx}
     </update>
 
     <!-- 댓글 삭제 -->
-    <delete id="deleteComment" parameterType="int">
+    <update id="deleteComment" parameterType="int">
         UPDATE t_comment SET delState = 1, delDT = NOW() WHERE idx = #{idx}
-    </delete>
+    </update>
 
 
 

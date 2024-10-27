@@ -114,8 +114,6 @@
     </div>
     <div class="pagination">
         <ul class="paging">
-        <c:out value="현재 페이지: ${pagingVO.nowPage}, 전체 페이지 수: ${pagingVO.totalPage}, 시작 페이지: ${pagingVO.startPage}, 끝 페이지: ${pagingVO.endPage}" />
-
 
             <!-- 이전 페이지 버튼 -->
             <c:if test="${pagingVO.hasPrevious}">
@@ -214,15 +212,19 @@ function submitSearchForm() {
     document.getElementById("searchForm").submit();
 }
 
+// 페이지 번호를 클릭했을 때 페이지 이동 함수
 function reloadPage(page) {
+    console.log("선택한 페이지 번호: " + page);
     const commtype = document.getElementById("commtype").value || 'all';
     const orderBy = document.getElementById("selectDirection").value || 'DEFAULT';
     const searchCategory = document.getElementById("selectCategory").value || 'TITLE_AND_CONTENT';
     const searchKeyword = document.getElementById("searchKeyword").value || '';
 
     // URL 파라미터에 초기화된 값을 사용하여 페이지를 이동
-    window.location.href = `/cmList?commtype=${commtype}&page=${2}&orderBy=${orderBy}&searchCategory=${searchCategory}&searchKeyword=${searchKeyword}`;
+    window.location.href = "/cmList?commtype=" + commtype + "&page=" + page + "&orderBy=" + orderBy + "&searchCategory=" + searchCategory + "&searchKeyword=" + searchKeyword;
+
 }
+
 
 
 var useridx; // 해당 페이지에서 모두 사용 가능하도록! 전역변수로 선언

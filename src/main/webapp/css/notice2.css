@@ -17,8 +17,10 @@ a:hover {
     z-index: 999;
     background: rgba(0, 0, 0, .9);
     position: fixed;
-    width: 100%;
-    height: 100%;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,26 +44,24 @@ a:hover {
     background: #1f1f1f;
     box-sizing: border-box;
     margin: auto;
-    width: 60%;
-    min-width: 800px;
+    width: 1400px;
     position: relative;
-
-
-    overflow: hidden;
+    min-height:500px;
 }
 
 .titarea {
     background: url(/img/notice/view_top_bg.png) repeat-x 0 0;
-        padding: 30px 20px;
-        text-align: center;
-        margin-bottom: 10px;
+    padding: 50px 20px;
+    text-align: center;
+    margin-bottom: 10px;
+    height: 162px;
 }
 
 .detil_new .titarea .tit {
     font-size: 24px;
-        font-weight: bold;
-        color: #ffffff;
-        margin-bottom: 10px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
 
 }
 
@@ -76,15 +76,15 @@ a:hover {
 }
 
 .detail_content {
-    background: #1f1f1f; /* 하단 박스 배경색 */
-        padding: 40px 20px;
-        max-height: 500px; /* 최대 높이 */
-        overflow-y: auto;
+    padding: 50px 6%;
+    max-height: 500px; /* 최대 높이 */
+    //overflow-y: auto;
 }
 
 .detail_content .sample_txt {
-    line-height: 1.6;
+    line-height: 2.5;
     color: #d9d9d9;
+    font-size:14px;
 }
 
 
@@ -161,6 +161,7 @@ a:hover {
 
 .list{
     list-style:none;
+    padding-left : 0px;
 }
 
 
@@ -244,8 +245,6 @@ a:hover {
     height: 47px;
     border-radius: 5px;
     border: 1px solid #565656;
-    right: 0;
-    top: 0;
     font-size: 14px;
     line-height: 47px;
     color: #fff;
@@ -361,8 +360,8 @@ img {
 /* 전체 레이아웃 스타일 */
 .inquiry-container {
     width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
+    max-width: 1400px;
+    margin: 50px auto;
     font-family: 'Arial', sans-serif;
 }
 
@@ -379,21 +378,23 @@ img {
     font-size: 16px;
     text-align: left;
     vertical-align: top;
-    background-color: #f5f5f5;
+    background: rgb(255, 255, 255, 0.1);
+    color: rgb(255, 255, 255, 0.6);
     border: none;
 }
 
 .inquiry-table td {
     padding: 10px;
     vertical-align: middle;
-    background-color: #fff;
+    background-color: rgb(0, 0, 0, 0.8);
+    color: rgb(255, 255, 255, 0.6);
     border: none;
 }
 
 /* 구분선 스타일 */
 .line td {
     padding: 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid rgb(255, 255, 255, 0.6);
 }
 
 /* 카테고리 옵션 스타일 */
@@ -404,12 +405,13 @@ img {
 
 .category-options input[type="radio"] {
     margin-right: 5px;
+    accent-color:#333333;
 }
 
 /* 아이디 표시 스타일 */
 .user-id {
     font-size: 14px;
-    color: #333;
+    color: rgb(255, 255, 255, 0.6);
     padding: 10px;
     border-radius: 5px;
 }
@@ -419,9 +421,9 @@ img {
     width: 100%;
     padding: 10px;
     font-size: 14px;
-    border: 1px solid #ccc;
-    background-color: #f5f5f5;
-    color: #333;
+    border: 2px solid rgb(18, 18, 18);
+    background: rgb(255, 255, 255, 0.1);
+    color: rgb(255, 255, 255, 0.6);
     border-radius: 5px;
 }
 
@@ -431,9 +433,9 @@ img {
     height: 150px;
     padding: 10px;
     font-size: 14px;
-    border: 1px solid #ccc;
-    background-color: #f5f5f5;
-    color: #333;
+    border: 2px solid rgb(18, 18, 18);
+    background: rgb(255, 255, 255, 0.1);
+    color: rgb(255, 255, 255, 0.6);
     border-radius: 5px;
     resize: none;
 }
@@ -442,6 +444,12 @@ img {
 .inquiry-attachment {
     margin-top: 10px;
     font-size: 14px;
+}
+
+.inquiry-attachment::file-selector-button{
+    background: rgb(255, 255, 255, 0.1);
+    color: rgb(255, 255, 255, 0.6);
+    border: none;
 }
 
 .attachment-info {
@@ -457,57 +465,75 @@ img {
 }
 
 .submit-btn {
-    background-color: #000;
-    color: #fff;
+    width:20%;
+    height: 60px;
+    margin: 20px 0 0;
+    border-radius: 5px;
+    background: #359c95;
+    color: rgb(255, 255, 255, 0.9);
     padding: 10px 20px;
     font-size: 16px;
     border: none;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .submit-btn:hover {
-    background-color: #444;
+    background-color: #2c827c;
+}
+
+
+/*이용약관 및 개인정보취급방침*/
+.tap4SelectTag{
+    text-align: center;
+}
+
+.tap4SelectTag a{
+    display: inline-block;
+    position: relative;
+    color: #999999;
+    text-decoration: none;
+    font-size: 16px;
 }
 
 
 
 
 /* 서비스 약관 컨테이너 */
-.terms-container {
-    background: #1f1f1f;
-    margin: 50px auto;
-    padding: 40px 50px;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 1000px;
+#tap4 {
+    max-width: 1400px;
     color: #d9d9d9;
+    position: relative;
 }
 
 /* 서비스 약관 제목 */
-.terms-container h2 {
-    text-align: center;
+#tap4 h2{
+    margin-top:30px;
+    padding-bottom: 24px;
     font-size: 24px;
-    color: #ffffff;
-    margin-bottom: 30px;
+    color: #fff;
+    font-weight: 700;
+    line-height: 25px;
+}
+
+#tap4 .on {
+    color: #ff5d24;
 }
 
 /* 서비스 약관 내용 */
 .terms-content {
-    line-height: 1.8;
-    font-size: 16px;
-    background: #333;
-    padding: 30px;
-    border-radius: 5px;
-    border: 1px solid #444;
+    background: #0c0c0c;
+    border-top: 1px solid #333;
+    padding: 42px;
+    height: 312px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    font-size: 12px;
+    line-height: 18px;
+    color: #b2b2b2;
+    overflow-y: scroll;
 }
 
-.terms-content p {
-    margin: 20px 0;
-}
-
-.terms-content strong {
-    color: #ffffff;
-}
 
 
 /*페이징 부분*/
@@ -518,13 +544,28 @@ img {
      list-style-type: none;
      margin: 50px 0;
 }
+
+/* Bootstrap 기본 스타일 덮어쓰기 */
+.active > .page-link, .page-link.active,
+.disabled> .page-link, .page-link.disabled,
+.page-link:hover{
+    z-index: auto; /* 기본 값에서 변경 */
+    color: inherit; /* 기본 색상으로 변경 */
+    background-color: transparent; /* 배경색을 제거 */
+    border-color: transparent; /* 테두리 색상을 제거 */
+}
+
+
 .paging > li  {
     list-style-type: none;
     float: left;
-    text-align: Center;
+    height: 34px;
     box-sizing: border-box;
-    border-color: none;
-    padding: 0px 5px;
+    color: #fff;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #525252, #292929);
+    margin: 0 2px;
+    cursor: pointer;
 }
 
 
@@ -536,12 +577,9 @@ img {
     height: 34px;
     text-align: center;
     font-size: 12px;
-    background: #525252;
     background: linear-gradient(135deg, #525252, #292929);
     cursor: pointer;
 }
-
-
 
 
 .content {
@@ -600,32 +638,45 @@ img {
         padding: 20px !important;
     }
 
-        .search-tags{
-            padding: 15px 0;
-            width: calc(100% + 40px);
-            margin-left: -20px;
-            -webkit-overflow-scrolling: touch;
-            overflow-x: auto;
-            overflow-y: visible;
-            white-space: nowrap;
-            display: flex;
-            justify-content: ;
-            background: linear-gradient(#000, #181818);
-        }
+    .search-tags{
+        padding: 15px 0;
+        width: calc(100% + 40px);
+        margin-left: -20px;
+        -webkit-overflow-scrolling: touch;
+        overflow-x: auto;
+        overflow-y: visible;
+        white-space: nowrap;
+        display: flex;
+        justify-content: ;
+        background: linear-gradient(#000, #181818);
+    }
 
-        .search-tags a {
-                margin: 0 3px 0 0;
-                font-size: 14px !important;
-                width: auto;
-                height: 38px;
-                line-height: 38px;
-                padding: 0 13px;
-                border-radius: 6px;
-                color: #666 !important;
-                background: rgb(48, 48, 48);
-                background: linear-gradient(90deg, rgba(48, 48, 48, 1) 0%, rgba(38, 38, 38, 1) 70%, rgba(28, 28, 28, 1) 100%);
-            }
+    .search-tags a {
+        margin: 0 3px 0 0;
+        font-size: 14px !important;
+        width: auto;
+        height: 38px;
+        line-height: 38px;
+        padding: 0 13px;
+        border-radius: 6px;
+        color: #666 !important;
+        background: rgb(48, 48, 48);
+        background: linear-gradient(90deg, rgba(48, 48, 48, 1) 0%, rgba(38, 38, 38, 1) 70%, rgba(28, 28, 28, 1) 100%);
+    }
 
+}
+
+@media screen and (min-width: 100px) and (max-width: 1400px) {
+    .detail_view {
+        padding: 10vw 9.6vw;
+    }
+}
+
+@media screen and (min-width: 100px) and (max-width: 1400px) {
+    .detail_view_layer {
+        width: 100%;
+        box-sizing: border-box;
+    }
 }
 
 

@@ -104,7 +104,7 @@
 
 
      function commuFormCheck() {
-        alert("함수넘어오는지 확인");
+        alert("수정 되었습니다.");
           if (!window.editorInstance) {
               console.error('CKEditor instance is not initialized.');
               return false;
@@ -120,12 +120,12 @@
               return false;
           }
           if (window.editorInstance.getData().trim() === '') {
-                      alert('내용을 입력하세요.');
-                      return false;
+              alert('내용을 입력하세요.');
+              return false;
           }
 
           // CKEditor 내용 반영
-                      document.getElementById('content').value = window.editorInstance.getData();
+              document.getElementById('content').value = window.editorInstance.getData();
 
           return true;
      }

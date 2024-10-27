@@ -52,7 +52,7 @@
     </div>
 </section>
 
-
+    <!-- 공지사항 모달 -->
     <div class="detail_layer_pop" style="display:none;">
         <div class="detail_view">
             <div class="detail_layer_close" style="cursor:pointer;">
@@ -102,12 +102,12 @@
                             <div class="col-sm-2 p-2">등록일</div>
                         </div>
 
-                        <!-- 공지사항 리스트 반복 출력 -->
+                            <!-- 공지사항 리스트 반복 출력 -->
                             <c:forEach var="notice" items="${list}">
                                 <div class="row">
                                     <div class="col-sm-1 p-2">${notice.idx}</div>
                                     <div class="col-sm-9 p-2">
-                                        <a href="#" class="noticeTitle" data-title="${notice.title}" data-content="${notice.content}">
+                                        <a href="#" class="noticeTitle" data-date="${notice.regDT}" data-title="${notice.title}" data-content="${notice.content}">
                                             ${notice.title}
                                         </a>
                                     </div>
@@ -124,14 +124,14 @@
                                 <c:if test="${pVO.hasPrevious}">
                                     <li class="pre">
                                         <a class="page-link" href="javascript:reloadPage(${pVO.nowPage - 1});">
-                                            <img src="/img/cm/left-chevron.png" />
+                                            이전
                                         </a>
                                     </li>
                                 </c:if>
                                 <c:if test="${!pVO.hasPrevious}">
                                     <li class="pre disabled">
                                         <a class="page-link" href="javascript:void(0);">
-                                            <img src="/img/cm/left-chevron.png" style="width:20px; height:18px;" />
+                                            이전
                                         </a>
                                     </li>
                                 </c:if>
@@ -149,14 +149,14 @@
                                 <c:if test="${pVO.hasNext}">
                                     <li class="next">
                                         <a class="page-link" href="javascript:reloadPage(${pVO.nowPage + 1});">
-                                            <img src="/img/cm/right-chevron.png" style="width:20px; height:18px;" />
+                                            다음
                                         </a>
                                     </li>
                                 </c:if>
                                 <c:if test="${!pVO.hasNext}">
                                     <li class="next disabled">
                                         <a class="page-link" href="javascript:void(0);">
-                                            <img src="/img/cm/right-chevron.png" style="width:20px; height:18px;" />
+                                            다음
                                         </a>
                                     </li>
                                 </c:if>
@@ -287,25 +287,20 @@
                             </div>
                         </form>
                     </div>
-
+                </div>
 
                 <div class="content" id="tap4">
-                    <div class="terms-container">
-                        <h2>서비스 이용약관</h2>
-                        <div class="terms-content">
-                            <p><strong>제 1 조 (목적)</strong></p>
-                            <p>본 약관은 주식회사 애니웨이브(이하 "회사")가 제공하는 콘텐츠와 재화 또는 용역(이하 "상품")을 구입하는 경우(이하 "구매")와 관련하여 회사와 이용자와의 권리, 의무 및 책임사항 등을 규정함을 목적으로 합니다.</p>
+                    <h2 class="tap4SelectTag">
+                        <a class="tab-link active" data-content="terms" style="cursor:pointer">이용약관</a>
+                        <a class="tab-link" data-content="privacy" style="cursor:pointer">개인정보 처리방침</a>
+                    </h2>
 
-                            <p><strong>제 2 조 (용어의 정의)</strong></p>
-                            <p>이 약관에서 사용하는 용어의 정의는 다음과 같습니다. <br>
-                            1. "회사" : 회사 또는 회원이 서비스 계약을 통해 이용 계약을 체결하여 제공받는 서비스 전반을 의미합니다.<br>
-                            2. "이용자" : 회원 가입을 완료하고 회사의 서비스에 접근하여 이용하는 모든 개인 및 단체를 의미합니다.<br>
-                            3. "서비스" : 회사가 제공하는 모든 온라인, 오프라인 서비스를 의미합니다.</p>
-
-
-                        </div>
+                    <h2 id="termsTitle">서비스 이용약관</h2>
+                    <div class="terms-content" id="termsContent">
+                    <img src="/img/notice/tap4_1.png" alt="이용약관 이미지">
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -478,6 +473,8 @@ function checkLoginStatus() {
         if (defaultTag) {
             defaultTag.classList.add('on');
         }
+
+        test();
     });
 
 
@@ -539,12 +536,16 @@ function checkLoginStatus() {
                 e.preventDefault(); // 링크 기본 동작 방지
 
                 // 모달 내용 업데이트
+                const date = this.getAttribute('data-date');
                 const title = this.getAttribute('data-title');
                 const content = this.getAttribute('data-content');
 
+                document.getElementById('modalDate').innerHTML = date;
                 document.getElementById('modalTitle').innerHTML = title;
                 document.getElementById('modalContent').innerHTML = content;
-                document.querySelector('.detail_layer_pop').style.display = 'block'; // 모달 보이기
+                document.querySelector('.detail_layer_pop').style.display = 'flex'; // 모달 보이기
+
+                console.log(date);
             });
         });
     }
@@ -650,6 +651,35 @@ function checkLoginStatus() {
         return false;  // 기본 폼 제출 방지
     }
 
+    <!-- tap4 -->
+    document.addEventListener("DOMContentLoaded", function () {
+        // 기본으로 '이용약관'에 'on' 클래스 추가
+        document.querySelector("#tap4 .tab-link[data-content='terms']").classList.add("on");
+
+        // 탭 클릭 이벤트 설정
+        document.querySelectorAll("#tap4 .tab-link").forEach(link => {
+            link.addEventListener("click", function () {
+                // 모든 탭에서 'on' 클래스 제거
+                document.querySelectorAll("#tap4 .tab-link").forEach(l => l.classList.remove("on"));
+
+                // 클릭한 탭에 'on' 클래스 추가
+                this.classList.add("on");
+
+                // 탭에 따라 내용 변경
+                const contentType = this.getAttribute("data-content");
+                const termsTitle = document.getElementById("termsTitle");
+                const termsContent = document.getElementById("termsContent");
+
+                if (contentType === "terms") {
+                    termsTitle.textContent = "서비스 이용약관";
+                    termsContent.innerHTML = '<img src="/img/notice/tap4_1.png" alt="이용약관 이미지">';
+                } else if (contentType === "privacy") {
+                    termsTitle.textContent = "개인정보 처리방침";
+                    termsContent.innerHTML = '<img src="/img/notice/tap4_2.png" alt="개인정보 처리방침 이미지">';
+                }
+            });
+        });
+    });
 
 
 
