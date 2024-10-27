@@ -65,7 +65,7 @@ function getPointList(page){
                 pointList.forEach(pointList => {
                     const formattedPoint = formatNumber(pointList.point); // 여기서 형식화된 금액을 변수로 저장
                     const getPointType = getPoinType(pointList.type);
-                    const pointClass = pointList.type <3 || pointList.type==4
+                    const pointClass = pointList.type !=3
                         ? `<span style="color:var(--primary); font-weight: bold;">+${formattedPoint}</span>`
                         : `<span style="color:#a0a0a0; font-weight: bold;">${formattedPoint}</span>`;
                     $(".point_list_ul").append(`
@@ -100,6 +100,8 @@ function getPoinType(type) {
             return "상품 구매시 사용";
         case 4:
             return "상품 취소 적립금 환불";
+        case 5:
+            return "상품 환불로 인한 적립금 반환";
         default:
             return "타입값 오류";
     }

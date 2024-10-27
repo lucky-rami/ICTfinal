@@ -54,7 +54,7 @@ $(function(){
                 buttonContainer.text('교환완료').attr('id', 'btn_exchange_complete').show();
                 break;
             case 13: // 환불 처리중
-                buttonContainer.text('환불완료').attr('id', 'btn_refund_complete').show();
+                buttonContainer.text('환불처리').attr('id', 'btn_refund_complete').show();
                 break;
             default:
                 $buttonContainer.hide();
@@ -173,51 +173,119 @@ $(document).on('click', '#btn_refund', function() {
 //결제완료 -> 상품준비중인 상품 취소하고싶어하는 경우 되돌려주기 위함
 $(document).on('click', '#btn_payOk', function() {
     var idx = $(this).closest('tr').find('#idx').val();
-    updateOrderState(idx, 1); // 환불 처리중으로 변경
+    updateOrderState(idx, 1);
 });
-//환불완료 -> 환불액 입력하는 칸 필요
-//환불액과 order_idx값을 전달
+
+function refundModal_exit(){
+    $(".refund_modal_body").remove();
+}
+let tag=``;
+//환불완료
+//모달창 띄우기(환불갯수, 환불액, 환불적립금 -> 현재 결제돼있는 상태 한해서 모두 보여주기)
 $(document).on('click', '#btn_refund_complete', function() {
-    var idx = $(this).closest('tr').find('#idx').val(); // 상품 인덱스 값
-    var orderProductCell = $(this).closest('td'); // 현재 셀
+    let idx = $(this).closest('tr').find('#idx').val(); // 상품 인덱스 값
 
-    // 상태 텍스트를 숨기고 input 필드를 추가
-    var productStateSpan = orderProductCell.find('.order_productState');
-    var productBtn = orderProductCell.find('.productBtn');
-    productStateSpan.hide();
-    productBtn.hide();
+    $.ajax({
+        url: "/order/refundModal",
+        type: "POST",
+        data: {idx : idx},
+        success: function(response) {
+            // 초기값 설정
+            let unitPrice = response.refundModal.pro_price;
+            let refundAmount = response.refundModal.refundCount * unitPrice;
+            let refundPoint = Math.floor(use_point * (refundAmount / order_amount));
 
-    // input 필드로 변경
-    var refundInput = $('<input type="text" class="form-control" id="refundAmountInput" placeholder="환불금액 입력" />');
-    orderProductCell.prepend(refundInput);
+            tag = ``; //태그내용 초기화
+            tag +=`
+                <div class="refund_modal_body">
+                  <div></div>
+                  <div class="refund_modal_container">
+                    <div class="refund_modal_container_flex">
+                      <div>
+                        <span>환불 처리</span>
+                        <i class="fa-solid fa-x" onclick="refundModal_exit()"></i>
+                      </div>
+                      <div class="refund-day-info-modal">
+                        <input type="hidden" id="orderList_idx" value="${response.refundModal.orderList_idx}"/>
+                        <input type="hidden" id="order_idx" value="${response.refundModal.order_idx}"/>
+                        <div class="input_div">
+                          <span>환불갯수 : </span>
+                          <input type="number" id="refundCount" value="${response.refundModal.refundCount}" max="${response.refundModal.refundCount}"/>
+                        </div>
+                        <div class="input_div">
+                          <span>환불액 : </span>
+                          <input type="text" id="refundAmount" value="${refundAmount}"/>
+                        </div>
+                        <div class="input_div">
+                          <span>차감액 : </span>
+                          <input type="text" id="deductedAmount" value="0"/>
+                        </div>
+                        <div class="input_div">
+                          <span>환불적립금 : </span>
+                          <input type="text" id="refundPoint" value="${refundPoint}"/>
+                        </div>
+                        <div class="refundBtn_div">
+                          <button onclick="refundModal_exit()">취소하기</button>
+                          <button id="refundAmountSubmit">환불 처리하기</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            `;
+            $("body").append(tag);
 
-    // 버튼 그룹에 "환불금액 입력" 버튼 추가
-    var buttonGroup = orderProductCell.find('.button-group');
-    buttonGroup.empty(); // 기존 버튼 초기화
-    buttonGroup.append('<button class="btn btn-secondary" id="refundAmountSubmit">입력</button>');
+            // 환불 갯수 변경 시 실시간 계산
+            $('#refundCount').on('input', function() {
+                let refundCount = parseInt($(this).val()) || 0; // 환불 갯수 (입력값이 없을 경우 0)
+                let newRefundAmount = refundCount * unitPrice; // 환불액 계산
+                $('#refundAmount').val(newRefundAmount);
+
+                let newRefundPoint = Math.floor(use_point * (newRefundAmount / order_amount)); // 환불적립금 계산
+                $('#refundPoint').val(newRefundPoint);
+            });
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+
 });
 
 // 환불 금액 입력 버튼 클릭 시
 $(document).on('click', '#refundAmountSubmit', function() {
-    var refundAmount = $(this).closest('td').find('#refundAmountInput').val();
-    var order_idx = $(this).closest('tr').find('#order_idx').val();
+    //환불금액=환불액-차감액
+    var refundAmount = parseInt($(this).closest('.refund_modal_body').find('#refundAmount').val())-parseInt($(this).closest('.refund_modal_body').find('#deductedAmount').val());
+    var refundPoint = $(this).closest('.refund_modal_body').find('#refundPoint').val()
+    var refundCount = $(this).closest('.refund_modal_body').find('#refundCount').val()
+    var order_idx = $(this).closest('.refund_modal_body').find('#order_idx').val()
+    var orderList_idx = $(this).closest('.refund_modal_body').find('#orderList_idx').val()
 
     console.log(refundAmount);
+    console.log(refundPoint);
+    console.log(refundCount);
     console.log(order_idx);
+    console.log(orderList_idx);
 
-    // refundAmount 조건주기 -> 나중
+    var data={
+        refundAmount:refundAmount,
+        refundPoint:refundPoint,
+        refundCount:refundCount,
+        order_idx:order_idx,
+        orderList_idx:orderList_idx
+    }
 
     $.ajax({
         url: '/order/refund',
         type: 'POST',
-        data: JSON.stringify({ order_idx: order_idx, refundAmount: refundAmount }),
         contentType: 'application/json',
+        data: JSON.stringify(data),
         headers: {
             "Authorization": `Bearer ${token}`  // JWT 토큰을 Authorization 헤더에 포함
         },
         success: function(response) {
             alert('환불이 완료되었습니다.');
-            location.reload(); // 성공 시 페이지 새로고침
+            location.reload();
         },
         error: function(error) {
             alert('환불 완료 처리중 오류가 발생했습니다.');
@@ -238,7 +306,6 @@ function updateOrderState(idx, newState) {
             "Authorization": `Bearer ${token}`
         },
         success: function(response) {
-            alert('주문 상태가 업데이트되었습니다.');
             location.reload(); // 상태 업데이트 후 새로고침
         },
         error: function(error) {

@@ -1,9 +1,6 @@
 package com.ict.finalproject.Service;
 
-import com.ict.finalproject.DTO.CancelResultDTO;
-import com.ict.finalproject.DTO.PayCancelDTO;
-import com.ict.finalproject.DTO.PaymentApprovalDTO;
-import com.ict.finalproject.DTO.PaymentReqDTO;
+import com.ict.finalproject.DTO.*;
 import com.ict.finalproject.vo.OrderListVO;
 import com.ict.finalproject.vo.OrderVO;
 import com.ict.finalproject.vo.PaymentVO;
@@ -54,7 +51,11 @@ public interface OrderService {
     // 구매확정
     int confirmOrder(int order_idx,int pro_idx);
 
+    //환불 모달창
+    RefundDTO getrefundModalInfo(int idx);
     //환불
-//    String refundPayment(int cancelAmount,String paymentkey);
+    ResponseEntity<String> refundPayment(RefundDTO refundInfo);
+    //환불유저
+    int getRefundUserIdx(int order_idx);
 
 }

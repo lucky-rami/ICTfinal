@@ -316,98 +316,97 @@ public class OrderServiceImpl implements OrderService{
         return rewardPoints;
     }
 
+    @Override
+    public RefundDTO getrefundModalInfo(int idx) {
+        return dao.getrefundModalInfo(idx);
+    }
+
     //환불
-//    @Override
-//    public String refundPayment(int cancelAmount, String paymentkey) {
-//        try {
-//            // 1.  Toss Payments에 결제 취소 요청
-//            // 변수선언
-//            String cancelReason = "상품 환불";
-//
-//            // Toss Payments API로 승인 요청
-//            String apiUrl = "https://api.tosspayments.com/v1/payments/"+paymentkey+"/cancel";
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.APPLICATION_JSON);
-//            headers.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
-//
-//            // secretKey + ":" 을 인코딩
-//            String auth = secretKey + ":";
-//            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
-//            headers.set("Authorization", "Basic " + encodedAuth);
-//
-//            // 승인 요청 데이터
-//            Map<String, Object> requestData = new HashMap<>();
-//            requestData.put("cancelAmount",cancelAmount);
-//            requestData.put("cancelReason", cancelReason);
-//            log.info("Toss API 요청 데이터: {}", requestData);
-//
-//            HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestData, headers);
-//            RestTemplate restTemplate = new RestTemplate();
-//            // Toss Payments API로 승인 요청
-//            ResponseEntity<CancelResDTO> response = restTemplate.postForEntity(apiUrl, requestEntity, CancelResDTO.class);
-//
-//            log.info("Toss API 응답: {}", response.getBody());
-//
-//
-//            if (response.getStatusCode() == HttpStatus.OK) {
-//                // Toss API에서 받은 결제 정보
-////                CancelResDTO responseData = response.getBody();
-////                Map<String, Object> paramMap = new HashMap<>();
-////                // 환불내역(최신 취소 내역)
-////                CancelResDTO.CancelInfo latestCancel = responseData.getCancels().get(responseData.getCancels().size() - 1);
-////
-////                paramMap.put("cancelInfo", latestCancel);
-////                // 결제 환불 성공 정보 저장(T_payment) -> cancelDT, cancelState
-////                dao.PaymentCancelSuccess(responseData.getPaymentKey());
-////                // T_payment_cancel에 환불 정보 저장
-////                //1. payment_id 알아내기
-////                long payment_id = dao.getPaymentId(responseData.getPaymentKey());
-////                // 2. 결제정보 저장
-////                paramMap.put("payment_id", payment_id);
-////                // 반환되는 적립금
-////                paramMap.put("refundUsePoint",sessionPayCancelDTO.getRefundUsePoint());
-////                dao.savePaymentCancels(paramMap);
-////
-////                // 승인과 동시에 T_order, T_orderList State 변경 + 재고관리
-////                int order_idx = sessionPayCancelDTO.getOrder_idx();
-////                Map<Integer, Integer> cancelProducts = sessionPayCancelDTO.getCancelProducts();
-////                // 1. T_order의 cancelDT, state
-////                dao.updateOrderStateCancel(order_idx);
-//                // 2. T_orderList의 orderState
-////                List<OrderListVO> orderProducts = dao.getOrderListByOrderIdx(order_idx);
-////                for (OrderListVO orderProduct : orderProducts) {
-////                    int pro_idx = orderProduct.getPro_idx();
-////                    int amount = orderProduct.getAmount();
-////                    int cancelCount = cancelProducts.getOrDefault(pro_idx, 0);
-////
-////                    // DB에서 이미 취소된 수량 가져오기
-////                    int currentCancelCount = orderProduct.getCancelCount();
-////                    int totalCanceledCount = currentCancelCount + cancelCount; // 새롭게 취소된 수량과 기존 취소 수량 합산
-////
-////
-////                    // cancelCount -> amount = cancelCount면 전체 취소라서 orderState=7로 업데이트
-////                    if (totalCanceledCount == amount) {
-////                        dao.updateOrderListState(pro_idx, order_idx, 7, cancelCount); // 전체 취소 상태
-////                    } else if (totalCanceledCount > 0) {
-////                        dao.updateOrderListState(pro_idx, order_idx, 8, cancelCount); // 부분 취소 상태
-////                    }
-////                    // 취소된 상품만큼 재고(stock) 더하기
-////                    if (cancelCount > 0) {
-////                        dao.increaseProductStock(pro_idx, cancelCount);
-////                    }
-////                }
-//                // 성공적으로 결제 취소 완료, 메시지와 상태 코드 반환
-//                return ResponseEntity.ok("결제 취소가 성공적으로 처리되었습니다.");
-//            } else {
-//                // Toss API에서 결제 취소 실패 응답이 왔을 때
-//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                        .body("결제 취소 실패: " + response.getBody());
-//            }
-//        }catch (Exception e) {
-//            // 에러가 발생한 경우
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("결제 취소 중 오류가 발생했습니다: " + e.getMessage());
-//        }
-//    }
+    @Override
+    public ResponseEntity<String> refundPayment(RefundDTO refundInfo) {
+        try {
+            // 1.  Toss Payments에 결제 취소 요청
+            // 변수선언
+            String cancelReason = "상품 환불";
+            String paymentkey = refundInfo.getPaymentkey();
+            int cancelAmount = refundInfo.getRefundAmount();
+
+
+            // Toss Payments API로 승인 요청
+            String apiUrl = "https://api.tosspayments.com/v1/payments/"+paymentkey+"/cancel";
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
+
+            // secretKey + ":" 을 인코딩
+            String auth = secretKey + ":";
+            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
+            headers.set("Authorization", "Basic " + encodedAuth);
+
+            // 승인 요청 데이터
+            Map<String, Object> requestData = new HashMap<>();
+            requestData.put("cancelAmount",cancelAmount);
+            requestData.put("cancelReason", cancelReason);
+            log.info("Toss API 요청 데이터: {}", requestData);
+
+            HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestData, headers);
+            RestTemplate restTemplate = new RestTemplate();
+            // Toss Payments API로 승인 요청
+            ResponseEntity<CancelResDTO> response = restTemplate.postForEntity(apiUrl, requestEntity, CancelResDTO.class);
+
+            log.info("Toss API 응답: {}", response.getBody());
+
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                //Toss API에서 받은 결제 정보
+                CancelResDTO responseData = response.getBody();
+                Map<String, Object> paramMap = new HashMap<>();
+                // 환불내역(최신 취소 내역)
+                CancelResDTO.CancelInfo latestCancel = responseData.getCancels().get(responseData.getCancels().size() - 1);
+
+                paramMap.put("cancelInfo", latestCancel);
+                // 결제 환불 성공 정보 저장(T_payment) -> cancelDT, cancelState
+                dao.PaymentCancelSuccess(responseData.getPaymentKey());
+                // T_payment_cancel에 환불 정보 저장
+                //1. payment_id 알아내기
+                long payment_id = dao.getPaymentId(responseData.getPaymentKey());
+                // 2. 결제정보 저장
+                paramMap.put("payment_id", payment_id);
+                // 반환되는 적립금
+                paramMap.put("refundUsePoint",refundInfo.getRefundPoint());
+                dao.savePaymentCancels(paramMap);
+
+                // 승인과 동시에 T_order, T_orderList State 변경 + 재고관리
+                int order_idx = refundInfo.getOrder_idx();
+                int refundCount = refundInfo.getRefundCount();
+                // 1. T_order의 cancelDT, state
+                dao.updateOrderStateCancel(order_idx);
+                // 2. T_orderList의 orderState
+                int pro_idx = dao.getRefundProIdx(refundInfo.getOrderList_idx());
+                dao.updateOrderListState(pro_idx, order_idx, 14, refundCount);
+
+                // 취소된 상품만큼 재고(stock) 더하기
+                if (refundCount > 0) {
+                    dao.increaseProductStock(pro_idx, refundCount);
+                }
+
+                // 성공적으로 결제 취소 완료, 메시지와 상태 코드 반환
+                return ResponseEntity.ok("환불이 성공적으로 처리되었습니다.");
+            } else {
+                // Toss API에서 결제 취소 실패 응답이 왔을 때
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("환불 취소 실패: " + response.getBody());
+            }
+        }catch (Exception e) {
+            // 에러가 발생한 경우
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("환불 취소 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public int getRefundUserIdx(int order_idx) {
+        return dao.getRefundUserIdx(order_idx);
+    }
 
 }

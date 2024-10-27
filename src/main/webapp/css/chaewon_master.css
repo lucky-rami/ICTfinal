@@ -339,3 +339,130 @@ td, th {
     font-size:1.4em !important;
     padding:15px !important;
 }
+
+/*
+환불모달*/
+
+.refund_modal_body {
+  position: fixed;
+  inset: 0px;
+  z-index: 20;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.refund_modal_body > div:nth-of-type(1) {
+  opacity: 1;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color: rgb(0, 0, 0, 0.7);
+  height: calc(100% + 0vh);
+  width: 100vw;
+  z-index: -1;
+}
+
+.refund_modal_container {
+  opacity: 1;
+  transform: translate3d(0px, 0vh, 0px);
+  height: calc(100% + 0vh);
+  position: relative;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.refund_modal_container_flex {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 28rem;
+  height: auto;
+  max-height: calc(-2rem + 100vh);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  color: #303030;
+  background: #fff;
+  box-shadow: 0 0 1rem rgb(0, 0, 0, 0.5);
+}
+
+.refund_modal_container_flex > div:nth-of-type(1) {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 0.625rem;
+  margin-bottom: 20px;
+}
+
+.refund_modal_container_flex > div:nth-of-type(1) > span {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.refund_modal_container_flex > div:nth-of-type(1) > i {
+  cursor: pointer;
+  font-size: 1.5em;
+  color: #303030;
+}
+
+.refund-day-info-modal {
+  height: 100%;
+  overflow-y: auto;
+  padding: 0 3em;
+  display: flex;
+  margin-bottom: 30px;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.refund-day-info-modal .input_div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.2em;
+}
+
+.refund-day-info-modal .input_div span {
+  font-size: 1em;
+  display: inline-block;
+  width: 5em;
+}
+
+.refund-day-info-modal .input_div input {
+  padding: 0.7em;
+  border: 1px solid #a7a7a7;
+  border-radius: 3px;
+}
+
+.refundBtn_div {
+  margin-top: 15px;
+  width: 100%;
+  text-align: center;
+}
+
+.refundBtn_div button {
+  padding: 10px;
+  width: 48%;
+  display: inline-block;
+  height: 38px;
+  border-radius: 3px;
+  border: 1px solid #fff;
+  background: #333;
+  color: #fff;
+  font-size: 14px;
+}
+
+.refundBtn_div button:nth-of-type(1) {
+  margin-right: 0.3em;
+  border: 1px solid #a7a7a7;
+  background: #fff;
+  color: #333;
+}

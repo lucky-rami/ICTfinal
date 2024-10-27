@@ -191,8 +191,8 @@ header.fixed .col02 {
   font-size: 15px;
 }
 
-.snav ul li .active {
-  color: #000;
+.active {
+  color: #000 !important;
   font-weight: 700;
 }
 
@@ -225,7 +225,7 @@ header.fixed .col02 {
 
 .mymenu li a {
   font-size: 15px;
-  color: #666666 !important;
+  color: #666666;
 }
 
 @media (min-width: 1024px) and (pointer: fine) {

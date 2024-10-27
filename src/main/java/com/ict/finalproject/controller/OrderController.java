@@ -525,45 +525,50 @@ public class OrderController {
         }
     }
 
+    // 환불 모달
+    @PostMapping("/refundModal")
+    public ResponseEntity<Map<String, Object>> refundModal(@RequestParam("idx") int idx) {
+        //환불 상품 정보 idx, order_idx, count(환불가능갯수)
+        RefundDTO refundModal = service.getrefundModalInfo(idx);
+        Map<String, Object> response = new HashMap<>();
+        response.put("refundModal", refundModal);
+        return ResponseEntity.ok(response);
+    }
+
     //환불
-//    @PostMapping("/refund")
-//    public ResponseEntity<String> refundOk(@RequestBody Map<String, Object> params,
-//                                           @RequestHeader("Authorization") String Headertoken){
-//        // JWT 토큰 검증 및 useridx 추출
-//        ResponseEntity<Map<String, Object>> tokenResponse = extractUserIdFromToken(Headertoken);
-//        if (!tokenResponse.getStatusCode().is2xxSuccessful()) {
-//            return new ResponseEntity<>(tokenResponse.getHeaders(), tokenResponse.getStatusCode());
-//        }
-//
-//        // useridx 가져오기
-//        Map<String, Object> responseBody = tokenResponse.getBody();
-//        Integer useridx = (Integer) responseBody.get("useridx");
-//
-//        int cancelAmount = (int) params.get("refundAmount");
-//        int order_idx = (int) params.get("order_idx");
-//
-//        //paymentkey 값 가져오기
-//        String paymentkey = service.getPaymentKey(order_idx);
-//        // 환불 service
-//        ResponseEntity<String> cancelResponse = service.refundPayment(cancelAmount,paymentkey);
-//
-//        // 환불이 성공했을 때 적립금 반환 처리
-//        if (cancelResponse.getStatusCode() == HttpStatus.OK) {
-//            /*int refundUsePoint = sessionPayCancelDTO.getRefundUsePoint();
-//
-//            if (refundUsePoint > 0) {
-//                // 적립금 반환 로직 (유저의 적립금을 업데이트)
-//                memberService.pointUpdate(useridx, 4, refundUsePoint);
-//                log.info("사용자 ID {}의 적립금 {}원이 반환되었습니다.", useridx, refundUsePoint);
-//            }*/
-//            // 성공 응답 반환
-//            return ResponseEntity.ok("환불이 성공적으로 처리되었습니다.");
-//        }else {
-//            // 실패한 경우, 클라이언트에 실패 메시지 전달
-//            log.error("환불 중 오류 발생: {}", cancelResponse.getBody());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("환불 중 오류가 발생했습니다.");
-//        }
-//    }
+    @PostMapping("/refund")
+    public ResponseEntity<String> refundOk(@RequestBody RefundDTO refundInfo,
+                                           @RequestHeader("Authorization") String Headertoken){
+        // JWT 토큰 검증 및 useridx 추출
+        ResponseEntity<Map<String, Object>> tokenResponse = extractUserIdFromToken(Headertoken);
+        if (!tokenResponse.getStatusCode().is2xxSuccessful()) {
+            return new ResponseEntity<>(tokenResponse.getHeaders(), tokenResponse.getStatusCode());
+        }
+
+        //paymentkey 값 가져오기
+        String paymentkey = service.getPaymentKey(refundInfo.getOrder_idx());
+        refundInfo.setPaymentkey(paymentkey);
+        // 환불 service
+        ResponseEntity<String> cancelResponse = service.refundPayment(refundInfo);
+
+        // 환불이 성공했을 때 적립금 반환 처리
+        if (cancelResponse.getStatusCode() == HttpStatus.OK) {
+            int refundUsePoint = refundInfo.getRefundPoint();
+            int refund_useridx = service.getRefundUserIdx(refundInfo.getOrder_idx());
+
+            if (refundUsePoint > 0) {
+                // 적립금 반환 로직 (유저의 적립금을 업데이트)
+                memberService.pointUpdate(refund_useridx, 5, refundUsePoint);
+                log.info("사용자 ID {}의 적립금 {}원이 반환되었습니다.",refund_useridx , refundUsePoint);
+            }
+            // 성공 응답 반환
+            return ResponseEntity.ok("환불이 성공적으로 처리되었습니다.");
+        }else {
+            // 실패한 경우, 클라이언트에 실패 메시지 전달
+            log.error("환불 중 오류 발생: {}", cancelResponse.getBody());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("환불 중 오류가 발생했습니다.");
+        }
+    }
 
 }

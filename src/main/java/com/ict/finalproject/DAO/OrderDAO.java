@@ -2,6 +2,7 @@ package com.ict.finalproject.DAO;
 
 import com.ict.finalproject.DTO.CancelResDTO;
 import com.ict.finalproject.DTO.PaymentReqDTO;
+import com.ict.finalproject.DTO.RefundDTO;
 import com.ict.finalproject.vo.OrderListVO;
 import com.ict.finalproject.vo.OrderVO;
 import com.ict.finalproject.vo.PaymentVO;
@@ -63,5 +64,10 @@ public interface OrderDAO {
     //구매확정
     void updateOrderStateConfirm(int order_idx,int pro_idx);
     OrderListVO getOrderProductPriceAmount(int order_idx,int pro_idx);
+    //환불 모달
+    RefundDTO getrefundModalInfo(int idx);
+    int getRefundProIdx(int orderList_idx);
+    //환불유저
+    int getRefundUserIdx(int order_idx);
 
 }

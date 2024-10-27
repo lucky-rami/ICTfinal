@@ -117,13 +117,13 @@
             <nav>
               <ul>
 
-                <li class="check"><a class="active" href="/storeMain">홈</a></li>
-                <li class=""><a href="/storeList?category=1">의류</a></li>
-                <li class=""><a href="/storeList?category=2">완구/취미</a></li>
-                <li class=""><a href="/storeList?category=3">문구/오피스</a></li>
-                <li class=""><a href="/storeList?category=4">생활용품</a></li>
-                <li class=""><a href="/storeList"># 인기굿즈</a></li>
-                <li class=""><a href="/storeList"># 신상굿즈</a></li>
+                <li><a href="/storeMain">홈</a></li>
+                <li><a href="/storeList?category=1">의류</a></li>
+                <li><a href="/storeList?category=2">완구/취미</a></li>
+                <li><a href="/storeList?category=3">문구/오피스</a></li>
+                <li><a href="/storeList?category=4">생활용품</a></li>
+                <li><a href="/storeList"># 인기굿즈</a></li>
+                <li><a href="/storeList"># 신상굿즈</a></li>
               </ul>
             </nav>
           </div>

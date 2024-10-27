@@ -211,4 +211,21 @@
         from T_payment
         where paymentkey=#{param1}
     </select>
+    <select id="getrefundModalInfo" resultType="com.ict.finalproject.DTO.RefundDTO">
+        select ol.idx AS orderList_idx, ol.order_idx, (ol.amount-ol.cancelCount) AS refundCount, p.price AS pro_price
+        from T_orderList ol
+        join T_product p on ol.pro_idx=p.idx
+        where ol.idx=${param1}
+    </select>
+    <select id="getRefundProIdx">
+        select p.idx
+        from T_orderList ol
+        join T_product p on ol.pro_idx=p.idx
+        where ol.idx=${param1}
+    </select>
+    <select id="getRefundUserIdx">
+        select useridx
+        from T_order
+        where idx=${param1}
+    </select>
 </mapper>
