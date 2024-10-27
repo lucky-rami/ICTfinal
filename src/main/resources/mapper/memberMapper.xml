@@ -341,4 +341,20 @@
     <select id="checkUserIdExists" parameterType="String" resultType="int">
         SELECT COUNT(*) FROM t_user WHERE LOWER(userid) = LOWER(#{userid})
     </select>
+
+    <select id="getLatestMembers" resultType="MemberVO">
+        SELECT
+        userid,
+        email,
+        regDT,
+        CASE
+        WHEN DATEDIFF(NOW(), regDT) &lt;= 30 THEN '신규 가입'
+        ELSE '일반 회원'
+        END AS join_status
+        FROM
+        t_user
+        ORDER BY
+        regDT DESC
+        LIMIT 2
+    </select>
 </mapper>

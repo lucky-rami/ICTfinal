@@ -70,22 +70,25 @@
                            </tr>
                        </thead>
                        <tbody>
-                           <tr>
-                               <td>20230925001</td>
-                               <td>홍길동</td>
-                               <td>애니 굿즈 티셔츠</td>
-                               <td>45,000원</td>
-                               <td><span class="badge badge-warning">배송 중</span></td>
-                               <td>2023-09-25 14:35</td>
-                           </tr>
-                           <tr>
-                               <td>20230925002</td>
-                               <td>김철수</td>
-                               <td>애니 포스터 세트</td>
-                               <td>30,000원</td>
-                               <td><span class="badge badge-success">배송 완료</span></td>
-                               <td>2023-09-24 11:22</td>
-                           </tr>
+                         <c:forEach var="order" items="${latestOrders}">
+                                     <tr>
+                                         <td>${order.orderId}</td>
+                                         <td>${order.customerName}</td>
+                                         <td>${order.productName}</td>
+                                         <td>${order.paymentAmount}원</td>
+                                         <td>
+                                             <span class="badge
+                                                 <c:choose>
+                                                     <c:when test="${order.orderState == '배송 중'}">badge-warning</c:when>
+                                                     <c:when test="${order.orderState == '배송 완료'}">badge-success</c:when>
+                                                     <c:when test="${order.orderState == '환불 처리중' || order.orderState == '환불 처리완료'}">badge-danger</c:when>
+                                                     <c:otherwise>badge-secondary</c:otherwise>
+                                                 </c:choose>
+                                             ">${order.orderState}</span>
+                                         </td>
+                                         <td>${order.orderDate}</td>
+                                     </tr>
+                                 </c:forEach>
                        </tbody>
                    </table>
                </div>
@@ -106,22 +109,19 @@
                                  <th>작성 일시</th>
                              </tr>
                          </thead>
-                         <tbody>
-                             <tr>
-                                 <td>문의 작성</td>
-                                 <td>김영희</td>
-                                 <td>배송이 지연되고 있는데 언제 받을 수 있을까요?</td>
-                                 <td><span class="badge badge-warning">처리 중</span></td>
-                                 <td>2023-09-23 09:10</td>
-                             </tr>
-                             <tr>
-                                 <td>리뷰 작성</td>
-                                 <td>이철수</td>
-                                 <td>애니 굿즈 포스터, 품질이 정말 좋네요! ★★★★☆</td>
-                                 <td><span class="badge badge-success">완료</span></td>
-                                 <td>2023-09-22 14:55</td>
-                             </tr>
-                         </tbody>
+                        <c:forEach var="qna" items="${latestActivities}">
+                                       <tr>
+                                           <td>${qna.qnatype}</td>
+                                           <td>${qna.userid}</td> <!-- 실제로는 사용자 이름을 표시하는 것이 좋습니다 -->
+                                           <td>${qna.title}</td>
+                                           <td>
+                                               <span class="badge ${qna.handleState == 1 ? 'badge-success' : 'badge-warning'}">
+                                                   ${qna.handleState == 1 ? '완료' : '처리 중'}
+                                               </span>
+                                           </td>
+                                           <td>${qna.regDT}</td>
+                                       </tr>
+                                   </c:forEach>
                      </table>
                  </div>
 
@@ -141,18 +141,21 @@
                              </tr>
                          </thead>
                          <tbody>
-                             <tr>
-                                 <td>이영희</td>
-                                 <td>younghee@example.com</td>
-                                 <td><span class="badge badge-info">신규 가입</span></td>
-                                 <td>2023-09-24 10:15</td>
-                             </tr>
-                             <tr>
-                                 <td>박민수</td>
-                                 <td>minspark@example.com</td>
-                                 <td><span class="badge badge-info">신규 가입</span></td>
-                                 <td>2023-09-23 16:45</td>
-                             </tr>
+                            <c:forEach var="member" items="${latestMembers}">
+                                        <tr>
+                                            <td>${member.userid}</td>
+                                            <td>${member.email}</td>
+                                            <td>
+                                                <span class="badge badge-info">
+                                                    <c:choose>
+                                                        <c:when test="${member.join_status == '신규 가입'}">신규 가입</c:when>
+                                                        <c:otherwise>일반 회원</c:otherwise>
+                                                    </c:choose>
+                                                </span>
+                                            </td>
+                                            <td>${member.regDT}</td>
+                                        </tr>
+                                    </c:forEach>
                          </tbody>
                      </table>
                  </div>

@@ -25,4 +25,6 @@ public class MemberVO {
 
     private int page;      // 현재 페이지 번호
     private int pageSize;
+
+    private String join_status;
 }

@@ -7,10 +7,7 @@ import com.ict.finalproject.JWT.JWTUtil;
 import com.ict.finalproject.Service.MasterService;
 import com.ict.finalproject.Service.MemberService;
 import com.ict.finalproject.Service.TAdminService;
-import com.ict.finalproject.vo.MasterVO;
-import com.ict.finalproject.vo.MemberVO;
-import com.ict.finalproject.vo.OrderListVO;
-import com.ict.finalproject.vo.PointVO;
+import com.ict.finalproject.vo.*;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -121,13 +118,25 @@ public class masterController {
     // Dashboard 매핑
     @GetMapping("/masterMain")
     public ModelAndView masterMain() {
+        ModelAndView mav = new ModelAndView("master/masterMain");  // 뷰 이름을 설정
+
         // 문의 사항 테이블에서 답변 안된 문의 개수 카운트
         int unanswerCount = masterService.getUnansweredQnaCount();
-        System.out.println("hey! 모두들 안녕 내가 누군지 아니?");
-        mav = new ModelAndView();
-        mav.addObject("unanswerCount", unanswerCount);
-        mav.setViewName("master/masterMain");  // 뷰 이름 설정
-        return mav;  // 중복 리다이렉트 발생 여부 확인
+        mav.addObject("unanswerCount", unanswerCount);  // 문의 개수 추가
+
+        // 최신 가입한 회원 정보 가져오기
+        List<MemberVO> latestMembers = service.getLatestMembers();
+        mav.addObject("latestMembers", latestMembers);  // 최신 회원 정보 추가
+
+        // 최신 문의 및 리뷰 활동 가져오기
+        List<MasterVO> latestActivities = masterService.getLatestActivities();
+        mav.addObject("latestActivities", latestActivities);
+
+        // 최신 주문 활동 가져오기
+        List<MasterVO> latestOrders = masterService.getRecentOrders();
+        mav.addObject("latestOrders", latestOrders);  // 최신 주문 활동 추가
+
+        return mav;  // 최종 ModelAndView 반환
     }
 
     //Dashboard - 회원관리 - 회원 목록 리스트

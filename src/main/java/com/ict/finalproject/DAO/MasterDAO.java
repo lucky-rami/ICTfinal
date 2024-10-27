@@ -3,6 +3,7 @@ package com.ict.finalproject.DAO;
 import com.ict.finalproject.DTO.*;
 import com.ict.finalproject.vo.MasterVO;
 import com.ict.finalproject.vo.OrderListVO;
+import com.ict.finalproject.vo.OrderVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -239,4 +240,7 @@ public interface MasterDAO {
     List<MasterVO> getFAQListByPage(int startRecord, int pageSize);
     int getTotalEventCount(); // 전체 이벤트 개수 조회
     List<MasterVO> getEventListByPage(int startRecord, int pageSize);
+
+    List<MasterVO> getLatestActivities();
+    List<MasterVO> getRecentOrders();
 }

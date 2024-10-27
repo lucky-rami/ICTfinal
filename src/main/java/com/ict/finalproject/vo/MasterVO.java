@@ -143,4 +143,6 @@ public class MasterVO {
     private String orderId;
     private String productName;
     private String orderDate;
+    private String customerName;
+    private String orderState;
 }

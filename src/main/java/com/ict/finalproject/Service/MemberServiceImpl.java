@@ -260,4 +260,9 @@ public class MemberServiceImpl implements MemberService {
     public MemberVO findUserByEmail(String email) {
         return dao.findUserByEmail(email);
     }
+
+    @Override
+    public List<MemberVO> getLatestMembers() {
+        return dao.getLatestMembers();
+    }
 }

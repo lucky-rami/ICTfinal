@@ -102,4 +102,7 @@ public interface MemberDAO {
 
         // 구글 소설 로그인
         MemberVO findUserByEmail(String email);
+
+        // 최신 가입자 구하기
+        List<MemberVO> getLatestMembers();
 }

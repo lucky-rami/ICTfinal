@@ -587,4 +587,14 @@ public class MasterServiceImpl implements MasterService {
     public List<MasterVO> getEventListByPage(int startRecord, int pageSize) {
         return dao.getEventListByPage(startRecord, pageSize);
     }
+
+    @Override
+    public List<MasterVO> getLatestActivities() {
+        return dao.getLatestActivities();
+    }
+
+    @Override
+    public List<MasterVO> getRecentOrders() {
+        return dao.getRecentOrders();
+    }
 }

@@ -70,4 +70,7 @@ public interface MemberService {
     boolean checkIdDuplicate(String userid);
 
     MemberVO findUserByEmail(String email);
+
+    List<MemberVO> getLatestMembers();
+
 }
