@@ -94,80 +94,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--    &lt;!&ndash; 리스트 &ndash;&gt;-->
-<!--    <select id="List" resultType="com.ict.finalproject.vo.CommuVO">-->
-<!--        SELECT c.idx, ct.type AS commtype, c.title, DATE_FORMAT(c.regDT, '%y.%m.%d') AS regDT, c.hit-->
-<!--        FROM t_community c-->
-<!--        JOIN t_communitytype ct ON c.commtype = ct.code-->
-<!--        WHERE c.delState = 0-->
-<!--        <if test="commtype != null and commtype != 'all'">-->
-<!--            AND c.commtype = #{commtype}  &lt;!&ndash; 필터링 조건 확인 &ndash;&gt;-->
-<!--        </if>-->
-<!--        ORDER BY c.regDT DESC-->
-<!--    </select>-->
-
-
-
-
-
-
-<!--    &lt;!&ndash; 필터, 정렬, 검색 조건에 따른 게시글 목록 조회 메서드 &ndash;&gt;-->
-<!--    <select id="FilteredList" resultType="com.ict.finalproject.vo.CommuVO">-->
-<!--        SELECT c.idx, ct.type AS commtype, c.title, DATE_FORMAT(c.regDT, '%y.%m.%d') AS regDT, c.hit-->
-<!--        FROM t_community c-->
-<!--        JOIN t_communitytype ct ON c.commtype = ct.code-->
-<!--        WHERE c.delState = 0-->
-<!--        <if test="commtype != null and commtype != 'all'">-->
-<!--            AND c.commtype = #{commtype} &lt;!&ndash; 커뮤니티 타입 필터링 &ndash;&gt;-->
-<!--        </if>-->
-
-<!--        &lt;!&ndash; 검색어 조건 설정 &ndash;&gt;-->
-<!--        <if test="searchKeyword != null and searchKeyword != ''">-->
-<!--            <choose>-->
-<!--                <when test="searchCategory == 'TITLE_AND_CONTENT'">-->
-<!--                    AND (c.title LIKE CONCAT('%', #{searchKeyword}, '%')-->
-<!--                    OR c.content LIKE CONCAT('%', #{searchKeyword}, '%'))-->
-<!--                </when>-->
-<!--                <when test="searchCategory == 'TITLE'">-->
-<!--                    AND c.title LIKE CONCAT('%', #{searchKeyword}, '%')-->
-<!--                </when>-->
-<!--                <when test="searchCategory == 'CONTENT'">-->
-<!--                    AND c.content LIKE CONCAT('%', #{searchKeyword}, '%')-->
-<!--                </when>-->
-<!--            </choose>-->
-<!--        </if>-->
-
-<!--        &lt;!&ndash; 정렬 조건 &ndash;&gt;-->
-<!--        <choose>-->
-<!--            <when test="orderBy == 'DEFAULT'">-->
-<!--                ORDER BY c.regDT DESC-->
-<!--            </when>-->
-<!--            <when test="orderBy == 'NEW_REPLY'">-->
-<!--                ORDER BY c.lastReplyDT DESC-->
-<!--            </when>-->
-<!--            <when test="orderBy == 'REPLY'">-->
-<!--                ORDER BY c.replyCount DESC-->
-<!--            </when>-->
-<!--            <when test="orderBy == 'LIKE'">-->
-<!--                ORDER BY c.hit DESC-->
-<!--            </when>-->
-<!--        </choose>-->
-<!--    </select>-->
-
     <!-- 상세페이지 -->
     <select id="Detail" parameterType="int" resultType="com.ict.finalproject.vo.CommuVO">
         SELECT
@@ -185,7 +111,7 @@
         LEFT JOIN
         t_communitytype ct ON c.commtype = ct.code
         WHERE
-        c.idx = #{idx} -- idx에 해당하는 항목 조회
+        c.idx = #{idx} AND c.delState = 0
     </select>
 
 
@@ -194,11 +120,11 @@
     </update>
 
     <select id="PreviousPost" parameterType="int" resultType="com.ict.finalproject.vo.CommuVO">
-        select * from t_community where idx &gt; #{idx} order by idx asc limit 1
+        select * from t_community where idx &gt; #{idx} AND delState = 0 order by idx asc limit 1
     </select>
 
     <select id="NextPost" parameterType="int" resultType="com.ict.finalproject.vo.CommuVO">
-        select * from t_community where idx &lt; #{idx} order by idx desc limit 1
+        select * from t_community where idx &lt; #{idx} AND delState = 0 order by idx desc limit 1
     </select>
 
     <update id="UpdateBoard" parameterType="com.ict.finalproject.vo.CommuVO">

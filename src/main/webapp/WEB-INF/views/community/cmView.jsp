@@ -80,14 +80,14 @@
         <!-- 리스트 목록 -->
            <div class="list_section">
             <!-- 이전 페이지 처리 -->
-                <c:if test="${previousPost != null}">
-                    <a href="/cmView/${previousPost.idx}">
+                <c:if test="${go != null}">
+                    <a href="/cmView/${go.idx}">
                         <div class="list_pre">
                             <i class="bi bi-chevron-up"></i>이전페이지
                         </div>
                     </a>
                 </c:if>
-                <c:if test="${previousPost == null}">
+                <c:if test="${go == null}">
                     <a href="javascript:void(0);" onclick="alert('첫번째 페이지입니다.');">
                         <div class="list_pre">
                             <i class="bi bi-chevron-up"></i>이전페이지
@@ -96,14 +96,14 @@
                 </c:if>
 
                 <!-- 다음 페이지 처리 -->
-                <c:if test="${nextPost != null}">
-                    <a href="/cmView/${nextPost.idx}">
+                <c:if test="${tun != null}">
+                    <a href="/cmView/${tun.idx}">
                         <div class="list_next">
                             <i class="bi bi-chevron-down"></i>다음페이지
                         </div>
                     </a>
                 </c:if>
-                <c:if test="${nextPost == null}">
+                <c:if test="${tun == null}">
                     <a href="javascript:void(0);" onclick="alert('마지막 페이지입니다.');">
                         <div class="list_next">
                             <i class="bi bi-chevron-down"></i>다음페이지
