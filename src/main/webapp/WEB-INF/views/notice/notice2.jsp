@@ -651,22 +651,25 @@ function checkLoginStatus() {
         return false;  // 기본 폼 제출 방지
     }
 
-
+    <!-- tap4 -->
     document.addEventListener("DOMContentLoaded", function () {
-        const tabs = document.querySelectorAll(".tab-link");
-        const termsTitle = document.getElementById("termsTitle");
-        const termsContent = document.getElementById("termsContent");
+        // 기본으로 '이용약관'에 'on' 클래스 추가
+        document.querySelector("#tap4 .tab-link[data-content='terms']").classList.add("on");
 
-        tabs.forEach(tab => {
-            tab.addEventListener("click", function () {
-                // 모든 탭에서 active 클래스 제거
-                tabs.forEach(t => t.classList.remove("active"));
+        // 탭 클릭 이벤트 설정
+        document.querySelectorAll("#tap4 .tab-link").forEach(link => {
+            link.addEventListener("click", function () {
+                // 모든 탭에서 'on' 클래스 제거
+                document.querySelectorAll("#tap4 .tab-link").forEach(l => l.classList.remove("on"));
 
-                // 선택한 탭에 active 클래스 추가
-                tab.classList.add("active");
+                // 클릭한 탭에 'on' 클래스 추가
+                this.classList.add("on");
 
-                // 선택한 탭에 따라 제목과 콘텐츠 변경
-                const contentType = tab.getAttribute("data-content");
+                // 탭에 따라 내용 변경
+                const contentType = this.getAttribute("data-content");
+                const termsTitle = document.getElementById("termsTitle");
+                const termsContent = document.getElementById("termsContent");
+
                 if (contentType === "terms") {
                     termsTitle.textContent = "서비스 이용약관";
                     termsContent.innerHTML = '<img src="/img/notice/tap4_1.png" alt="이용약관 이미지">';

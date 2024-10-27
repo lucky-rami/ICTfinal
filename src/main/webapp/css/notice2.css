@@ -497,6 +497,8 @@ img {
 }
 
 
+
+
 /* 서비스 약관 컨테이너 */
 #tap4 {
     max-width: 1400px;
@@ -512,6 +514,10 @@ img {
     color: #fff;
     font-weight: 700;
     line-height: 25px;
+}
+
+#tap4 .on {
+    color: #ff5d24;
 }
 
 /* 서비스 약관 내용 */
