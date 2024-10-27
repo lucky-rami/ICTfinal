@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -189,6 +191,19 @@ public class masterController {
         mav.addObject("memberDelList", memberDelList);
         mav.setViewName("master/userDelMasterList");
         return mav;
+    }
+
+    @GetMapping("/checkAdminLogin")
+    public ResponseEntity<Boolean> checkAdminLogin(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        System.out.println("Received token: " + token); // 토큰 출력
+
+
+        if (token != null && jwtUtil.validateToken(token.replace("Bearer ", ""))) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.ok(false);
+        }
     }
 
     // Dashboard - 애니관리 -  애니목록 리스트
@@ -1444,38 +1459,48 @@ public class masterController {
     //관리자 로그인 페이지 view
 
     //필요 없어보여서 지움 -> 배송지 정보 변경 : 관리자X
-    /*@GetMapping("/masterLogin")
+    @GetMapping("/masterLogin")
     public ModelAndView masterLogin() {
         mav = new ModelAndView();
         mav.setViewName("join/admin_login");
         return mav;
-    }*/
+    }
 
     // 관리자 로그인
-    @PostMapping("/masterLoginOK")
-    public ResponseEntity<Map<String, String>> masterLoginOK(@RequestBody Map<String, String> request) {
-        String adminid = request.get("adminid");
-        String adminpwd = request.get("adminpwd");
+    @PostMapping("/masterLoginOk")
+    public ResponseEntity<Map<String, String>> masterLoginOk(@RequestBody LoginRequestDTO loginRequest) {
+        Map<String, String> response = new HashMap<>();
+
+        String adminid = loginRequest.getAdminid();
+        String adminpwd = loginRequest.getAdminpwd();
 
         try {
-            // 관리자 아이디와 비밀번호 확인
-            if (masterService.validateAdmin(adminid, adminpwd)) {
-                String token = jwtUtil.generateAdminToken(adminid);
-                Map<String, String> response = new HashMap<>();
-                response.put("token", token);
-                return ResponseEntity.ok(response);  // JSON 형식으로 반환
-            } else {
-                Map<String, String> errorResponse = new HashMap<>();
-                errorResponse.put("errorMessage", "로그인 실패");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+            // 관리자 정보 검증
+            MasterVO admin = masterService.adminLogin(adminid, adminpwd);
+            if (admin == null) {
+                response.put("errorMessage", "잘못된 관리자명 또는 비밀번호입니다.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
+
+            // 비밀번호 검증
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if (!passwordEncoder.matches(adminpwd, admin.getAdminpwd())) {
+                response.put("errorMessage", "잘못된 비밀번호입니다.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
+
+            // 로그인 성공 시: JWT 토큰 생성
+            String token = jwtUtil.createJwt(adminid, 604800000L);  // 7일 동안 유효
+            response.put("token", token);
+            return ResponseEntity.ok(response);  // JSON 형식으로 토큰 반환
         } catch (Exception e) {
             e.printStackTrace();
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("errorMessage", "서버 에러");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            response.put("errorMessage", "서버 에러: 로그인 처리 중 오류가 발생했습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
+
 
 
 

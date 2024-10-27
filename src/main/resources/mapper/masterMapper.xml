@@ -192,11 +192,29 @@
         AND handleState != 2
     </update>
 
+    <!-- 관리자 ID로 idx 조회 -->
+    <select id="findAdminIdxByAdminid" parameterType="String" resultType="Integer">
+        SELECT idx
+        FROM t_admin
+        WHERE adminid = #{adminid}
+    </select>
+
+
+
+    <!-- 관리자 로그인 정보 확인 -->
+    <select id="adminLogin" parameterType="map" resultType="MasterVO">
+        SELECT *
+        FROM t_admin
+        WHERE adminid = #{adminid}
+    </select>
+
     <select id="findAdminIdxByUserid" resultType="int" parameterType="string">
         SELECT idx
         FROM t_admin
         WHERE adminid = #{adminid}
     </select>
+
+
 
     <!-- 문의사항 전체 목록 보여주기 -->
     <select id="getQNAList" resultType="MasterVO">

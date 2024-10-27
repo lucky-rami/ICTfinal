@@ -3,7 +3,50 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="/css/footer.css"/>
 <script src="/js/JWTLogin.js"></script>
+<script>
+window.onload = function() {
+    const adminLink = document.getElementById("adminLink");
 
+    if (adminLink) {
+        adminLink.addEventListener("click", async function(event) {
+            event.preventDefault();  // 기본 링크 이동 방지
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                // 토큰이 없는 경우 로그인 페이지로 이동
+                window.location.href = "/master/masterLogin";
+                return;
+            }
+
+            console.log("Stored token:", token);  // 저장된 토큰 확인
+
+            try {
+                const response = await fetch('/master/checkAdminLogin', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const isLoggedIn = await response.json();
+                console.log("Is logged in:", isLoggedIn);  // 로그인 상태 확인
+
+                if (isLoggedIn) {
+                    window.location.href = "/master/masterMain";  // 로그인 상태면 메인 페이지로 이동
+                } else {
+                    window.location.href = "/master/masterLogin";  // 로그인되지 않으면 로그인 페이지로 이동
+                }
+            } catch (error) {
+                console.error("로그인 상태 확인 중 오류:", error);
+                window.location.href = "/master/masterLogin";  // 오류 발생 시 로그인 페이지로 이동
+            }
+        });
+    } else {
+        console.error("adminLink 요소를 찾을 수 없습니다.");
+    }
+};
+</script>
     <footer>
         <div id="toTop" class="on">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up">

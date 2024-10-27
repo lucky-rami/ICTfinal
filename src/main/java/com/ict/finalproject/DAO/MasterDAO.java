@@ -243,4 +243,7 @@ public interface MasterDAO {
 
     List<MasterVO> getLatestActivities();
     List<MasterVO> getRecentOrders();
+    Integer findAdminIdxByAdminid(String adminid);
+    boolean checkAdminDeleted(int idx);
+    MasterVO adminLogin(String adminid, String adminpwd);
 }

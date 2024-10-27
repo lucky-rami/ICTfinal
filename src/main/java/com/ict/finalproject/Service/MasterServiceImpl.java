@@ -597,4 +597,19 @@ public class MasterServiceImpl implements MasterService {
     public List<MasterVO> getRecentOrders() {
         return dao.getRecentOrders();
     }
+
+    @Override
+    public Integer findAdminIdxByAdminid(String adminid) {
+        return dao.getAdminIdxByAdminid(adminid);
+    }
+
+    @Override
+    public boolean checkAdminDeleted(int idx) {
+        return dao.checkAdminDeleted(idx);
+    }
+
+    @Override
+    public MasterVO adminLogin(String adminid, String adminpwd) {
+        return dao.adminLogin(adminid, adminpwd);
+    }
 }
