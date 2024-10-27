@@ -650,9 +650,9 @@ function showTab(commtype) {
             const reportType = document.querySelector('input[name="report_reason"]:checked');
             const reason = document.querySelector(".report_reason_text textarea").value.trim();
 
-            // 데이터 유효성 검사
-            if (!reportType || reason === "") {
-                alert("모든 항목을 입력해 주세요.");
+            // 신고 유형 선택 유효성 검사 (신고 유형만 필수로 유지)
+            if (!reportType) {
+                alert("신고 유형을 선택해 주세요.");
                 return;
             }
 
