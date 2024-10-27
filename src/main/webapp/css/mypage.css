@@ -207,3 +207,15 @@ button {
   color: rgb(48, 48, 51);
   margin: 0;
 }
+
+.order_list_none {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: 105px;
+  /* font-weight: 700; */
+  font-size: 17px;
+  color: #5d5d5d;
+}

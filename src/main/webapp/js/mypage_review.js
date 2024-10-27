@@ -262,77 +262,95 @@ $(function(){
                 $('.afterCountSpan').text(reviewCompletedAmount);
 
                 // 리뷰 작성 전 for문
-                response.reviewBefore.forEach(function(reviewbefore, index){
-                    $("#review_list_ul").append(`
-                        <li class="review_list_li">
-                           <input type="hidden" name="orderList_idx" id="orderList_idx" value="${reviewbefore.orderList_idx}">
-                           <div class="review_list_li_one">
-                             <div class="review_list_li_one_detail">
-                               <div class="review_product">
-                                 <a href="">
-                                   <img src="http://192.168.1.180:8000/${reviewbefore.thumImg}" class="review_product_img" />
-                                 </a>
-                                 <div class="review_product_inform">
-                                   <a href="">
-                                     <strong>${reviewbefore.title}</strong>
-                                     <p>${reviewbefore.price}원 / 수량 ${reviewbefore.amount}개</p>
-                                   </a>
+                if (response.reviewBefore && response.reviewBefore.length > 0) {
+                    response.reviewBefore.forEach(function(reviewbefore, index){
+                        $("#review_list_ul").append(`
+                            <li class="review_list_li">
+                               <input type="hidden" name="orderList_idx" id="orderList_idx" value="${reviewbefore.orderList_idx}">
+                               <div class="review_list_li_one">
+                                 <div class="review_list_li_one_detail">
+                                   <div class="review_product">
+                                     <a href="">
+                                       <img src="http://192.168.1.180:8000/${reviewbefore.thumImg}" class="review_product_img" />
+                                     </a>
+                                     <div class="review_product_inform">
+                                       <a href="">
+                                         <strong>${reviewbefore.title}</strong>
+                                         <p>${reviewbefore.price}원 / 수량 ${reviewbefore.amount}개</p>
+                                       </a>
+                                     </div>
+                                   </div>
+                                   <span class="order_state_date"><span>구매확정</span></span>
+                                   <div><button class="review_write_modal_btn" type="button" onclick="review_writeModal(${index})">리뷰쓰기</button></div>
                                  </div>
                                </div>
-                               <span class="order_state_date"><span>구매확정</span></span>
-                               <div><button class="review_write_modal_btn" type="button" onclick="review_writeModal(${index})">리뷰쓰기</button></div>
-                             </div>
-                           </div>
-                         </li>
-                    `)
-                })// 리뷰 작성 전 for문 종료
-                // 작성된 리뷰 for문
-                response.reviewCompleted.forEach(function(reviewCompleted, index){
-                    let starHtml = '';
+                             </li>
+                        `)
+                    })// 리뷰 작성 전 for문 종료
+                } else {
+                    $("#review_list_ul").empty();
+                    $("#review_list_ul").append(`
+                        <div class="order_list_none">
+                            <p style="margin-top:100px">작성 가능한 리뷰가 없습니다.</p>
+                        </div>
+                    `);
+                }
+                if (response.reviewCompleted && response.reviewCompleted.length > 0) {
+                    // 작성된 리뷰 for문
+                    response.reviewCompleted.forEach(function(reviewCompleted, index){
+                        let starHtml = '';
 
-                    // grade 값만큼 채워진 별 추가
-                    for (let i = 0; i < reviewCompleted.grade; i++) {
-                        starHtml += '<i class="fa-solid fa-star"></i>';
-                    }
-                    // 나머지 빈 별 추가 (5 - grade)
-                    for (let i = reviewCompleted.grade; i < 5; i++) {
-                        starHtml += '<i class="fa-regular fa-star"></i>';
-                    }
+                        // grade 값만큼 채워진 별 추가
+                        for (let i = 0; i < reviewCompleted.grade; i++) {
+                            starHtml += '<i class="fa-solid fa-star"></i>';
+                        }
+                        // 나머지 빈 별 추가 (5 - grade)
+                        for (let i = reviewCompleted.grade; i < 5; i++) {
+                            starHtml += '<i class="fa-regular fa-star"></i>';
+                        }
 
-                    $("#review_list_ul2").append(`
-                    <li class="user_review_list_li">
-                      <input type="hidden" name="orderList_idx" id="orderList_idx" value="${reviewCompleted.orderList_idx}">
-                      <div class="review_write_list">
-                        <a href="">
-                          <img src="http://192.168.1.180:8000/${reviewCompleted.pro_thumImg}" class="css-1d5qj71 egc1z4c3" />
-                          <div class="review_write_list_inform">
-                            <strong>${reviewCompleted.pro_title}</strong>
+                        $("#review_list_ul2").append(`
+                        <li class="user_review_list_li">
+                          <input type="hidden" name="orderList_idx" id="orderList_idx" value="${reviewCompleted.orderList_idx}">
+                          <div class="review_write_list">
+                            <a href="">
+                              <img src="http://192.168.1.180:8000/${reviewCompleted.pro_thumImg}" class="css-1d5qj71 egc1z4c3" />
+                              <div class="review_write_list_inform">
+                                <strong>${reviewCompleted.pro_title}</strong>
+                                <div>
+                                  ${starHtml}
+                                </div>
+                              </div>
+                            </a>
+                            <div class="review_txt">
+                              <p><span>${reviewCompleted.content}</span></p>
+                            </div>
+                            ${reviewCompleted.imgfile1 || reviewCompleted.imgfile2 ? `
+                            <div class="review_img">
+                              ${reviewCompleted.imgfile1 ? `<img src="http://192.168.1.180:8000/${reviewCompleted.imgfile1}" />` : ''}
+                              ${reviewCompleted.imgfile2 ? `<img src="http://192.168.1.180:8000/${reviewCompleted.imgfile2}" />` : ''}
+                            </div>` : ''}
+                          </div>
+                          <div class="review_regDT">
+                            <p>${reviewCompleted.formatted_regDT}</p>
+                          </div>
+                          <div class="review_modi_del_btn">
                             <div>
-                              ${starHtml}
+                              <button type="button" onclick="review_EditModal(${index})">수정</button>
+                              <button type="button" id="review_detBtn">삭제</button>
                             </div>
                           </div>
-                        </a>
-                        <div class="review_txt">
-                          <p><span>${reviewCompleted.content}</span></p>
+                        </li>
+                        `)
+                    })// 작성된 리뷰 for문 종료
+                } else {
+                    $("#review_list_ul2").empty();
+                    $("#review_list_ul2").append(`
+                        <div class="order_list_none">
+                            <p style="margin-top:100px">작성한 리뷰가 없습니다.</p>
                         </div>
-                        ${reviewCompleted.imgfile1 || reviewCompleted.imgfile2 ? `
-                        <div class="review_img">
-                          ${reviewCompleted.imgfile1 ? `<img src="http://192.168.1.180:8000/${reviewCompleted.imgfile1}" />` : ''}
-                          ${reviewCompleted.imgfile2 ? `<img src="http://192.168.1.180:8000/${reviewCompleted.imgfile2}" />` : ''}
-                        </div>` : ''}
-                      </div>
-                      <div class="review_regDT">
-                        <p>${reviewCompleted.formatted_regDT}</p>
-                      </div>
-                      <div class="review_modi_del_btn">
-                        <div>
-                          <button type="button" onclick="review_EditModal(${index})">수정</button>
-                          <button type="button" id="review_detBtn">삭제</button>
-                        </div>
-                      </div>
-                    </li>
-                    `)
-                })// 작성된 리뷰 for문 종료
+                    `);
+                }
             },
             error: function(xhr, status, error) {
                 console.log('오류 발생: ' + error);  // 에러 메시지 자체 출력

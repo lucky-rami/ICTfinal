@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -217,6 +218,13 @@ public class noticeController {
         return map;
     }
 
+    //문의사항 페이지로 이동(채원)
+    @GetMapping("/qnaWirte")
+    public ModelAndView qnaWirte(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("notice/notice2");
 
+        return mav;
+    }
 
 }

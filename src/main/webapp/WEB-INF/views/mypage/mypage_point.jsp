@@ -82,24 +82,7 @@
           <div class="point_list_all">
             <div>
               <ul class="point_list_ul">
-                <li class="point_list_li">
-                  <div class="point_date"><span>2024.04.21</span></div>
-                  <div class="point_inform">
-                    <div class="point_inform_detail"><span>상품 구매확정 적립</span><span>+360</span></div>
-                  </div>
-                </li>
-                <li class="point_list_li">
-                  <div class="point_date"><span>2024.04.20</span></div>
-                  <div class="point_inform">
-                    <div class="point_inform_detail"><span>리뷰 작성 적립</span><span>+100</span></div>
-                  </div>
-                </li>
-                <li class="point_list_li">
-                  <div class="point_date"><span>2024.04.19</span></div>
-                  <div class="point_inform">
-                    <div class="point_inform_detail"><span>상품 구매 사용</span><span>-1000</span></div>
-                  </div>
-                </li>
+
               </ul>
             </div>
           </div>

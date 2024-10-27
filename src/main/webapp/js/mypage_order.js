@@ -33,7 +33,12 @@ function displayOrderList(orderList) {
     orderContainer.empty(); // 이전 목록을 지우고 새로 업데이트
 
     if (orderList.length === 0) {
-        orderContainer.append("<p>주문 내역이 없습니다.</p>");
+        $(".mypage_order_list").empty();
+        $(".mypage_order_list").append(`
+            <div class="order_list_none">
+                <p style="margin-top:100px">주문 내역이 없습니다.</p>
+            </div>
+        `);
         return;
     }
 

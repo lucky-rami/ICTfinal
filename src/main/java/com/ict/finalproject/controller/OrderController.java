@@ -171,35 +171,56 @@ public class OrderController {
     }
 
     @GetMapping("/success")
-    public ModelAndView paymentSuccess(@RequestParam String paymentKey, @RequestParam String orderId, @RequestParam int amount) {
-        PaymentApprovalDTO approvalDTO = new PaymentApprovalDTO();
-        approvalDTO.setPaymentKey(paymentKey);
-        approvalDTO.setOrderId(orderId);
-        approvalDTO.setAmount(amount);
+    public ModelAndView paymentSuccess(@RequestParam String paymentKey, @RequestParam String orderId, @RequestParam int amount, HttpSession session) {
+        // 세션에 paymentKey가 없는 경우 또는 이전에 사용된 경우 유효하지 않은 접근으로 처리
+        if (session.getAttribute("paymentKey") != null && !session.getAttribute("paymentKey").equals(paymentKey)) {
+            mav.setViewName("store/invalidPage"); // 유효하지 않은 접근에 대한 페이지
+            mav.addObject("errorMessage", "유효하지 않은 페이지입니다.");
+            return mav;
+        }
 
-        // Toss 결제 승인 처리
-        int order_idx = service.approvePayment(approvalDTO);
-        // 적립금 빼기
-        int useridx = service.getUseridx(order_idx);
-        int use_point = service.getUsePoint(order_idx);
-        memberService.pointUpdate(useridx, 3, -use_point);
-        log.info("사용자 ID {}의 적립금 {}원이 차감 되었습니다.", useridx, use_point);
+        try {
+            PaymentApprovalDTO approvalDTO = new PaymentApprovalDTO();
+            approvalDTO.setPaymentKey(paymentKey);
+            approvalDTO.setOrderId(orderId);
+            approvalDTO.setAmount(amount);
 
-        // 화면에 뿌릴 데이터
-        // 1. T_order : regDT(주문접수일시), 배송정보(수령인, 전화번호, 주소, 요청사항), 총 금액, 적립금 사용액
-        OrderVO orderData = service.orderSuccessData(order_idx);
-        log.info("***********orderData : {}",orderData.toString());
-        // 2. T_orderList : 애니명, 굿즈명, 굿즈가격, amount
-        List<OrderListVO> orderListData = service.orderListSuccessData(order_idx);
-        // 3. T_payment : paytype, 결제완료일시, (영수증 출력시 필요한 데이터? -> 생각)
-        PaymentVO paymentData = service.paymentSuccessData(order_idx);
+            // Toss 결제 승인 처리
+            int order_idx = service.approvePayment(approvalDTO);
 
-        mav = new ModelAndView();
-        mav.addObject("orderData",orderData);
-        mav.addObject("orderListData",orderListData);
-        mav.addObject("paymentData",paymentData);
+            // 결제 승인에 성공하면 세션에 paymentKey 저장
+            session.setAttribute("paymentKey", paymentKey);
 
-        mav.setViewName("store/orderOk");
+
+            // 적립금 빼기
+            int useridx = service.getUseridx(order_idx);
+            int use_point = service.getUsePoint(order_idx);
+            memberService.pointUpdate(useridx, 3, -use_point);
+            log.info("사용자 ID {}의 적립금 {}원이 차감 되었습니다.", useridx, use_point);
+
+            // 첫 번째 접근 후 세션에서 paymentKey 제거
+            session.removeAttribute("paymentKey");
+
+            // 화면에 뿌릴 데이터
+            // 1. T_order : regDT(주문접수일시), 배송정보(수령인, 전화번호, 주소, 요청사항), 총 금액, 적립금 사용액
+            OrderVO orderData = service.orderSuccessData(order_idx);
+            log.info("***********orderData : {}",orderData.toString());
+            // 2. T_orderList : 애니명, 굿즈명, 굿즈가격, amount
+            List<OrderListVO> orderListData = service.orderListSuccessData(order_idx);
+            // 3. T_payment : paytype, 결제완료일시, (영수증 출력시 필요한 데이터? -> 생각)
+            PaymentVO paymentData = service.paymentSuccessData(order_idx);
+
+            mav = new ModelAndView();
+            mav.addObject("orderData",orderData);
+            mav.addObject("orderListData",orderListData);
+            mav.addObject("paymentData",paymentData);
+
+            mav.setViewName("store/orderOk");
+        } catch (Exception e) {
+            // 결제 승인 실패 시 실패 페이지로 이동
+            mav.setViewName("store/invalidPage");
+            mav.addObject("errorMessage", "유효하지 않은 페이지입니다.");
+        }
 
         return mav;
     }

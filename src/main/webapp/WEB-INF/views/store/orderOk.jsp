@@ -102,10 +102,6 @@
             <th>결제금액</th>
             <td class="order_totalPrice" data-totalPrice="${paymentData.amount}"></td>
           </tr>
-          <tr>
-            <th>영수증</th>
-            <td><button>영수증 출력</button></td>
-          </tr>
         </tbody>
       </table>
     </div>

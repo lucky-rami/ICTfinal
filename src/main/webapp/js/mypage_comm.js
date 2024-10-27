@@ -102,7 +102,12 @@ function getCommList(page){
                 });
             createPaginationComm(totalPages, page);
             }else{
-
+                $(".mycm_list").empty();
+                $(".mycm_list").append(`
+                    <div class="order_list_none">
+                        <p style="margin-top:100px">작성한 커뮤니티 글이 없습니다.</p>
+                    </div>
+                `);
             }
         },
         error: function(error) {
