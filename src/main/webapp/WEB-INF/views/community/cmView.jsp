@@ -394,7 +394,7 @@ function showTab(commtype) {
                           // 답글 쓰기 버튼
                           if (comment.depth < 2) {// depth가 2 미만일 경우에만 답글 허용
                               comm += '<span class="reply-btn" onclick="toggleReplyInput(' + comment.idx + ')">답글쓰기</span>';
-                           }
+                          }
 
                           // 수정/삭제 버튼
                           if (parseInt(comment.useridx) === parseInt(useridx)) {
@@ -404,7 +404,7 @@ function showTab(commtype) {
 
                           // 댓글의 depth가 2 이상이면 답글 쓰기 비활성화 (자식 댓글은 depth가 2이므로)
                           // 답글 쓰기 폼
-                         if (comment.depth < 2) {// depth가 2 미만일 경우에만 답글 허용
+                          if (comment.depth < 2) {// depth가 2 미만일 경우에만 답글 허용
                               comm += '<div id="replyInput-' + comment.idx + '" class="reply_input" style="display:none;">' +
                                   '<input type="text" id="replyContent-' + comment.idx + '" placeholder="답글을 남겨보세요." />' +
                                   '<button onclick="regiReply(' + comment.idx + ',' + comment.comm_idx + ')">등록</button>' +
@@ -424,10 +424,6 @@ function showTab(commtype) {
                           comm += '</div>'; // comment-item 종료
                           replyList.append(comm);
                       });
-
-
-
-
 
                   },
                   error: function(xhr, status, error) {
