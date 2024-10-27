@@ -26,6 +26,9 @@
                     <li class="${commtype == '10' ? 'selected' : ''}">
                         <a href="javascript:void(0);" class="btn" onclick="showTab('10')">자랑</a>
                     </li>
+                    <li class="${commtype == '20' ? 'selected' : ''}">
+                        <a href="javascript:void(0);" class="btn" onclick="showTab('20')">덕질</a>
+                    </li>
                     <li class="${commtype == '30' ? 'selected' : ''}">
                         <a href="javascript:void(0);" class="btn" onclick="showTab('30')">친목</a>
                     </li>
@@ -43,17 +46,18 @@
     <div class="container">
         <div class="cmView">
             <div class="viewInfo">
-                <div class="row">
-                    <div class="col-sm-1 custom-col">${vo.commtype}</div>
-                    <div class="col-sm-9 custom-col">${vo.title}</div>
-                    <div class="col-sm-2 text-end custom-style">${vo.regDT}</div>
+                <div class="title-box">
+                    <p>${vo.commtype}</p>
+                    <div>${vo.title}</div>
                 </div>
-                <div class="row bg-highlight">
-                    <div class="col-sm-10 p-2 author-id">${vo.userid}</div>
-                    <div class="col-sm-1 text-end"><img src="/img/cm/ico_view.png">${vo.hit}</div>
-                    <div class="col-sm-1 text-end"><button id="reportPostBtn" class="btn btn-link">
-                    <img src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyMycgaGVpZ2h0PScyMycgdmlld0JveD0nMCAwIDIzIDIzJz48cGF0aCBkPSdNNDEuNjI4IDQyLjAyaDIzdjIzaC0yM3onIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00MS42MjggLTQyLjAyKScgc3R5bGU9J2ZpbGw6bm9uZScvPjxwYXRoIGQ9J000NS42NDUgNTguNTkxdi00Ljg1N2E2LjExNiA2LjExNiAwIDAgMSAyLjkyNC01LjU5MSA2LjA1IDYuMDUgMCAwIDEgNi4yODQgMCA2LjExNiA2LjExNiAwIDAgMSAyLjkyNCA1LjU5MXY0Ljg1N2gyLjF2MS42MTlINDMuNTQ0di0xLjYxOXptMS41MTctNC44NTdoMS41MTdBMy4xNDEgMy4xNDEgMCAwIDEgNTEuNzEgNTAuNXYtMS42MjNhNC43MTIgNC43MTIgMCAwIDAtNC41NDkgNC44NTd6bTMuNzkxLTkuNzE0aDEuNTE3djIuNDI4aC0xLjUxOHptNi42NTUgMi4yNzMgMS4wNzQgMS4xNDQtMS42MTIgMS43MThMNTYgNDguMDExem0tMTIuODY3IDEuMTQ0IDEuMDc0LTEuMTQ0IDEuNiAxLjcxNi0xLjA3NCAxLjE0N3onIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00MC4yMTEgLTQxLjYxNSknIHN0eWxlPSdmaWxsOiNjY2NjZDAnLz48L3N2Zz4K">
-                    </button></div>
+
+                <div class="content-box">
+                    <div class="author-id">${vo.userid}</div>
+                    <span class="date">${vo.regDT}</span>
+                    <span class="hit"><img src="/img/cm/ico_view.png">${vo.hit}</span>
+                    <span class="post_report"><button id="reportPostBtn" class="btn btn-link">
+                    <img src="http://192.168.1.180:8000/emergency.svg" class="emergency_icon">
+                    </button></span>
                 </div>
             </div>
 
@@ -78,23 +82,40 @@
 
         <!-- 리스트 목록 -->
            <div class="list_section">
-               <c:if test="${previousPost != null}"></c:if>
+            <!-- 이전 페이지 처리 -->
+                <c:if test="${go != null}">
                     <a href="/cmView/${go.idx}">
                         <div class="list_pre">
                             <i class="bi bi-chevron-up"></i>이전페이지
                         </div>
                     </a>
-               <c:if test="${previousPost == null}"></c:if>
+                </c:if>
+                <c:if test="${go == null}">
+                    <a href="javascript:void(0);" onclick="alert('첫번째 페이지입니다.');">
+                        <div class="list_pre">
+                            <i class="bi bi-chevron-up"></i>이전페이지
+                        </div>
+                    </a>
+                </c:if>
 
-               <c:if test="${nextPost != null}"></c:if>
-               <a href="/cmView/${tun.idx}">
-                   <div class="list_next">
-                       <i class="bi bi-chevron-down"></i>다음페이지
-                   </div>
-               </a>
-
-               <c:if test="${nextPost == null}"></c:if>
+                <!-- 다음 페이지 처리 -->
+                <c:if test="${tun != null}">
+                    <a href="/cmView/${tun.idx}">
+                        <div class="list_next">
+                            <i class="bi bi-chevron-down"></i>다음페이지
+                        </div>
+                    </a>
+                </c:if>
+                <c:if test="${tun == null}">
+                    <a href="javascript:void(0);" onclick="alert('마지막 페이지입니다.');">
+                        <div class="list_next">
+                            <i class="bi bi-chevron-down"></i>다음페이지
+                        </div>
+                    </a>
+                </c:if>
            </div>
+
+
             <div class="listBt">
                 <a class="btn btn-secondary btn-sm btn-edit" href="/cmEdit/${vo.idx}" role="button" style="display: none;">
                     수정
@@ -190,6 +211,7 @@
                 </div>
 
 
+
 <script>
 var useridx; // 해당 페이지에서 모두 사용 가능하도록! 전역변수로 선언
 var userid;
@@ -225,7 +247,7 @@ function checkLoginStatusForCommunity() {
                 loadComments(comm_idx);
 
                 // 게시물 작성자의 아이디와 로그인된 사용자의 아이디가 같은지 확인
-                var postAuthorId = "{vo.userid}"; // JSP에서 게시물 작성자의 아이디를 가져온다고 가정
+                var postAuthorId = "${vo.userid}";
 
                 if (userid === postAuthorId) {
                     // 로그인된 사용자가 게시물 작성자인 경우 수정, 삭제 버튼을 표시
@@ -273,6 +295,9 @@ function showTab(commtype) {
             break;
         case '10':
             window.location.href = '/cmList?commtype=10'; // 자랑
+            break;
+        case '20':
+            window.location.href = '/cmList?commtype=20'; // 덕질
             break;
         case '30':
             window.location.href = '/cmList?commtype=30'; // 친목
@@ -359,25 +384,48 @@ function showTab(commtype) {
                           let indentLevel = comment.depth * 30;  // depth에 따라 들여쓰기 설정
 
                           let comm = '<div class="comment-item comment-' + comment.idx + '" style="margin-left: ' + indentLevel + 'px;">';
+
                           comm += '<div class="comment-header">';
-                          comm += '<p class="comment-user"><strong>' + comment.userid + '</strong></p>';
+                          comm += '<span class="comment-user"><strong>' + comment.userid + '</strong></span>';
                           comm += '<button id="reportCommentBtn-' + comment.idx + '" class="btn btn-link reportBtn" data-author-id="' + comment.userid + '" data-content="' + comment.content + '">' +
-                                  '<img src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyMycgaGVpZ2h0PScyMycgdmlld0JveD0nMCAwIDIzIDIzJz48cGF0aCBkPSdNNDEuNjI4IDQyLjAyaDIzdjIzaC0yM3onIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00MS42MjggLTQyLjAyKScgc3R5bGU9J2ZpbGw6bm9uZScvPjxwYXRoIGQ9J000NS42NDUgNTguNTkxdi00Ljg1N2E2LjExNiA2LjExNiAwIDAgMSAyLjkyNC01LjU5MSA2LjA1IDYuMDUgMCAwIDEgNi4yODQgMCA2LjExNiA2LjExNiAwIDAgMSAyLjkyNCA1LjU5MXY0Ljg1N2gyLjF2MS42MTlINDMuNTQ0di0xLjYxOXptMS41MTctNC44NTdoMS41MTdBMy4xNDEgMy4xNDEgMCAwIDEgNTEuNzEgNTAuNXYtMS42MjNhNC43MTIgNC43MTIgMCAwIDAtNC41NDkgNC44NTd6bTMuNzkxLTkuNzE0aDEuNTE3djIuNDI4aC0xLjUxOHptNi42NTUgMi4yNzMgMS4wNzQgMS4xNDQtMS42MTIgMS43MThMNTYgNDguMDExem0tMTIuODY3IDEuMTQ0IDEuMDc0LTEuMTQ0IDEuNiAxLjcxNi0xLjA3NCAxLjE0N3onIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC00MC4yMTEgLTQxLjYxNSknIHN0eWxlPSdmaWxsOiNjY2NjZDAnLz48L3N2Zz4K"></button>';
-                          comm += '</div>'; // comment-header 종료
+                                  '<img src="http://192.168.1.180:8000/emergency.svg" class="emergency_icon"></button>';
+                          comm += '</div>';
 
-                          comm += '<div class="comment-content">' + comment.content + '</div>'; // 댓글 내용 표시
+                          comm += '<div class="comment-content">' + comment.content + '</div>';
 
-                          // 날짜 및 하단 버튼들
-                          comm += '<div class="comment-meta">' + comment.regDT + '</div>';
-                          comm += '<div class="comment-actions">';
-                          if (comment.depth < 2) {
+                          comm += '<div class="comment-meta-wrapper">';
+                          comm += '<span class="comment-meta">' + comment.regDT + '</span>';
+
+                          // 댓글의 depth가 2 이상이면 답글 쓰기 비활성화 (자식 댓글은 depth가 2이므로)
+                          // 답글 쓰기 버튼
+                          if (comment.depth < 2) {// depth가 2 미만일 경우에만 답글 허용
                               comm += '<span class="reply-btn" onclick="toggleReplyInput(' + comment.idx + ')">답글쓰기</span>';
                           }
+
+                          // 수정/삭제 버튼
                           if (parseInt(comment.useridx) === parseInt(useridx)) {
                               comm += '<span class="edit-btn" onclick="editComment(' + comment.idx + ')">수정</span>';
                               comm += '<span class="delete-btn" onclick="deleteComment(' + comment.idx + ')">삭제</span>';
                           }
-                          comm += '</div>'; // comment-actions 종료
+
+                          // 댓글의 depth가 2 이상이면 답글 쓰기 비활성화 (자식 댓글은 depth가 2이므로)
+                          // 답글 쓰기 폼
+                          if (comment.depth < 2) {// depth가 2 미만일 경우에만 답글 허용
+                              comm += '<div id="replyInput-' + comment.idx + '" class="reply_input" style="display:none;">' +
+                                  '<input type="text" id="replyContent-' + comment.idx + '" placeholder="답글을 남겨보세요." />' +
+                                  '<button onclick="regiReply(' + comment.idx + ',' + comment.comm_idx + ')">등록</button>' +
+                                  '</div>';
+                          }
+
+                          // 수정 폼
+                          if (parseInt(comment.useridx) === parseInt(useridx)) {
+                              comm += '<div id="edit-form-' + comment.idx + '" class="reply_input" style="display:none;">' +
+                                '<textarea id="edit-textarea-' + comment.idx + '">' + comment.content + '</textarea>' +
+                                '<button id="test" onclick="updateComment(' + comment.idx + ',' + comment.comm_idx + ')">수정하기</button>' +
+                                '</div>';
+                          }
+
+                          comm += '</div>'; // comment-meta-wrapper 종료
 
                           comm += '</div>'; // comment-item 종료
                           replyList.append(comm);
@@ -460,7 +508,7 @@ function showTab(commtype) {
 
         //댓글입력폼
        function toggleReplyInput(commentIdx) { //뭘쓰든 상관이 없어요! 본인만 알아부보세요!
-        alert(commentIdx);
+        //alert(commentIdx);
            const replyInput = document.getElementById("replyInput-"+commentIdx);
            if (replyInput.style.display === 'none') {
                replyInput.style.display = 'block'; // 보여주기
@@ -469,33 +517,27 @@ function showTab(commtype) {
            }
        }
 
+
      // 댓글 수정
-     function editComment(commentIdx) {//원댓글의 인덱스값
-          const className = ".comment-"+commentIdx;
-          console.log("a" + className);
-         // 댓글 내용을 가져오기 위해 댓글의 텍스트를 담고 있는 요소를 찾습니다.
-         const commentDiv = document.querySelector(".comment-"+commentIdx);
-         console.log("b", commentDiv, commentIdx);
-
+     function editComment(commentIdx) {
+         const commentDiv = document.querySelector(".comment-" + commentIdx);
          if (commentDiv) {
-            console.log("check", commentDiv);
-             // 댓글 내용 가져오기
-             const commentContent = commentDiv.querySelectorAll('p')[1].textContent;
-             //const commentContent = commentDiv.querySelector('p').textContent;
-
-             // 수정 폼의 textarea에 댓글 내용을 설정합니다.
-             const editTextarea = document.querySelector("#edit-textarea-"+commentIdx);
+             const commentContent = commentDiv.querySelector('.comment-content').textContent; // 수정된 부분
+             const editTextarea = document.querySelector("#edit-textarea-" + commentIdx);
              if (editTextarea) {
-                 editTextarea.value = commentContent; // 댓글 내용을 textarea에 설정
+                 editTextarea.value = commentContent;
+             } else {
+                 console.error("수정 textarea를 찾을 수 없습니다.");
              }
 
-             // 수정 폼 보이기
-             const editForm = document.querySelector("#edit-form-"+commentIdx);
-             if (editForm.style.display === 'none') {
-                 editForm.style.display = 'block'; // 수정 폼을 보여줍니다.
+             const editForm = document.querySelector("#edit-form-" + commentIdx);
+             if (editForm) {
+                 editForm.style.display = editForm.style.display === 'none' ? 'flex' : 'none';
              } else {
-                 editForm.style.display = 'none'; // 숨기기
+                 console.error("수정 폼을 찾을 수 없습니다: edit-form-" + commentIdx);
              }
+         } else {
+             console.error("댓글 요소를 찾을 수 없습니다: comment-" + commentIdx);
          }
      }
 
@@ -623,9 +665,9 @@ function showTab(commtype) {
             const reportType = document.querySelector('input[name="report_reason"]:checked');
             const reason = document.querySelector(".report_reason_text textarea").value.trim();
 
-            // 데이터 유효성 검사
-            if (!reportType || reason === "") {
-                alert("모든 항목을 입력해 주세요.");
+            // 신고 유형 선택 유효성 검사 (신고 유형만 필수로 유지)
+            if (!reportType) {
+                alert("신고 유형을 선택해 주세요.");
                 return;
             }
 

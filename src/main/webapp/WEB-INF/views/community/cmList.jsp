@@ -27,6 +27,9 @@
                 <li class="${commtype == '10' ? 'selected' : ''}">
                     <a href="javascript:void(0);" class="btn" onclick="showTab('10')">자랑</a>
                 </li>
+                <li class="${commtype == '20' ? 'selected' : ''}">
+                    <a href="javascript:void(0);" class="btn" onclick="showTab('20')">덕질</a>
+                </li>
                 <li class="${commtype == '30' ? 'selected' : ''}">
                     <a href="javascript:void(0);" class="btn" onclick="showTab('30')">친목</a>
                 </li>
@@ -95,7 +98,7 @@
                 <!-- 통합된 리스트 출력 -->
                 <c:forEach var="vo" items="${list}">
                     <!-- commtype을 문자열로 변환 후 비교 -->
-                    <c:if test="${commtype eq 'all' || (vo.commtype eq '자랑' && commtype eq 10) || (vo.commtype eq '친목' && commtype eq 30) || (vo.commtype eq '팬아트' && commtype eq 40)}">
+                    <c:if test="${commtype eq 'all' || (vo.commtype eq '자랑' && commtype eq 10) || (vo.commtype eq '덕질' && commtype eq 20) || (vo.commtype eq '친목' && commtype eq 30) || (vo.commtype eq '팬아트' && commtype eq 40)}">
                         <div class="row">
                             <div class="col-sm-1 p-2">${vo.idx}</div>
                             <div class="col-sm-1 p-2">${vo.commtype}</div>

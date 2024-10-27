@@ -16,29 +16,32 @@
 
 
     <section class="top_info">
-        <div class="cm_tab">
-            <h1>커뮤니티</h1>
-            <div class="cm_opt">
-                <ul class="list">
-                    <li class="selected">
-                        <a href="#tap1" class="btn">최신글보기</a>
-                    </li>
-                    <li>
-                        <a href="#tap2" class="btn">자랑</a>
-                    </li>
-                    <li>
-                        <a href="#tap4" class="btn">친목</a>
-                    </li>
-                    <li>
-                        <a href="#tap4" class="btn">팬아트</a>
-                    </li>
-                    <li>
-                        <a href="/allnotice" class="btn">통합공지</a>
-                    </li>
-                </ul>
+            <div class="cm_tab">
+                <h1>커뮤니티</h1>
+                <div class="cm_opt">
+                    <ul class="list">
+                        <li class="${commtype == 'all' ? 'selected' : ''}">
+                            <a href="javascript:void(0);" class="btn" onclick="showTab('all')">최신글보기</a>
+                        </li>
+                        <li class="${commtype == '10' ? 'selected' : ''}">
+                            <a href="javascript:void(0);" class="btn" onclick="showTab('10')">자랑</a>
+                        </li>
+                        <li class="${commtype == '20' ? 'selected' : ''}">
+                            <a href="javascript:void(0);" class="btn" onclick="showTab('20')">덕질</a>
+                        </li>
+                        <li class="${commtype == '30' ? 'selected' : ''}">
+                            <a href="javascript:void(0);" class="btn" onclick="showTab('30')">친목</a>
+                        </li>
+                        <li class="${commtype == '40' ? 'selected' : ''}">
+                            <a href="javascript:void(0);" class="btn" onclick="showTab('40')">팬아트</a>
+                        </li>
+                        <li>
+                            <a href="/notice2" class="btn">통합공지</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
 
     <div class="container">
@@ -95,6 +98,30 @@
              document.getElementById("token").value=token;
           };
 
+
+    // showTab 함수 정의 (탭 전환)
+    function showTab(commtype) {
+        // commtype 값에 따라 페이지 이동
+        switch (commtype) {
+            case 'all':
+                window.location.href = '/cmList?commtype=all'; // 최신글보기
+                break;
+            case '10':
+                window.location.href = '/cmList?commtype=10'; // 자랑
+                break;
+            case '20':
+                window.location.href = '/cmList?commtype=20'; // 덕질
+                break;
+            case '30':
+                window.location.href = '/cmList?commtype=30'; // 친목
+                break;
+            case '40':
+                window.location.href = '/cmList?commtype=40'; // 팬아트
+                break;
+            default:
+                console.error('잘못된 commtype 값입니다: ' + commtype);
+        }
+    }
 
 
 
