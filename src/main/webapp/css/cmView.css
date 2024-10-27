@@ -4,6 +4,13 @@ body {
     animation: none;
 }
 
+a:link,
+a:visited,
+a:hover {
+    text-decoration: none;
+    color:#303033;
+}
+
 .top_info{
     position: relative;
     width: 100%;
@@ -11,7 +18,6 @@ body {
     background:url(https://lwi.nexon.com/kartdrift/gow/renewal/common/bg_sub.png) center top no-repeat;
     display: flex;
     justify-content: space-around;
-    margin-bottom: 20px;
 }
 
 .cm_tab {

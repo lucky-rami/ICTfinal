@@ -26,6 +26,9 @@
                     <li class="${commtype == '10' ? 'selected' : ''}">
                         <a href="javascript:void(0);" class="btn" onclick="showTab('10')">자랑</a>
                     </li>
+                    <li class="${commtype == '20' ? 'selected' : ''}">
+                        <a href="javascript:void(0);" class="btn" onclick="showTab('20')">덕질</a>
+                    </li>
                     <li class="${commtype == '30' ? 'selected' : ''}">
                         <a href="javascript:void(0);" class="btn" onclick="showTab('30')">친목</a>
                     </li>
@@ -292,6 +295,9 @@ function showTab(commtype) {
             break;
         case '10':
             window.location.href = '/cmList?commtype=10'; // 자랑
+            break;
+        case '20':
+            window.location.href = '/cmList?commtype=20'; // 덕질
             break;
         case '30':
             window.location.href = '/cmList?commtype=30'; // 친목

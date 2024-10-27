@@ -28,8 +28,8 @@
                     <a href="javascript:void(0);" class="btn" onclick="showTab('10')">자랑</a>
                 </li>
                 <li class="${commtype == '20' ? 'selected' : ''}">
-                                    <a href="javascript:void(0);" class="btn" onclick="showTab('20')">덕질</a>
-                                </li>
+                    <a href="javascript:void(0);" class="btn" onclick="showTab('20')">덕질</a>
+                </li>
                 <li class="${commtype == '30' ? 'selected' : ''}">
                     <a href="javascript:void(0);" class="btn" onclick="showTab('30')">친목</a>
                 </li>
