@@ -289,7 +289,7 @@
                     </div>
                 </div>
 
-                <div class="content-terms-container" id="tap4">
+                <div class="content" id="tap4">
                     <h2 class="tap4SelectTag">
                         <a class="tab-link active" data-content="terms" style="cursor:pointer">이용약관</a>
                         <a class="tab-link" data-content="privacy" style="cursor:pointer">개인정보 처리방침</a>

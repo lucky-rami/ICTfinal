@@ -489,26 +489,24 @@ img {
 }
 
 .tap4SelectTag a{
+    display: inline-block;
+    position: relative;
     color: #999999;
     text-decoration: none;
     font-size: 16px;
-    padding-bottom: 24px;
 }
 
 
 /* 서비스 약관 컨테이너 */
-.terms-container {
-    margin: 50px auto;
+#tap4 {
     max-width: 1400px;
     color: #d9d9d9;
-    padding: 95px 70px 100px;
     position: relative;
-    background: linear-gradient(180deg, #1e1e1e 0, #181818 9%, #070707 17%, #000);
 }
 
 /* 서비스 약관 제목 */
-.content-terms-container h2 {
-    margin-top:50px;
+#tap4 h2{
+    margin-top:30px;
     padding-bottom: 24px;
     font-size: 24px;
     color: #fff;
