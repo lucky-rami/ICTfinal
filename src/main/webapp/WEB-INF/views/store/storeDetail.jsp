@@ -30,34 +30,47 @@
         <!-- 상품 정보 섹션 -->
         <div class="product-info-section">
             <input type="hidden" name="pro_idx" id="pro_idx" value="${storeDetail.idx}">
-            <h1 class="product-title">${storeDetail.title}</h1>
+            <div class="product-info_title_like">
+                <h1 class="product-title">${storeDetail.title}</h1>
+                <div class="like-section">
+                  <div class="like-icon" data-product-id="${storeDetail.idx}">
+                      <i class="like-heart ${storeDetail.liked != null && storeDetail.liked == 1 ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i>
+                  </div>
+                  <!-- <span class="like-count">${storeDetail.likeCount}</span> -->
+                </div>
+            </div>
+
+            <div class="product-title_chaewon">
+                <p>#${storeDetail.ani_title}</p>
+                <p>#${storeDetail.brand}</p>
+                <p>#${categoryType}</p>
+            </div>
             <p class="product-price"><fmt:formatNumber value="${storeDetail.price}" type="number" pattern="#,###"/> 원</p>
     
             <div class="product-meta-info">
-                <p>발매일: ${storeDetail.relDT}</p>
-                <p>적립포인트: ${storeDetail.price/100}원</p> <!-- 가격의 1%를 적립 포인트로 표시 -->
-                <p>배송비: <fmt:formatNumber value="${storeDetail.fee}" type="number" pattern="#,###"/> 원</p>
-
-               <div class="like-section">
-                                  <div class="like-icon" data-product-id="${storeDetail.idx}">
-                                      <i class="like-heart ${storeDetail.liked != null && storeDetail.liked == 1 ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i>
-                                  </div>
-                                  <span class="like-count">${storeDetail.likeCount}</span>
-                              </div>
-                           </div>
+                <div class="product-meta-info-div">
+                    <p><span>발매일</span> ${storeDetail.relDT}</p>
+                    <p><span>적립포인트</span> ${storeDetail.price/100}원</p> <!-- 가격의 1%를 적립 포인트로 표시 -->
+                    <p><span>배송비</span> <fmt:formatNumber value="${storeDetail.fee}" type="number" pattern="#,###"/> 원</p>
+                </div>
+           </div>
 
     
             <!-- 상품 선택 옵션 -->
             <div class="product-selection">
                 <div class="selection-box">
-                    <span class="product-name">상품명</span>
-                         <p>${storeDetail.title}</p>
-                    <span class="product-quantity-control">
-                        <button class="quantity-button" onclick="decreaseQuantity()">-</button>
-                        <input type="number" name="amount" id="amount" value="1" min="1" max="5000" class="quantity-input">
-                        <button class="quantity-button" onclick="increaseQuantity()">+</button>
-                    </span>
-                    <span class="product-price-info">  <fmt:formatNumber value="${storeDetail.price}" type="number" pattern="#,###"/> 원</span>
+                    <div>
+                        <span class="product-name">상품명 : </span>
+                        <p>${storeDetail.title}</p>
+                    </div>
+                    <div>
+                        <span class="product-quantity-control">
+                            <button class="quantity-button" onclick="decreaseQuantity()">-</button>
+                            <input type="number" name="amount" id="amount" value="1" min="1" max="5000" class="quantity-input">
+                            <button class="quantity-button" onclick="increaseQuantity()">+</button>
+                        </span>
+                        <span class="product-price-info">  <fmt:formatNumber value="${storeDetail.price}" type="number" pattern="#,###"/> 원</span>
+                    </div>
                 </div>
     
                 <div class="total-price">총 결제금액:
@@ -103,13 +116,13 @@
             </tr>
             <tr>
                 <th>작품명</th>
-                <td><a href="#">#${storeDetail.ani_title}</a></td>
+                <td><a>#${storeDetail.ani_title}</a></td>
                 <th>브랜드</th>
-                <td><a href="#">#${storeDetail.brand}</a></td>
+                <td><a>#${storeDetail.brand}</a></td>
             </tr>
             <tr>
                 <th>카테고리</th>
-                <td colspan="3"><a href="#">#${categoryType}</a></td>
+                <td colspan="3"><a>#${categoryType}</a></td>
             </tr>
             <tr>
                 <th>상품설명</th>
@@ -285,7 +298,7 @@
             <div class="sticky-right">
                 <div class="price">  <fmt:formatNumber value="${storeDetail.price}" type="number" pattern="#,###"/> 원</div>
                 <button class="sticky_basket_btn basket_in_btn">장바구니</button>
-                <button class="sticky_buy_btn order_buy_btn">바로구매</button>
+                <button class="sticky_buy_btn order_buy_btn">바로 구매</button>
             </div>
         </div>
     </div>
