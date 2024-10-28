@@ -446,8 +446,6 @@ function showTab(commtype) {
           //let contents =  $('[id=replyContent-${comment.idx}]').val();
           const content = document.querySelector("#replyContent-"+commentIdx).value;
 
-          alert(content);
-
           // 로컬 스토리지에서 JWT 토큰 가져오기
           const token = localStorage.getItem("token");
           if (!token) {
