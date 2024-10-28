@@ -4,6 +4,7 @@ let pageSize = getParameterByName('pageSize') || 12; // URL에서 pageSize 추�
 let category = getParameterByName('category');  // category 추가
 let secondCategory = getParameterByName('second_category'); // second_category 추가
 let currentFilterType = 'latest'; // 기본값 설정
+let ani_title = getParameterByName('ani_title');
 
 // URL에서 특정 파라미터의 값을 가져오는 함수
 function getParameterByName(name) {
@@ -59,6 +60,9 @@ if (category) {
 }
 if (secondCategory) {
     url += `&second_category=${secondCategory}`;
+}
+if(ani_title){
+    url += `&ani_title=${ani_title}`;
 }
 
 fetch(url)
@@ -236,12 +240,17 @@ window.applyFilter = function(category, second_category, pageNum = 1) {
     const pageSize = 12;
     const secondCategoryValue = subcategoryMap[second_category] || null;
 
+
     const requestData = {
         pageNum: pageNum,
         pageSize: pageSize,
         category: category,
         second_category: secondCategoryValue
     };
+    if(ani_title){
+        requestData.ani_title = ani_title;
+    }
+    console.log(ani_title);
 
     // URL 변경
     const newUrl = `/storeList?pageNum=${pageNum}&category=${category}&second_category=${secondCategoryValue}`;
