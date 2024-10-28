@@ -313,7 +313,6 @@ function showTab(commtype) {
     <!-- 댓글 등록 -->
      function regiComm() {
 
-        alert(useridx);
          let comm_idx = $('[name=no]').val();
          let content =  $('[id=textSearch]').val();
          // 로컬 스토리지에서 JWT 토큰 가져오기
