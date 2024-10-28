@@ -78,6 +78,18 @@ function formatNumber(number) {
 function createPaginationOrder(totalPages, currentPage) {
     $(".pagination").empty();
 
+    const pagesPerGroup = 5;
+    const currentGroup = Math.ceil(currentPage / pagesPerGroup);
+    const startPage = (currentGroup - 1) * pagesPerGroup + 1;
+    const endPage = Math.min(currentGroup * pagesPerGroup, totalPages);
+
+    // << 버튼 추가 (첫 그룹이 아닐 때만 표시)
+    if (currentGroup > 1) {
+        $(".pagination").append(`
+            <li class="page-item"><a class="page-link" data-page="${startPage - 1}"><<</a></li>
+        `);
+    }
+
     // 이전 페이지 버튼 추가 (첫 페이지가 아닐 때만 표시)
     if (currentPage > 1) {
         $(".pagination").append(`
@@ -86,9 +98,9 @@ function createPaginationOrder(totalPages, currentPage) {
     }
 
     // 페이지 번호 버튼 생성
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = startPage; i <= endPage; i++) {
         $(".pagination").append(`
-            <li class="page-item"><a class="page-link" data-page="${i}">${i}</a></li>
+            <li class="page-item"><a class="page-link ${i === currentPage ? 'clicked' : ''}" data-page="${i}">${i}</a></li>
         `);
     }
 
@@ -96,6 +108,13 @@ function createPaginationOrder(totalPages, currentPage) {
     if (currentPage < totalPages) {
         $(".pagination").append(`
             <li class="page-item"><a class="page-link" data-page="${currentPage + 1}">></a></li>
+        `);
+    }
+
+    // >> 버튼 추가 (마지막 그룹이 아닐 때만 표시)
+    if (currentGroup < Math.ceil(totalPages / pagesPerGroup)) {
+        $(".pagination").append(`
+            <li class="page-item"><a class="page-link" data-page="${endPage + 1}">>></a></li>
         `);
     }
 

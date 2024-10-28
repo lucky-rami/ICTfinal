@@ -4,14 +4,13 @@
 
 body,
 html {
-  height:auto;
   margin: 0;
   padding: 0;
   font-family: var(--e-font), var(--k-font);
 }
 body {
-  background: linear-gradient(180deg, rgb(29 29 29), #000 20%) !important;
-  /* animation: fadeIn 2.5s ease-out; */
+    background: #000;
+    /* animation: fadeIn 2.5s ease-out; */
 }
 @keyframes fadeIn {
   from {
@@ -58,7 +57,9 @@ li {
   padding: 3vw;
   overflow: hidden;
   color: #fff;
-  margin-top: 150px;
+  margin-top: 130px;
+  min-height: 80vh;
+  background: linear-gradient(180deg, rgb(29, 29, 29), #000 20%) !important;
 }
 
 .search_all_container h1 {
@@ -153,7 +154,6 @@ li {
   display: grid;
   gap: 1.3rem;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(3, 320px); /* 3개의 행을 각 200px 높이로 설정 */
 }
 .search_goods_img {
   width: 100%;

@@ -130,10 +130,30 @@
 
 
 
-    <select id="searchStoreList" parameterType="String" resultType="com.ict.finalproject.vo.StoreVO">
+    <select id="searchStoreList" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
         SELECT * FROM t_product
-        WHERE LOWER(title) LIKE CONCAT('%', LOWER(#{query}), '%')
-        OR LOWER(description) LIKE CONCAT('%', LOWER(#{query}), '%')
+        WHERE (LOWER(title) LIKE CONCAT('%', LOWER(#{query}), '%')
+        OR LOWER(ani_title) LIKE CONCAT('%', LOWER(#{query}), '%'))
+        <if test="category != null">
+            AND category = #{category}
+        </if>
+        <if test="second_category != null">
+            AND second_category = #{second_category}
+        </if>
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="getSearchResultsCount" parameterType="map">
+        select count(*)
+        from T_product
+        WHERE (LOWER(title) LIKE CONCAT('%', LOWER(#{query}), '%')
+        OR LOWER(ani_title) LIKE CONCAT('%', LOWER(#{query}), '%'))
+        <if test="category != null">
+            AND category = #{category}
+        </if>
+        <if test="second_category != null">
+            AND second_category = #{second_category}
+        </if>
     </select>
 
     <!-- 카테고리와 재고 기반 필터링 -->

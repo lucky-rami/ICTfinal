@@ -205,9 +205,24 @@ public class storeMainController {
     // 검색된 상품 목록 가져오기
     @GetMapping("/searchProducts")
     @ResponseBody
-    public List<StoreVO> searchProducts(@RequestParam("query") String query) {
-        return storeService.searchStoreList(query);
+    public Map<String, Object> searchProducts(
+            @RequestParam("query") String query,
+            @RequestParam(required = false) Integer category,
+            @RequestParam(required = false) Integer second_category,
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "12") int pageSize) {
+        int offset = (pageNum - 1) * pageSize;
+        List<StoreVO> searchResults = storeService.searchStoreList(query, category, second_category, offset, pageSize);
+
+        // 검색된 총 결과 수 가져오기
+        int totalResultsCount = storeService.getSearchResultsCount(query, category, second_category);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("searchResults", searchResults);
+        response.put("totalResultsCount", totalResultsCount); // 전체 결과 개수
+        return response;
     }
+
 
 
     // 필터링된 상품 목록 가져오기 (AJAX 요청 처리)

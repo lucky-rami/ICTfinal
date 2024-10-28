@@ -203,3 +203,4 @@
         maxAmounts.push(${product.amount - product.cancelCount});
     </c:forEach>
 </script>
+

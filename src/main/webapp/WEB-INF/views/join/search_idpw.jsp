@@ -9,13 +9,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
   <link rel="stylesheet" href="/css/search_idpw.css" type="text/css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="/js/search_idpw.js"></script>
   <script>
     $(document).ready(function () {
       // 탭 전환 함수
-      window.reviewTab = function (tab) {
-        $('.serachIdPw_bottom').removeClass('on').addClass('off'); // 모든 탭을 숨김
-        $('#' + tab).removeClass('off').addClass('on'); // 선택된 탭을 표시
-      };
+      //window.reviewTab = function (tab) {
+        //$('.serachIdPw_bottom').removeClass('on').addClass('off'); // 모든 탭을 숨김
+        //$('#' + tab).removeClass('off').addClass('on'); // 선택된 탭을 표시
+      //};
 
 
       // 아이디 찾기 AJAX 요청
@@ -142,6 +143,7 @@
               <input type="text" id="username_id" name="username" placeholder="이름을 입력하세요." required />
               <input type="text" id="email_id" name="email" placeholder="이메일을 입력하세요." required />
             </div>
+            <div class="serachIdPw_qna">위의 정보로 아이디 찾기가 불가능 하신가요?<br /><a href="/notice2">고객센터로 문의하기</a></div>
             <div class="serachIdPw_btn">
               <button type="submit">아이디 찾기</button>
             </div>
@@ -155,6 +157,7 @@
               <input type="text" id="username_pw" name="username" placeholder="이름을 입력하세요." required />
               <input type="text" id="email_pw" name="email" placeholder="이메일을 입력하세요." required />
             </div>
+            <div class="serachIdPw_qna">위의 정보로 비밀번호 찾기가 불가능 하신가요?<br /><a href="/notice2">고객센터로 문의하기</a></div>
             <div class="serachIdPw_btn">
               <button type="submit">비밀번호 찾기</button>
             </div>

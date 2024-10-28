@@ -26,34 +26,43 @@ $(function(){
                 let currentLikeAniData = response.currentLikeAniData;
 
                 // 최근 주문 for문
-                response.currentOrderData.forEach(function(currentOrderData, index){
-                    const formattedAmount = formatNumber(currentOrderData.amount) + "원"; // 여기서 형식화된 금액을 변수로 저장
-                    $(".my_order_tbl").append(`
-                        <li>
-                          <a class="my_tbl" href="/user/mypage_order_detail/${currentOrderData.order_idx}">
-                            <div class="date">${currentOrderData.order_date}</div>
-                            <div class="history">
-                              <div class="imgbx">
-                                <div class="imgin">
-                                  <img src="http://192.168.1.180:8000/${currentOrderData.pro_image}" />
-                                </div>
-                              </div>
-                              <div class="prd_order">
-                                <div class="prd_order_flex">
-                                  <div class="prd_order_in">
-                                    <em class="elp">
-                                      <span>${currentOrderData.orderName}</span>
-                                    </em>
+                if (response.currentOrderData && response.currentOrderData.length > 0) {
+                    response.currentOrderData.forEach(function(currentOrderData, index){
+                        const formattedAmount = formatNumber(currentOrderData.amount) + "원"; // 여기서 형식화된 금액을 변수로 저장
+                        $(".my_order_tbl").append(`
+                            <li>
+                              <a class="my_tbl" href="/user/mypage_order_detail/${currentOrderData.order_idx}">
+                                <div class="date">${currentOrderData.order_date}</div>
+                                <div class="history">
+                                  <div class="imgbx">
+                                    <div class="imgin">
+                                      <img src="http://192.168.1.180:8000/${currentOrderData.pro_image}" />
+                                    </div>
+                                  </div>
+                                  <div class="prd_order">
+                                    <div class="prd_order_flex">
+                                      <div class="prd_order_in">
+                                        <em class="elp">
+                                          <span>${currentOrderData.orderName}</span>
+                                        </em>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                            <div class="num">${currentOrderData.orderId}</div>
-                            <div class="amount">${formattedAmount}</div>
-                          </a>
-                        </li>
-                    `)
-                })// 최근 주문 for문 종료
+                                <div class="num">${currentOrderData.orderId}</div>
+                                <div class="amount">${formattedAmount}</div>
+                              </a>
+                            </li>
+                        `)
+                    })// 최근 주문 for문 종료
+                }else {
+                    $(".my_order_tbl").empty();
+                    $(".my_order").append(`
+                        <div class="order_list_none">
+                            <p style="margin-top:100px">최근 주문 내역이 없습니다.</p>
+                        </div>
+                    `);
+                }
                 // 굿즈 좋아요 최신 5개
                 if (response.currentLikeGoodsData && response.currentLikeGoodsData.length > 0) {
                     response.currentLikeGoodsData.forEach(function(currentLikeGoodsData, index){
@@ -74,7 +83,7 @@ $(function(){
                 }else {
                     $("#heart_artwrap_goods").append(`
                         <div class="order_list_none">
-                            <p>굿즈 좋아요 내역이 없습니다</p>
+                            <p>굿즈 좋아요 내역이 없습니다.</p>
                         </div>
                     `);
                 }
@@ -97,7 +106,7 @@ $(function(){
                 } else {
                     $("#heart_artwrap_ani").append(`
                         <div class="order_list_none">
-                            <p>애니 좋아요 내역이 없습니다</p>
+                            <p>애니 좋아요 내역이 없습니다.</p>
                         </div>
                     `);
                 }

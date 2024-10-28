@@ -82,7 +82,12 @@ function getPointList(page){
                 });
             createPaginationPoint(totalPages, page);
             }else{
-
+                $(".point_list_all").empty();
+                $(".point_list_all").append(`
+                    <div class="order_list_none">
+                        <p style="margin-top:100px">적립 내역이 없습니다.</p>
+                    </div>
+                `);
             }
         },
         error: function(error) {

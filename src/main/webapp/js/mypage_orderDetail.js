@@ -201,7 +201,7 @@ function displayOrderDetail(orderDetail,orderer,cancelData){
             }
 
             orderHTML += `
-              <div>
+              <div style="margin-bottom: 50px;">
                   <div>
                     <h4 class="my_tit">배송지정보</h4>
                   </div>
@@ -234,9 +234,6 @@ function displayOrderDetail(orderDetail,orderer,cancelData){
                       </tr>
                     </tbody>
                   </table>
-                </div>
-                <div class="receipt_btn_div">
-                  <button type="button">영수증 출력</button>
                 </div>
               </div>
             `;

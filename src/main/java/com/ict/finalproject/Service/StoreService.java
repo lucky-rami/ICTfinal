@@ -32,7 +32,9 @@ public interface StoreService {
     // 필터 타입에 따른 상품 리스트 가져오기 (필터 타입: 최신순, 인기순 등)
     public List<StoreVO> getStoreListByFilter(@Param("filterType")String filterType);
     // 검색어에 따른 상품 검색
-    public List<StoreVO> searchStoreList(@Param("query") String query);
+    List<StoreVO> searchStoreList(String query, Integer category, Integer second_category, int offset, int pageSize);
+    // 검색된 요소 총 갯수
+    int getSearchResultsCount(String query, Integer category, Integer second_category);
     // 첫 번째 카테고리 목록 가져오기
     public List<ProductFilterVO> getFirstCategoryList();  // 이 부분 추가
     // 상품 상세 정보 가져오기

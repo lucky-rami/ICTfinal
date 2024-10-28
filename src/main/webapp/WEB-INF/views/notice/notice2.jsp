@@ -681,10 +681,29 @@ function checkLoginStatus() {
     });
 
 
+$(function(){
+    // URL에서 현재 페이지의 검색어를 확인
+    const currentPath = window.location.pathname;
+
+    if (currentPath.includes("qnaWirte")) {
+        // 모든 탭에서 'selected' 클래스를 제거하고 'content' 클래스를 숨김
+        $('.notice_tab .list li').removeClass('selected');
+        $('.content').removeClass('active');
+
+        // 1:1 문의 탭 활성화 및 관련 컨텐츠 보이기
+        $('.notice_tab .list li:nth-child(3)').addClass('selected'); // 1:1 문의 탭
+        $('#tap3').addClass('active'); // 1:1 문의 내용
+
+        // 검색바 숨기기
+        toggleSearchBar(false);
+
+        // URL에 #tap3을 추가하는 대신 스크롤을 맨 위로 이동
+        history.replaceState(null, null, " "); // URL에서 #tap3 제거
+        window.scrollTo(0, 0); // 페이지 맨 위로 스크롤
+    }
+});
 
 
 </script>
 
-</body>
-
-</html>
+<%@include file="/WEB-INF/inc/footer.jspf"%>

@@ -126,7 +126,12 @@ function getQnAList(page){
                 });
             createPaginationQna(totalPages, page);
             }else{
-
+                $(".myqna_list").empty();
+                $(".myqna_list").append(`
+                    <div class="order_list_none">
+                        <p style="margin-top:100px">문의 내역이 없습니다.</p>
+                    </div>
+                `);
             }
         },
         error: function(error) {
@@ -220,6 +225,23 @@ $(document).on('click', '.qna_delBtn', function(e) {
             }
         });
     }
+});
+
+//삭제 버튼
+$(document).on('click', '.qna_write_btn', function(e) {
+    $.ajax({
+        url: '/user/qnaWrite',
+        type: 'POST',
+        headers: {
+                "Authorization": `Bearer ${token}`  // JWT 토큰을 Authorization 헤더에 포함
+        },
+        success: function(response) {
+            location.href="/qnaWirte";
+        },
+        error: function(error) {
+            console.error('문의사항 글쓰기 이동중 에러 발생', error);
+        }
+    });
 });
 
 

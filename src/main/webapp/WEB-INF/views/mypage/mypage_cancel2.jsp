@@ -193,3 +193,4 @@
         prices.push(${product.price});
     </c:forEach>
 </script>
+

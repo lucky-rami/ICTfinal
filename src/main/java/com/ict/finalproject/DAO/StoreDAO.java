@@ -27,7 +27,9 @@ public interface StoreDAO {
 
 
     // 검색어에 따른 상품 검색
-    public List<StoreVO> searchStoreList(@Param("query") String query);
+    List<StoreVO> searchStoreList(Map<String, Object> params);
+    // 검색 갯수 총 몇갠지
+    int getSearchResultsCount(Map<String, Object> params);
     // 첫 번째 카테고리 목록 가져오기
     public List<ProductFilterVO> getFirstCategoryList();  // 이 부분 추가
     // 상품 상세 정보 가져오기

@@ -34,7 +34,7 @@
     <ul class="search_all_goods_grid">
         <c:forEach var="goodsSearch" items="${goodsSearch}">
             <li>
-                <a>
+                <a href="/storeDetail/${goodsSearch.idx}">
                   <div class="search_ani_img">
                     <img src="http://192.168.1.180:8000/${goodsSearch.thumImg}" />
                   </div>
@@ -48,3 +48,4 @@
   </div>
 </div>
 
+<%@include file="/WEB-INF/inc/footer.jspf"%>
