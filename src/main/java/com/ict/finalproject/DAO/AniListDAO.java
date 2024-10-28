@@ -26,7 +26,7 @@ public interface AniListDAO {
 
 
     // 별점 추가 메서드
-    void addGrade(@Param("ani_idx") int aniIdx, @Param("grade") int grade, @Param("useridx") int userIdx);
+    void addGrade(@Param("ani_idx") int aniIdx, @Param("grade") Double grade, @Param("useridx") int userIdx);
 
 
     // 평균 별점 조회 메서드
@@ -60,4 +60,10 @@ public interface AniListDAO {
 
 
     List<AniListVO> getSimilarAnis(int ani_idx); // 유사한 애니메이션 목록을 가져오는 메서드 정의
+
+    List<AniListVO> fetchEvents();
+
+    List<AniListVO> fetchEvent_view(int aniId);
+
+    boolean checkLikeStatus(@Param("ani_idx") int ani_idx, @Param("useridx") int useridx);
 }

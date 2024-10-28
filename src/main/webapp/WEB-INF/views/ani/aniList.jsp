@@ -38,15 +38,6 @@ var alllist=`${aniAllList}`;
                         <li class="submenu"><label><input type="checkbox" class="filter" value="SF"> SF</label></li>
                     </ul>
                     <hr />
-                    <ul>
-                        <li class="menu-item">태그</li>
-                        <li class="submenu"><label><input type="checkbox" data-tag="이세계" class="filter"> 이세계</label></li>
-                        <li class="submenu"><label><input type="checkbox" data-tag="극장판" class="filter"> 극장판</label></li>
-                        <li class="submenu"><label><input type="checkbox" data-tag="이능력" class="filter"> 이능력</label></li>
-                        <li class="submenu"><label><input type="checkbox" data-tag="순정/로맨스" class="filter"> 순정/로맨스</label></li>
-                        <li class="submenu"><label><input type="checkbox" data-tag="스릴러" class="filter"> 스릴러</label></li>
-                    </ul>
-                    <hr />
                         <ul>
                             <li class="menu-item">연령</li>
                             <li class="submenu"><label><input type="checkbox" data-age="전체" class="filter"> 전체관람가 </label></li> <!-- 전체 관람가 -->
@@ -81,7 +72,7 @@ var alllist=`${aniAllList}`;
         <c:forEach var="ani" items="${aniAllList}">
             <div class="div_li" data-anitype="${ani.anitype}" data-agetype="${ani.agetype}">
                 <div class="list_img_bg" data-title="${ani.title}" data-director="${ani.director}" data-idx="${ani.idx}">
-                    <img src="http://192.168.1.92:8000/${ani.post_img}" alt="${ani.title}">
+                    <img src="http://192.168.1.180:8000/${ani.post_img}" alt="${ani.title}">
                     <div class="overlay">상세 보기</div>
                 </div>
                 <p>${ani.title}</p>
@@ -119,7 +110,7 @@ var alllist=`${aniAllList}`;
                       <div class="ani_ageGrade">
                         <div>
                           <label>
-                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i><span class="modal-grade"></span>
                           </label>
                         </div>
                       </div>
@@ -133,7 +124,7 @@ var alllist=`${aniAllList}`;
                     <div class="animodal_infoBody">
 
 
-                      <div id="animodal_usergrade" class="animodal_usergrade"  data-idx="sadfsadf">
+                      <div id="animodal_usergrade" class="animodal_usergrade"  data-idx="idx">
                         <span>내 평가 : </span>
                             <div id="stars">
                                 <i class="fa-regular fa-star" onclick="setRating(1, 'animodal_usergrade')"></i>
@@ -156,21 +147,21 @@ var alllist=`${aniAllList}`;
               </div>
 
 
-              <div class="animodal_item_bottom">
+            <div class="animodal_item_bottom">
                 <div class="animodal_item_bottom_nav">
-                  <div>
-                    <div>
-                      <div><span>비슷한 작품</span></div>
-                      <div></div>
-                    </div>
-                  </div>
+                <div>
+                <div>
+                    <div><span>비슷한 작품</span></div>
+                    <div></div>
+                </div>
+              </div>
                 </div>
                     <div class="bottom_ani_content">
                         <ul class="similar_ani_list">
                             <c:forEach var="rand" items="${randomSimilarAnis}">
                                 <li>
-                                    <div class="similar_ani_img" style="width:195px;">
-                                        <img src="http://192.168.1.92:8000/${rand.post_img}"  alt="${rand.title}" >
+                                    <div class="similar_ani_img">
+                                        <img src="http://192.168.1.180:8000/${rand.post_img}"  alt="${rand.title}" >
                                     </div>
                                         <p class="similar_ani_title">${rand.title}</p>
                                         <p>title: ${rand.title}</p>
@@ -178,7 +169,7 @@ var alllist=`${aniAllList}`;
                             </c:forEach>
                         </ul>
                     </div>
-              </div>
+            </div>
 
 
             </div>
