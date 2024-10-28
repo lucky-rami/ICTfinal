@@ -76,12 +76,13 @@ a:hover {
 
 
 .container{
-    max-width: 1200px;
+    max-width: 1400px;
     height:auto;
     justify-content: center;
     border: 1px solid #ddd; /* 얇은 회색 보더 */
     padding: 20px; /* 내부 여백 */
     margin-bottom : 50px;
+    margin-top:20px;
 }
 
 .viewInfo{
@@ -246,7 +247,7 @@ a:hover {
 /*이전페이지, 다음페이지*/
 .list_section {
     margin: 60px auto 100px auto; /* 자동 여백으로 가운데 정렬 */
-    max-width: 1200px; /* 최대 너비 1200px 설정 */
+    max-width: 1400px;
     align-items: center;
 }
 
