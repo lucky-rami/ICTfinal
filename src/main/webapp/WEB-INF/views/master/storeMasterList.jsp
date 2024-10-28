@@ -5,6 +5,7 @@
 <link href="/css/masterStyle.css" rel="stylesheet" type="text/css"></link>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/Master.js"></script>
+<script src="/js/MasterPage.js"></script>
 
  <div class="store-list-container">
         <h2>굿즈 전체 목록</h2>
@@ -27,12 +28,12 @@
                 <button class="btn btn-primary ms-2" onclick="searchTable2()">검색</button>
             </div>
             <div>
-                <select class="form-select w-auto" id="filterSelect">
+                <select class="form-select w-auto" id="filterSelect" onchange="filterStore()">
                     <option value="">모든 카테고리</option>
-                    <option value="피규어">피규어</option>
-                    <option value="티셔츠">티셔츠</option>
-                    <option value="악세사리">악세사리</option>
-                    <option value="포스터">포스터</option>
+                    <option value="1">의류</option>
+                    <option value="2">완구/취미</option>
+                    <option value="3">문구/오피스</option>
+                    <option value="4">생활용품</option>
                 </select>
             </div>
         </div>
@@ -53,7 +54,7 @@
             </thead>
             <tbody id="storeTableBody">
             <c:forEach var="store" items="${storeList}">
-                <tr>
+                <tr data-category="${store.category}">
                     <td><input type="checkbox" name="select" id="select"/></td>
                     <td>${store.idx}</td>
                     <td>

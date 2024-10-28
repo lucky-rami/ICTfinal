@@ -20,6 +20,8 @@
                     return true;
                 }
 
+
+
 // ------------------------------------------------------
   // 검색 기능
         function searchTable() {
@@ -119,6 +121,7 @@
                     table = document.querySelector(".anime-list");
                     switching = true;
                     dir = "asc"; // 기본 정렬 방향: 오름차순
+                    var headers = table.querySelectorAll("th");
                       headers.forEach(function(header) {
                                                         header.innerHTML = header.innerHTML.replace(" ▼", "").replace(" ▲", "");
                                                     });
@@ -396,3 +399,31 @@ document.addEventListener('DOMContentLoaded', function () {
                console.error('회원 가입 데이터를 가져오는 중 오류가 발생했습니다:', error);
            });
    });
+
+    function filterAnime() {
+        const selectedCategory = document.getElementById('filterSelect').value;
+        const rows = document.querySelectorAll('#animeTableBody tr');
+
+        rows.forEach(row => {
+            const categoryCode = row.getAttribute('data-anitype');
+            if (selectedCategory === '' || categoryCode === selectedCategory) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    function filterStore() {
+            const selectedCategory = document.getElementById('filterSelect').value;
+            const rows = document.querySelectorAll('#storeTableBody tr');
+
+            rows.forEach(row => {
+                const categoryCode = row.getAttribute('data-category');
+                if (selectedCategory === '' || categoryCode === selectedCategory) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }

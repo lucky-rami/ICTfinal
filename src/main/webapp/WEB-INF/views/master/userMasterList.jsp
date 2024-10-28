@@ -30,13 +30,6 @@
                 <input type="text" id="searchInput" class="form-control" placeholder="검색어 입력 (아이디, 이름, 이메일)">
                 <button class="btn btn-primary ms-2" onclick="searchTable()">검색</button>
             </div>
-            <div>
-                <select class="form-select w-auto" id="filterSelect">
-                    <option value="">모든 사용자</option>
-                    <option value="newUsers">오늘 가입한 사용자</option>
-                    <option value="newSignups">7일간 가입한 사용자 수</option>
-                </select>
-            </div>
         </div>
 
         <!-- 사용자 정보 테이블 -->
@@ -54,17 +47,16 @@
             </thead>
             <tbody id="userTableBody">
             <c:forEach var="member" items="${memberList}">
-                <tr>
+               <tr>
                     <td><input type="checkbox" name="select" id="select"/></td>
-
                     <td>${member.idx}</td>
                     <td>${member.userid}</td>
                     <td>${member.username}</td>
                     <td>${member.email}</td>
                     <td>${member.regDT}</td>
                     <td>${member.point}<span> point</span></td>
-                    </c:forEach>
                 </tr>
+                </c:forEach>
             </tbody>
         </table>
 

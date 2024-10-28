@@ -506,6 +506,8 @@ public class masterController {
         int totalUsers = masterService.getTotalReportingUserCount();
         int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
 
+
+
         ModelAndView mav = new ModelAndView();
         mav.addObject("reportingUser", reportingUser);
         mav.addObject("totalReportUser", totalReportUser);

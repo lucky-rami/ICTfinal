@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,7 +21,7 @@ public class MemberVO {
     private String addrdetail;
     private String birth;
     private int point;
-    private String regDT;
+    private LocalDateTime regDT;
     private int adult_state;
     private int login_type;
 
@@ -27,4 +29,7 @@ public class MemberVO {
     private int pageSize;
 
     private String join_status;
+
+    private boolean isTodayUser;
+    private boolean isRecentUser;
 }

@@ -26,12 +26,15 @@
                  <button class="btn btn-primary ms-2" onclick="searchTable1()">검색</button>
              </div>
              <div>
-                 <select class="form-select w-auto" id="filterSelect">
-                     <option value="">모든 카테고리</option>
-                     <option value="액션">액션</option>
-                     <option value="코미디">코미디</option>
-                     <option value="판타지">판타지</option>
-                 </select>
+                 <select class="form-select w-auto" id="filterSelect" onchange="filterAnime()">
+                                 <option value="">모든 카테고리</option>
+                                 <option value="1">드라마</option>
+                                 <option value="2">미스터리</option>
+                                 <option value="3">스포츠</option>
+                                 <option value="4">코미디</option>
+                                 <option value="5">판타지</option>
+                                 <option value="6">SF</option>
+                             </select>
              </div>
          </div>
 
@@ -50,7 +53,7 @@
              </thead>
              <tbody id="animeTableBody">
                    <c:forEach var="ani" items="${aniList}">
-                                  <tr>
+                                  <tr data-anitype="${ani.anitype}">
                                       <td><input type="checkbox" name="select" id="select"/></td>
                                       <td>${ani.idx}</td>
                                       <td>
