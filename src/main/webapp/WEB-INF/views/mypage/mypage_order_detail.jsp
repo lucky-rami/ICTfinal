@@ -89,3 +89,4 @@
     var order_idx = ${order_idx};
 </script>
 
+<%@include file="/WEB-INF/inc/footer.jspf"%>

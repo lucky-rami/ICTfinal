@@ -194,3 +194,4 @@
     </c:forEach>
 </script>
 
+<%@include file="/WEB-INF/inc/footer.jspf"%>
