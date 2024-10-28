@@ -8,6 +8,7 @@ public class EventController {
 	    @GetMapping("/Event")
     public String aniList() {
         // 이벤트리스트
-        return "ani/Event";
+        return "event/Event";
+
     }
 }

@@ -5,16 +5,22 @@ import com.ict.finalproject.vo.*;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
 
+@Transactional
 @Service
 public interface StoreService {
 
     //최근 상품 목록 가져오기
     public List<StoreVO> getRecentProducts();
+
+    //배너상품목록 가져오기
+    public List<StoreVO> getProductsByTitle(String ani_title);
+
     //전체 상품 목록 가져오기
     public List<StoreVO> getStoreList();
     //총 상품 목록 가져오기

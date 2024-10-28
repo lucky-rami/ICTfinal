@@ -28,6 +28,9 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public List<StoreVO> getProductsByTitle(String ani_title){ return dao.getProductsByTitle(ani_title);    }
+
+    @Override
     public List<StoreVO> getPagedProducts(int pageSize, int offset, Integer category,  Integer second_category) {
         return dao.getPagedProducts(pageSize, offset, category, second_category);
     }

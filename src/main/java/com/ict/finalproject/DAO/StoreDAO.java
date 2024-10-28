@@ -12,6 +12,9 @@ import java.util.Map;
 public interface StoreDAO {
     //최근 상품 목록 가져오기
     public List<StoreVO> getRecentProducts();
+
+    //배너상품 목록 가져오기
+    public List<StoreVO> getProductsByTitle(String ani_title);
     //전체 상품 목록 가져오기
     public List<StoreVO> getStoreList();
     //총 상품 목록 가져오기
