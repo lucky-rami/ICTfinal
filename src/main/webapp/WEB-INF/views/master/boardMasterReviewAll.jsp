@@ -85,25 +85,25 @@
 
 <!-- 모달창 -->
 <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="detailModalLabel">리뷰 상세보기</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- 리뷰 상세 정보가 들어갈 영역 -->
-        <div id="reviewDetail">
-            <p><strong>OrderList_idx:</strong> <span id="orderListIdx"></span></p>
-            <p><strong>Image File 1:</strong> <img id="imgFile1" src="http://192.168.1.180:8000/${reply.imgFile1}" alt="Image 1" style="width: 100px;" /></p>
-            <p><strong>Image File 2:</strong> <img id="imgFile2" src="http://192.168.1.180:8000/${reply.imgFile2}" alt="Image 2" style="width: 100px;" /></p>
+    <div class="modal-dialog modal-lg" role="document"> <!-- 모달 크기를 변경 -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">리뷰 상세보기</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- 리뷰 상세 정보가 들어갈 영역 -->
+                <div id="reviewDetail">
+                    <p><strong>OrderList_idx:</strong> <span id="orderListIdx"></span></p>
+                    <p><strong>Image File 1:</strong> <img id="imgFile1" src="" alt="Image 1" style="width: 100%;" /></p> <!-- 전체 너비 사용 -->
+                    <p><strong>Image File 2:</strong> <img id="imgFile2" src="" alt="Image 2" style="width: 100%;" /></p> <!-- 전체 너비 사용 -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> <!-- 닫기 버튼 추가 -->
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-      </div>
     </div>
-  </div>
 </div>

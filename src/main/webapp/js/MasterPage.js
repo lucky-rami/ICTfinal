@@ -232,113 +232,105 @@
 
 // ------------------------------------------------------
 // 일/월별 매출 관리
-     document.addEventListener("DOMContentLoaded", function () {
-             const tabs = document.querySelectorAll('.tab-item');
-             const panels = document.querySelectorAll('.tab-panel');
 
-             tabs.forEach(tab => {
-                 tab.addEventListener('click', function (e) {
-                     e.preventDefault();
+ $(document).ready(function() {
+     $.ajax({
+         type: 'GET',
+         url: '/master/getCombinedSalesData', // 요청 URL 확인
+         success: function(response) {
+             const aniSalesData = response.aniSalesData;
+             const dailySalesData = response.dailySalesData;
 
-                     // 탭 활성화 처리
-                     tabs.forEach(item => item.classList.remove('active'));
-                     tab.classList.add('active');
+             const labels = dailySalesData.map(data => data.orderDate);
+             const totalSales = dailySalesData.map(data => data.totalSales);
+             const aniSales = aniSalesData.map(data => data.totalSales || 0); // 기본값 0 설정
 
-                     // 패널 활성화 처리
-                     panels.forEach(panel => panel.classList.remove('active'));
-                     const targetPanel = document.querySelector(tab.getAttribute('href'));
-                     targetPanel.classList.add('active');
-                 });
+             // 차트 데이터 설정
+             const chartData = {
+                 labels: labels,
+                 datasets: [
+                     {
+                         label: '일별 매출',
+                         data: totalSales,
+                         borderColor: 'rgba(54, 162, 235, 1)',
+                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                         fill: true,
+                         yAxisID: 'y-axis-sales',  // 첫 번째 Y축과 연결
+                     },
+                     {
+                         label: '상품 ani_title 매출',
+                         data: aniSales,
+                         borderColor: 'rgba(255, 159, 64, 1)',
+                         backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                         fill: true,
+                         yAxisID: 'y-axis-aniSales', // 두 번째 Y축과 연결
+                     }
+                 ]
+             };
+
+             const ctx = document.getElementById('combinedDailyChartView').getContext('2d');
+             const combinedChart = new Chart(ctx, {
+                 type: 'line',
+                 data: chartData,
+                 options: {
+                     responsive: true,
+                     scales: {
+                         'y-axis-sales': { // 첫 번째 Y축 (일별 매출)
+                             type: 'linear',
+                             position: 'left',
+                             beginAtZero: true,
+                             title: {
+                                 display: true,
+                                 text: '일별 매출'
+                             },
+                             ticks: {
+                                 callback: function(value) {
+                                     return value + ' 원'; // y축 단위를 '원'으로 표시
+                                 }
+                             }
+                         },
+                         'y-axis-aniSales': { // 두 번째 Y축 (애니메이션 매출)
+                             type: 'linear',
+                             position: 'right',
+                             beginAtZero: true,
+                             title: {
+                                 display: true,
+                                 text: '상품 ani_title 매출'
+                             },
+                             grid: {
+                                 drawOnChartArea: false // 두 번째 Y축의 그리드 라인 제거
+                             },
+                             ticks: {
+                                 callback: function(value) {
+                                     return value + ' 원'; // y축 단위를 '원'으로 표시
+                                 }
+                             }
+                         },
+                         x: {  // X축 설정
+                             title: {
+                                 display: true,
+                                 text: '날짜'
+                             }
+                         }
+                     },
+                     plugins: {
+                         legend: {
+                             display: true,
+                             position: 'top'
+                         }
+                     }
+                 }
              });
-         });
+         },
+         error: function() {
+             alert('데이터를 가져오는 데 실패했습니다.');
+         }
+     });
+ });
 
-document.addEventListener('DOMContentLoaded', function () {
 
-    /* ========== 통합 일별/월별 차트 생성 ========== */
-    const combinedData = {
-        labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-        datasets: [
-            {
-                label: '일별 주문 건수',
-                data: [120, 140, 150, 130, 170, 200, 180, 220, 240, 210, 230, 260],
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',  // 라인 아래 채우기 색상
-                borderColor: 'rgba(54, 162, 235, 1)',         // 라인 색상
-                borderWidth: 2,
-                fill: true,  // 라인 아래 채우기 설정
-                tension: 0.3,  // 곡선의 부드러움 정도
-                yAxisID: 'y-axis-day'  // 첫 번째 Y축과 연결
-            },
-            {
-                label: '월별 주문 건수',
-                data: [900, 1100, 1050, 950, 1250, 1450, 1200, 1550, 1600, 1400, 1500, 1700],
-                backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                borderColor: 'rgba(255, 159, 64, 1)',
-                borderWidth: 2,
-                fill: true,  // 라인 아래 채우기 설정
-                tension: 0.3,  // 곡선의 부드러움 정도
-                yAxisID: 'y-axis-month'  // 두 번째 Y축과 연결
-            }
-        ]
-    };
 
-    const combinedConfig = {
-        type: 'line',  // 차트 타입을 'line'으로 설정
-        data: combinedData,
-        options: {
-            responsive: true,  // 반응형
-            scales: {
-                'y-axis-day': {  // 첫 번째 Y축 (일별 주문 건수)
-                    type: 'linear',
-                    position: 'left',
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function (value) {
-                            return value + ' 건';  // y축 단위를 '건'으로 표시
-                        }
-                    },
-                    title: {
-                        display: true,
-                        text: '일별 주문 건수'
-                    }
-                },
-                'y-axis-month': {  // 두 번째 Y축 (월별 주문 건수)
-                    type: 'linear',
-                    position: 'right',
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function (value) {
-                            return value + ' 건';  // y축 단위를 '건'으로 표시
-                        }
-                    },
-                    grid: {
-                        drawOnChartArea: false  // 두 번째 Y축의 그리드 라인 제거
-                    },
-                    title: {
-                        display: true,
-                        text: '월별 주문 건수'
-                    }
-                },
-                x: {  // X축 설정
-                    title: {
-                        display: false,
-                        text: '월'
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'top'
-                }
-            }
-        }
-    };
 
-    const combinedDailyChart = new Chart(
-        document.getElementById('combinedDailyChartView'),
-        combinedConfig
-    );
-});
 
    document.addEventListener('DOMContentLoaded', function () {
        // 백엔드 API에서 데이터 가져오기

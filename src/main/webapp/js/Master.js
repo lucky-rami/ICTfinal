@@ -193,6 +193,7 @@ $(document).ready(function() {
 
 
 
+
 $(document).ready(function() {
     // 답변 버튼 클릭 시
     $('.answerBtn').on('click', function() {
@@ -654,7 +655,7 @@ $(document).ready(function() {
                      // 서버로부터 받은 댓글 데이터를 모달에 표시
                      var comment = response.comment;
                      $('#commentContent').text(comment.content || '내용 없음');
-                     $('#commentAuthor').text(comment.userid || '작성자 정보 없음');
+                     $('#commentAuthor').text(comment.userid || '작성자 정보 없음'); // 댓글 작성자의 ID
                      $('#commentDate').text(comment.regDT || '작성일 정보 없음');
 
                      // 답글 목록 표시
@@ -684,6 +685,8 @@ $(document).ready(function() {
          });
      });
  });
+
+
 
  $(document).ready(function() {
      $('#FAQEditForm').on('submit', function(event) {

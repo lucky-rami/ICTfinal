@@ -127,6 +127,8 @@ public interface MasterService {
     void updateReport(int idx, int handleState, LocalDateTime handleDT);
     // 전체 FAQ 개수 조회
     int getTotalFAQCount();
+    List<Map<String, Object>> getAniSalesData();  // 애니메이션 매출 데이터 조회
+    List<Map<String, Object>> getDailySalesData();
 
     // 특정 범위의 FAQ 목록 조회
     List<MasterVO> getFAQListByPage(int startRecord, int pageSize);

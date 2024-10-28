@@ -13,10 +13,10 @@
         </div>
 <!-- 차트 영역 -->
         <div class="chart">
-            <div class="combinedDailyChart">
-                <h4 class="text-center">일별 / 월별 통합 주문 통계</h4>
-                <canvas id="combinedDailyChartView"></canvas>
-            </div>
+           <div class="combinedDailyChart">
+               <h4 class="text-center">일별 매출 통계</h4>
+               <canvas id="combinedDailyChartView" width="400" height="200"></canvas>
+           </div>
             <div class="avgUserDailyChart">
                 <h4 class="text-center">회원가입 유저 수</h4>
             <canvas id="registrationChart" width="400" height="200"></canvas>

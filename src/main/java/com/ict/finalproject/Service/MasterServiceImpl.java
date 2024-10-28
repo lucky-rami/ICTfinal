@@ -581,6 +581,17 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
+    public List<Map<String, Object>> getAniSalesData() {
+        return dao.getAniSalesData();
+    }
+
+    @Override
+    public List<Map<String, Object>> getDailySalesData() {
+        return dao.getDailySalesData();
+    }
+
+
+    @Override
     public List<MasterVO> getFAQListByPage(int startRecord, int pageSize) {
         return dao.getFAQListByPage(startRecord, pageSize);
     }

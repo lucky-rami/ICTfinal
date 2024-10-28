@@ -155,4 +155,8 @@ public class MasterVO {
     private String orderState;
 
 
+    private int totalSales;
+    private int totalPayment;
+    private String aniTitles;
+
 }

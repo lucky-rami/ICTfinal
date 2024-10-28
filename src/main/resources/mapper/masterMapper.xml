@@ -546,6 +546,60 @@
         LIMIT #{offset}, #{pageSize}
     </select>
 
+    <!-- 애니메이션 매출 데이터 조회 -->
+    <select id="getAniSalesData" resultType="map">
+        SELECT
+        p.ani_title AS aniTitle,
+        SUM((ol.amount - IFNULL(ol.cancelCount, 0)) * p.price) AS totalSales
+        FROM
+        T_payment pm
+        JOIN
+        T_order o ON pm.order_idx = o.idx
+        JOIN
+        T_orderList ol ON o.idx = ol.order_idx
+        JOIN
+        T_product p ON ol.pro_idx = p.idx
+        LEFT JOIN
+        (SELECT payment_id, SUM(cancelAmount) AS totalCancelAmount
+        FROM T_payment_cancel
+        GROUP BY payment_id) c ON pm.payment_id = c.payment_id
+        WHERE
+        pm.successYN = 1
+        AND o.payState = 1
+        GROUP BY
+        p.ani_title
+        ORDER BY
+        totalSales DESC
+    </select>
+
+    <!-- 일별 매출 데이터 조회 -->
+    <select id="getDailySalesData" resultType="map">
+        SELECT
+        date_table.date AS orderDate,
+        IFNULL(SUM(pm.amount) - SUM(IFNULL(pmc.totalCancelAmount, 0)), 0) AS totalSales
+        FROM
+        (SELECT
+        DATE_SUB(CURDATE(), INTERVAL (WEEKDAY(CURDATE()) - idx) DAY) AS date
+        FROM
+        (SELECT 0 AS idx UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3
+        UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6) AS idx_table
+        ) AS date_table
+        LEFT JOIN
+        T_payment pm ON DATE(pm.createDT) = date_table.date
+        LEFT JOIN
+        T_order o ON pm.order_idx = o.idx
+        LEFT JOIN
+        (SELECT payment_id, SUM(cancelAmount) AS totalCancelAmount
+        FROM T_payment_cancel
+        GROUP BY payment_id) pmc ON pm.payment_id = pmc.payment_id
+        WHERE
+        (pm.payment_id IS NULL OR (pm.successYN = 1 AND o.payState = 1))
+        GROUP BY
+        date_table.date
+        ORDER BY
+        date_table.date
+    </select>
+
 
 
 
@@ -1051,7 +1105,7 @@
         GROUP BY
         date_table.date
         ORDER BY
-        date_table.date;
+        date_table.date
     </select>
     <select id="getAniSales" resultType="com.ict.finalproject.DTO.SalesListDTO">
         SELECT

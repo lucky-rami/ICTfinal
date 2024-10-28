@@ -155,6 +155,9 @@ public interface MasterDAO {
 
     // 회원가입 통계 차트
     List<Map<String, Object>> getUserRegistrationStats();
+    // 일별 차트 보여주기
+    List<Map<String, Object>> getAniSalesData();  // 애니메이션 매출 데이터 조회
+    List<Map<String, Object>> getDailySalesData();
 
     // 굿즈 상품 삭제
     void deleteStoreByIdx(int idx);

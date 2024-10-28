@@ -1936,5 +1936,22 @@ public class masterController {
         return ResponseEntity.ok(stats);
     }
 
+    // 관리자페이지 메인 일별 차트 보여주기
+    @GetMapping("/getCombinedSalesData")
+    @ResponseBody
+    public Map<String, Object> getCombinedSalesData() {
+        Map<String, Object> response = new HashMap<>();
 
+        // 애니메이션 매출 데이터 조회
+        List<Map<String, Object>> aniSalesData = masterService.getAniSalesData();
+        System.out.println("Ani Sales Data: " + aniSalesData); // 디버깅용 로그
+
+        // 일별 매출 데이터 조회
+        List<Map<String, Object>> dailySalesData = masterService.getDailySalesData();
+        System.out.println("Daily Sales Data: " + dailySalesData); // 디버깅용 로그
+
+        response.put("aniSalesData", aniSalesData);
+        response.put("dailySalesData", dailySalesData);
+        return response;
+    }
 }

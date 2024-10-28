@@ -94,34 +94,34 @@
             </ul>
         </nav>
 
-       <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
-           <div class="modal-dialog">
-               <div class="modal-content">
-                   <div class="modal-header">
-                       <h5 class="modal-title" id="commentModalLabel">댓글 상세 정보</h5>
-                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                   </div>
-                   <div class="modal-body">
-                       <!-- 댓글 정보 -->
-                       <div class="comment-section">
-                           <h6>댓글 내용:</h6>
-                           <div class="comment-content bg-light p-2 rounded">
-                               <p id="commentContent" class="mb-1"></p>
-                               <small class="text-muted">작성자: <span id="commentAuthor"></span> | 작성일: <span id="commentDate"></span></small>
-                           </div>
-                       </div>
-                       <hr />
-                       <!-- 답글 목록 -->
-                       <div class="replies-section">
-                           <h6>답글 목록</h6>
-                           <div id="replyList" class="bg-white p-2 rounded" style="max-height: 300px; overflow-y: auto;">
-                               답글이 없습니다.
-                           </div>
-                       </div>
-                   </div>
-                   <div class="modal-footer">
-                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                   </div>
-               </div>
-           </div>
-       </div>
+      <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg"> <!-- 모달 크기를 조정하기 위해 modal-lg 클래스 추가 -->
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="commentModalLabel">댓글 상세 정보</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <!-- 댓글 정보 -->
+                      <div class="comment-section">
+                          <h6>댓글 내용:</h6>
+                          <div class="comment-content bg-light p-3 rounded"> <!-- 패딩을 조금 더 추가 -->
+                              <p id="commentContent" class="mb-1"></p>
+                              <small class="text-muted">작성자: <span id="commentAuthor"></span> | 작성일: <span id="commentDate"></span></small>
+                          </div>
+                      </div>
+                      <hr />
+                      <!-- 답글 목록 -->
+                      <div class="replies-section">
+                          <h6>답글 목록</h6>
+                          <div id="replyList" class="bg-white p-3 rounded" style="max-height: 300px; overflow-y: auto;">
+                              답글이 없습니다.
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                  </div>
+              </div>
+          </div>
+      </div>
