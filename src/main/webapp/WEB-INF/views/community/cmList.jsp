@@ -200,38 +200,14 @@ function showTab(commtype) {
     document.getElementById("searchForm").submit();
 }
 
-// 검색 폼 제출 함수
+// 검색 폼 제출 후 검색어 입력 필드를 초기화하는 함수
 function submitSearchForm() {
-    // 검색어와 카테고리 값을 가져옵니다.
-    const searchKeyword = document.getElementById("searchKeyword").value;
-    const searchCategory = document.getElementById("selectCategory").value;
 
-    // AJAX 요청을 통해 검색 수행
-    $.ajax({
-        url: '/cmList',
-        type: 'GET',
-        data: { searchKeyword, searchCategory },
-        success: function (data) {
-            // 검색 결과 업데이트
-            document.getElementById("contentList").innerHTML = $(data).find('#contentList').html();
-
-            // 검색 완료 후 검색어와 카테고리 초기화
-            document.getElementById("searchKeyword").value = '';
-            document.getElementById("selectCategory").selectedIndex = 0;
-        },
-        error: function (error) {
-            console.log('검색 오류:', error);
-        }
-    });
+    // 폼을 제출합니다.
+    document.getElementById("searchForm").submit();
 }
 
-// Enter 키 입력으로 검색 실행
-document.getElementById("searchKeyword").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        event.preventDefault(); // 기본 폼 제출 방지
-        submitSearchForm(); // AJAX로 검색 수행
-    }
-});
+
 
 // 페이지 번호를 클릭했을 때 페이지 이동 함수
 function reloadPage(page) {
@@ -253,9 +229,19 @@ var userid;
 
 setTimeout(function() {
 
+    // 검색어 필드 초기화 (초기화 안되서 setTimeout 안으로 이동)
+    document.getElementById("searchKeyword").value = '';
+
+    // 검색 카테고리 초기화
+    var searchCategoryElement = document.getElementById("selectCategory");
+    if (searchCategoryElement) {
+        searchCategoryElement.selectedIndex = 0; // 검색 카테고리 초기화
+    }
+
+
     // 커뮤니티 페이지 전용 로그인 상태 확인 함수 호출
     checkLoginStatusForCommunity();
-}, 400);
+}, 150);
 
 // 커뮤니티 페이지 전용 로그인 상태 확인 함수
 function checkLoginStatusForCommunity() {
