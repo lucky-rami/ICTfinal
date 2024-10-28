@@ -24,7 +24,7 @@
         <div class="search-bar">
             <div class="d-flex">
                 <input type="text" id="searchInput" class="form-control" placeholder="상품명, 카테고리 검색">
-                <button class="btn btn-primary ms-2" onclick="searchTable()">검색</button>
+                <button class="btn btn-primary ms-2" onclick="searchTable2()">검색</button>
             </div>
             <div>
                 <select class="form-select w-auto" id="filterSelect">
@@ -42,12 +42,12 @@
             <thead>
                 <tr>
                     <th style="width:2%"><input type="checkbox" name="selectAll" id="selectAll"/></th>
-                    <th style="width:7%" class="sortable" onclick="sortTable(1)">상품번호</th>
-                    <th style="width:10%" class="sortable" onclick="sortTable(2)">카테고리</th>
-                    <th style="width:35%" class="sortable" onclick="sortTable(3)">상품명</th>
-                    <th style="width:8%" class="sortable" onclick="sortTable(4)">판매가</th>
-                    <th style="width:8%" class="sortable" onclick="sortTable(5)">재고</th>
-                    <th style="width:10%" class="sortable" onclick="sortTable(6)">등록일</th>
+                    <th style="width:7%" class="sortable" onclick="sortTable2(1)">상품번호</th>
+                    <th style="width:10%" class="sortable" onclick="sortTable2(2)">카테고리</th>
+                    <th style="width:35%" class="sortable" onclick="sortTable2(3)">상품명</th>
+                    <th style="width:8%" class="sortable" onclick="sortTable2(4)">판매가</th>
+                    <th style="width:8%" class="sortable" onclick="sortTable2(5)">재고</th>
+                    <th style="width:10%" class="sortable" onclick="sortTable2(6)">등록일</th>
                     <th style="width:12%">관리<a href="/master/storeAddMaster"class="btn btn-outline-success btn-sm" >추가</a></th>
                 </tr>
             </thead>
