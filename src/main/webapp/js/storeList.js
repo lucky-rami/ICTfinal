@@ -268,7 +268,7 @@ function resetPaginationToFirstPage(totalPages, category, second_category, curre
     // 페이지 번호 링크 생성
     // 시작 페이지와 끝 페이지 계산
     const startPage = Math.max(1, currentPage - 2);
-    const endPage = Math.min(totalPages, currentPage + 1);
+    const endPage = Math.min(totalPages, currentPage + 3);
 
     for (let i = startPage; i <= endPage; i++) {
         const pageItem = document.createElement('a');
@@ -296,7 +296,7 @@ function resetPaginationToFirstPage(totalPages, category, second_category, curre
         nextPage.href = '#';
         nextPage.addEventListener('click', function(event) {
             event.preventDefault();
-            applyFilter(category, second_category, currentPage + 1);
+            applyFilter(category, second_category, currentPage + 3);
         });
         paginationElement.appendChild(nextPage);
     }
