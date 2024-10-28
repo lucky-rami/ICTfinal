@@ -47,7 +47,7 @@ public interface AniListDAO {
 
 
 
-    List<AniListVO> getAniListfilter(String filter);
+   // List<AniListVO> getAniListfilter(String filter);
 /*
     List<AniListVO> getSortedAniList(String sortCriteria); // 정렬된 애니메이션 목록 조회*/
 
@@ -59,11 +59,15 @@ public interface AniListDAO {
 
 
 
-    List<AniListVO> getSimilarAnis(int ani_idx); // 유사한 애니메이션 목록을 가져오는 메서드 정의
+ List<AniListVO> getSimilarAnis(int ani_idx); // 유사한 애니메이션 목록을 가져오는 메서드 정의
 
-    List<AniListVO> fetchEvents();
+ List<AniListVO> fetchEvents();
 
-    List<AniListVO> fetchEvent_view(int aniId);
+ List<AniListVO> fetchEvent_view(int idx);
 
-    boolean checkLikeStatus(@Param("ani_idx") int ani_idx, @Param("useridx") int useridx);
+ boolean checkLikeStatus(@Param("ani_idx") int ani_idx, @Param("useridx") int useridx);
+
+ Integer getUserRating(@Param("ani_idx") int ani_idx, @Param("useridx") int useridx);//별점
+
+   List<AniListVO> getNewEvent(); // 최근 이벤트를 가져오는 메서드
 }

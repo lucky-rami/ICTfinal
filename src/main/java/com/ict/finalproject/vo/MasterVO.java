@@ -85,9 +85,13 @@ public class MasterVO {
     private String handleDT;
     private int comunity_idx;
     private int totalUserReport;
-    private String reportedUser;
-    private int commentIdx;
+    private String reportedUserId; // 신고된 유저 ID (문자열)
+    private Integer commentIdx;
     private int report_count;
+    private Integer reviewIdx; // 게시글 ID
+    private Integer communityIdx; // 커뮤니티 ID
+
+
 
     // 관리자페이지에서 사용하는 리뷰 기능 사용하는 것들
     private int grade;

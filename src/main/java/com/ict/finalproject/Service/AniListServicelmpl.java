@@ -48,10 +48,10 @@ public class AniListServicelmpl implements AniListService{
         return aniListDAO.getMoviesByGenre(anitype); // 장르에 따른 애니메이션 목록을 반환
     }
 
-    @Override
+   /* @Override
     public List<AniListVO> getAniListfilter(String sortCriteria) {
         return aniListDAO.getAniListfilter(sortCriteria);
-    }
+    }*/
 
     @Override
     public void addGrade(int aniIdx, Double grade, int userIdx) {
@@ -109,7 +109,7 @@ public class AniListServicelmpl implements AniListService{
 
 */
 
-    @Override
+      @Override
     public List<AniListVO> getAniListSortedBynew() {
         return aniListDAO.getAniListSortedBynew();
     }
@@ -124,13 +124,13 @@ public class AniListServicelmpl implements AniListService{
         return aniListDAO.getAniListSortedBypopular();
     }
 
-    @Override
+     @Override
     public List<AniListVO> getSimilarAnimes(int ani_idx, int anitype) {
         return aniListDAO.getSimilarAnimes(ani_idx, anitype);
     }
 
 
-    @Override
+        @Override
     public List<AniListVO> getSimilarAnis(int ani_idx) {
         return aniListDAO.getSimilarAnis(ani_idx); // DAO에서 유사 애니메이션 목록을 가져오는 로직
     }
@@ -141,14 +141,25 @@ public class AniListServicelmpl implements AniListService{
     }
 
     @Override
-    public List<AniListVO> fetchEvent_view(int aniId) {
+    public List<AniListVO> fetchEvent_view(int idx) {
         System.out.println("서비스Impl");
-        return aniListDAO.fetchEvent_view(aniId);
+        return aniListDAO.fetchEvent_view(idx);
     }
 
 
-    @Override
+        @Override
     public boolean checkLikeStatus(int ani_idx, int useridx) {
         return aniListDAO.checkLikeStatus(ani_idx, useridx);
+
+    }
+
+    @Override
+    public Integer getUserRating(int ani_idx, int useridx) {
+        return aniListDAO.getUserRating(ani_idx, useridx);
+    }
+
+   @Override
+    public List<AniListVO> getNewEvent() {
+        return aniListDAO.getNewEvent(); // DAO에서 최근 이벤트를 가져오기
     }
 }

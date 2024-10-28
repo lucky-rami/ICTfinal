@@ -123,7 +123,7 @@ public interface MasterService {
     List<SalesListDTO> getAniSales();
     List<SalesListDTO> getCategorySales();
     void updateAllEndDT(int useridx, LocalDateTime endDT);
-    void insertReport(int useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, int comment_idx);
+    void insertReport(int useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, Integer comment_idx, Integer review_idx, Integer comunity_idx, int report_type);
     void updateReport(int idx, int handleState, LocalDateTime handleDT);
     // 전체 FAQ 개수 조회
     int getTotalFAQCount();
@@ -137,4 +137,7 @@ public interface MasterService {
     Integer findAdminIdxByAdminid(String adminid);
     boolean checkAdminDeleted(int idx);
     MasterVO adminLogin(String adminid, String adminpwd);
+    Integer findUserIdByCommentIdx(int commentIdx);
+    Integer findUserIdByReviewIdx(int reviewIdx);
+    Integer findUserIdByCommunityIdx(int comunityIdx);
 }

@@ -13,13 +13,15 @@
 <link href="/css/Event_view.css" rel="stylesheet" type="text/css">
 </link>
 <div>
+
     <div class="test" style="padding-top: 180px;">
-        <c:forEach var="event" items="${event}"> <!-- events 리스트를 반복 -->
+        <c:forEach var="view" items="${event}"> <!-- events 리스트를 반복 -->
             <div class="box_txtPhoto">
-                <h2 class="ev_tit">${event.title}</h2> <!-- 제목 표시 -->
+                <h2 class="ev_tit">${view.title}</h2> <!-- 제목 표시 -->
                 <hr/>
                 <div class="box_img">
-                    <img src="/img/${event.content}" alt="${event.title}"> <!-- 이미지 표시 -->
+                    <img src="/img/${view.content}" alt="${view.title}"> <!-- 이미지 표시 -->
+
                 </div>
             </div>
         </c:forEach>

@@ -22,7 +22,7 @@
                 <tbody>
                <c:forEach var="ban" items="${reportingUser}">
                    <tr>
-                       <td>${ban.reportedUser}</td>
+                       <td>${ban.userid}</td>
                        <td>
                            <c:choose>
                                <c:when test="${ban.report_type == 1}">관련없는 이미지</c:when>

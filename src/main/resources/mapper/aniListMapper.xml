@@ -3,30 +3,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.finalproject.DAO.AniListDAO">
     <select id="getAniList" resultType="com.ict.finalproject.vo.AniListVO">
-        SELECT
-        a.idx,
-        a.post_img,
-        a.title,
-        at.type AS anitype,
-        a.director,
-        ag.type AS agetype,
-        a.outline
+       SELECT
+            a.idx,
+            a.post_img,
+            a.title,
+            at.type AS anitype,
+            a.director,
+            ag.type AS agetype,
+            a.outline
         FROM
-        t_animation a
+            t_animation a
         JOIN
-        t_anitype at ON a.anitype = at.code
+            t_anitype at ON a.anitype = at.code
         JOIN
-        t_agetype ag ON a.agetype = ag.code
+            t_agetype ag ON a.agetype = ag.code
 
         <if test="sort != null">
-            ORDER BY
-            <choose>
-                <when test="sort == 'title'">a.title</when>
-                <when test="sort == 'new'">a.regDT DESC</when>
-                <when test="sort == 'popular'">a.popularity DESC</when>
-                <otherwise>a.idx</otherwise> <!-- 기본 정렬 기준 -->
-            </choose>
-        </if>
+        ORDER BY
+        <choose>
+            <when test="sort == 'title'">a.title</when>
+            <when test="sort == 'new'">a.regDT DESC</when>
+            <when test="sort == 'popular'">a.popularity DESC</when>
+            <otherwise>a.idx</otherwise> <!-- 기본 정렬 기준 -->
+        </choose>
+    </if>
     </select>
 
     <select id="aniListSelect" resultType="com.ict.finalproject.vo.AniListVO">
@@ -35,28 +35,28 @@
         ORDER BY title ASC
     </select>
 
-    <select id="getAniDetailView" resultType="com.ict.finalproject.vo.AniListVO">
-        SELECT
+    <select id="getAniDetailView"  resultType="com.ict.finalproject.vo.AniListVO">
+    SELECT
         a.post_img,
         a.title,
-        a.anitype AS anitype,
+        at.type AS anitype,
         a.director,
         ag.type AS agetype,
         a.outline,
         DATE(a.regDT) AS regDT,
         a.idx,
         g.grade AS userGrade
-        FROM
+    FROM
         t_animation a
-        JOIN
+    JOIN
         t_anitype at ON a.anitype = at.code
-        JOIN
+    JOIN
         t_agetype ag ON a.agetype = ag.code
-        LEFT JOIN
+    LEFT JOIN
         t_grade g ON a.idx = g.ani_idx
-        WHERE
+    WHERE
         a.title = #{title}
-    </select>
+</select>
 
     <update id="updateAniHit">
         UPDATE t_animation
@@ -71,33 +71,33 @@
         LIMIT #{offset}, #{limit}
     </select>
 
-    <!--    <select id="getMoviesByGenre" resultType="com.ict.finalproject.vo.AniListVO">
-            SELECT post_img, title, anitype, director, agetype
-            FROM t_animation
-            WHERE anitype = #{anitype}
-        </select>-->
+<!--    <select id="getMoviesByGenre" resultType="com.ict.finalproject.vo.AniListVO">
+        SELECT post_img, title, anitype, director, agetype
+        FROM t_animation
+        WHERE anitype = #{anitype}
+    </select>-->
 
 
     <select id="getRandomSimilarAnis" resultType="com.ict.finalproject.vo.AniListVO">
-        SELECT
-        a.post_img,
-        a.title,
-        at.type AS anitype,
-        a.director,
-        ag.type AS agetype,
-        a.outline
+     SELECT
+            a.post_img,
+            a.title,
+            at.type AS anitype,
+            a.director,
+            ag.type AS agetype,
+            a.outline
         FROM
-        t_animation a
+            t_animation a
         JOIN
-        t_anitype at ON a.anitype = at.code
+            t_anitype at ON a.anitype = at.code
         JOIN
-        t_agetype ag ON a.agetype = ag.code
+            t_agetype ag ON a.agetype = ag.code
         WHERE
-        a.anitype = #{genreType}
+            a.anitype = #{genreType}
         ORDER BY
-        RAND()
+            RAND()
         LIMIT 5
-    </select>
+</select>
 
     <!-- 평균 평점 계산 -->
     <select id="getAverageGrade" resultType="double">
@@ -119,11 +119,11 @@
     </select>
 
 
-    <!--    <insert id="toggleLike" parameterType="com.ict.finalproject.vo.LikeRequest">
-            INSERT INTO t_anilike (ani_idx, useridx)
-            VALUES (#{ani_idx}, #{useridx})
-            ON DUPLICATE KEY UPDATE
-        </insert>-->
+<!--    <insert id="toggleLike" parameterType="com.ict.finalproject.vo.LikeRequest">
+        INSERT INTO t_anilike (ani_idx, useridx)
+        VALUES (#{ani_idx}, #{useridx})
+        ON DUPLICATE KEY UPDATE
+    </insert>-->
 
     <!-- 좋아요 추가 -->
     <insert id="insertLike" parameterType="map">
@@ -147,58 +147,126 @@
 
 
 
-    <!-- 최신순 정렬 -->
+     <!-- 최신순 정렬 -->
     <select id="getAniListSortedBynew" resultType="com.ict.finalproject.vo.AniListVO">
-        SELECT a.*,
-        COALESCE(g.grade, 0) AS grade,
-        COALESCE(l.anilike, 0) AS anilike
+         SELECT a.idx, a.post_img, a.title, at.type AS anitype, a.director,
+            ag.type AS agetype, a.outline, COALESCE(g.grade, 0) AS grade, COALESCE(l.anilike, 0) AS anilike
         FROM t_animation a
+         JOIN
+            t_anitype at ON a.anitype = at.code
+		JOIN
+            t_agetype ag ON a.agetype = ag.code
         LEFT JOIN (SELECT ani_idx, AVG(grade) AS grade
-        FROM t_grade
-        GROUP BY ani_idx) g ON a.idx = g.ani_idx
+                   FROM t_grade
+                   GROUP BY ani_idx) g ON a.idx = g.ani_idx
         LEFT JOIN (SELECT ani_idx, COUNT(*) AS anilike
-        FROM t_anilike
-        GROUP BY ani_idx) l ON a.idx = l.ani_idx
+                   FROM t_anilike
+                   GROUP BY ani_idx) l ON a.idx = l.ani_idx
         ORDER BY a.regDT DESC
     </select>
 
     <!-- 별점순 정렬 -->
     <select id="getAniListSortedBytitle" resultType="com.ict.finalproject.vo.AniListVO">
-        SELECT a.*,
-        COALESCE(g.grade, 0) AS grade,
-        COALESCE(l.anilike, 0) AS anilike
+        SELECT a.idx, a.post_img, a.title, at.type AS anitype, a.director,
+            ag.type AS agetype, a.outline, COALESCE(g.grade, 0) AS grade, COALESCE(l.anilike, 0) AS anilike
         FROM t_animation a
+         JOIN
+            t_anitype at ON a.anitype = at.code
+		JOIN
+            t_agetype ag ON a.agetype = ag.code
         LEFT JOIN (SELECT ani_idx, AVG(grade) AS grade
-        FROM t_grade
-        GROUP BY ani_idx) g ON a.idx = g.ani_idx
+                   FROM t_grade
+                   GROUP BY ani_idx) g ON a.idx = g.ani_idx
         LEFT JOIN (SELECT ani_idx, COUNT(*) AS anilike
-        FROM t_anilike
-        GROUP BY ani_idx) l ON a.idx = l.ani_idx
+                   FROM t_anilike
+                   GROUP BY ani_idx) l ON a.idx = l.ani_idx
         ORDER BY grade DESC
     </select>
 
     <!-- 인기순 정렬 -->
     <select id="getAniListSortedBypopular" resultType="com.ict.finalproject.vo.AniListVO">
-        SELECT a.*,
-        COALESCE(g.grade, 0) AS grade,
-        COALESCE(l.anilike, 0) AS anilike
+        SELECT a.idx, a.post_img, a.title, at.type AS anitype, a.director,
+            ag.type AS agetype, a.outline, COALESCE(g.grade, 0) AS grade, COALESCE(l.anilike, 0) AS anilike
         FROM t_animation a
+         JOIN
+            t_anitype at ON a.anitype = at.code
+		JOIN
+            t_agetype ag ON a.agetype = ag.code
         LEFT JOIN (SELECT ani_idx, AVG(grade) AS grade
-        FROM t_grade
-        GROUP BY ani_idx) g ON a.idx = g.ani_idx
+                   FROM t_grade
+                   GROUP BY ani_idx) g ON a.idx = g.ani_idx
         LEFT JOIN (SELECT ani_idx, COUNT(*) AS anilike
-        FROM t_anilike
-        GROUP BY ani_idx) l ON a.idx = l.ani_idx
+                   FROM t_anilike
+                   GROUP BY ani_idx) l ON a.idx = l.ani_idx
         ORDER BY l.anilike DESC
     </select>
 
 
 
     <!-- 랜덤 이미지 -->
-    <select id="getSimilarAnis" parameterType="int" resultType="AniListVO">
+      <select id="getSimilarAnis" parameterType="int" resultType="AniListVO">
         SELECT * FROM t_animation
         WHERE anitype = (SELECT anitype FROM t_animation WHERE idx = #{idx} LIMIT 1)
         ORDER BY RAND()
         LIMIT 5
+    </select>
+
+
+
+    <!-- @@@@@@이벤트@@@@@@@@@@ -->
+    <select id="fetchEvents" resultType="com.ict.finalproject.vo.AniListVO">
+        SELECT
+            idx,
+            title,
+            thumfile,
+            content,
+            event_date,
+            regDT,
+            adminidx
+        FROM
+            t_event
+    </select>
+
+    <!-- event view -->
+    <select id="fetchEvent_view" resultType="com.ict.finalproject.vo.AniListVO">
+      SELECT
+            idx,
+            content,
+            title
+        FROM
+            t_event where idx = ${idx}
+
+    </select>
+
+    <!-- 좋아요 확인 -->
+    <select id="checkLikeStatus" resultType="boolean">
+        SELECT COUNT(*) > 0 AS isLiked
+        FROM t_anilike
+        WHERE ani_idx = #{ani_idx} AND useridx = #{useridx}
+    </select>
+
+    <!-- 별점확인 -->
+    <select id="getUserRating" parameterType="map" resultType="Integer">
+        SELECT grade
+        FROM t_grade
+        WHERE ani_idx = #{ani_idx} AND useridx = #{useridx}
+    </select>
+
+<!-- 애니 유사관련 조회 -->
+<select id="randomSimilarAnis" parameterType="int" resultType="com.ict.finalproject.vo.AniListVO">
+    SELECT * FROM t_animation
+    WHERE anitype = (
+        SELECT anitype FROM t_animation WHERE ani_idx = #{ani_idx}
+    )
+    AND ani_idx != #{ani_idx}
+    ORDER BY RAND()
+    LIMIT 5
+</select>
+
+
+   <select id="getNewEvent" resultType="com.ict.finalproject.vo.AniListVO">
+        SELECT idx, title, thumfile, content, event_date, regDT, adminidx
+        FROM t_event
+        where idx = 8
     </select>
 </mapper>

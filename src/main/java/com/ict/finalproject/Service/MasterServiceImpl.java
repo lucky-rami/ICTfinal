@@ -134,8 +134,6 @@ public class MasterServiceImpl implements MasterService {
         // 같은 useridx에 대한 모든 endDT 업데이트
         dao.updateAllEndDT(useridx, endDT);
 
-        // t_ban에 새로운 제재 추가
-        dao.insertReport(useridx, reason, stopDT, endDT, comment_idx);
     }
 
     @Override
@@ -559,9 +557,10 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public void insertReport(int useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, int comment_idx) {
-        dao.insertReport(useridx,reason,stopDT,endDT,comment_idx);
+    public void insertReport(int useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, Integer comment_idx, Integer review_idx, Integer comunity_idx, int report_type) {
+        dao.insertReport(useridx, reason, stopDT, endDT, comment_idx, review_idx, comunity_idx, report_type);
     }
+
 
     @Override
     public void updateReport(int idx, int handleState, LocalDateTime handleDT) {
@@ -611,6 +610,21 @@ public class MasterServiceImpl implements MasterService {
     @Override
     public MasterVO adminLogin(String adminid, String adminpwd) {
         return dao.adminLogin(adminid, adminpwd);
+    }
+
+    @Override
+    public Integer findUserIdByCommentIdx(int commentIdx) {
+        return dao.findUserIdByCommentIdx(commentIdx);
+    }
+
+    @Override
+    public Integer findUserIdByReviewIdx(int reviewIdx) {
+        return dao.findUserIdByReviewIdx(reviewIdx);
+    }
+
+    @Override
+    public Integer findUserIdByCommunityIdx(int comunityIdx) {
+        return dao.findUserIdByCommunityIdx(comunityIdx);
     }
 
     @Override

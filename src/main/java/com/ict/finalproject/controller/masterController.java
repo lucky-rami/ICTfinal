@@ -494,13 +494,13 @@ public class masterController {
         // 페이징을 적용한 신고된 유저 목록 조회
         List<MasterVO> reportingUser = masterService.getReportingUserWithPaging(offset, pageSize);
 
-        // 각 유저별로 개별 신고 횟수를 계산
-        for (MasterVO user : reportingUser) {
+        // 각 유저별로 개별 신고 횟수를 계산 및 추가
+        reportingUser.forEach(user -> {
             int totalUserReport = masterService.getTotalUserReport(user.getUserid());
             user.setTotalUserReport(totalUserReport);
-        }
+        });
 
-        // 전체 신고 누적 횟수 계산
+        // 전체 신고 누적 횟수 및 총 사용자 수 계산
         int totalReportUser = masterService.getTotalReportCount();
         int totalUsers = masterService.getTotalReportingUserCount();
         int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
@@ -516,6 +516,7 @@ public class masterController {
 
         return mav;
     }
+
 
 
 
@@ -1512,40 +1513,65 @@ public class masterController {
                                   @RequestParam("handleDT") String handleDT,
                                   @RequestParam("endDT") String endDT,
                                   @RequestParam("handleState") int handleState,
-                                  @RequestParam("idx") int idx,
-                                  @RequestParam("comment_idx") int comment_idx,
+                                  @RequestParam("idx") int idx,  // 신고 ID
+                                  @RequestParam("comment_idx") Integer comment_idx,  // 댓글 ID (NULL일 수 있음)
+                                  @RequestParam("review_idx") Integer review_idx,    // 리뷰 ID (NULL일 수 있음)
+                                  @RequestParam("comunity_idx") Integer comunity_idx, // 커뮤니티 게시글 ID (NULL일 수 있음)
+                                  @RequestParam("report_type") int report_type, // 신고 유형
                                   HttpServletRequest request) {
 
         System.out.println("Received idx: " + idx);
         System.out.println("Received userid: " + userid);
         System.out.println("Received comment_idx: " + comment_idx);
+        System.out.println("Received review_idx: " + review_idx);
+        System.out.println("Received comunity_idx: " + comunity_idx);
+        System.out.println("Received report_type: " + report_type);
 
         LocalDateTime stopDT = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime parsedHandleDT = LocalDate.parse(handleDT, formatter).atStartOfDay();
         LocalDateTime parsedEndDT = LocalDate.parse(endDT, formatter).atStartOfDay();
 
-        Integer useridx = masterService.findUserIdxByUserid(userid);
+        // 신고할 대상의 useridx를 찾습니다.
+        Integer useridx=0;
+
+        // 댓글 신고인 경우
+        if (comment_idx != null) {
+            useridx = masterService.findUserIdByCommentIdx(comment_idx);  // 댓글 작성자의 ID를 찾는 메서드
+        }
+
+        // 리뷰 신고인 경우
+        if (review_idx != null) {
+            useridx = masterService.findUserIdByReviewIdx(review_idx);  // 리뷰 작성자의 ID를 찾는 메서드
+        }
+
+        // 커뮤니티 신고인 경우
+        if (comunity_idx != null) {
+            useridx = masterService.findUserIdByCommunityIdx(comunity_idx);  // 커뮤니티 게시글 작성자의 ID를 찾는 메서드
+        }
+
+        // 신고할 대상이 유효한지 체크
         if (useridx == null) {
-            throw new RuntimeException("유효하지 않은 사용자입니다.");
+            throw new RuntimeException("신고할 대상의 사용자 ID를 찾을 수 없습니다.");
         }
 
         System.out.println("Inserting report for user: " + useridx);
 
-
         // handleState가 2인 경우, handleDT 업데이트와 t_ban 테이블 등록을 건너뜁니다.
         if (handleState != 2) {
-                masterService.insertReport(useridx, reason, stopDT, parsedEndDT, comment_idx); // t_ban 테이블에 추가
+            // 신고 등록 메서드에서 모든 ID를 포함하도록 합니다.
+            masterService.insertReport(useridx, reason, stopDT, parsedEndDT, comment_idx, review_idx, comunity_idx, report_type); // 신고 등록
 
             masterService.updateAllEndDT(useridx, parsedEndDT); // endDT 업데이트
         }
-
 
         // 신고 상태와 처리 날짜 업데이트
         masterService.updateReport(idx, handleState, parsedHandleDT);
 
         return "redirect:/master/reportinguserListMaster";
     }
+
+
 
     @PostMapping("/reportingDeleteMaster/{idx}")
     public String reportingDeleteMaster(@PathVariable("idx") int idx) {

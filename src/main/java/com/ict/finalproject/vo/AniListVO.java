@@ -9,21 +9,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor //매게변수 전체 다 있는거
 public class AniListVO {
 
-    public String post_img;   // 이미지 URL
-    public String title;     // 제목
-    public String anitype;   // 장르
-    public String director;   // 감독
-    public String agetype;    // 나이 관람
+    private String post_img;   // 이미지 URL
+    private String title;     // 제목
+    private String anitype;   // 장르
+    private String director;   // 감독
+    private String agetype;    // 나이 관람
     private int idx;
-    public String regDT; // 날짜
+    private String regDT; // 날짜
 
     private int anilike; // 좋아요 수
     /*@@@@@@@@@@@@별점@@@@@@@@@@@@@@@@*/
-    public Integer ani_idx;  // 애니메이션 인덱스
-    public Integer grade;     // 별점
-    public Integer useridx;   // 사용자 ID
+    private Integer ani_idx;  // 애니메이션 인덱스
+    private Double grade;     // 별점
+    private Integer useridx;   // 사용자 ID
     /*@@@@@@@@@줄거라@@@@@@@@@@*/
-    public String outline;
-    public String token;
-    public String userid;
+    private String outline;
+    private String token;
+    private String userid;
+
+    /*@@@@@이벤트@@@@@@*/
+    private String thumfile;
+    private String content;
+    private String event_date;
+    private int adminidx;
+    private String fullImageUrl;
+
 }
