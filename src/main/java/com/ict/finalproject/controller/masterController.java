@@ -496,8 +496,7 @@ public class masterController {
 
         // 각 유저별로 개별 신고 횟수를 계산
         for (MasterVO user : reportingUser) {
-            // user.getUserid()를 사용하여 총 신고 횟수 계산
-            int totalUserReport = masterService.getTotalUserReport(user.getUserid()); // user.getUserid() 사용
+            int totalUserReport = masterService.getTotalUserReport(user.getUserid());
             user.setTotalUserReport(totalUserReport);
         }
 
@@ -506,8 +505,7 @@ public class masterController {
         int totalUsers = masterService.getTotalReportingUserCount();
         int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
 
-
-
+        // ModelAndView 객체 생성 및 데이터 추가
         ModelAndView mav = new ModelAndView();
         mav.addObject("reportingUser", reportingUser);
         mav.addObject("totalReportUser", totalReportUser);
@@ -515,6 +513,7 @@ public class masterController {
         mav.addObject("totalPages", totalPages);
         mav.addObject("pageSize", pageSize);
         mav.setViewName("master/reportinguserMasterList");
+
         return mav;
     }
 
@@ -1533,11 +1532,14 @@ public class masterController {
 
         System.out.println("Inserting report for user: " + useridx);
 
+
         // handleState가 2인 경우, handleDT 업데이트와 t_ban 테이블 등록을 건너뜁니다.
         if (handleState != 2) {
-            masterService.insertReport(useridx, reason, stopDT, parsedEndDT, comment_idx); // t_ban 테이블에 추가
+                masterService.insertReport(useridx, reason, stopDT, parsedEndDT, comment_idx); // t_ban 테이블에 추가
+
             masterService.updateAllEndDT(useridx, parsedEndDT); // endDT 업데이트
         }
+
 
         // 신고 상태와 처리 날짜 업데이트
         masterService.updateReport(idx, handleState, parsedHandleDT);

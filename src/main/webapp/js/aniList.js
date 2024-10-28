@@ -10,23 +10,27 @@ $(document).ready(function () {
         const age = $(this).find('.genre span').last().text(); // 나이 관람 텍스트 가져오기
         const director = $(this).data('director'); // 감독 정보 가져오기
         const idx = $(this).data('idx');
+        const grade = $(this).data('grade');
 
         // AJAX 요청으로 줄거리 및 비슷한 애니메이션 가져오기
         $.ajax({
             url: '/aniDetail', // 줄거리를 가져올 API URL
             method: 'GET',
-            data: { title: title }, // 제목을 요청 파라미터로 전달
+            data: { title:title,
+            idx:idx
+            }, // 제목을 요청 파라미터로 전달
             success: function (response) {
-
                 console.log("AJAX 응답:", response); // 응답 데이터 확인
-
+                $(".modal-grade").text(response.grade);
             const summary = response.outline; // 줄거리
             const registrationDate = response.registrationDate; // 등록일
 
             // 줄거리 길이 조절
             const shortSummary = summary.length > 1000 ? summary.substring(0, 100) + '...' : summary;
-            alert(idx);
-            console.log(idx);
+            /*alert(idx);*/
+
+
+    console.log(idx);
     // 모달 내용 업데이트
     $('.animodal_usergrade').attr('data-idx',idx)
     $('.animodal_item_infoDiv h1').text(title);
@@ -41,11 +45,7 @@ $(document).ready(function () {
 
     // 비슷한 애니메이션 목록 업데이트
     const similarAnis = response.randomSimilarAnis || []; // 비슷한 애니메이션 목록 가져오기
-
-
-
     const randomSimilarAnis = similarAnis.sort(() => 0.5 - Math.random()).slice(0, 5);
-
 const similarAniList = similarAnis.map(ani => `
     <li>
         <img src="${pageContext.request.contextPath}/img/ani_img/${ani.post_img}" alt="${ani.title}">
@@ -57,6 +57,33 @@ $('.bottom_ani_content ul').html(similarAniList); // 비슷한 애니메이션 �
  // 제작 정보 섹션 업데이트 (감독, 등록일)
                 $('.director-name').text(director); // 감독 정보
                 $('.registration-date').text(response.regDT); // 등록일 정보
+
+                const token = localStorage.getItem("token");
+
+                $.ajax({
+                    url: '/checkLikeStatus', // 좋아요 상태 확인 API
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token // 토큰 추가
+                    },
+                    data: { ani_idx: idx},
+                    success: function (isLiked) {
+                        // 하트 아이콘 상태 업데이트
+                        const likeIcon = document.getElementById("likeIcon");
+                        if (isLiked) {
+                            likeIcon.classList.remove('fa-regular');
+                            likeIcon.classList.add('fa-solid');
+                        } else {
+                            likeIcon.classList.remove('fa-solid');
+                            likeIcon.classList.add('fa-regular');
+                        }
+                    },
+                    error: function (error) {
+                        console.error('좋아요 상태 확인 오류:', error);
+                    }
+                });
+
+
 
 // 모달 열기
 $('.animodal_body').fadeIn();
@@ -75,7 +102,14 @@ $('.animodal_body').fadeIn();
     $('.animodal_body').on('click', '.fa-x', function (e) {
         e.stopPropagation(); // 이벤트 전파 중지
         $('.animodal_body').fadeOut(); // 첫 번째 모달을 닫기 위해 fadeOut 효과를 사용
+        setRating(0);
+
+            // 좋아요 상태 초기화
+/*    isLiked = false; // 상태 초기화
+    const likeIcon = document.getElementById("likeIcon");
+    updateLikeIcon(likeIcon, isLiked); // 아이콘 초기화*/
     });
+
 
     // 첫 번째 모달 닫기 (배경 클릭 시)
     $('.animodal_body').on('click', '.animodal_background', function () {
@@ -298,7 +332,7 @@ function bindModalEvents() {
         const imageSrc = $(this).find('img').attr('src');
         const director = $(this).data('director');
         const idx = $(this).data('idx');
-
+        console.log("테스트"+idx)
         // AJAX 요청으로 줄거리 및 비슷한 애니메이션 가져오기
         $.ajax({
             url: '/aniDetail',
@@ -307,7 +341,7 @@ function bindModalEvents() {
             success: function (response) {
                 const summary = response.outline;
                 const shortSummary = summary.length > 1000 ? summary.substring(0, 100) + '...' : summary;
-
+/*별점 초기화 시킬곳*/
                 // 모달 내용 업데이트
                 $('.animodal_usergrade').attr('data-idx', idx);
                 $('.animodal_item_infoDiv h1').text(title);
@@ -318,6 +352,7 @@ function bindModalEvents() {
                 $('.animodal_item_infoDiv .director').text(` 감독: ${director}`);
                 $('.animodal_item_infoDiv .ani_outline .summary').text(shortSummary);
                 $('.animodal_item_infoDiv .ani_outline .ouline_more').data('full-summary', summary);
+
 
                 // 비슷한 애니메이션 목록 업데이트
                 const similarAnis = response.randomSimilarAnis || [];
@@ -441,7 +476,19 @@ function submitRating() {
 }
 
 /*@@@@@@@@@@@@@@@@@@@@@좋아요@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-let isLiked = false; // 좋아요 상태 초기화
+// 각 애니메이션의 좋아요 상태를 저장하기 위한 객체
+const likeStatus = {};
+
+// 좋아요 상태 업데이트 함수
+function updateLikeIcon(icon, liked) {
+    if (liked) {
+        icon.classList.remove('fa-regular'); // 빈 하트
+        icon.classList.add('fa-solid'); // 채운 하트
+    } else {
+        icon.classList.remove('fa-solid'); // 채운 하트
+        icon.classList.add('fa-regular'); // 빈 하트
+    }
+}
 
 // 좋아요 버튼 클릭 시 호출되는 함수
 function toggleLike() {
@@ -456,13 +503,15 @@ function toggleLike() {
 
     const likeIcon = document.getElementById("likeIcon");
 
-    // 좋아요 상태 반전
-    isLiked = !isLiked;
+    // 좋아요 상태를 가져옵니다.
+    const isLiked = likeStatus[ani_idx] || false; // 존재하지 않으면 기본값 false
 
-    if (isLiked) {
+    // 좋아요 상태 반전
+    likeStatus[ani_idx] = !isLiked; // 상태 반전
+
+    if (likeStatus[ani_idx]) {
         // 좋아요 추가
-        likeIcon.classList.remove('fa-regular'); // 빈 하트
-        likeIcon.classList.add('fa-solid'); // 채운 하트
+        updateLikeIcon(likeIcon, true);
 
         // DB에 좋아요 추가 요청
         fetch('/aniLike', {
@@ -478,17 +527,17 @@ function toggleLike() {
                 throw new Error('Failed to add like');
             }
             console.log("좋아요가 추가되었습니다.");
+            // 상태를 로컬 스토리지에 저장
+            localStorage.setItem(`liked_${ani_idx}`, JSON.stringify(true));
         })
         .catch(error => {
             console.error("Error:", error);
-            // 좋아요 상태 반전
-            isLiked = false; // 상태 초기화
+            likeStatus[ani_idx] = false; // 상태 초기화
             updateLikeIcon(likeIcon, false); // 아이콘 업데이트
         });
     } else {
         // 좋아요 취소
-        likeIcon.classList.remove('fa-solid'); // 채운 하트
-        likeIcon.classList.add('fa-regular'); // 빈 하트
+        updateLikeIcon(likeIcon, false);
 
         // DB에서 좋아요 삭제 요청
         fetch('/removeLike', {
@@ -504,77 +553,40 @@ function toggleLike() {
                 throw new Error('Failed to remove like');
             }
             console.log("좋아요가 취소되었습니다.");
+            // 상태를 로컬 스토리지에 저장
+            localStorage.setItem(`liked_${ani_idx}`, JSON.stringify(false));
         })
         .catch(error => {
             console.error("Error:", error);
-            // 좋아요 상태 반전
-            isLiked = true; // 상태 초기화
+            likeStatus[ani_idx] = true; // 상태 초기화
             updateLikeIcon(likeIcon, true); // 아이콘 업데이트
         });
     }
 }
 
-// 좋아요 아이콘 업데이트 함수
-function updateLikeIcon(icon, liked) {
-    if (liked) {
-        icon.classList.remove('fa-regular'); // 빈 하트
-        icon.classList.add('fa-solid'); // 채운 하트
-    } else {
-        icon.classList.remove('fa-solid'); // 채운 하트
-        icon.classList.add('fa-regular'); // 빈 하트
-    }
-}
-
-// 페이지 로드 시 초기 상태 설정 (예시)
-window.onload = function() {
+// 페이지 로드 시 초기 상태 설정
+document.addEventListener('DOMContentLoaded', () => {
     const ani_idx = document.querySelector('.animodal_usergrade').getAttribute('data-idx');
     const token = localStorage.getItem("token");
 
+    // 서버에 요청하여 초기 좋아요 상태를 가져옴
     if (token) {
-        // 서버에 요청하여 초기 좋아요 상태를 가져올 수 있습니다.
-        fetch('/checkLike', {
-            method: 'POST',
+        fetch(`/checkLikeStatus?ani_idx=${ani_idx}&useridx=${useridx}`, {
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token // 토큰 추가
-            },
-            body: JSON.stringify({ ani_idx })
+            }
         })
         .then(response => response.json())
-        .then(data => {
-            isLiked = data.isLiked; // 서버에서 받아온 좋아요 상태
+        .then(isLiked => {
+            console.log("서버에서 받은 좋아요 상태:", isLiked); // 여기서 값 확인
+            // 서버에서 받아온 상태에 따라 1은 true, 0은 false로 설정
+            likeStatus[ani_idx] = (isLiked === 1); // 서버에서 받아온 상태로 초기화
             const likeIcon = document.getElementById("likeIcon");
-            updateLikeIcon(likeIcon, isLiked);
+            updateLikeIcon(likeIcon, likeStatus[ani_idx]); // UI 업데이트
         })
         .catch(error => console.error("Error:", error));
     }
-};
-
-/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@평균 평점@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-// 특정 애니메이션의 평균 평점을 가져오는 함수
-function fetchAverageGrade(ani_idx) {
-    fetch(`/averageGrade/${ani_idx}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(averageGrade => {
-            // 평균 별점을 HTML 요소에 표시
-            document.querySelector('.rating-number').innerHTML = `${t_grade} <small>/5</small>`;
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-            // 오류 발생 시 기본값으로 0.0 표시
-            document.querySelector('.rating-number').innerHTML = `0.0 <small>/5</small>`;
-        });
-}
-
-// 페이지가 로드될 때 평균 별점 가져오기
-document.addEventListener('DOMContentLoaded', function () {
-    const aniIdx = /* 애니메이션의 ID를 여기에 설정 */ 1; // 실제 애니메이션 ID로 변경
-    fetchAverageGrade(aniIdx);
 });
 /*@@@@@@@@@@@@@@@@@@@@@비슷한 영상@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -591,35 +603,61 @@ $(document).ready(function() {
         }
 
         // AJAX 요청으로 애니메이션 상세 정보 가져오기
-        $.ajax({
-            url: `/aniDetail/${aniIdx}`, // 해당 idx를 URL에 포함
-            type: 'GET',
-            success: function(data) {
-                console.log('Response data:', data); // 서버에서 반환된 데이터 로그 출력
+        setTimeout(function() {
+            // AJAX 요청으로 애니메이션 상세 정보 가져오기
+            $.ajax({
+                url: `/aniDetail/${aniIdx}`, // 해당 idx를 URL에 포함
+                type: 'GET',
+                success: function(data) {
+                    console.log('Response data:', data); // 서버에서 반환된 데이터 로그 출력
 
-                // 랜덤 유사 애니메이션이 있는지 확인
-                if (data.randomSimilarAnis && data.randomSimilarAnis.length > 0) {
-                    let similarAnisHtml = '';
+                    // 랜덤 유사 애니메이션이 있는지 확인
+                    if (data.randomSimilarAnis && data.randomSimilarAnis.length > 0) {
+                        let similarAnisHtml = '';
 
-                    // 랜덤 유사 애니메이션을 HTML로 변환
-                    data.randomSimilarAnis.forEach(function(ani) {
-                        similarAnisHtml += `
-                            <div class="similar-ani">
-                                <img src="http://192.168.1.92:8000/${ani.post_img}" alt="${ani.title}" />
-                                <h3>${ani.title}</h3>
-                            </div>
-                        `;
-                    });
+                        // 랜덤 유사 애니메이션을 HTML로 변환
+                        data.randomSimilarAnis.forEach(function(ani) {
+                            similarAnisHtml += `
+                                <div class="similar-ani">
+                                    <img src="http://192.168.1.180:8000/${ani.post_img}" alt="${ani.title}" style="width: 185px;" />
+                                    <h3 style="font-size: 17px; color:white;">${ani.title}</h3>
+                                </div>
+                            `;
+                        });
 
-                    // 생성한 HTML을 원하는 위치에 추가
-                    $('.similar_ani_list').html(similarAnisHtml);
-                } else {
-                    $('.similar_ani_list').html('<p>No similar animations found.</p>');
+                        $('.similar_ani_list').css({
+                            display: 'flex',
+                            padding: '0',
+                            gap: '5px',
+                            margin: '0',
+                            listStyleType: 'none',
+                        });
+
+                        $('.similar-ani').hover(
+                            function() {
+                                $(this).find('img').css({
+                                    transform: 'scale(1.1)', // 이미지 확대
+                                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.5)' // 그림자 효과
+                                });
+                            },
+                            function() {
+                                $(this).find('img').css({
+                                    transform: 'scale(1)', // 원래 크기로 돌아가기
+                                    boxShadow: 'none' // 그림자 제거
+                                });
+                            }
+                        );
+
+                        // 생성한 HTML을 원하는 위치에 추가
+                        $('.similar_ani_list').html(similarAnisHtml);
+                    } else {
+                        $('.similar_ani_list').html('<p>No similar animations found.</p>');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching anime details:', textStatus, errorThrown);
                 }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error('Error fetching anime details:', textStatus, errorThrown);
-            }
-        });
+            });
+        }, 100);
     });
 });

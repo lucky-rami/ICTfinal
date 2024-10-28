@@ -4,8 +4,6 @@ import com.ict.finalproject.DAO.AniListDAO;
 import com.ict.finalproject.vo.AniListVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -31,7 +29,7 @@ public class AniListServicelmpl implements AniListService{
     }
 
     @Override
-    public AniListVO getAniDetailView(String title) {
+    public AniListVO getAniDetailView(String title, int idx) {
         return aniListDAO.getAniDetailView(title);
     }
 
@@ -56,7 +54,7 @@ public class AniListServicelmpl implements AniListService{
     }
 
     @Override
-    public void addGrade(int aniIdx, int grade, int userIdx) {
+    public void addGrade(int aniIdx, Double grade, int userIdx) {
 
         aniListDAO.addGrade(aniIdx, grade, userIdx);
     }
@@ -135,5 +133,22 @@ public class AniListServicelmpl implements AniListService{
     @Override
     public List<AniListVO> getSimilarAnis(int ani_idx) {
         return aniListDAO.getSimilarAnis(ani_idx); // DAO에서 유사 애니메이션 목록을 가져오는 로직
+    }
+
+    @Override
+    public List<AniListVO> fetchEvents() {
+        return aniListDAO.fetchEvents();
+    }
+
+    @Override
+    public List<AniListVO> fetchEvent_view(int aniId) {
+        System.out.println("서비스Impl");
+        return aniListDAO.fetchEvent_view(aniId);
+    }
+
+
+    @Override
+    public boolean checkLikeStatus(int ani_idx, int useridx) {
+        return aniListDAO.checkLikeStatus(ani_idx, useridx);
     }
 }
