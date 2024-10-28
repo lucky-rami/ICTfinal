@@ -8,7 +8,7 @@
 #toTop:hover svg{opacity:1;top:18px}
 
 /* FOOTER */
-#main_footer{min-width:1600px;font-size:15px;font-weight:400;color:rgba(255, 255, 255, .25);line-height:1.8;background:#222;font-family:var(--e-font),var(--k-font);}
+#main_footer{min-width:1600px;font-size:15px;font-weight:400;color:rgba(255, 255, 255, .25);line-height:1.8;background:#121212;font-family:var(--e-font),var(--k-font);}
 #main_footer .flex_footer{width:100%;max-width:1500px;padding:100px 0 63px 0;margin:0 auto;line-height:1.7;color:rgba(255,255,255,0.6)}
 #main_footer .info_footer{display:flex;justify-content:space-between;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.3);font-family:var(--e-font),var(--k-font)}
 #main_footer .info_footer div a{margin-right:34px;color:#fff}
