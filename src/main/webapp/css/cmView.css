@@ -1,6 +1,5 @@
 body {
     margin: 130px 0 100px 0;
-    background-color: #F4F2EF;
     animation: none;
 }
 
@@ -287,19 +286,20 @@ border-bottom: 1px solid #dde1e5;
     align-items: center;
     margin-bottom:20px;
     padding:0 20px;
+    color:white;
 }
 
 .listBt a{
     display: inline-block;
-    width: 146px;
-    height: 52px;
-    padding-top: 15px;
-    color: #9fa1a7;
-    border: 2px solid #9fa1a7;
-    text-decoration: none;
-    background-color: #F4F2EF;
-    border-radius:0;
-    margin-right: 10px;
+        width: 146px;
+        height: 52px;
+        padding-top: 15px;
+        border: 2px solid #9fa1a7;
+        text-decoration: none;
+        border-radius: 0;
+        margin-right: 10px;
+        background: #5c636a;
+        color:white;
 }
 
 /* 마지막 버튼의 오른쪽 마진 제거 */
