@@ -4,13 +4,16 @@
 <mapper namespace="com.ict.finalproject.DAO.StoreDAO">
 
 
-    <!-- 3개월 내 등록된 상품을 가져오는 SQL -->
+    <!-- 1개월 내 등록된 상품을 가져오는 SQL -->
     <select id="getRecentProducts" resultType="com.ict.finalproject.vo.StoreVO">
         SELECT idx, title, price, thumImg, ani_title, relDT, brand, fee, stock, pro_detail, category, regDT
         FROM t_product
-        WHERE regDT >= DATE_SUB(NOW(), INTERVAL 3 MONTH);
+        WHERE regDT >= DATE_SUB(NOW(), INTERVAL 1 MONTH);
     </select>
 
+    <select id="getProductsByTitle" parameterType="string" resultType="com.ict.finalproject.vo.StoreVO">
+        SELECT * FROM t_product WHERE ani_title = #{ani_title}
+    </select>
 
     <!-- 페이징 처리된 상품 목록 가져오기 -->
         <select id="getPagedProducts" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
