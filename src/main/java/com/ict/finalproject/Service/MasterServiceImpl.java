@@ -118,8 +118,8 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public List<MasterVO> getReportinguserList(MasterVO vo) {
-        return dao.getReportinguserList(vo);
+    public List<MasterVO> getReportinguserList(int offset, int pageSize,MasterVO vo) {
+        return dao.getReportinguserList(offset,pageSize,vo);
     }
 
     @Override
@@ -557,7 +557,15 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public void insertReport(int useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, Integer comment_idx, Integer review_idx, Integer comunity_idx, int report_type) {
+    public void insertReport(Integer useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, Integer comment_idx, Integer review_idx, Integer comunity_idx, int report_type) {
+        System.out.println("Inserting report with values: " +
+                "useridx=" + useridx +
+                ", reason=" + reason +
+                ", stopDT=" + stopDT +
+                ", endDT=" + endDT +
+                ", comment_idx=" + comment_idx +
+                ", review_idx=" + review_idx +
+                ", comunity_idx=" + comunity_idx);
         dao.insertReport(useridx, reason, stopDT, endDT, comment_idx, review_idx, comunity_idx, report_type);
     }
 
@@ -613,18 +621,18 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public Integer findUserIdByCommentIdx(int commentIdx) {
-        return dao.findUserIdByCommentIdx(commentIdx);
+    public Integer findUserIdByCommentIdx(int comment_idx) {
+        return dao.findUserIdByCommentIdx(comment_idx);
     }
 
     @Override
-    public Integer findUserIdByReviewIdx(int reviewIdx) {
-        return dao.findUserIdByReviewIdx(reviewIdx);
+    public Integer findUserIdByReviewIdx(int review_idx) {
+        return dao.findUserIdByReviewIdx(review_idx);
     }
 
     @Override
-    public Integer findUserIdByCommunityIdx(int comunityIdx) {
-        return dao.findUserIdByCommunityIdx(comunityIdx);
+    public Integer findUserIdByCommunityIdx(int comunity_idx) {
+        return dao.findUserIdByCommunityIdx(comunity_idx);
     }
 
     @Override

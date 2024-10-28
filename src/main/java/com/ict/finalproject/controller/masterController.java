@@ -245,10 +245,24 @@ public class masterController {
 
     // Dashboard - 회원관리 - 신고계정목록 리스트
     @GetMapping("/reportinguserListMaster")
-    public ModelAndView masterReportList(MasterVO vo) {
-        List<MasterVO> reportinguserList = masterService.getReportinguserList(vo);
-        mav = new ModelAndView();
+    public ModelAndView masterReportList(
+            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+            MasterVO vo) {
+
+        int offset = (currentPage - 1) * pageSize; // 페이징을 위한 오프셋 계산
+
+        //  신고 사용자 목록 조회
+        List<MasterVO> reportinguserList = masterService.getReportinguserList(offset, pageSize, vo);
+
+        // 전체 신고 사용자 수를 가져와서 총 페이지 수 계산
+        int totalUsers = masterService.getTotalReportingUserCount();
+        int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
+
+        ModelAndView mav = new ModelAndView();
         mav.addObject("reportinguserList", reportinguserList);
+        mav.addObject("currentPage", currentPage); // 현재 페이지
+        mav.addObject("totalPages", totalPages);   // 총 페이지 수
         mav.setViewName("master/reportinguserListMaster");
         return mav;
     }
@@ -494,6 +508,9 @@ public class masterController {
         // 페이징을 적용한 신고된 유저 목록 조회
         List<MasterVO> reportingUser = masterService.getReportingUserWithPaging(offset, pageSize);
 
+        // 디버깅을 위한 로그
+        System.out.println("Retrieved reportingUser: " + reportingUser);
+
         // 각 유저별로 개별 신고 횟수를 계산 및 추가
         reportingUser.forEach(user -> {
             int totalUserReport = masterService.getTotalUserReport(user.getUserid());
@@ -516,6 +533,7 @@ public class masterController {
 
         return mav;
     }
+
 
 
 
@@ -1533,7 +1551,7 @@ public class masterController {
         LocalDateTime parsedEndDT = LocalDate.parse(endDT, formatter).atStartOfDay();
 
         // 신고할 대상의 useridx를 찾습니다.
-        Integer useridx=0;
+        Integer useridx = null; // 초기값 설정
 
         // 댓글 신고인 경우
         if (comment_idx != null) {
@@ -1556,6 +1574,9 @@ public class masterController {
         }
 
         System.out.println("Inserting report for user: " + useridx);
+        System.out.println("Comment user ID: " + masterService.findUserIdByCommentIdx(comment_idx));
+        System.out.println("Review user ID: " + masterService.findUserIdByReviewIdx(review_idx));
+        System.out.println("Community user ID: " + masterService.findUserIdByCommunityIdx(comunity_idx));
 
         // handleState가 2인 경우, handleDT 업데이트와 t_ban 테이블 등록을 건너뜁니다.
         if (handleState != 2) {
@@ -1570,6 +1591,7 @@ public class masterController {
 
         return "redirect:/master/reportinguserListMaster";
     }
+
 
 
 

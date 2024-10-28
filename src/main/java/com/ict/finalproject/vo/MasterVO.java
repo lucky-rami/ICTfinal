@@ -17,7 +17,7 @@ public class MasterVO {
     private String title;
     private String regDT;
     private String content;
-    private int useridx;
+    private String useridx;
     private String author;
     private String userid;
     private String token;
@@ -85,11 +85,15 @@ public class MasterVO {
     private String handleDT;
     private int comunity_idx;
     private int totalUserReport;
-    private String reportedUserId; // 신고된 유저 ID (문자열)
+    private String reportedUser; // 신고된 유저 ID (문자열)
     private Integer commentIdx;
     private int report_count;
     private Integer reviewIdx; // 게시글 ID
     private Integer communityIdx; // 커뮤니티 ID
+    private String commentAuthor;
+    private String reviewAuthor;
+    private String communityAuthor;
+
 
 
 
