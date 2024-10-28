@@ -569,7 +569,7 @@ img {
 }
 
 
-.page.active .page-link  {
+.page.active .page-link, .pre>.page-link, .next>.page-link{
     border: none;
     color: #fff;
     border-radius: 5px;
@@ -579,6 +579,13 @@ img {
     font-size: 12px;
     background: linear-gradient(135deg, #525252, #292929);
     cursor: pointer;
+    line-height : 22px;
+}
+
+.pre>.page-link, .next>.page-link{
+padding-left : 5px;
+padding-right : 5px;
+width : 40px;
 }
 
 

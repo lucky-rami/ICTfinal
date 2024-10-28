@@ -32,21 +32,21 @@
     <!-- 배너 -->
         <section class="banner" id="banner">
             <div class="carousel-banner-images" id="slider-div">
-                <div class="slide">
-                    <a href="/storeList">
-                        <img src="img/store/banner1.png" alt="Main Banner1">
-                    </a>
-                </div>
-                <div class="slide">
-                    <a href="/storeList">
-                        <img src="img/store/banner2.png" alt="Main Banner2">
-                    </a>
-                </div>
-                <div class="slide">
-                    <a href="/storeList">
-                        <img src="img/store/banner3.png" alt="Main Banner3">
-                    </a>
-                </div>
+            <div class="slide">
+                <a href="/storeList?title=hololive">
+                    <img src="img/store/banner1.png" alt="Main Banner1">
+                </a>
+            </div>
+             <div class="slide">
+                 <a href="/storeList?title=나 혼자만 레벨업">
+                     <img src="img/store/banner2.png" alt="Main Banner2">
+                 </a>
+             </div>
+          <div class="slide">
+              <a href="/storeList?title=블루 아카이브">
+                  <img src="img/store/banner3.png" alt="Main Banner3">
+              </a>
+          </div>
             </div>
         </section>
 
@@ -124,7 +124,7 @@
                 <div class="new-carousel">
                     <div class="new-carousel-wrapper">
                         <div class="new-carousel-images">
-                             <!-- 3개월 이내의 신규 굿즈를 DB에서 가져와 출력 -->
+                             <!-- 1개월 이내의 신규 굿즈를 DB에서 가져와 출력 -->
 
                                             <c:forEach var="product" items="${recentProducts}">
                                                     <div class="new-product">
@@ -147,29 +147,28 @@
                 </div>       
         </section>
 
-            <!--event-->
-            <section class="md">
-                <h2>이벤트#신규이벤트 업데이트</h2>
-                    <div class="md-carousel">
-                        <div class="md-carousel-wrapper">
-                            <div class="md-carousel-images">
+           <section class="md">
+               <h2>이벤트#신규이벤트 업데이트</h2>
+               <div class="md-carousel">
+                   <div class="md-carousel-wrapper">
+                       <div class="md-carousel-images">
+                           <!-- Event 이미지 섹션 -->
+                           <c:forEach var="eventImageInfo" items="${eventImageInfoList}">
+                               <div class="md-item">
+                                   <div class="md-item-img">
+                                       <!-- /Event 페이지로 이동 -->
+                                       <a href="/Event">
+                                           <img src="/img/store/event/${eventImageInfo.imageNameWithExt}" alt="${eventImageInfo.imageName}">
+                                       </a>
+                                   </div>
+                                   <div class="md-tag">${eventImageInfo.imageName}</div>
+                               </div>
+                           </c:forEach>
+                       </div>
+                   </div>
+               </div>
+           </section>
 
-                      <!-- Event 이미지 섹션 -->
-                      <c:forEach var="eventImageInfo" items="${eventImageInfoList}">
-                          <div class="md-item">
-                              <div class="md-item-img">
-                                  <a href="/Event">
-                                      <img src="/img/store/event/${eventImageInfo.imageNameWithExt}" alt="${eventImageInfo.imageName}">
-                                  </a>
-                              </div>
-                              <div class="md-tag">${eventImageInfo.imageName}</div>
-                          </div>
-                      </c:forEach>
-    
-                            </div>    
-                        </div>
-                    </div>
-            </section>
             
      
 </div>

@@ -9,7 +9,7 @@ public interface AniListService {
 
     List<AniListVO> getAniListSelect(); // 애니메이션 선택 조회
 
-    AniListVO getAniDetailView(String title); // 특정 애니메이션 상세 조회
+    AniListVO getAniDetailView(String title, int idx); // 특정 애니메이션 상세 조회
 
     void incrementAniHit(String title); // 조회수 증가
 
@@ -19,7 +19,7 @@ public interface AniListService {
 
     // List<AniListVO> getSortedAniList(String sortCriteria); // 정렬된 애니메이션 목록 조회
 
-    void addGrade(int aniIdx, int grade, int userIdx); // 별점
+    void addGrade(int aniIdx, Double grade, int userIdx); // 별점
 
 
     String getOutline(String title); // 특정 애니메이션의 줄거리 조회
@@ -47,4 +47,12 @@ public interface AniListService {
     List<AniListVO> getSimilarAnimes(int ani_idx, int anitype); // 비슷한 애니메이션 목록 조회
 
     List<AniListVO> getSimilarAnis(int ani_idx); // 이것도 비슷한 이미지끌고 오는거
+
+    List<AniListVO> fetchEvents();
+
+    List<AniListVO> fetchEvent_view(int aniId);
+
+    boolean checkLikeStatus(int ani_idx, int useridx);
+
+
 }

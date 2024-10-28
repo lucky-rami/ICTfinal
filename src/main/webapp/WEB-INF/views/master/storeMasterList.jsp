@@ -5,6 +5,7 @@
 <link href="/css/masterStyle.css" rel="stylesheet" type="text/css"></link>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/Master.js"></script>
+<script src="/js/MasterPage.js"></script>
 
  <div class="store-list-container">
         <h2>굿즈 전체 목록</h2>
@@ -24,15 +25,15 @@
         <div class="search-bar">
             <div class="d-flex">
                 <input type="text" id="searchInput" class="form-control" placeholder="상품명, 카테고리 검색">
-                <button class="btn btn-primary ms-2" onclick="searchTable()">검색</button>
+                <button class="btn btn-primary ms-2" onclick="searchTable2()">검색</button>
             </div>
             <div>
-                <select class="form-select w-auto" id="filterSelect">
+                <select class="form-select w-auto" id="filterSelect" onchange="filterStore()">
                     <option value="">모든 카테고리</option>
-                    <option value="피규어">피규어</option>
-                    <option value="티셔츠">티셔츠</option>
-                    <option value="악세사리">악세사리</option>
-                    <option value="포스터">포스터</option>
+                    <option value="1">의류</option>
+                    <option value="2">완구/취미</option>
+                    <option value="3">문구/오피스</option>
+                    <option value="4">생활용품</option>
                 </select>
             </div>
         </div>
@@ -42,18 +43,18 @@
             <thead>
                 <tr>
                     <th style="width:2%"><input type="checkbox" name="selectAll" id="selectAll"/></th>
-                    <th style="width:7%" class="sortable" onclick="sortTable(1)">상품번호</th>
-                    <th style="width:10%" class="sortable" onclick="sortTable(2)">카테고리</th>
-                    <th style="width:35%" class="sortable" onclick="sortTable(3)">상품명</th>
-                    <th style="width:8%" class="sortable" onclick="sortTable(4)">판매가</th>
-                    <th style="width:8%" class="sortable" onclick="sortTable(5)">재고</th>
-                    <th style="width:10%" class="sortable" onclick="sortTable(6)">등록일</th>
+                    <th style="width:7%" class="sortable" onclick="sortTable2(1)">상품번호</th>
+                    <th style="width:10%" class="sortable" onclick="sortTable2(2)">카테고리</th>
+                    <th style="width:35%" class="sortable" onclick="sortTable2(3)">상품명</th>
+                    <th style="width:8%" class="sortable" onclick="sortTable2(4)">판매가</th>
+                    <th style="width:8%" class="sortable" onclick="sortTable2(5)">재고</th>
+                    <th style="width:10%" class="sortable" onclick="sortTable2(6)">등록일</th>
                     <th style="width:12%">관리<a href="/master/storeAddMaster"class="btn btn-outline-success btn-sm" >추가</a></th>
                 </tr>
             </thead>
             <tbody id="storeTableBody">
             <c:forEach var="store" items="${storeList}">
-                <tr>
+                <tr data-category="${store.category}">
                     <td><input type="checkbox" name="select" id="select"/></td>
                     <td>${store.idx}</td>
                     <td>

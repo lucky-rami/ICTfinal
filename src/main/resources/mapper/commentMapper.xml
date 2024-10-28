@@ -8,11 +8,6 @@
         INSERT into t_comment (comm_idx, useridx, content, regDT) values(#{comm_idx}, #{useridx}, #{content}, NOW())
     </insert>
 
-<!--    &lt;!&ndash; 대댓글 작성 &ndash;&gt;-->
-<!--    <insert id="insertReply" parameterType="com.ict.finalproject.vo.CommentVO">-->
-<!--        INSERT into t_comment (comm_idx, useridx, content, regDT, parentidx, depth)-->
-<!--        values(#{comm_idx}, #{useridx}, #{content}, NOW(), #{parentidx})-->
-<!--    </insert>-->
 
     <insert id="insertReply" parameterType="com.ict.finalproject.vo.CommentVO">
         INSERT INTO t_comment (comm_idx, useridx, content

@@ -17,24 +17,13 @@ function getParameterByName(name) {
 }
 
 // 필터를 적용하는 함수
-function applyFilter(category, second_category, pageNum = 1, pageSize = 12, filterType) {
+function applyFilter(category, second_category, pageNum = 1, pageSize = 12) {
 
 
         // 하위 카테고리가 선택되면 상위 카테고리를 제거 (null로 설정)
         if (second_category) {
             category = null;  // 상위 카테고리를 초기화
         }
-
-    // 카테고리와 페이지 정보를 함께 포함한 URL 생성
-    let url = `/pagedProducts?pageNum=${pageNum}&pageSize=${pageSize}&filterType=${filterType}`;
-
-    if (category) {
-        url += `&category=${category}`;
-    }
-    if (second_category) {
-        url += `&second_category=${second_category}`;
-    }
-
 
 
     // AJAX 요청으로 서버에 필터 조건과 페이지 정보를 함께 전달

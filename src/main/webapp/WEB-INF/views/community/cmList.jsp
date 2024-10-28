@@ -6,9 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link href="/css/cmList.css" rel="stylesheet" type="text/css">
 </link>
@@ -26,6 +24,9 @@
                 </li>
                 <li class="${commtype == '10' ? 'selected' : ''}">
                     <a href="javascript:void(0);" class="btn" onclick="showTab('10')">자랑</a>
+                </li>
+                <li class="${commtype == '20' ? 'selected' : ''}">
+                    <a href="javascript:void(0);" class="btn" onclick="showTab('20')">덕질</a>
                 </li>
                 <li class="${commtype == '30' ? 'selected' : ''}">
                     <a href="javascript:void(0);" class="btn" onclick="showTab('30')">친목</a>
@@ -95,13 +96,13 @@
                 <!-- 통합된 리스트 출력 -->
                 <c:forEach var="vo" items="${list}">
                     <!-- commtype을 문자열로 변환 후 비교 -->
-                    <c:if test="${commtype eq 'all' || (vo.commtype eq '자랑' && commtype eq 10) || (vo.commtype eq '친목' && commtype eq 30) || (vo.commtype eq '팬아트' && commtype eq 40)}">
+                    <c:if test="${commtype eq 'all' || (vo.commtype eq '자랑' && commtype eq 10) || (vo.commtype eq '덕질' && commtype eq 20) || (vo.commtype eq '친목' && commtype eq 30) || (vo.commtype eq '팬아트' && commtype eq 40)}">
                         <div class="row">
                             <div class="col-sm-1 p-2">${vo.idx}</div>
                             <div class="col-sm-1 p-2">${vo.commtype}</div>
                             <div class="col-sm-7 p-2"><a href="/cmView/${vo.idx}">${vo.title}</a></div>
                             <div class="col-sm-2 p-2">${vo.regDT}</div>
-                            <div class="col-sm-1 p-2">${vo.hit}</div>
+                            <div class="col-sm-1 p-2" >${vo.hit}</div>
                         </div>
                     </c:if>
                 </c:forEach>
@@ -199,18 +200,12 @@ function showTab(commtype) {
 
 // 검색 폼 제출 후 검색어 입력 필드를 초기화하는 함수
 function submitSearchForm() {
-    // 검색어 필드 초기화
-    document.getElementById("searchKeyword").value = '';
-
-    // 검색 카테고리 초기화
-    var searchCategoryElement = document.getElementById("selectCategory");
-    if (searchCategoryElement) {
-        searchCategoryElement.selectedIndex = 0; // 검색 카테고리 초기화
-    }
 
     // 폼을 제출합니다.
     document.getElementById("searchForm").submit();
 }
+
+
 
 // 페이지 번호를 클릭했을 때 페이지 이동 함수
 function reloadPage(page) {
@@ -232,10 +227,19 @@ var userid;
 
 setTimeout(function() {
 
+    // 검색어 필드 초기화 (초기화 안되서 setTimeout 안으로 이동)
+    document.getElementById("searchKeyword").value = '';
+
+    // 검색 카테고리 초기화
+    var searchCategoryElement = document.getElementById("selectCategory");
+    if (searchCategoryElement) {
+        searchCategoryElement.selectedIndex = 0; // 검색 카테고리 초기화
+    }
+
 
     // 커뮤니티 페이지 전용 로그인 상태 확인 함수 호출
     checkLoginStatusForCommunity();
-}, 400);
+}, 150);
 
 // 커뮤니티 페이지 전용 로그인 상태 확인 함수
 function checkLoginStatusForCommunity() {
