@@ -7,6 +7,7 @@ import com.ict.finalproject.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,8 +51,23 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<StoreVO> searchStoreList(String query) {
-        return dao.searchStoreList(query);
+    public List<StoreVO> searchStoreList(String query, Integer category, Integer second_category, int offset, int pageSize) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("query", query);
+        params.put("category", category);
+        params.put("second_category", second_category);
+        params.put("offset", offset);
+        params.put("pageSize", pageSize);
+        return dao.searchStoreList(params);
+    }
+
+    @Override
+    public int getSearchResultsCount(String query, Integer category, Integer second_category) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("query", query);
+        params.put("category", category);
+        params.put("second_category", second_category);
+        return dao.getSearchResultsCount(params);
     }
 
     @Override

@@ -141,7 +141,7 @@ function filterProductsByType(filterType) {
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('productSearch');
     if (searchInput) {
-        searchInput.addEventListener('keyup', searchProducts); // 입력할 때마다 searchProducts 호출
+        searchInput.addEventListener('keyup', searchProducts); // 입력 시마다 searchProducts 호출
     } else {
         console.error("검색 입력창을 찾을 수 없습니다.");
     }
@@ -149,16 +149,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 //상품검색창
-function searchProducts() {
-    const input = document.getElementById('productSearch').value.toLowerCase();
-    const productItems = document.querySelectorAll('.list-product'); // 상품 리스트
+// 검색어 입력 시 서버에 요청을 보내는 함수
+function searchProducts(pageNum = 1) {
+    const query = document.getElementById('productSearch').value.toLowerCase();
+    const category = getParameterByName('category'); // URL에서 category 추출
+    const second_category = getParameterByName('second_category'); // URL에서 second_category 추출
 
-    productItems.forEach(item => {
-        const productName = item.textContent.toLowerCase();
-        if (productName.includes(input)) {
-            item.style.display = ''; // 검색어가 포함된 항목 보이기
-        } else {
-            item.style.display = 'none'; // 검색어가 포함되지 않은 항목 숨기기
+    // AJAX 요청
+    $.ajax({
+        url: `/searchProducts`, // 검색 URL 매핑
+        method: 'GET',
+        data: {
+            query: query,
+            category: category,
+            second_category: second_category,
+            pageNum: pageNum,
+            pageSize: 12
+        },
+        success: function(data) {
+            console.log("검색 결과: ", data.searchResults); // 서버 응답 확인
+            updateProductList(data.searchResults); // 검색 결과를 화면에 업데이트
+
+            // 페이지네이션 설정
+            const totalResults = data.totalResultsCount;
+            const totalPages = Math.ceil(totalResults / 12);
+            resetPaginationToFirstPage(totalPages, category, second_category, pageNum);
+        },
+        error: function(error) {
+            console.error("검색 중 오류 발생: ", error);
         }
     });
 }
@@ -226,7 +244,7 @@ window.applyFilter = function(category, second_category, pageNum = 1) {
     };
 
     // URL 변경
-    const newUrl = `/storeList?pageNum=${pageNum}&category=${category}`;
+    const newUrl = `/storeList?pageNum=${pageNum}&category=${category}&second_category=${secondCategoryValue}`;
     history.pushState(null, '', newUrl);
 
     // AJAX 요청
@@ -268,7 +286,7 @@ function resetPaginationToFirstPage(totalPages, category, second_category, curre
     // 페이지 번호 링크 생성
     // 시작 페이지와 끝 페이지 계산
     const startPage = Math.max(1, currentPage - 2);
-    const endPage = Math.min(totalPages, currentPage + 1);
+    const endPage = Math.min(totalPages, currentPage + 3);
 
     for (let i = startPage; i <= endPage; i++) {
         const pageItem = document.createElement('a');
@@ -296,7 +314,7 @@ function resetPaginationToFirstPage(totalPages, category, second_category, curre
         nextPage.href = '#';
         nextPage.addEventListener('click', function(event) {
             event.preventDefault();
-            applyFilter(category, second_category, currentPage + 1);
+            applyFilter(category, second_category, currentPage + 3);
         });
         paginationElement.appendChild(nextPage);
     }
