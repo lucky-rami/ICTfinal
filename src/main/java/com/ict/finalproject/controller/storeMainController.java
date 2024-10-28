@@ -119,6 +119,11 @@ public class storeMainController {
         if (ani_title != null) {
             pagedProducts = storeService.getProductsByTitle(ani_title);
         }
+
+        //오리지널 이미지
+        if (ani_title != null) {
+            pagedProducts = storeService.getProductsByImageTitle(ani_title);
+        }
         // 2. 카테고리 필터링이 있는 경우
         else if (category != null) {
             pagedProducts = storeService.getProductsByCategory(pageSize, offset, category);
@@ -146,6 +151,10 @@ public class storeMainController {
         // 카테고리 목록을 가져옴
         List<ProductFilterVO> firstCategoryList = storeService.getFirstCategoryList();
 
+        // 오리지널 이미지
+        List<StoreVO> products = storeService.getProductsByImageTitle(ani_title);
+
+
         // ModelAndView 설정
         ModelAndView mav = new ModelAndView("store/storeList");
         mav.addObject("pagedProducts", pagedProducts); // 페이지별 상품 목록 전달
@@ -155,6 +164,8 @@ public class storeMainController {
         mav.addObject("selectedCategory", category); // 선택된 카테고리 전달 (null일 수 있음)
         mav.addObject("selectedFilterType", filterType); // 선택된 필터 타입 전달 (null일 수 있음)
         mav.addObject("selectedTitle", ani_title); // 선택된 배너 title 전달 (null일 수 있음)
+        mav.addObject("products", products); // 모델에 제품 목록 추가
+        mav.addObject("imageTitle", ani_title); // 선택한 이미지 제목 추가 (필요시)
 
         return mav;
     }
