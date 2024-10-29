@@ -647,7 +647,7 @@ $(document).ready(function() {
          // Ajax 요청으로 서버에서 댓글 상세 정보를 가져옴
          $.ajax({
              type: 'GET',
-             url: '/master/getCommentDetails/' + comment_idx,  // 댓글 상세정보를 가져오는 URL
+             url: '/master/getCommentDetails',  // 댓글 상세정보를 가져오는 URL
              data: { idx: commentIdx },
              success: function(response) {
                  if (response && response.comment) {

@@ -633,15 +633,16 @@ public class masterController {
     @ResponseBody
     public Map<String, Object> getCommentDetails(@RequestParam("idx") int idx) {
         Map<String, Object> response = new HashMap<>();
-
-        // 댓글 정보 조회
-        MasterVO comment = masterService.getCommentByIdx(idx);
-        response.put("comment", comment);
-
-        // 해당 댓글에 대한 답글 목록 조회
-        List<MasterVO> replies = masterService.getRepliesByCommentIdx(idx);
-        response.put("replies", replies);
-
+        try {
+            MasterVO comment = masterService.getCommentByIdx(idx);
+            response.put("comment", comment);
+            List<MasterVO> replies = masterService.getRepliesByCommentIdx(idx);
+            response.put("replies", replies);
+        } catch (Exception e) {
+            response.put("error", "댓글 정보를 가져오는 중 오류가 발생했습니다.");
+            // Log the error for debugging
+            e.printStackTrace();
+        }
         return response;
     }
 
