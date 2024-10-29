@@ -606,6 +606,11 @@ public class UserController {
         String imgfile2 = null;
         String uniqueFilename = "";
 
+        log.info("Grade: {}", grade);
+        log.info("OrderListIdx: {}", orderList_Idx);
+        log.info("Content: {}", content);
+        log.info("Files received: {}", files != null ? files.size() : 0);
+
         try {
             // 파일이 있는 경우에만 처리
             if (files != null && !files.isEmpty()) {
@@ -647,14 +652,14 @@ public class UserController {
                 service.pointUpdate(useridx, 2, 150);
                 return ResponseEntity.ok("리뷰가 성공적으로 등록되었습니다.");
             } else {
-                fileDel(imgfile1);
-                fileDel(imgfile2);
+                if (imgfile1 != null) fileDel(imgfile1);
+                if (imgfile2 != null) fileDel(imgfile2);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 등록 실패");
             }
 
         } catch (Exception e) {
-            fileDel(imgfile1);
-            fileDel(imgfile2);
+            if (imgfile1 != null) fileDel(imgfile1);
+            if (imgfile2 != null) fileDel(imgfile2);
             log.error("리뷰 등록 중 오류 발생", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 등록 중 오류 발생");
         }
@@ -663,7 +668,7 @@ public class UserController {
     // 이미지 서버로 파일을 전송하는 메소드
     private void uploadFileToImageServer(MultipartFile file, String uniqueFilename) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
-        String imageServerUrl = "http://192.168.1.92:8000/upload"; // 이미지 서버의 파일 업로드 엔드포인트
+        String imageServerUrl = "http://192.168.1.180:8000/upload"; // 이미지 서버의 파일 업로드 엔드포인트
 
         // 파일을 MultiValueMap으로 준비
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -701,7 +706,7 @@ public class UserController {
     // 파일 삭제
     public void fileDel(String filename) {
         RestTemplate restTemplate = new RestTemplate();
-        String deleteUrl = "http://192.168.1.92:8000/delete/" + filename;
+        String deleteUrl = "http://192.168.1.180:8000/delete/" + filename;
 
         try {
             restTemplate.delete(deleteUrl);
@@ -815,14 +820,14 @@ public class UserController {
             if (result > 0) {
                 return ResponseEntity.ok("리뷰가 성공적으로 수정되었습니다.");
             } else {
-                fileDel(imgfile1);
-                fileDel(imgfile2);
+                if (imgfile1 != null) fileDel(imgfile1);
+                if (imgfile2 != null) fileDel(imgfile2);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 수정 실패");
             }
 
         } catch (Exception e) {
-            fileDel(imgfile1);
-            fileDel(imgfile2);
+            if (imgfile1 != null) fileDel(imgfile1);
+            if (imgfile2 != null) fileDel(imgfile2);
             log.error("리뷰 수정 중 오류 발생", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 수정 중 오류 발생");
         }
