@@ -209,6 +209,7 @@
                 </div>
 
 
+<%@include file="/WEB-INF/inc/footer.jspf" %>
 
 <script>
 var useridx; // 해당 페이지에서 모두 사용 가능하도록! 전역변수로 선언
@@ -745,5 +746,5 @@ function showTab(commtype) {
 
 
     </script>
-
+</body>
 

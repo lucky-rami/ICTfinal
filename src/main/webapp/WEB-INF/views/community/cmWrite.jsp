@@ -14,32 +14,32 @@
 
 
     <section class="top_info">
-            <div class="cm_tab">
-                <h1>커뮤니티</h1>
-                <div class="cm_opt">
-                    <ul class="list">
-                        <li class="${commtype == 'all' ? 'selected' : ''}">
-                            <a href="javascript:void(0);" class="btn" onclick="showTab('all')">최신글보기</a>
-                        </li>
-                        <li class="${commtype == '10' ? 'selected' : ''}">
-                            <a href="javascript:void(0);" class="btn" onclick="showTab('10')">자랑</a>
-                        </li>
-                        <li class="${commtype == '20' ? 'selected' : ''}">
-                            <a href="javascript:void(0);" class="btn" onclick="showTab('20')">덕질</a>
-                        </li>
-                        <li class="${commtype == '30' ? 'selected' : ''}">
-                            <a href="javascript:void(0);" class="btn" onclick="showTab('30')">친목</a>
-                        </li>
-                        <li class="${commtype == '40' ? 'selected' : ''}">
-                            <a href="javascript:void(0);" class="btn" onclick="showTab('40')">팬아트</a>
-                        </li>
-                        <li>
-                            <a href="/notice2" class="btn">통합공지</a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="cm_tab">
+            <h1>커뮤니티</h1>
+            <div class="cm_opt">
+                <ul class="list">
+                    <li class="${commtype == 'all' ? 'selected' : ''}">
+                        <a href="javascript:void(0);" class="btn" onclick="showTab('all')">최신글보기</a>
+                    </li>
+                    <li class="${commtype == '10' ? 'selected' : ''}">
+                        <a href="javascript:void(0);" class="btn" onclick="showTab('10')">자랑</a>
+                    </li>
+                    <li class="${commtype == '20' ? 'selected' : ''}">
+                        <a href="javascript:void(0);" class="btn" onclick="showTab('20')">덕질</a>
+                    </li>
+                    <li class="${commtype == '30' ? 'selected' : ''}">
+                        <a href="javascript:void(0);" class="btn" onclick="showTab('30')">친목</a>
+                    </li>
+                    <li class="${commtype == '40' ? 'selected' : ''}">
+                        <a href="javascript:void(0);" class="btn" onclick="showTab('40')">팬아트</a>
+                    </li>
+                    <li>
+                        <a href="/notice2" class="btn">통합공지</a>
+                    </li>
+                </ul>
             </div>
-        </section>
+        </div>
+    </section>
 
 
     <div class="container">
@@ -73,6 +73,8 @@
 
         </form>
     </div>
+
+<%@include file="/WEB-INF/inc/footer.jspf" %>
 
  <script>
      setTimeout(function() {
