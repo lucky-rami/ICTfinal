@@ -7,6 +7,7 @@
     max-width: 1600px;
     /*height: 100vh;*/
     overflow-x: visible;
+    margin-top: 6em;
 }
 
 
@@ -14,13 +15,11 @@ a {
     text-decoration: none;
     color: inherit;
 }
-
-
- h2{
-    text-align: left;  /* 텍스트를 왼쪽으로 정렬 */
-    padding-left: 15px; /* 필요에 따라 여백 조정 */
-
-
+h2{
+    text-align: left;
+    color:#303030;
+    font-weight:bold;
+    margin-bottom:15px;
 }
 
  p{
@@ -30,6 +29,14 @@ a {
     color:rgb(135, 138, 141);
 }
 
+.chaewon_tit{
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
 
 
 /* Banner */
@@ -37,8 +44,9 @@ a {
 .banner {
     position: relative;
     overflow: visible; 
-    width:1600px; /* 최대 너비 설정 */
+    width:96%; /* 최대 너비 설정 */
     margin: auto; /* 가운데 정렬 */
+    margin-top:20px;
 }
 
 .carousel-banner-images {
@@ -49,42 +57,46 @@ a {
 
 .carousel-banner-images img {
     width: 100%; /* 부모 요소의 폭에 맞춤 */
-    height: 800px; /* 자동으로 높이를 설정하여 비율 유지 */
+    height: 580px; /* 자동으로 높이를 설정하여 비율 유지 */
     border-radius: 10px;
     object-fit: cover; 
 }
 
 
-.carousel-banner-images .slick-prev, 
+.carousel-banner-images .slick-prev,
 .carousel-banner-images.slick-next {
-    font-size: 60px; /* 필요에 따라 크기 조정 */
     z-index: 100;   /* 다른 요소 위에 표시되도록 */
 }
 
-.carousel-banner-images .slick-prev::before, 
+.carousel-banner-images .slick-prev::before,
 .carousel-banner-images .slick-next::before {
-    color: rgb(167, 203, 245);    /* 필요에 따라 색상 조정 */
+    /*color: rgb(167, 203, 245);    *//* 필요에 따라 색상 조정 */
     z-index: 100;   /* 다른 요소 위에 표시되도록 */
-
 }
 
 .carousel-banner-images .slick-prev {
-    left: -30px; /* 필요에 따라 위치 조정 */
+    /*left: -30px; *//* 필요에 따라 위치 조정 */
     z-index: 1000;   /* 다른 요소 위에 표시되도록 */
-
+    background: url("../img/store/icon_pro_prev.png") no-repeat 50%;
+    width: 60px;
+    height: 60px;
   
 }
 
 
 .carousel-banner-images .slick-next {
-    right: 5px; /* 필요에 따라 위치 조정 */
+    /*right: 5px; *//* 필요에 따라 위치 조정 */
+    background: url("../img/store/icon_pro_next.png") no-repeat 50%;
+    width: 60px;
+    height: 60px;
 }
 
 
 
 .slick-next:before, .slick-prev:before {
-    font-size: 60px;
+    /*font-size: 60px;*/
     z-index: 999;
+    content: "";
 }
 
 .products{
@@ -113,31 +125,35 @@ a {
 
 
 /*인기굿즈*/
-.pop-carousel-images .slick-prev, 
+.pop-carousel-images .slick-prev,
 .pop-carousel-images .slick-next {
- 
-    font-size: 30px; /* 화살표 크기 조정 */
+
     position: absolute;
     top: 30%; /* 원하는 위치 조정 */
     z-index: 1000;
 }
 
 .pop-carousel-images .slick-prev {
-    left: -40px; /* 이전 버튼 위치 조정 */
+    /*left: -40px; *//* 이전 버튼 위치 조정 */
+    background: url("../img/store/icon_pro_prev.png") no-repeat 50%;
+    width: 60px;
+    height: 60px;
 }
 
 .pop-carousel-images .slick-next {
-    right: 5px; /* 다음 버튼 위치 조정 */
+    /*right: 5px; *//* 다음 버튼 위치 조정 */
+    background: url("../img/store/icon_pro_next.png") no-repeat 50%;
+    width: 60px;
+    height: 60px;
 }
 
 /* 인기굿즈 슬라이더의 화살표 버튼에 색상을 적용 */
-.pop-carousel-images .slick-prev::before, 
+.pop-carousel-images .slick-prev::before,
 .pop-carousel-images .slick-next::before {
-    color: rgb(167, 203, 245);  /* 화살표 색상 변경 */
+    /*color: rgb(167, 203, 245);  *//* 화살표 색상 변경 */
 }
 .products h2, .products2 h2 {
-    font-size: 48px;
-    margin-bottom: 40px;
+    font-size: 2em;
 }   
 
 
@@ -190,23 +206,45 @@ a {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 5px;
-    max-width: 1800px;
+    padding: 1em 3em;
+    max-width: 96%;
     margin: 0 auto;
     cursor: pointer;
 }
 
+.notification_top{
+    font-size: 1.3em;
+    color: #303030;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin: 0.5em 0;
+}
+
+.notice_span{
+    display:inline-block;
+    margin-right:10px;
+}
+
 .notice-item {
     display: flex;
-    justify-content: space-between;  /* 제목과 등록일을 양쪽으로 배치 */
-    padding: 10px 0;                 /* 상하 여백 */
+    justify-content: space-between;
+    /* padding: 10px 0; */
+    align-items: center;
+    border-bottom: 1px solid #e4e4e4;
+    height: 3.5em;              /* 상하 여백 */
 }
+
+#noticeList .notice-item:last-of-type{
+    border:0;
+}
+
 
 .notification p{
     font-size: 1.1em;
     font-weight : bolder;
-    margin-right: 60px;
-    margin-left: 40px;
+    margin:0;
 }
 
 
@@ -291,28 +329,34 @@ a {
     transition: 0.5s ease-in-out;
 }
 
-.origin-carousel-images .slick-prev, 
+.origin-carousel-images .slick-prev,
 .origin-carousel-images .slick-next {
  
-    font-size: 30px; /* 화살표 크기 조정 */
+
     position: absolute;
     top: 45%; /* 원하는 위치 조정 */
     z-index: 1000;
 }
 
 .origin-carousel-images .slick-prev {
-    left: -30px; /* 이전 버튼 위치 조정 */
+    /*left: -30px; *//* 이전 버튼 위치 조정 */
+    background: url("../img/store/icon_pro_prev.png") no-repeat 50%;
+    width: 60px;
+    height: 60px;
   
 }
 
 .origin-carousel-images .slick-next {
-    right: 15px; /* 다음 버튼 위치 조정 */
+    /*right: 15px; *//* 다음 버튼 위치 조정 */
+    background: url("../img/store/icon_pro_next.png") no-repeat 50%;
+    width: 60px;
+    height: 60px;
 }
 
 /* 신규굿즈 슬라이더의 화살표 버튼에 색상을 적용 */
-.origin-carousel-images .slick-prev::before, 
+.origin-carousel-images .slick-prev::before,
 .origin-carousel-images .slick-next::before {
-    color: rgb(167, 203, 245);  /* 화살표 색상 변경 */
+ /*   color: rgb(167, 203, 245);   화살표 색상 변경 */
 }
 
 /* 신규굿즈 */
@@ -372,27 +416,33 @@ a {
 
 
 /*신규굿즈 화살표*/
-.new-carousel-images .slick-prev, 
+.new-carousel-images .slick-prev,
 .new-carousel-images .slick-next {
  
-    font-size: 30px; /* 화살표 크기 조정 */
+
     position: absolute;
     top: 30%; /* 원하는 위치 조정 */
     z-index: 1000;
 }
 
 .new-carousel-images .slick-prev {
-    left: -40px; /* 이전 버튼 위치 조정 */
+    /*left: -40px; *//* 이전 버튼 위치 조정 */
+    background: url("../img/store/icon_pro_prev.png") no-repeat 50%;
+    width: 60px;
+    height: 60px;
 }
 
 .new-carousel-images .slick-next {
-    right: 5px; /* 다음 버튼 위치 조정 */
+    /*right: 5px; *//* 다음 버튼 위치 조정 */
+    background: url("../img/store/icon_pro_next.png") no-repeat 50%;
+    width: 60px;
+    height: 60px;
 }
 
 /* 신규굿즈 슬라이더의 화살표 버튼에 색상을 적용 */
-.new-carousel-images .slick-prev::before, 
+.new-carousel-images .slick-prev::before,
 .new-carousel-images .slick-next::before {
-    color: rgb(167, 203, 245);  /* 화살표 색상 변경 */
+    /*color: rgb(167, 203, 245);  *//* 화살표 색상 변경 */
 }
 
 /* MD news */
@@ -435,10 +485,10 @@ a {
     font-weight: bold;
 }
 
-.md-carousel-images .slick-prev, 
+.md-carousel-images .slick-prev,
 .md-carousel-images .slick-next {
  
-    font-size: 30px; /* 화살표 크기 조정 */
+    /*font-size: 30px; *//* 화살표 크기 조정 */
     position: absolute;
     top: 45%; /* 원하는 위치 조정 */
     z-index: 1000;
@@ -447,18 +497,24 @@ a {
 }
 
 .md-carousel-images .slick-prev {
-    left: -30px; /* 이전 버튼 위치 조정 */
+    /*left: -30px; *//* 이전 버튼 위치 조정 */
+    background: url("../img/store/icon_pro_prev.png") no-repeat 50%;
+    width: 60px;
+    height: 60px;
   
 }
 
 .md-carousel-images .slick-next {
-    right: 5px; /* 다음 버튼 위치 조정 */
+    /*right: 5px; *//* 다음 버튼 위치 조정 */
+    background: url("../img/store/icon_pro_next.png") no-repeat 50%;
+    width: 60px;
+    height: 60px;
 }
 
 /* 신규굿즈 슬라이더의 화살표 버튼에 색상을 적용 */
-.md-carousel-images .slick-prev::before, 
+.md-carousel-images .slick-prev::before,
 .md-carousel-images .slick-next::before {
-    color: rgb(167, 203, 245);  /* 화살표 색상 변경 */
+    /*color: rgb(167, 203, 245);  *//* 화살표 색상 변경 */
     
 }
 
@@ -470,6 +526,5 @@ a {
     margin-right: -30px; /* 오른쪽 여백을 없애서 슬라이드가 화면 밖으로 나가지 않도록 설정 */
     overflow: hidden; /* 슬라이드가 잘리지 않도록 설정 */
 }
-
 
 

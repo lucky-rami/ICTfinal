@@ -2,7 +2,7 @@
 .product-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 50px 0;
     background-color: white;
 }
 
@@ -11,7 +11,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    /*padding: 20px;*/
+    gap:30px;
 }
 
 .product-image-section {
@@ -32,21 +33,36 @@
 
 
 .product-title {
-    font-size: 24px;
+    font-size: 22px;
     margin-bottom: 10px;
     font-weight: bold;
+    color: #303030;
 }
 
 .product-price {
-    font-size: 24px;
-    color: #222222;
-    margin-bottom: 15px;
+    color: #303030;
+    font-size: 20px;
+    line-height: 22px;
+    margin-top: 20px;
+    font-weight:bold;
 }
 
 .product-meta-info p {
-    font-size: 14px;
-    color: #888;
-    margin-bottom: 10px;
+    font-size: 13px;
+    color: #666;
+}
+
+.product-meta-info-div{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 30px;
+}
+
+.product-meta-info-div span{
+    display:inline-block;
+    width: 6em;
 }
 
 /* 좋아요 아이콘 */
@@ -61,6 +77,11 @@
     cursor: pointer;
 }
 
+.fa-heart{
+    color : rgb(190, 31, 17);
+    margin:0;
+}
+
 
 /* 상품 선택 옵션 */
 .product-selection {
@@ -68,14 +89,15 @@
     border: 1px solid #ddd;
     padding: 15px;
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin: 30px 0;
 }
 
 .selection-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    padding-bottom: 15px;
+    border-bottom:1px solid #ddd;
 }
 
 .selection-box p{
@@ -86,7 +108,7 @@
 .product-name {
     align-items: center;
     font-size: 16px;
-    font-weight: bold;
+    /*font-weight: bold;*/
 }
 
 .product-quantity-control {
@@ -111,6 +133,7 @@
     font-size: 16px;
     text-align: right;
     font-weight: bold;
+    margin-top: 15px;
 }
 
 /* 구매 버튼 스타일 */
@@ -124,20 +147,18 @@
 .add-to-cart, .buy-now {
     width: 48%;
     padding: 15px;
-    font-size: 16px;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
-}
-
-.add-to-cart {
-    background-color: white;
-    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-weight:bold;
+    font-size: 18px;
+    height: 64px;
 }
 
 .buy-now {
-    background-color: #202020;
-    color: white;
+    color: #fff;
+    border: 1px solid var(--fff, #fff);
+    background: var(--333, #333);
 }
 
 
@@ -153,8 +174,11 @@
 }
 
 /* 구매 버튼에 그림자 효과 추가 */
-.add-to-cart, .buy-now {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 기본 그림자 */
+.add-to-cart {
+    background: #f5f5f5;
+    box-shadow: inset -2px -2px 3px 0 rgba(174, 174, 192, .3), inset 2px 2px 2px 0 #fff;
+    border: 1px solid #e1e1e1;
+    color: rgb(48, 48, 51);
 }
 
 /* Hover 시 그림자 변화 */
@@ -172,7 +196,7 @@
 .product-tabs {
     display: flex;
     justify-content: space-between;
-    margin: 20px 0;
+    margin: 50px 0;
     border-radius: 10px;
 }
 
@@ -708,4 +732,43 @@ font-size : 2em;
 .fa-star{
     margin-right:0;
     color: #fdba39;
+}
+
+.product-title_chaewon{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.product-title_chaewon p{
+    display:inline-block;
+    font-size: 14px;
+    color:var(--primary);
+}
+
+.product-info_title_like{
+    display:flex;
+    justify-content: space-between;
+}
+
+.product-info_title_like .like-section{
+    display:flex;
+    width:max-content;
+    gap:5px;
+    font-size:1.8em;
+    color: rgb(190, 31, 17);
+    align-items:center;
+}
+
+.like-count{
+    font-size: 0.8em;
+    color: #303030;
+    display:none;
+}
+
+.selection-box div{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#303030;
 }
