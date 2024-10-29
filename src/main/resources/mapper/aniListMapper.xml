@@ -225,6 +225,7 @@
             adminidx
         FROM
             t_event
+        order by regDT desc
     </select>
 
     <!-- event view -->
@@ -267,6 +268,7 @@
    <select id="getNewEvent" resultType="com.ict.finalproject.vo.AniListVO">
         SELECT idx, title, thumfile, content, event_date, regDT, adminidx
         FROM t_event
-        where idx = 8
+        order by idx desc
+        limit 1
     </select>
 </mapper>
