@@ -277,6 +277,7 @@ $(document).ready(function () {
 });
 /*@@@@@@@@@@@@@@@@@@@@@오른쪽 필터@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 // 애니메이션 목록을 서버에서 받아오는 함수
+// 애니메이션 목록을 가져오는 함수
 function fetchAniList() {
     $.ajax({
         url: "/aniList", // 모든 애니메이션 목록을 가져오는 URL
@@ -293,20 +294,20 @@ function fetchAniList() {
 
 // 정렬 함수
 function sortAniList(sortCriteria) {
-    let sortedList = aniList;
+    let sortedList = aniList; // 전체 애니메이션 목록을 기준으로 정렬
 
     switch (sortCriteria) {
         case 'title':
-            sortedList = aniList.sort((a, b) => a.grade - b.grade); // 별점 기준 정렬
+            sortedList.sort((a, b) => a.title.localeCompare(b.title)); // 제목 기준 정렬
             break;
         case 'new':
-            sortedList = aniList.sort((a, b) => new Date(b.regDT) - new Date(a.regDT)); // 등록일 기준 정렬
+            sortedList.sort((a, b) => new Date(b.regDT) - new Date(a.regDT)); // 등록일 기준 정렬
             break;
         case 'popular':
-            sortedList = aniList.sort((a, b) => b.anilike - a.anilike); // 좋아요 수 기준 정렬
+            sortedList.sort((a, b) => b.anilike - a.anilike); // 좋아요 수 기준 정렬
             break;
         default:
-            sortedList = aniList; // 기본 정렬 (변경 없음)
+            break; // 기본 정렬 (변경 없음)
     }
 
     renderAniList(sortedList); // 정렬된 리스트 렌더링
@@ -323,35 +324,43 @@ function onSortChange() {
         success: function(data) {
             aniList = data; // 정렬된 목록 저장
             renderAniList(aniList); // 목록을 렌더링
-            const aniListString = JSON.stringify(aniList)
         },
         error: function(xhr, status, error) {
-            console.error("Error fetching ani list: ", error);
+            console.error("Error fetching sorted ani list: ", error);
         }
     });
 }
 
 // 애니메이션 목록을 화면에 렌더링하는 함수
 function renderAniList(list) {
+    if (!Array.isArray(list)) {
+        console.error("Provided list is not an array.");
+        return; // 배열이 아닐 경우 함수 종료
+    }
+
     let tag = '';
 
     list.forEach(function (el) {
-    console.log(el); // 디버깅용 로그
-    tag += `
-    <div class="div_li" data-anitype="`+el.anitype+`" data-agetype="`+el.agetype+`">
-        <div class="list_img_bg" data-title="`+el.title+`" data-director="`+el.director+`" data-idx="`+el.idx+`">
-            <img src="http://192.168.1.180:8000/`+el.post_img+`" alt="`+el.title+`">
-            <div class="overlay">상세 보기</div>
-        </div>
-        <p>${el.title}</p>
-        <p class="genre">
-            <span>`+el.anitype+`</span>
-            <span>`+el.agetype+`관람</span>
-        </p>
-    </div>`;
-});
+        console.log(el); // 디버깅용 로그
 
-    document.querySelector(".ani_viewList").innerHTML = tag;
+        // 이미지 URL 기본값 설정
+        const imageUrl = el.post_img ? `http://192.168.1.180:8000/${el.post_img}` : 'default-image-url.png';
+
+        tag += `
+        <div class="div_li" data-anitype="${el.anitype}" data-agetype="${el.agetype}">
+            <div class="list_img_bg" data-title="${el.title}" data-director="${el.director}" data-idx="${el.idx}">
+                <img src="${imageUrl}" alt="${el.title}">
+                <div class="overlay">상세 보기</div>
+            </div>
+            <p>${el.title}</p>
+            <p class="genre">
+                <span>${el.anitype}</span>
+                <span>${el.agetype} 관람</span>
+            </p>
+        </div>`;
+    });
+
+    document.querySelector(".ani_viewList").innerHTML = tag; // 생성된 HTML 추가
 
     // 렌더링 후 모달 이벤트를 다시 바인딩해야 함
     bindModalEvents();
@@ -359,7 +368,6 @@ function renderAniList(list) {
 
 // 모달을 열고 정보를 표시하는 함수
 function bindModalEvents() {
-    // .list_img_bg 요소가 존재하는지 확인
     const elements = $('.list_img_bg');
     if (elements.length === 0) {
         console.warn('No elements found with class .list_img_bg');
@@ -609,6 +617,7 @@ function toggleLike() {
 document.addEventListener('DOMContentLoaded', () => {
     const ani_idx = document.querySelector('.animodal_usergrade').getAttribute('data-idx');
     const token = localStorage.getItem("token");
+    console.log("User ID:", useridx);
 
     // 서버에 요청하여 초기 좋아요 상태를 가져옴
     if (token) {

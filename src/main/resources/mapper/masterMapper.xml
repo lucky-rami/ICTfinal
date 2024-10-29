@@ -571,7 +571,7 @@
 
     <!-- 댓글 정보 조회 -->
     <select id="getCommentByIdx" resultType="MasterVO">
-        SELECT idx,comm_idx, content, useridx, DATE_FORMAT(regDT, '%Y-%m-%d') AS regDT, parentidx
+        SELECT idx,comm_idx, content, useridx, DATE_FORMAT(regDT, '%Y-%m-%d') AS regDT
         FROM t_comment
         WHERE idx = #{idx}
     </select>
