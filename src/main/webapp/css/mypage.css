@@ -63,14 +63,15 @@ button {
   position: relative;
   max-width: 1500px;
   margin: 0 auto;
-  padding: 210px 0 50px 0px;
+  padding: 210px 0 150px 0px;
   display: flex;
 }
 
 .mypage_left {
   width: 230px;
   padding-right: 50px;
-  position: fixed;
+  position: absolute; /* 기본값은 relative */
+  top: 210px;
 }
 
 .mypage_home {

@@ -226,3 +226,4 @@
     let balancePoint = use_point-${balancePoint};
 </script>
 
+<%@include file="/WEB-INF/inc/footer.jspf"%>

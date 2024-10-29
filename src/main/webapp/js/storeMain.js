@@ -95,7 +95,7 @@ function loadNoticeTitlesAndDates() {
                 const noticeItem = document.createElement('div');
                 noticeItem.className = 'notice-item';
                 noticeItem.innerHTML = `
-                    <p>${notice.title}</p>
+                    <p><span class="notice_span">-</span>${notice.title}</p>
                     <p>${notice.regDT}</p>
                 `;
                 noticeListElement.appendChild(noticeItem);

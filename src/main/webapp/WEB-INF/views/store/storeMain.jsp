@@ -26,46 +26,47 @@
 </script>
 
 <!-- 기존 Custom JS가 있는 경우 -->
+
 <script src = "../../../js/storeMain.js"></script>
 
+<!-- 배너 위로 옮김 -->
+<section class="banner" id="banner">
+    <div class="carousel-banner-images" id="slider-div">
+    <div class="slide">
+        <a href="/storeList?title=hololive">
+            <img src="img/store/111.png" alt="Main Banner1">
+        </a>
+    </div>
+     <div class="slide">
+         <a href="/storeList?title=나 혼자만 레벨업">
+             <img src="img/store/222.png" alt="Main Banner2">
+         </a>
+     </div>
+  <div class="slide">
+      <a href="/storeList?title=블루 아카이브">
+          <img src="img/store/333.png" alt="Main Banner3">
+      </a>
+  </div>
+    </div>
+</section>
+<section>
+  <div class="notification" onclick="goToNoticePage()">
+      <div class="notification_top"><i class="fa-regular fa-bell"></i> 공지사항 내역</div>
+      <div id="noticeList">
+
+        <!-- 제목과 등록일자가 여기에 표시됩니다 -->
+      </div>
+  </div>
+</section>
 <div class="storeMain_container">
-    <!-- 배너 -->
-        <section class="banner" id="banner">
-            <div class="carousel-banner-images" id="slider-div">
-            <div class="slide">
-                <a href="/storeList?title=hololive">
-                    <img src="img/store/banner1.png" alt="Main Banner1">
-                </a>
-            </div>
-             <div class="slide">
-                 <a href="/storeList?title=나 혼자만 레벨업">
-                     <img src="img/store/banner2.png" alt="Main Banner2">
-                 </a>
-             </div>
-          <div class="slide">
-              <a href="/storeList?title=블루 아카이브">
-                  <img src="img/store/banner3.png" alt="Main Banner3">
-              </a>
-          </div>
-            </div>
-        </section>
-
         <!--Notification-->
-        <section>
-            <div class="notification" onclick="goToNoticePage()">
-                <div id="noticeList">
 
-                    <!-- 제목과 등록일자가 여기에 표시됩니다 -->
-                </div>
-            </div>
-        </section>
 
             <!-- 인기굿즈 -->
         <section class="products">
           <a href="/storeList">
-              <h2>Hot #인기굿즈</h2>
+              <h2>유저들의 선택! #인기굿즈</h2>
           </a>
-            <p>[25/1월 발매] hololive GAMERS 콜라보 굿즈 예약 판매(~10.29)</p>
                 <div class="pop-carousel">
                     <div class="pop-carousel-wrapper">
                         <div class="pop-carousel-images">
@@ -76,12 +77,12 @@
                                         <!-- 서버에서 불러온 이미지 경로 사용 -->
                                         <img src="http://192.168.1.180:8000/${product.thumImg}" alt="${product.title}">
                                         <!-- <span class="rcont"></span> -->
-                                        <div class="tit">${product.title}</div>
+                                        <div class="tit chaewon_tit">${product.title}</div>
                                         <span class="price">
                                           <span class="discount"><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/> 원</span>
                                         </span>
+                                        <br>
                                         <span class="tag" style="cursor: default;">
-                                            <span>${product.brand}</span>
                                             <span>${product.ani_title}</span>
                                         </span>
                                     </a>
@@ -119,9 +120,8 @@
         <!-- 신규굿즈 -->
         <section class="new-products">
             <a href="/storeList">
-            <h2>Hot #신규굿즈</h2>
+            <h2>새로운 굿즈를 만나보세요! #신규굿즈</h2>
             </a>
-            <p>[25/1월 발매] hololive GAMERS 콜라보 굿즈 예약 판매(~10.29)</p>
                 <div class="new-carousel">
                     <div class="new-carousel-wrapper">
                         <div class="new-carousel-images">
@@ -132,12 +132,12 @@
                                                     <a href="/storeDetail/${product.idx}">
                                                         <img src="http://192.168.1.180:8000/${product.thumImg}" alt="${product.title}">
                                                         <!-- <span class="rcont"></span> -->
-                                                        <div class="tit">${product.title}</div>
+                                                        <div class="tit chaewon_tit">${product.title}</div>
                                                         <span class="price">
                                                             <span class="discount"><fmt:formatNumber value="${product.price}" type="number" pattern="#,###"/> 원</span>
                                                         </span>
+                                                        <br>
                                                         <span class="tag" style="cursor: default;" >
-                                                            <span>${product.brand}</span>
                                                             <span>${product.ani_title}</span>
                                                         </span>
                                                     </a>
@@ -149,7 +149,7 @@
         </section>
 
            <section class="md">
-               <h2>이벤트#신규이벤트 업데이트</h2>
+               <h2>이벤트</h2>
                <div class="md-carousel">
                    <div class="md-carousel-wrapper">
                        <div class="md-carousel-images">
