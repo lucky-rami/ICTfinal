@@ -47,7 +47,7 @@
                                 <h2 class="title">${event.title}</h2>
                                 <p class="content"></p>
                                 <a href="/Event_view?idx=${event.idx}">
-                                <img src="/img/${event.thumfile}" alt="${event.title}" ></a>
+                                <img src="http://192.168.1.180:8000/${event.thumfile}" alt="${event.title}" ></a>
                                 <ul class="icon-list">
                                     <li><span class="heart-icon">❤</span><span class="num">6</span></li>
                                     <li><span class="view-icon">👁</span><span class="num">2</span></li>
