@@ -31,12 +31,14 @@ public interface MasterService {
     boolean checkUserBanStatus(String userid);
     boolean checkUserDelected(int idx);
     Integer findUserIdxByUserid(String userid);
-    List<MasterVO> getMemberDelList(MasterVO vo);
+    List<MasterVO> getMemberDelList(int currentPage, int pageSize);  // 탈퇴 회원 목록 조회
     List<MasterVO> getReportinguserList(MasterVO vo);
     void deleteFaq(int idx);
     void deleteBoard(int idx);
     int getTodayBoardCount();  // 오늘 작성된 게시글 수
     int getLastWeekBoardCount();
+    int getTotalUserDelCount();  // 총 탈퇴 회원 수 조회
+    void deleteEvent(int idx); // 이벤트 삭제 메서드
     void updateReportAndBan(int idx, Integer useridx, String reason, LocalDateTime stopDT,
                             LocalDateTime handleDT, LocalDateTime endDT, int handleState, int comment_idx);
     List<MasterVO> getReplyList(MasterVO vo);

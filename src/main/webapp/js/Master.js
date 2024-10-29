@@ -808,3 +808,31 @@ $(document).ready(function() {
          }
      });
  });
+
+ $(document).ready(function() {
+     $('.deleteEventBtn').on('click', function() {
+         const idx = $(this).data('idx'); // data-idx 속성에서 idx 값 가져오기
+
+         // idx가 정의되지 않았을 때 경고창 표시
+         if (idx === undefined || idx === "") {
+             alert("삭제할 항목의 ID가 정의되지 않았습니다.");
+             return; // 이곳에서 함수 종료
+         }
+
+         // 삭제 여부 확인
+         if (confirm("정말로 삭제하시겠습니까?")) {
+             $.ajax({
+                 type: 'POST', // HTTP 메서드를 GET으로 설정
+                 url: '/master/eventMasterDelete/' + idx, // 삭제 요청 URL
+                 success: function(response) {
+                     alert('해당 ' + idx + ' 번호의 EVENT가 삭제되었습니다.'); // 성공 메시지
+                     window.location.reload(); // 페이지 새로고침
+                 },
+                 error: function(xhr) {
+                     console.error("삭제 중 에러 발생:", xhr.responseText); // 에러 로그
+                     alert("삭제 중 오류가 발생했습니다."); // 오류 메시지
+                 }
+             });
+         }
+     });
+ });

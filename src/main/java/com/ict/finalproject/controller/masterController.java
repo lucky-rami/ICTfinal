@@ -192,13 +192,35 @@ public class masterController {
 
 
     @GetMapping("/userDelMasterList")
-    public ModelAndView masterUserDelList(MasterVO vo) {
-        List<MasterVO> memberDelList = masterService.getMemberDelList(vo);
-        mav = new ModelAndView();
+    public ModelAndView masterUserDelList(
+            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+
+        System.out.println("탈퇴 회원 목록 페이지 요청");
+
+        // 총 탈퇴 회원 수 구하기
+        int totalUsers = masterService.getTotalUserDelCount(); // 총 탈퇴 회원 수를 가져오는 서비스 메서드 호출
+        int totalPages = (int) Math.ceil((double) totalUsers / pageSize); // 총 페이지 수 계산
+
+        // 페이지네이션의 시작 및 끝 페이지 계산
+        int startPage = ((currentPage - 1) / 5) * 5 + 1; // 페이지 그룹의 시작 페이지
+        int endPage = Math.min(startPage + 4, totalPages); // 페이지 그룹의 끝 페이지
+
+        // 탈퇴 회원 목록 가져오기
+        List<MasterVO> memberDelList = masterService.getMemberDelList(currentPage, pageSize);
+
+        ModelAndView mav = new ModelAndView();
         mav.addObject("memberDelList", memberDelList);
+        mav.addObject("totalUsers", totalUsers);
+        mav.addObject("currentPage", currentPage);
+        mav.addObject("pageSize", pageSize);
+        mav.addObject("startPage", startPage);
+        mav.addObject("endPage", endPage);
+        mav.addObject("totalPages", totalPages);
         mav.setViewName("master/userDelMasterList");
         return mav;
     }
+
 
     @GetMapping("/checkAdminLogin")
     public ResponseEntity<Boolean> checkAdminLogin(HttpServletRequest request) {
@@ -588,28 +610,36 @@ public class masterController {
     //  Dashboard - 게시판, 댓글, 리뷰 - 댓글 전체 목록
     @GetMapping("/boardMasterReviewAll")
     public ModelAndView boardMasterReviewAll(
-            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "currentPage", defaultValue = "1") String currentPage,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
+        int currentPageInt; // 정수형 페이지 변수 선언
+        try {
+            currentPageInt = Integer.parseInt(currentPage); // 문자열을 정수로 변환
+        } catch (NumberFormatException e) {
+            currentPageInt = 1; // 변환 실패 시 기본값 설정
+        }
+
         // 페이징 계산
-        int offset = Math.max(0, (currentPage - 1) * pageSize);
+        int offset = Math.max(0, (currentPageInt - 1) * pageSize);
         List<MasterVO> reviewList = masterService.getReviewListWithPaging(offset, pageSize);
 
-        // 전체 댓글 수
+        // 전체 리뷰 수
         int totalReviews = masterService.getTotalReviewCount();
         int totalPages = (int) Math.ceil((double) totalReviews / pageSize);
 
         // 로그로 데이터 크기 확인
-        System.out.println("불러온 댓글 개수: " + reviewList.size());
+        System.out.println("불러온 리뷰 개수: " + reviewList.size());
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("reviewList", reviewList);
-        mav.addObject("currentPage", currentPage);
+        mav.addObject("currentPage", currentPageInt); // 정수형 페이지 변수 사용
         mav.addObject("pageSize", pageSize);
         mav.addObject("totalPages", totalPages);
         mav.setViewName("master/boardMasterReviewAll");
         return mav;
     }
+
 
 
     //  Dashboard - 게시판, 댓글, 리뷰 - 리뷰 전체 목록
@@ -1143,11 +1173,11 @@ public class masterController {
     }
 
     // Dashboard - 기타관리 - 이벤트 - 삭제
-    @GetMapping("/EventDelMaster")
-    public ModelAndView EventDelMaster() {
-        mav = new ModelAndView();
-        mav.setViewName("master/EventDelMaster");
-        return mav;
+    @PostMapping("/eventMasterDelete/{idx}")
+    public String eventMasterDelete(@PathVariable("idx") int idx) {
+        System.out.println("이벤트 삭제 요청: " + idx);
+        masterService.deleteEvent(idx); // 서비스 호출로 이벤트 삭제
+        return "redirect:/master/EventMasterList"; // 삭제 후 이벤트 목록으로 리다이렉트
     }
 
 

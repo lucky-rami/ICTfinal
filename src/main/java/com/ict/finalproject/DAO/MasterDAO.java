@@ -57,11 +57,12 @@ public interface MasterDAO {
     Integer findUserIdxByUserid(String userid);
 
     // 탈퇴 회원 조회 하기
-    List<MasterVO> getMemberDelList(MasterVO vo);
-
+    List<MasterVO> getMemberDelList(int currentPage, int pageSize);
     // 회원이 신고 한 유저 목록 구하기
     List<MasterVO> getReportinguserList(MasterVO vo);
     void deleteFaq(int idx);
+    int getTotalUserDelCount();
+    void deleteEvent(int idx); // 이벤트 삭제 메서드
 
     int getTodayBoardCount();  // 오늘 작성된 게시글 수
     int getLastWeekBoardCount();

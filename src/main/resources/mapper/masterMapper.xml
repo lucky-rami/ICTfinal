@@ -428,6 +428,16 @@
         DELETE FROM t_faq WHERE idx = #{idx}
     </delete>
 
+    <!-- 총 탈퇴 회원 수 조회 -->
+    <select id="getTotalUserDelCount" resultType="int">
+        SELECT COUNT(*) FROM t_user WHERE delState = 1
+    </select>
+
+    <!-- 이벤트 삭제 -->
+    <delete id="deleteEvent">
+        DELETE FROM t_event WHERE idx = #{idx}
+    </delete>
+
     <select id="getBoardListWithPaging" parameterType="map" resultType="MasterVO">
         SELECT c.idx, tc.type AS category, c.title, u.userid AS author,
         DATE_FORMAT(c.regDT, '%Y-%m-%d') as regDT, c.hit, c.commtype

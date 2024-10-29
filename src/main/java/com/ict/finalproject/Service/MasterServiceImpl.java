@@ -113,8 +113,8 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public List<MasterVO> getMemberDelList(MasterVO vo) {
-        return dao.getMemberDelList(vo);
+    public List<MasterVO> getMemberDelList(int currentPage, int pageSize) {
+        return dao.getMemberDelList(currentPage,pageSize);
     }
 
     @Override
@@ -140,6 +140,16 @@ public class MasterServiceImpl implements MasterService {
     @Override
     public int getLastWeekBoardCount() {
         return dao.getLastWeekBoardCount();
+    }
+
+    @Override
+    public int getTotalUserDelCount() {
+        return dao.getTotalUserDelCount();
+    }
+
+    @Override
+    public void deleteEvent(int idx) {
+        dao.deleteEvent(idx);
     }
 
     @Override
