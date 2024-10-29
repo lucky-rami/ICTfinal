@@ -83,7 +83,7 @@
     <select id="checkPostReportExists" parameterType="com.ict.finalproject.DTO.ReportDTO" resultType="int">
         SELECT COUNT(*)
         FROM t_report
-        WHERE useridx = #{useridx} AND comunity_idx = #{comunity_idx}
+        WHERE useridx = #{useridx} AND comunity_idx = #{comunity_idx} AND comment_idx IS NULL
     </select>
 
     <select id="checkCommentReportExists" parameterType="com.ict.finalproject.DTO.ReportDTO" resultType="int">
