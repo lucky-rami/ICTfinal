@@ -73,6 +73,7 @@
                     <li class="filter-item" onclick="applyFilter(4,'담요')"><span class="filter-text">담요</span></li>
                 </ul>
             </div>
+
         </div>
     </section>
     <!-- 상품 섹션 위쪽에 필터 추가 -->

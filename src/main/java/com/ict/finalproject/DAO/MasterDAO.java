@@ -48,8 +48,7 @@ public interface MasterDAO {
     List<MasterVO> getReviewList();
 
     // 신고 추가
-    void insertReport(@Param("useridx") Integer useridx, @Param("reason") String reason, @Param("stopDT") LocalDateTime stopDT, @Param("endDT") LocalDateTime endDT, @Param("comment_idx") Integer comment_idx);
-
+    void insertReport(Integer useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, Integer comment_idx, Integer review_idx, Integer comunity_idx, int report_type);
     // 유저가 정지 상태인지 확인
     boolean isUserBanned(@Param("userid") String userid);
 
@@ -61,7 +60,7 @@ public interface MasterDAO {
     List<MasterVO> getMemberDelList(MasterVO vo);
 
     // 회원이 신고 한 유저 목록 구하기
-    List<MasterVO> getReportinguserList(MasterVO vo);
+    List<MasterVO> getReportinguserList(int offset, int pageSize,MasterVO vo);
 
     // 신고 내역을 t_report 테이블에 삽입
     void updateReport(@Param("idx") int idx, @Param("handleState") int handleState, @Param("handleDT") LocalDateTime handleDT);
@@ -250,4 +249,7 @@ public interface MasterDAO {
     List<SalesListDTO> getDailySales();
     List<SalesListDTO> getAniSales();
     List<SalesListDTO> getCategorySales();
+    Integer findUserIdByCommentIdx(int comment_idx);
+    Integer findUserIdByReviewIdx(int review_idx);
+    Integer findUserIdByCommunityIdx(int comunity_idx);
 }

@@ -101,16 +101,17 @@
                     <div class="origin-carousel-wrapper">
                         <div class="origin-carousel-images">
                    <!-- Origin 이미지 섹션 -->
-                   <c:forEach var="originImageInfo" items="${originImageInfoList}">
-                       <div class="origin-item">
-                           <div class="origin-item-img">
-                               <a href="/storeList">
-                                   <img src="/img/store/origin/${originImageInfo.imageNameWithExt}" alt="${originImageInfo.imageName}">
-                               </a>
-                           </div>
-                           <div class="origin-tag">${originImageInfo.imageName}</div>
-                       </div>
-                   </c:forEach>
+                 <c:forEach var="originImageInfo" items="${originImageInfoList}">
+                     <div class="origin-item">
+                         <div class="origin-item-img">
+                             <!-- ani_title을 URL 파라미터로 전달 -->
+                             <a href="/storeList?ani_title=${originImageInfo.imageName}">
+                                 <img src="/img/store/origin/${originImageInfo.imageNameWithExt}" alt="${originImageInfo.imageName}">
+                             </a>
+                         </div>
+                         <div class="origin-tag">${originImageInfo.imageName}</div>
+                     </div>
+                 </c:forEach>
                         </div>    
                     </div>
                 </div>

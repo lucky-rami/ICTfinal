@@ -41,33 +41,48 @@
                     </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="reportinguser" items="${reportinguserList}">
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>${reportinguser.idx}</td>
-                        <td>${reportinguser.reason}</td>
-                        <td>${reportinguser.reportedUser}</td>
-                        <td><c:choose>
-                                    <c:when test="${reportinguser.handleState == 1}">
-                                        처리 완료
-                                    </c:when>
-                                    <c:when test="${reportinguser.handleState == 2}">
-                                        처리 불가
-                                    </c:when>
-                                    <c:otherwise>
-                                        처리 중
-                                    </c:otherwise>
-                                </c:choose></td>
-                        <td>${reportinguser.handleDT}</td>
-                        <td>
-                            <!-- 신고내역추가 버튼 클릭 시 모달에 유저 ID 설정 -->
-                            <button class="btn btn-outline-success btn-sm addReportBtn"
-                                    data-userid="${reportinguser.reportedUser}"
-                                    data-comment-idx="${reportinguser.comment_idx}">신고내역추가</button>
-                            <button class="btn btn-outline-danger btn-sm deleteBtn" data-idx="${reportinguser.idx}">삭제</button>
-                        </td>
-                    </tr>
-                </c:forEach>
+               <c:forEach var="reportinguser" items="${reportinguserList}">
+                   <tr>
+                       <td><input type="checkbox" /></td>
+                       <td>${reportinguser.idx}</td>
+                       <td>${reportinguser.reason}</td>
+                       <td>
+                                   <c:choose>
+                                       <c:when test="${not empty reportinguser.commentAuthor}">
+                                           ${reportinguser.commentAuthor}
+                                       </c:when>
+                                       <c:when test="${not empty reportinguser.reviewAuthor}">
+                                           ${reportinguser.reviewAuthor}
+                                       </c:when>
+                                       <c:when test="${not empty reportinguser.communityAuthor}">
+                                           ${reportinguser.communityAuthor}
+                                       </c:when>
+                                       <c:otherwise>
+                                           알 수 없음
+                                       </c:otherwise>
+                                   </c:choose>
+                               </td> <!-- 신고한 사용자의 ID -->
+                       <td>
+                           <c:choose>
+                               <c:when test="${reportinguser.handleState == 1}">처리 완료</c:when>
+                               <c:when test="${reportinguser.handleState == 2}">처리 불가</c:when>
+                               <c:otherwise>처리 중</c:otherwise>
+                           </c:choose>
+                       </td>
+                       <td>${reportinguser.handleDT}</td>
+                       <td>
+                           <button class="btn btn-outline-success btn-sm addReportBtn"
+                                   data-userid="${reportinguser.userid}"
+                                   data-comment-idx="${reportinguser.comment_idx}"
+                                   data-review-idx="${reportinguser.review_idx}"
+                                   data-comunity-idx="${reportinguser.comunity_idx}"
+                                   data-report-type="${reportinguser.report_type}">
+                               신고내역추가
+                           </button>
+                           <button class="btn btn-outline-danger btn-sm deleteBtn" data-idx="${reportinguser.idx}">삭제</button>
+                       </td>
+                   </tr>
+               </c:forEach>
                 </tbody>
             </table>
 
@@ -89,6 +104,9 @@
                                     <input type="hidden" id="userid" name="userid">
                                     <input type="hidden" id="idx" name="idx" value="">
                                     <input type="hidden" id="comment_idx" name="comment_idx" value="">
+                                    <input type="hidden" id="review_idx" name="review_idx" value="">
+                                    <input type="hidden" id="comunity_idx" name="comunity_idx" value="">
+                                    <input type="hidden" id="report_type" name="report_type">
                                     <label for="reason">신고 사유</label>
                                     <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
                                 </div>

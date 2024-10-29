@@ -102,9 +102,33 @@
 
     <!-- 신고 추가 -->
     <insert id="insertReport">
-        INSERT INTO t_ban (useridx, reason, stopDT, endDT, comment_idx)
-        VALUES (#{useridx}, #{reason}, #{stopDT}, #{endDT}, #{comment_idx})
+        INSERT INTO t_ban (useridx, reason, stopDT, endDT, comment_idx, review_idx, comunity_idx)
+        VALUES (
+        CASE
+        WHEN #{comment_idx} IS NOT NULL THEN (SELECT useridx FROM t_comment WHERE idx = #{comment_idx})
+        WHEN #{review_idx} IS NOT NULL THEN (SELECT useridx FROM t_review WHERE idx = #{review_idx})
+        WHEN #{comunity_idx} IS NOT NULL THEN (SELECT useridx FROM t_community WHERE idx = #{comunity_idx})
+        ELSE NULL
+        END,
+        #{reason}, #{stopDT}, #{endDT}, #{comment_idx}, #{review_idx}, #{comunity_idx}
+        )
     </insert>
+
+    <select id="findUserIdByCommentIdx" resultType="Integer">
+        SELECT useridx
+        FROM t_comment
+        WHERE idx = #{idx}
+    </select>
+    <select id="findUserIdByReviewIdx" resultType="Integer">
+        SELECT useridx
+        FROM t_review
+        WHERE idx = #{idx}
+    </select>
+    <select id="findUserIdByCommunityIdx" resultType="Integer">
+        SELECT useridx
+        FROM t_community
+        WHERE idx = #{idx}
+    </select>
 
     <!-- 같은 useridx에 대한 모든 endDT 업데이트 -->
     <update id="updateAllEndDT">
@@ -114,20 +138,32 @@
     </update>
 
     <!-- 신고 기능 목록 보여주기 -->
-    <select id="getReportinguserList" resultType="MasterVO">
+    <select id="getReportinguserList" parameterType="map" resultType="MasterVO">
         SELECT
-        r.idx,
-        r.reason,
-        DATE_FORMAT(r.reportDT, '%Y-%m-%d') as reportDT,
-        u.userid AS reportedUser,  -- 신고 당한 댓글 작성자의 아이디
-        r.handleState,
-        DATE_FORMAT(r.handleDT, '%Y-%m-%d') as handleDT,
-        COALESCE(r.comment_idx, c.comunity_idx) AS relevant_idx  -- 댓글이 없는 경우 community_idx를 사용
+        r.*,
+        c.*,
+        v.*,
+        co.*,
+        u.userid AS commentAuthor,  -- 댓글 작성자의 ID
+        u2.userid AS reviewAuthor,   -- 리뷰 작성자의 ID
+        u3.userid AS communityAuthor  -- 커뮤니티 작성자의 ID
         FROM
         t_report r
-        LEFT JOIN t_comment c ON r.comment_idx = c.idx
-        JOIN t_user u ON c.useridx = u.idx
+        LEFT JOIN
+        t_comment c ON r.comment_idx = c.idx  -- 댓글과 조인
+        LEFT JOIN
+        t_review v ON r.review_idx = v.idx    -- 리뷰와 조인
+        LEFT JOIN
+        t_community co ON r.comunity_idx = co.idx -- 커뮤니티와 조인
+        LEFT JOIN
+        t_user u ON c.useridx = u.idx        -- 댓글 작성자의 ID 조인
+        LEFT JOIN
+        t_user u2 ON v.useridx = u2.idx      -- 리뷰 작성자의 ID 조인
+        LEFT JOIN
+        t_user u3 ON co.useridx = u3.idx     -- 커뮤니티 작성자의 ID 조인
     </select>
+
+
 
 
 
@@ -234,29 +270,32 @@
     </select>
 
     <!-- 신고 목록 보여주기 -->
-    <select id="getReportingUser" resultType="MasterVO">
+    <select id="getReportinguser" parameterType="map" resultType="MasterVO">
         SELECT
-        b.useridx AS bannedUserIdx,
-        u.userid AS bannedUserId,
+        b.useridx AS useridx,                   -- 신고된 사용자 ID
+        u.userid AS userid,                     -- 사용자 ID (문자열)
         COUNT(DISTINCT r.idx) AS report_count,  -- 신고 횟수
-        MAX(b.endDT) AS endDT,                   -- 가장 최신의 endDT
-        DATE_FORMAT(b.stopDT, '%Y-%m-%d') AS stopDT,
-        b.reason,
+        MAX(b.endDT) AS endDT,                  -- 가장 최신의 제재 종료 날짜
+        DATE_FORMAT(b.stopDT, '%Y-%m-%d') AS stopDT, -- 제재 시작 날짜
+        b.reason,                               -- 신고 사유
         (SELECT r2.report_type
         FROM t_report r2
         WHERE r2.useridx = b.useridx
         ORDER BY r2.reportDT DESC
-        LIMIT 1) AS report_type -- 최신 report_type 서브쿼리
+        LIMIT 1) AS report_type                 -- 최신 신고 유형 서브쿼리
         FROM
-        t_ban b
+        t_report r
         LEFT JOIN
-        t_report r ON b.useridx = r.useridx
+        t_ban b ON b.useridx = r.useridx
         LEFT JOIN
         t_user u ON b.useridx = u.idx
+        WHERE
+        r.handleState != 0                       -- 처리 상태가 0이 아닌 경우
         GROUP BY
-        b.useridx, u.userid, b.reason -- GROUP BY 추가
+        b.useridx, u.userid, b.reason           -- 그룹화 기준
         ORDER BY
-        MAX(b.endDT) DESC
+        MAX(b.endDT) DESC                        -- 최신 제재 종료 날짜로 정렬
+        LIMIT #{offset}, #{pageSize}                -- 페이징 처리
     </select>
 
 
@@ -471,27 +510,43 @@
 
     <!-- 페이징을 적용한 신고된 유저 목록 조회 -->
     <select id="getReportingUserWithPaging" parameterType="map" resultType="MasterVO">
-        SELECT
-        u.userid AS reportedUser,
-        b.reason AS reason,
-        COUNT(r.idx) AS report_count, -- 신고 횟수
-        MAX(r.handleState) AS handleState,
-        MAX(DATE_FORMAT(r.handleDT, '%Y-%m-%d')) AS handleDT,
-        MAX(r.comment_idx) AS comment_idx,
-        MAX(b.stopDT) AS stopDT,
-        MAX(b.endDT) AS endDT,
-        MAX(IFNULL(r.report_type, '알 수 없음')) AS report_type
+        SELECT DISTINCT
+        u.userid AS commentAuthor,  -- 댓글 작성자의 ID
+        u2.userid AS reviewAuthor,   -- 리뷰 작성자의 ID
+        u3.userid AS communityAuthor,  -- 커뮤니티 작성자의 ID
+        r.reason AS reason,
+        COUNT(r.idx) AS report_count,
+        r.handleState AS handleState,
+        b.stopDT, b.endDT,
+        DATE_FORMAT(r.handleDT, '%Y-%m-%d') AS handleDT,
+        b.comment_idx AS comment_idx,
+        b.comunity_idx as comunity_idx,
+        b.review_idx as review_idx,
+        IFNULL(r.report_type, '알 수 없음') AS report_type
         FROM
-        t_report r
-        JOIN t_comment c ON r.comment_idx = c.idx
-        JOIN t_user u ON c.useridx = u.idx
-        LEFT JOIN t_ban b ON b.useridx = u.idx
+        t_ban b
+        LEFT JOIN
+        t_comment c ON b.comment_idx = c.idx
+        LEFT JOIN
+        t_review rv ON b.review_idx = rv.idx
+        LEFT JOIN
+        t_community co ON b.comunity_idx = co.idx
+        LEFT JOIN
+        t_user u ON b.useridx = u.idx
+        LEFT JOIN
+        t_user u2 ON rv.useridx = u2.idx      -- 리뷰 작성자의 ID 조인
+        LEFT JOIN
+        t_user u3 ON co.useridx = u3.idx
+        LEFT JOIN
+        t_report r ON b.useridx = u.idx
         WHERE
         r.handleState != 0
         GROUP BY
-        u.userid, b.reason
+        u.userid, r.reason, r.handleState, b.stopDT, b.endDT, r.handleDT, b.comment_idx, r.report_type, b.comunity_idx, b.review_idx
         LIMIT #{offset}, #{pageSize}
     </select>
+
+
 
 
     <!-- 전체 신고된 유저의 수 조회 -->
@@ -516,18 +571,33 @@
 
     <!-- 댓글 정보 조회 -->
     <select id="getCommentByIdx" resultType="MasterVO">
-        SELECT idx, content, useridx, DATE_FORMAT(regDT, '%Y-%m-%d') AS regDT
+        SELECT idx,comm_idx, content, useridx, DATE_FORMAT(regDT, '%Y-%m-%d') AS regDT, parentidx
         FROM t_comment
         WHERE idx = #{idx}
     </select>
 
     <!-- 답글 목록 조회 -->
-    <select id="getRepliesByCommentIdx" parameterType="int" resultType="MasterVO">
-        SELECT r.idx, u.userid, r.content, DATE_FORMAT(r.regDT, '%Y-%m-%d') AS regDT
-        FROM t_comment r
-        JOIN t_user u ON r.useridx = u.idx
-        WHERE r.parentidx = #{idx}
-        ORDER BY r.idx
+    <select id="getReportedComments" resultType="MasterVO">
+        SELECT
+        r.idx AS commentId,       -- 댓글의 고유 ID
+        u.userid AS reportedUser, -- 댓글 작성자의 ID
+        r.content AS content,      -- 댓글 내용
+        DATE_FORMAT(r.regDT, '%Y-%m-%d') AS regDT, -- 등록 날짜
+        COUNT(rep.idx) AS report_count, -- 신고 횟수
+        MAX(rep.handleState) AS handleState, -- 처리 상태
+        MAX(DATE_FORMAT(rep.handleDT, '%Y-%m-%d')) AS handleDT -- 처리 날짜
+        FROM
+        t_comment r
+        JOIN
+        t_user u ON r.useridx = u.idx -- 댓글 작성자의 ID 조인
+        LEFT JOIN
+        t_report rep ON r.idx = rep.comment_idx -- 신고 정보를 조인
+        WHERE
+        r.parentidx IS NULL OR r.parentidx = 0 -- 최상위 댓글만 선택
+        GROUP BY
+        r.idx, u.userid -- 댓글 ID와 작성자 ID로 그룹화
+        ORDER BY
+        r.idx -- 댓글 ID로 정렬
     </select>
 
     <select id="findAdminByAdminid" parameterType="String" resultType="MasterVO">
@@ -939,6 +1009,7 @@
         ORDER BY regDT DESC
         limit #{pageSize} offset #{offset};
     </select>
+
     <select id="getTotalSalesDetailListCount">
         SELECT COUNT(DISTINCT o.idx)
         FROM T_order o

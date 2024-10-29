@@ -15,20 +15,40 @@
         SELECT * FROM t_product WHERE ani_title = #{ani_title}
     </select>
 
+    <select id="getProductsByImageTitle" parameterType="string" resultType="com.ict.finalproject.vo.StoreVO">
+        SELECT * FROM t_product WHERE ani_title = #{ani_title}
+    </select>
+
     <!-- 페이징 처리된 상품 목록 가져오기 -->
-        <select id="getPagedProducts" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
-            SELECT *
-            FROM t_product
-            <where>
-                <if test="category != null">
-                    AND category = #{category}
-                </if>
-                <if test="second_category != null">
-                    AND second_category = #{second_category}
-                </if>
-            </where>
-            LIMIT #{pageSize} OFFSET #{offset}
-        </select>
+<!--        <select id="getPagedProducts" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">-->
+<!--            SELECT *-->
+<!--            FROM t_product-->
+<!--            <where>-->
+<!--                <if test="category != null">-->
+<!--                    AND category = #{category}-->
+<!--                </if>-->
+<!--                <if test="second_category != null">-->
+<!--                    AND second_category = #{second_category}-->
+<!--                </if>-->
+<!--            </where>-->
+<!--            LIMIT #{pageSize} OFFSET #{offset}-->
+<!--        </select>-->
+    <select id="getPagedProducts" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">
+        SELECT *
+        FROM t_product
+        <where>
+            <if test="category != null">
+                AND category = #{category}
+            </if>
+            <if test="second_category != null">
+                AND second_category = #{second_category}
+            </if>
+            <if test="ani_title != null">
+                AND ani_title = #{ani_title}
+            </if>
+        </where>
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
 
     <select id="getPagedProductsCnt" resultType="int">
         SELECT COUNT(*)
@@ -40,8 +60,23 @@
             <if test="second_category != null">
                 AND second_category = #{second_category}
             </if>
+            <if test="ani_title != null">
+                AND ani_title = #{ani_title}
+            </if>
         </where>
     </select>
+<!--    <select id="getPagedProductsCnt" resultType="int">-->
+<!--        SELECT COUNT(*)-->
+<!--        FROM t_product-->
+<!--        <where>-->
+<!--            <if test="category != null">-->
+<!--                AND category = #{category}-->
+<!--            </if>-->
+<!--            <if test="second_category != null">-->
+<!--                AND second_category = #{second_category}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
 
 
     <select id="getProductsByCategory" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">

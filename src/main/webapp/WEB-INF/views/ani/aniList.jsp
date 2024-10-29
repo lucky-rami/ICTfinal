@@ -159,7 +159,7 @@ var alllist=`${aniAllList}`;
                     <div class="bottom_ani_content">
                         <ul class="similar_ani_list">
                             <c:forEach var="rand" items="${randomSimilarAnis}">
-                                <li>
+                                <li class="similar_ani" data-idx="${rand.idx}">
                                     <div class="similar_ani_img">
                                         <img src="http://192.168.1.180:8000/${rand.post_img}"  alt="${rand.title}" >
                                     </div>
@@ -169,6 +169,7 @@ var alllist=`${aniAllList}`;
                             </c:forEach>
                         </ul>
                     </div>
+
             </div>
 
 

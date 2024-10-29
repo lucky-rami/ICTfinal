@@ -32,7 +32,7 @@ public interface MasterService {
     boolean checkUserDelected(int idx);
     Integer findUserIdxByUserid(String userid);
     List<MasterVO> getMemberDelList(MasterVO vo);
-    List<MasterVO> getReportinguserList(MasterVO vo);
+    List<MasterVO> getReportinguserList(int offset, int pageSize,MasterVO vo);
     void updateReportAndBan(int idx, Integer useridx, String reason, LocalDateTime stopDT,
                             LocalDateTime handleDT, LocalDateTime endDT, int handleState, int comment_idx);
     List<MasterVO> getReplyList(MasterVO vo);
@@ -123,7 +123,7 @@ public interface MasterService {
     List<SalesListDTO> getAniSales();
     List<SalesListDTO> getCategorySales();
     void updateAllEndDT(int useridx, LocalDateTime endDT);
-    void insertReport(int useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, int comment_idx);
+    void insertReport(Integer useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, Integer comment_idx, Integer review_idx, Integer comunity_idx, int report_type);
     void updateReport(int idx, int handleState, LocalDateTime handleDT);
     // 전체 FAQ 개수 조회
     int getTotalFAQCount();
@@ -137,4 +137,7 @@ public interface MasterService {
     Integer findAdminIdxByAdminid(String adminid);
     boolean checkAdminDeleted(int idx);
     MasterVO adminLogin(String adminid, String adminpwd);
+    Integer findUserIdByCommentIdx(int comment_idx);
+    Integer findUserIdByReviewIdx(int review_idx);
+    Integer findUserIdByCommunityIdx(int comunity_idx);
 }

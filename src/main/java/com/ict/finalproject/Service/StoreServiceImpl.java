@@ -32,12 +32,25 @@ public class StoreServiceImpl implements StoreService {
     public List<StoreVO> getProductsByTitle(String ani_title){ return dao.getProductsByTitle(ani_title);    }
 
     @Override
-    public List<StoreVO> getPagedProducts(int pageSize, int offset, Integer category,  Integer second_category) {
-        return dao.getPagedProducts(pageSize, offset, category, second_category);
+    public List<StoreVO> getProductsByImageTitle(String ani_title){
+        return dao.getProductsByImageTitle(ani_title);
+    }
+
+//    @Override
+//    public List<StoreVO> getPagedProducts(int pageSize, int offset, Integer category,  Integer second_category) {
+//        return dao.getPagedProducts(pageSize, offset, category, second_category);
+//    }
+//    @Override
+//    public int getPagedProductsCnt(Integer category,  Integer second_category) {
+//        return dao.getPagedProductsCnt(category, second_category);
+//    }
+    @Override
+    public List<StoreVO> getPagedProducts(int pageSize, int offset, Integer category,  Integer second_category, String ani_title) {
+        return dao.getPagedProducts(pageSize, offset, category, second_category, ani_title);
     }
     @Override
-    public int getPagedProductsCnt(Integer category,  Integer second_category) {
-        return dao.getPagedProductsCnt(category, second_category);
+    public int getPagedProductsCnt(Integer category,  Integer second_category, String ani_title) {
+        return dao.getPagedProductsCnt(category, second_category, ani_title);
     }
     @Override
     public int getTotalProductCount() {

@@ -118,8 +118,8 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public List<MasterVO> getReportinguserList(MasterVO vo) {
-        return dao.getReportinguserList(vo);
+    public List<MasterVO> getReportinguserList(int offset, int pageSize,MasterVO vo) {
+        return dao.getReportinguserList(offset,pageSize,vo);
     }
 
     @Override
@@ -134,8 +134,6 @@ public class MasterServiceImpl implements MasterService {
         // 같은 useridx에 대한 모든 endDT 업데이트
         dao.updateAllEndDT(useridx, endDT);
 
-        // t_ban에 새로운 제재 추가
-        dao.insertReport(useridx, reason, stopDT, endDT, comment_idx);
     }
 
     @Override
@@ -559,9 +557,18 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public void insertReport(int useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, int comment_idx) {
-        dao.insertReport(useridx,reason,stopDT,endDT,comment_idx);
+    public void insertReport(Integer useridx, String reason, LocalDateTime stopDT, LocalDateTime endDT, Integer comment_idx, Integer review_idx, Integer comunity_idx, int report_type) {
+        System.out.println("Inserting report with values: " +
+                "useridx=" + useridx +
+                ", reason=" + reason +
+                ", stopDT=" + stopDT +
+                ", endDT=" + endDT +
+                ", comment_idx=" + comment_idx +
+                ", review_idx=" + review_idx +
+                ", comunity_idx=" + comunity_idx);
+        dao.insertReport(useridx, reason, stopDT, endDT, comment_idx, review_idx, comunity_idx, report_type);
     }
+
 
     @Override
     public void updateReport(int idx, int handleState, LocalDateTime handleDT) {
@@ -611,6 +618,21 @@ public class MasterServiceImpl implements MasterService {
     @Override
     public MasterVO adminLogin(String adminid, String adminpwd) {
         return dao.adminLogin(adminid, adminpwd);
+    }
+
+    @Override
+    public Integer findUserIdByCommentIdx(int comment_idx) {
+        return dao.findUserIdByCommentIdx(comment_idx);
+    }
+
+    @Override
+    public Integer findUserIdByReviewIdx(int review_idx) {
+        return dao.findUserIdByReviewIdx(review_idx);
+    }
+
+    @Override
+    public Integer findUserIdByCommunityIdx(int comunity_idx) {
+        return dao.findUserIdByCommunityIdx(comunity_idx);
     }
 
     @Override
