@@ -64,6 +64,7 @@ public class noticeController {
         pVO = new PagingVO(page, totalElements, size);
         pVO.setForNotice(keyword);
 
+        //페이징 조건에 맞는 공지사항 목록 조회
         List<NoticeVO> list = noticeService.getNotices(pVO);
 
         // FAQ 목록 가져오기

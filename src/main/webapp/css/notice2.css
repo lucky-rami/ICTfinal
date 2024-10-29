@@ -318,6 +318,12 @@ a:hover {
 }
 
 
+.pagination {
+    --bs-pagination-bg: unset; /* 배경색 제거 */
+    --bs-pagination-border-width: unset; /* 보더 두께 제거 */
+}
+
+
 .FAQList table tr td:last-child {
     text-align: left;
 }

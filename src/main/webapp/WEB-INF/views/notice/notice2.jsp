@@ -162,7 +162,6 @@
 
                             </ul>
                         </div>
-
                 </div>
 
                 <!-- 자주 묻는 질문 -->
@@ -436,6 +435,18 @@ function checkLoginStatus() {
 
     // 페이지 로드 시 검색바 고정 (공지사항 탭에서 시작할 경우)
     toggleSearchBar(true);  // 페이지 로드 시 항상 공지사항에는 검색바가 표시
+
+
+    // 페이지 번호를 클릭했을 때 페이지 이동 함수
+    function reloadPage(page) {
+        console.log("선택한 페이지 번호: " + page);
+
+        // 검색 키워드 값을 가져오기
+        const searchKeyword = document.getElementById("textSearch").value || '';
+
+        // URL 파라미터에 페이지와 검색 키워드를 추가하여 페이지 이동
+        window.location.href = "/notice2?page=" + page + "&keyword=" + encodeURIComponent(searchKeyword);
+    }
 
     //여기에 이벤트 펑션없이
 
