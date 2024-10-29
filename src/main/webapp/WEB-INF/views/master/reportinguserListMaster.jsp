@@ -8,6 +8,7 @@
 
 <div class="reportinguserList-list-container">
 <!-- 사용자 요약 정보 -->
+<h2>신고 목록</h2>
         <div class="summary">
             <div>
                 <strong>총 신고 수</strong>
@@ -26,7 +27,7 @@
                 <p id="newUsers">1 명</p>
             </div>
         </div>
-            <h2>신고 목록</h2>
+
             <!-- 신고 목록 테이블 -->
             <table class="reportinguserList-list table table-hover table-bordered">
                 <thead class="table-light">
@@ -71,7 +72,7 @@
                        </td>
                        <td>${reportinguser.handleDT}</td>
                        <td>
-                           <button class="btn btn-outline-success btn-sm addReportBtn"
+                           <button class="btn btn-outline-secondary btn-sm addReportBtn"
                                    data-userid="${reportinguser.userid}"
                                    data-comment-idx="${reportinguser.comment_idx}"
                                    data-review-idx="${reportinguser.review_idx}"
@@ -136,7 +137,7 @@
                             <!-- 모달 하단 버튼 -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                                <button type="submit" class="btn btn-primary">신고 제출</button>
+                                <button type="submit" class="btn btn-danger" style="background:var(--primary); border:0">신고 제출</button>
                             </div>
                         </form>
                     </div>

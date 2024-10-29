@@ -12,21 +12,21 @@
 <div><input type="hidden" id="idx" name="idx" value="${event.idx}"></div>
 <div><input type="hidden" id="token" name="token" value="${token}"></div>
     <div>
-        <label for="title"></label>
+        <label for="title">제목</label>
         <input type="text" id="title" name="title" value="${event.title}">
     </div>
 
     <div>
-        <label for="내용"></label>
+        <label for="내용">내용</label>
         <textarea id="content" name="content" rows="10">${event.content}</textarea>
     </div>
      <div>
-                    <label for="event_date">출시일:</label>
-                    <input type="date" id="event_date" name="event_date" value="${event.event_date}">
-                </div>
+            <label for="event_date">출시일:</label>
+            <input type="date" id="event_date" name="event_date" value="${event.event_date}">
+        </div>
 
         <div>
-        <label for="셈네일 이미지"></label>
+        <label for="셈네일 이미지">썸네일</label>
         <input type="file" id="thumfile" name="thumfile" accept="image/*">
         </div>
     <div>

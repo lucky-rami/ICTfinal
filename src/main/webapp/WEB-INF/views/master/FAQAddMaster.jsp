@@ -88,25 +88,26 @@
 <form action="/master/FAQAddMasterOk" method="post" onsubmit="return submitfaqForm()">
         <input type="hidden" name="idx" />
         <input type="hidden" id="token" name="token" />
+
+    <div>
+         <label for="faqtype">카테고리</label>
+         <select id="code" name="code" required>
+             <option value="">카테고리 선택</option>
+             <option value="1">쇼핑</option>
+             <option value="2">계정</option>
+             <option value="3">포인트</option>
+             <option value="4">애니</option>
+             <option value="5">서비스</option>
+         </select>
+    </div>
+
     <div>
         <label for="question">질문</label>
         <input type="text" id="question" name="question" placeholder="자주 묻는 질문 제목을 입력하세요."  required>
     </div>
 
     <div>
-             <label for="faqtype">카테고리:</label>
-             <select id="code" name="code" required>
-                 <option value="">카테고리 선택</option>
-                 <option value="1">쇼핑</option>
-                 <option value="2">계정</option>
-                 <option value="3">포인트</option>
-                 <option value="4">애니</option>
-                 <option value="5">서비스</option>
-             </select>
-         </div>
-
-    <div>
-        <label for="answer">답변</label>
+        <label for="answer">답변 </label>
         <textarea id="answer" name="answer" rows="10"></textarea>
     </div>
     <div>

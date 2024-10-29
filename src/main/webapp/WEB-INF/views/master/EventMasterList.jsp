@@ -34,7 +34,7 @@
                 <th style="width:40%">제목</th>
                 <th style="width:8%">행사일</th>
                 <th style="width:8%">작성일</th>
-                <th style="width:12%">관리<a href="/master/EventAddMaster" class="btn btn-outline-success btn-sm">추가</a></th>
+                <th style="width:12%">관리<a href="/master/EventAddMaster" class="btn btn-secondary btn-sm" style="margin-left:5px">추가</a></th>
             </tr>
         </thead>
         <tbody>
@@ -46,38 +46,13 @@
                 <td>${event.regDT}</td>
                 <td>
                     <button class="btn btn-outline-secondary btn-sm"><a href="/master/EventEditMaster/${event.idx}">수정</a></button>
-                    <button class="btn btn-outline-success btn-sm viewDetails" data-idx="${event.idx}">상세보기</button>
+                    <button class="btn btn-outline-success btn-sm viewDetails btn_chaewon" data-idx="${event.idx}">상세보기</button>
                     <button class="btn btn-outline-danger btn-sm"><a href="">삭제</a></button>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-</div>
-
-<!-- 모달 창 -->
-<!-- 모달 구조 -->
-<div class="modal fade" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="eventDetailModalLabel">이벤트 상세보기</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- 이벤트 내용이 표시될 영역 -->
-                <p><strong>제목:</strong> <span id="eventTitle"></span></p>
-                <p><strong>행사일:</strong> <span id="eventDate"></span></p>
-                <div id="eventContent"></div> <!-- HTML 형식의 내용을 여기에서 렌더링 -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- 페이지네이션 -->
         <nav>
@@ -139,3 +114,28 @@
                 </c:if>
             </ul>
         </nav>
+</div>
+
+<!-- 모달 창 -->
+<!-- 모달 구조 -->
+<div class="modal fade" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventDetailModalLabel">이벤트 상세보기</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- 이벤트 내용이 표시될 영역 -->
+                <p><strong>제목:</strong> <span id="eventTitle"></span></p>
+                <p><strong>행사일:</strong> <span id="eventDate"></span></p>
+                <div id="eventContent"></div> <!-- HTML 형식의 내용을 여기에서 렌더링 -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>

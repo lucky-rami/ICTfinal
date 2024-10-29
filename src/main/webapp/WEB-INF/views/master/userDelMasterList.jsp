@@ -20,7 +20,7 @@
         <div class="search-bar">
             <div class="d-flex">
                 <input type="text" id="searchInput" class="form-control" placeholder="검색어 입력 (아이디, 이름, 이메일)">
-                <button class="btn btn-primary ms-2" onclick="searchTable()">검색</button>
+                <button class="btn btn-secondary ms-2" onclick="searchTable()" style="width:20%">검색</button>
             </div>
             <div>
                 <select class="form-select w-auto" id="filterSelect">
@@ -57,11 +57,11 @@
         <!-- 페이지네이션 -->
         <nav>
             <ul class="pagination justify-content-center">
-                <li class="page-item"><a class="page-link" href="#">이전</a></li>
+                <li class="page-item"><a class="page-link" href="#"><</a></li>
                 <li class="page-item"><a class="page-link" href="#">1</a></li>
                 <li class="page-item"><a class="page-link" href="#">2</a></li>
                 <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">다음</a></li>
+                <li class="page-item"><a class="page-link" href="#">></a></li>
             </ul>
         </nav>
     </div>

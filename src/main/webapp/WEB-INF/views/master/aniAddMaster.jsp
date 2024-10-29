@@ -54,7 +54,7 @@
         </div>
 
         <div>
-            <input type="submit" value="애니 추가">
+            <input type="submit" value="애니 등록하기">
         </div>
     </form>
 </div>

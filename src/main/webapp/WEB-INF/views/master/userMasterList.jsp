@@ -19,7 +19,7 @@
                 <p id="newUsers">${newUsers}  명</p>
             </div>
             <div>
-                <strong>7일간 가입한 사용자 수</strong>
+                <strong>일주일간 가입한 사용자 수</strong>
                 <p id="newSignups">${newSignups}  명</p>
             </div>
         </div>
@@ -27,8 +27,8 @@
         <!-- 검색 및 필터 기능 -->
         <div class="search-bar">
             <div class="d-flex">
-                <input type="text" id="searchInput" class="form-control" placeholder="검색어 입력 (아이디, 이름, 이메일)">
-                <button class="btn btn-primary ms-2" onclick="searchTable()">검색</button>
+                <input type="text" id="searchInput" class="form-control" placeholder="검색어 입력 (아이디, 이름, 이메일)" style="width:100%">
+                <button class="btn btn-secondary ms-2" onclick="searchTable()" style="width:20%">검색</button>
             </div>
         </div>
 

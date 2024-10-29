@@ -17,13 +17,13 @@
 
         <!-- 제목 -->
         <div>
-            <label for="title">제목:</label>
+            <label for="title">제목</label>
             <input type="text" id="title" name="title" value="${noticeEdit.title}" required>
         </div>
 
         <!-- 내용 (CKEditor 적용) -->
         <div>
-            <label for="content">내용:</label>
+            <label for="content">내용</label>
             <textarea id="content" name="content" rows="10" required>${noticeEdit.content}</textarea>
         </div>
 

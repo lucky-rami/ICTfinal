@@ -56,7 +56,7 @@
                        <td>${ban.endDT}</td>
                        <td>${ban.report_count}</td>  <!-- 신고 횟수 출력 -->
                        <td>
-                           <button class="btn btn-outline-primary btn-sm">메모</button>
+                           <button class="btn btn-outline-secondary btn-sm">메모</button>
                            <button class="btn btn-outline-danger btn-sm">삭제</button>
                        </td>
                    </tr>

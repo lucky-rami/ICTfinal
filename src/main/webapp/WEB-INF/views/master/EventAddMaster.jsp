@@ -10,22 +10,22 @@
 <h2>이벤트 등록</h2>
 <form id="eventAddForm" action="/master/EventAddMasterOk" method="post" enctype="multipart/form-data">
     <div>
-        <label for="title"></label>
+        <label for="title">제목</label>
         <input type="text" id="title" name="title" placeholder="이벤트 제목을 입력하세요.">
     </div>
 
     <div>
-        <label for="내용"></label>
+        <label for="내용">내용</label>
         <textarea id="content" name="content" rows="10"></textarea>
     </div>
 
     <div>
-                <label for="event_date">출시일:</label>
+                <label for="event_date">출시일</label>
                 <input type="date" id="event_date" name="event_date">
             </div>
 
     <div>
-    <label for="셈네일 이미지"></label>
+    <label for="셈네일 이미지">썸네일</label>
     <input type="file" id="thumfile" name="thumfile" accept="image/*">
     </div>
     <div>
