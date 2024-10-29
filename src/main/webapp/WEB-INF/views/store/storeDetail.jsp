@@ -84,7 +84,7 @@
                     <!-- 구매 버튼 -->
                     <div class="buy-buttons">
                         <button class="add-to-cart basket_in_btn">장바구니</button>
-                        <button class="buy-now basket_in_btn">바로 구매</button>
+                        <button class="buy-now order_buy_btn">바로 구매</button>
                     </div>
         </div>
         
