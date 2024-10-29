@@ -2,7 +2,7 @@
 .product-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 50px 0;
     background-color: white;
 }
 
@@ -75,6 +75,11 @@
 #likeHeart {
     font-size: 20px;
     cursor: pointer;
+}
+
+.fa-heart{
+    color : rgb(190, 31, 17);
+    margin:0;
 }
 
 
@@ -752,6 +757,13 @@ font-size : 2em;
     gap:5px;
     font-size:1.8em;
     color: rgb(190, 31, 17);
+    align-items:center;
+}
+
+.like-count{
+    font-size: 0.8em;
+    color: #303030;
+    display:none;
 }
 
 .selection-box div{

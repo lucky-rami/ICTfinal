@@ -36,7 +36,7 @@
                   <div class="like-icon" data-product-id="${storeDetail.idx}">
                       <i class="like-heart ${storeDetail.liked != null && storeDetail.liked == 1 ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i>
                   </div>
-                  <!-- <span class="like-count">${storeDetail.likeCount}</span> -->
+                  <span class="like-count">${storeDetail.likeCount}</span>
                 </div>
             </div>
 
