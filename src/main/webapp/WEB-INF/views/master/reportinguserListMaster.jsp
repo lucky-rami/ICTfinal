@@ -31,13 +31,13 @@
             <table class="reportinguserList-list table table-hover table-bordered">
                 <thead class="table-light">
                     <tr>
-                        <th style="width:2%"><input type="checkbox" name="selectAll" id="selectAll"/></th>
+                        <th style="width:2%"></th>
                         <th style="width:5%">No</th>
                         <th style="width:25%">내용</th>
                         <th style="width:10%">신고아이디</th>
                         <th style="width:10%">처리현황</th>
                         <th style="width:10%">처리날짜</th>
-                        <th style="width:12%">관리</th>
+                        <th style="width:12%"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,7 +79,6 @@
                                    data-report-type="${reportinguser.report_type}">
                                신고내역추가
                            </button>
-                           <button class="btn btn-outline-danger btn-sm deleteBtn" data-idx="${reportinguser.idx}">삭제</button>
                        </td>
                    </tr>
                </c:forEach>

@@ -10,7 +10,7 @@
              <table class="FAQ-list table table-hover table-bordered">
                  <thead class="table-light">
                      <tr>
-                         <th style="width:5%">No.</th>
+                         <th style="width:5%">NO</th>
                          <th style="width:6%">카테고리</th>
                          <th style="width:60%">제목</th>
                          <th style="width:15%">작성일</th>
@@ -21,12 +21,21 @@
                  <c:forEach var="faq" items="${faqList}">
                      <tr>
                          <td>${faq.idx}</td>
-                         <td>${faq.faqtype}</td>
+                         <td>
+                             <c:choose>
+                                 <c:when test="${faq.faqtype == 1}">쇼핑</c:when>
+                                 <c:when test="${faq.faqtype == 2}">계정</c:when>
+                                 <c:when test="${faq.faqtype == 3}">포인트</c:when>
+                                 <c:when test="${faq.faqtype == 4}">애니</c:when>
+                                 <c:when test="${faq.faqtype == 5}">서비스</c:when>
+                                 <c:otherwise>알 수 없음</c:otherwise>
+                             </c:choose>
+                         </td>
                          <td>${faq.question}</td>
                          <td>${faq.regDT}</td>
                          <td>
                              <button class="btn btn-outline-secondary btn-sm" data-idx><a href="/master/FAQEditMaster/${faq.idx}">수정</a></button>
-                             <button class="btn btn-outline-danger btn-sm">삭제</button>
+                             <button class="btn btn-outline-danger btn-sm deleteFaqBtn" data-idx="${faq.idx}">삭제</button>
                          </td>
                      </tr>
                      </c:forEach>

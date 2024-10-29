@@ -32,7 +32,11 @@ public interface MasterService {
     boolean checkUserDelected(int idx);
     Integer findUserIdxByUserid(String userid);
     List<MasterVO> getMemberDelList(MasterVO vo);
-    List<MasterVO> getReportinguserList(int offset, int pageSize,MasterVO vo);
+    List<MasterVO> getReportinguserList(MasterVO vo);
+    void deleteFaq(int idx);
+    void deleteBoard(int idx);
+    int getTodayBoardCount();  // 오늘 작성된 게시글 수
+    int getLastWeekBoardCount();
     void updateReportAndBan(int idx, Integer useridx, String reason, LocalDateTime stopDT,
                             LocalDateTime handleDT, LocalDateTime endDT, int handleState, int comment_idx);
     List<MasterVO> getReplyList(MasterVO vo);

@@ -232,7 +232,7 @@
 
 // ------------------------------------------------------
 // 일/월별 매출 관리
-
+let combinedChart;
  $(document).ready(function() {
      $.ajax({
          type: 'GET',

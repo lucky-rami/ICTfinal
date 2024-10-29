@@ -3,22 +3,24 @@
 <%@include file="/WEB-INF/inc/Masterheader.jspf" %>
 <title>DashBoard - 게시판 전체 목록</title>
 <link href="/css/masterStyle.css" rel="stylesheet" type="text/css"></link>
+<script src="/js/Master.js"></script>
 <div class="boardManagement">
             <h2>게시판 전체 목록</h2>
             <div class="summary">
-                        <div>
-                            <strong>총 게시글 수</strong>
-                            <p id="totalBoard">${totalUser} 명</p>
-                        </div>
-                        <div>
-                            <strong>오늘 작성된 게시글 수 </strong>
-                            <p id="newUsers">${newUsers}  명</p>
-                        </div>
-                        <div>
-                            <strong>7일간 작성된 게시글 수</strong>
-                            <p id="newSignups">${newSignups}  명</p>
-                        </div>
-                    </div>
+                <div>
+                    <strong>총 게시글 수</strong>
+                    <p id="totalBoard">${totalBoard} 개</p>
+                </div>
+                <div>
+                    <strong>오늘 작성된 게시글 수</strong>
+                    <p id="todayBoard">${todayBoard} 개</p>
+                </div>
+                <div>
+                    <strong>7일간 작성된 게시글 수</strong>
+                    <p id="lastWeekBoard">${lastWeekBoard} 개</p>
+                </div>
+            </div>
+
             <table class="table table-hover table-bordered">
                 <thead class="table-light">
                     <tr>
@@ -51,7 +53,7 @@
                         <td>${board.hit}</td>
                         <td>
                             <a href="/cmView/${board.idx}" class="btn btn-outline-success btn-sm">상세보기</a>
-                            <a href="#" class="btn btn-outline-danger btn-sm" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                            <button class="btn btn-outline-danger btn-sm deleteBoardBtn" data-idx="${board.idx}">삭제</button>
                         </td>
                     </tr>
                     </c:forEach>

@@ -118,8 +118,28 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public List<MasterVO> getReportinguserList(int offset, int pageSize,MasterVO vo) {
-        return dao.getReportinguserList(offset,pageSize,vo);
+    public List<MasterVO> getReportinguserList(MasterVO vo) {
+        return dao.getReportinguserList(vo);
+    }
+
+    @Override
+    public void deleteFaq(int idx) {
+        dao.deleteFaq(idx);
+    }
+
+    @Override
+    public void deleteBoard(int idx) {
+        dao.deleteBoard(idx);
+    }
+
+    @Override
+    public int getTodayBoardCount() {
+        return dao.getTodayBoardCount();
+    }
+
+    @Override
+    public int getLastWeekBoardCount() {
+        return dao.getLastWeekBoardCount();
     }
 
     @Override

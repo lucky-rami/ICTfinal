@@ -60,8 +60,12 @@ public interface MasterDAO {
     List<MasterVO> getMemberDelList(MasterVO vo);
 
     // 회원이 신고 한 유저 목록 구하기
-    List<MasterVO> getReportinguserList(int offset, int pageSize,MasterVO vo);
+    List<MasterVO> getReportinguserList(MasterVO vo);
+    void deleteFaq(int idx);
 
+    int getTodayBoardCount();  // 오늘 작성된 게시글 수
+    int getLastWeekBoardCount();
+    void deleteBoard(int idx);
     // 신고 내역을 t_report 테이블에 삽입
     void updateReport(@Param("idx") int idx, @Param("handleState") int handleState, @Param("handleDT") LocalDateTime handleDT);
 

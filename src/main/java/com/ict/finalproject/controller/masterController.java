@@ -252,24 +252,10 @@ public class masterController {
 
     // Dashboard - 회원관리 - 신고계정목록 리스트
     @GetMapping("/reportinguserListMaster")
-    public ModelAndView masterReportList(
-            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
-            MasterVO vo) {
-
-        int offset = (currentPage - 1) * pageSize; // 페이징을 위한 오프셋 계산
-
-        //  신고 사용자 목록 조회
-        List<MasterVO> reportinguserList = masterService.getReportinguserList(offset, pageSize, vo);
-
-        // 전체 신고 사용자 수를 가져와서 총 페이지 수 계산
-        int totalUsers = masterService.getTotalReportingUserCount();
-        int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
-
-        ModelAndView mav = new ModelAndView();
+    public ModelAndView masterReportList(MasterVO vo) {
+        List<MasterVO> reportinguserList = masterService.getReportinguserList(vo);
+        mav = new ModelAndView();
         mav.addObject("reportinguserList", reportinguserList);
-        mav.addObject("currentPage", currentPage); // 현재 페이지
-        mav.addObject("totalPages", totalPages);   // 총 페이지 수
         mav.setViewName("master/reportinguserListMaster");
         return mav;
     }
@@ -562,12 +548,15 @@ public class masterController {
             currentPageInt = 1;
         }
 
+        // 총 게시글 수, 오늘 작성된 게시글 수, 7일간 작성된 게시글 수 가져오기
+        int totalBoard = masterService.getTotalBoardCount();
+        int todayBoard = masterService.getTodayBoardCount();
+        int lastWeekBoard = masterService.getLastWeekBoardCount();
+
         // 페이징 로직 추가
         int offset = Math.max(0, (currentPageInt - 1) * pageSize);
         List<MasterVO> boardList = masterService.getBoardListWithPaging(offset, pageSize);
 
-        // 총 게시글 수 구하기
-        int totalBoard = masterService.getTotalBoardCount();
         int totalPages = (int) Math.ceil((double) totalBoard / pageSize);
 
         ModelAndView mav = new ModelAndView();
@@ -575,9 +564,24 @@ public class masterController {
         mav.addObject("currentPage", currentPageInt);
         mav.addObject("pageSize", pageSize);
         mav.addObject("totalPages", totalPages);
+        mav.addObject("totalBoard", totalBoard);  // 총 게시글 수
+        mav.addObject("todayBoard", todayBoard);  // 오늘 작성된 게시글 수
+        mav.addObject("lastWeekBoard", lastWeekBoard);  // 7일간 작성된 게시글 수
         mav.setViewName("master/boardMasterAll");
         return mav;
     }
+
+    // 해당 idx 값의 게시물 삭제하기
+    @PostMapping("/boardMasterAllDelete/{idx}")
+    public String boardMasterAllDelete(@PathVariable("idx") int idx) {
+        System.out.println("게시글 삭제 요청: " + idx);
+
+        // 게시글 삭제
+        masterService.deleteBoard(idx);
+
+        return "redirect:/master/boardMasterAll";  // 삭제 후 게시글 목록으로 리다이렉트
+    }
+
 
 
 
@@ -1960,5 +1964,16 @@ public class masterController {
         response.put("aniSalesData", aniSalesData);
         response.put("dailySalesData", dailySalesData);
         return response;
+    }
+
+    // idx에 해당하는 자주묻는 질문 삭제
+    @PostMapping("/faqMasterDelete/{idx}")
+    public String faqMasterDelete(@PathVariable("idx") int idx) {
+        System.out.println("FAQ 삭제 요청: " + idx);
+
+        // FAQ 삭제
+        masterService.deleteFaq(idx);
+
+        return "redirect:/master/FAQMasterList";  // 삭제 후 FAQ 목록으로 리다이렉트
     }
 }
