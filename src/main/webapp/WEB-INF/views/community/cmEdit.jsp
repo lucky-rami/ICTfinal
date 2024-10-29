@@ -5,8 +5,6 @@
 
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/ckeditor/ckeditor.css"/>
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/super-build/ckeditor.js"></script>
@@ -16,29 +14,32 @@
 
 
     <section class="top_info">
-            <div class="cm_tab">
-                <h1>커뮤니티</h1>
-                <div class="cm_opt">
-                    <ul class="list">
-                        <li class="${commtype == 'all' ? 'selected' : ''}">
-                            <a href="javascript:void(0);" class="btn" onclick="showTab('all')">최신글보기</a>
-                        </li>
-                        <li class="${commtype == '10' ? 'selected' : ''}">
-                            <a href="javascript:void(0);" class="btn" onclick="showTab('10')">자랑</a>
-                        </li>
-                        <li class="${commtype == '30' ? 'selected' : ''}">
-                            <a href="javascript:void(0);" class="btn" onclick="showTab('30')">친목</a>
-                        </li>
-                        <li class="${commtype == '40' ? 'selected' : ''}">
-                            <a href="javascript:void(0);" class="btn" onclick="showTab('40')">팬아트</a>
-                        </li>
-                        <li>
-                            <a href="/notice2" class="btn">통합공지</a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="cm_tab">
+            <h1>커뮤니티</h1>
+            <div class="cm_opt">
+                <ul class="list">
+                    <li class="${commtype == 'all' ? 'selected' : ''}">
+                        <a href="javascript:void(0);" class="btn" onclick="showTab('all')">최신글보기</a>
+                    </li>
+                    <li class="${commtype == '10' ? 'selected' : ''}">
+                        <a href="javascript:void(0);" class="btn" onclick="showTab('10')">자랑</a>
+                    </li>
+                    <li class="${commtype == '20' ? 'selected' : ''}">
+                        <a href="javascript:void(0);" class="btn" onclick="showTab('20')">덕질</a>
+                    </li>
+                    <li class="${commtype == '30' ? 'selected' : ''}">
+                        <a href="javascript:void(0);" class="btn" onclick="showTab('30')">친목</a>
+                    </li>
+                    <li class="${commtype == '40' ? 'selected' : ''}">
+                        <a href="javascript:void(0);" class="btn" onclick="showTab('40')">팬아트</a>
+                    </li>
+                    <li>
+                        <a href="/notice2" class="btn">통합공지</a>
+                    </li>
+                </ul>
             </div>
-        </section>
+        </div>
+    </section>
 
 
     <div class="container">
@@ -76,6 +77,8 @@
 
         </form>
     </div>
+
+<%@include file="/WEB-INF/inc/footer.jspf" %>
 
 <script>
 
@@ -141,6 +144,9 @@
              case '10':
                  window.location.href = '/cmList?commtype=10'; // 자랑
                  break;
+             case '20':
+                 window.location.href = '/cmList?commtype=20'; // 덕질
+                 break;
              case '30':
                  window.location.href = '/cmList?commtype=30'; // 친목
                  break;
@@ -153,4 +159,3 @@
      }
  </script>
 </body>
-</html>

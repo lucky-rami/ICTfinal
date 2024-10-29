@@ -77,7 +77,7 @@ a:hover {
 
 .detail_content {
     padding: 50px 6%;
-    max-height: 500px; /* 최대 높이 */
+    height:auto;
     //overflow-y: auto;
 }
 
@@ -315,6 +315,12 @@ a:hover {
 .col-sm-1.p-2,
 .col-sm-2.p-2 {
     text-align: center;
+}
+
+
+.pagination {
+    --bs-pagination-bg: unset; /* 배경색 제거 */
+    --bs-pagination-border-width: unset; /* 보더 두께 제거 */
 }
 
 
