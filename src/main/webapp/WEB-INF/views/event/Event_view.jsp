@@ -20,8 +20,8 @@
                 <h2 class="ev_tit">${view.title}</h2> <!-- 제목 표시 -->
                 <hr/>
                 <div class="box_img">
-                    <img src="http://192.168.1.180:8000/${view.content}" alt="${view.title}"> <!-- 이미지 표시 -->
-
+                    
+                        ${view.content}
                 </div>
             </div>
         </c:forEach>
