@@ -215,10 +215,20 @@
 
 }
 
+.chaewon_more_btn{
+    background:#303030;
+    color:#fff;
+}
+
+.chaewon_more_btn:hover{
+    background:#000;
+        color:#fff;
+}
+
 /* 주의 사항 섹션 */
 .caution-section {
     background-color: #f9f9f9;
-    padding: 20px;
+    padding: 30px;
     margin-top: 20px;
     border-radius: 10px;
     font-size: 14px;
@@ -234,20 +244,28 @@
     font-size: 24px;
     margin-bottom: 15px;
     font-weight: bold;
+    padding-left: 5px;
 }
 
 .product-info-table {
     border-collapse: collapse;
     margin-bottom: 30px;
+    width: 100%;
 }
 
 .product-info-table th {
-    width: 15%;
+    width: 10%;
     padding: 12px 15px;
     font-size: 14px;
     text-align: center;
     font-weight: bold;
     background-color: #f9f9f9;
+}
+
+.caution-section h3{
+    font-size:22px;
+    font-weight:bold;
+    font-family:var(--e-font),var(--k-font) !important;
 }
 
 .product-info-table td {
@@ -275,10 +293,11 @@
 .product-details-section h2 {
     display:flex;
     flex-direction: column;
-    align-items: center;
-    font-size: 20px;
+    /*align-items: center;*/
+    font-size: 22px;
     margin-bottom: 20px;
     font-weight: bold;
+    margin-top: 100px;
 }
 
 .product-details-wrapper {
@@ -310,14 +329,19 @@
 
 /* 배송/교환/반품 섹션 */
 .shipping-exchange-return-section {
-    margin-top: 80px;
-    padding: 20px;
+    /*margin-top: 80px;*/
+    padding: 30px;
     background-color: #f9f9f9;
     border-radius: 10px;
+    color:#666;
+}
+
+.shipping-info, .exchange-info{
+    margin-bottom:20px;
 }
 
 .shipping-exchange-return-section h2 {
-    font-size: 20px;
+    font-size: 22px;
     margin-bottom: 20px;
     font-weight: bold;
 }
@@ -330,7 +354,7 @@
 
 .shipping-exchange-return-section ul {
     list-style: disc;
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 .shipping-exchange-return-section ul li {
@@ -367,7 +391,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px 0;
+    padding: 30px;
     margin-top: 60px;
     margin-bottom: 60px;
     margin-left: 25%;
@@ -376,11 +400,45 @@
 }
 
 .review-title h2{
-    font-size: 2em;
+    font-size: 24px;
 }
 
 .review-title span, .review-title p{
     color: #888;
+}
+
+.review_section{
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 8px;
+}
+
+.average-rating h3,.total-reviews h3,.review-count{
+    font-size: 24px;
+    font-weight:bold;
+}
+
+.review-count{
+    font-weight:normal;
+}
+
+.grade_avg_chaewon{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 10px;
+
+}
+
+.pro_title_h2{
+    font-size: 14px;
+    font-weight:bold;
+    text-align:center;
+}
+
+.chaewon_dot{
+    display:inline-block;
+    margin-right:5px;
 }
 
 /* 사용자 총 평점 */
@@ -391,7 +449,7 @@
 }
 
 .stars{
-font-size : 2em;
+font-size : 1.8em;
 }
 
 .filled-star {
@@ -407,11 +465,13 @@ font-size : 2em;
     font-size: 28px;
     font-weight: bolder;
     color: #333;
+    padding-top:5px;
 }
 
 .rating-number small {
     font-size: 24px;
     color: #777;
+    font-weight:normal;
 }
 
 /* 전체 리뷰수 */
@@ -421,7 +481,7 @@ font-size : 2em;
    
 }
 
-.review-count {
+/*.review-count {
     font-size: 28px;
     font-weight: bold;
     color: #333;
@@ -433,7 +493,7 @@ font-size : 2em;
     color: #777;
     margin-bottom: 10px;
     margin-right: 70px;
-}
+}*/
 
 /* 리뷰 탭과 필터를 좌우로 배치 */
 .review-tabs-and-filter {
@@ -449,7 +509,7 @@ font-size : 2em;
     justify-content: space-between; /* 좌우로 배치 */
     align-items: center; /* 세로 가운데 정렬 */
     margin-bottom: 20px; /* 아래쪽에 여백 추가 */
-    padding: 10px; /* 패딩 추가 */
+    /*padding: 10px; *//* 패딩 추가 */
 }
 
 .review-filter1 {
@@ -458,24 +518,25 @@ font-size : 2em;
 }
 
 .review-filter1 span {
-    margin-left: 50px;
+    margin-left: 10px;
     cursor: pointer;
-    margin-right: 20px;
+    margin-right: 10px;
     color: #666;
 }
 
 .review-filter1 span.active {
     font-weight: bold;
-    color: #007BFF; /* 활성화된 탭은 파란색 */
+    color: var(--primary); /* 활성화된 탭은 파란색 */
 }
 
 .review-filter1 span:hover {
-    color: #007BFF; /* 마우스 오버 시 파란색 */
+    color:  var(--primary); /* 마우스 오버 시 파란색 */
+    font-weight: bold;
 }
 
 /* 필터 (최신순/평점 높은순/평점 낮은순) 오른쪽 정렬 */
 .review-filter2 {
-    margin-right: 100px;
+    margin-right: 10px;
     font-size: 16px;
     color: #666;
 }
@@ -489,24 +550,27 @@ font-size : 2em;
 .review-filter2 span.active {
     margin-left: 20px;
     font-weight: bold;
-    color: #007BFF; /* 선택된 필터는 파란색 */
+    color: #000; /* 선택된 필터는 파란색 */
 }
 
 .review-filter2 span:hover {
-    color: #007BFF; /* 마우스 오버 시 파란색 */
+    color: #000; /* 마우스 오버 시 파란색 */
+    font-weight: bold;
 }
 
 /* 리뷰 리스트 */
 .review-item {
-    width: 95%;
-    padding: 0px auto; /* 상하 여백 줄임 */
-    display: flex;
-    justify-content: space-between;
-    border-top: 0.2px solid #999;
-    margin-bottom: 5px;
-    align-items: center;
-    margin-left: 30px;
+   width: 100%;
+       /*display: flex;
+       justify-content: space-between;*/
+       border-top: 0.2px solid #e4e4e4;
+       padding: 20px 0;
+       align-items: center;
+           border-bottom: 0.2px solid #e4e4e4;
+}
 
+#review-list .review-item:last-of-type{
+    border-bottom:0;
 }
 
 .review-nickname{
@@ -532,7 +596,7 @@ font-size : 2em;
 
 /* 리뷰 작성자 정보 */
 .reviewer-name {
-    margin-left: 10px;
+    /*margin-left: 10px;*/
     font-size: 1.1em;
     font-weight: bold;
     color: #333;
@@ -550,15 +614,19 @@ font-size : 2em;
     width: 80%;
     font-size: 1.1em;
     color: #333;
-    padding: 50px;
-    margin-bottom: 10px;
+    padding: 20px 10px;
+    /*margin-bottom: 10px;*/
+}
+
+.review-image{
+    padding: 0px 10px;
 }
 
 .review-image img {
-    float: right;
+    /*float: right;*/
     width: 120px;
     height: 120px;
-    margin-right: 10px;
+    /*margin-right: 10px;*/
     border: 1px solid #e5e5e5;
     border-radius: 4px;
 }
@@ -568,7 +636,7 @@ font-size : 2em;
 .pagination {
     width: 10%;
     margin: 0 auto;
-    margin-top: 5px;
+    margin-top: 30px;
     margin-bottom: 50px;
 
 }
@@ -771,4 +839,8 @@ font-size : 2em;
     align-items:center;
     gap:10px;
     color:#303030;
+}
+
+.chaewon_td{
+    width:40%;
 }
