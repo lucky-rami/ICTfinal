@@ -77,7 +77,7 @@ a:hover {
 
 .detail_content {
     padding: 50px 6%;
-    max-height: 500px; /* 최대 높이 */
+    height:auto;
     //overflow-y: auto;
 }
 
