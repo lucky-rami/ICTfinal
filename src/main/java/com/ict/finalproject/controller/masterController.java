@@ -120,26 +120,33 @@ public class masterController {
     // Dashboard 매핑
     @GetMapping("/masterMain")
     public ModelAndView masterMain() {
-        ModelAndView mav = new ModelAndView("master/masterMain");  // 뷰 이름을 설정
+        ModelAndView mav = new ModelAndView("master/masterMain");
 
-        // 문의 사항 테이블에서 답변 안된 문의 개수 카운트
-        int unanswerCount = masterService.getUnansweredQnaCount();
-        mav.addObject("unanswerCount", unanswerCount);  // 문의 개수 추가
+        // 요약 데이터
+        int totalUsers = masterService.getTotalUsers();  // 총 사용자 수 조회
+        int totalOrders = masterService.getTotalOrders();  // 총 주문 수 조회
+        int totalRevenue = (int) Math.round(masterService.getTotalRevenue());
 
-        // 최신 가입한 회원 정보 가져오기
-        List<MemberVO> latestMembers = service.getLatestMembers();
-        mav.addObject("latestMembers", latestMembers);  // 최신 회원 정보 추가
+        mav.addObject("totalUsers", totalUsers);  // 총 사용자 수를 Model에 추가
+        mav.addObject("totalOrders", totalOrders);  // 총 주문 수를 Model에 추가
+        mav.addObject("totalRevenue", totalRevenue);  // 총 매출액을 Model에 추가 (Double 타입 유지)
 
-        // 최신 문의 및 리뷰 활동 가져오기
-        List<MasterVO> latestActivities = masterService.getLatestActivities();
-        mav.addObject("latestActivities", latestActivities);
+        // 기타 기존 데이터
+        int unanswerCount = masterService.getUnansweredQnaCount();  // 답변되지 않은 문의 개수 조회
+        mav.addObject("unanswerCount", unanswerCount);  // 답변되지 않은 문의 개수를 Model에 추가
 
-        // 최신 주문 활동 가져오기
-        List<MasterVO> latestOrders = masterService.getRecentOrders();
-        mav.addObject("latestOrders", latestOrders);  // 최신 주문 활동 추가
+        List<MemberVO> latestMembers = service.getLatestMembers();  // 최신 가입 회원 정보 조회
+        mav.addObject("latestMembers", latestMembers);  // 최신 가입 회원 정보를 Model에 추가
+
+        List<MasterVO> latestActivities = masterService.getLatestActivities();  // 최신 활동 정보 조회
+        mav.addObject("latestActivities", latestActivities);  // 최신 활동 정보를 Model에 추가
+
+        List<MasterVO> latestOrders = masterService.getRecentOrders();  // 최신 주문 정보 조회
+        mav.addObject("latestOrders", latestOrders);  // 최신 주문 정보를 Model에 추가
 
         return mav;  // 최종 ModelAndView 반환
     }
+
 
     //Dashboard - 회원관리 - 회원 목록 리스트
     @GetMapping("/userMasterList")

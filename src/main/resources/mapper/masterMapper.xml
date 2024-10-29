@@ -601,6 +601,18 @@
     </select>
 
 
+    <select id="getTotalUsers" resultType="int">
+        SELECT COUNT(*) FROM t_user; <!-- 총 회원 수 -->
+    </select>
+
+    <select id="getTotalOrders" resultType="int">
+        SELECT COUNT(*) FROM t_order; <!-- 총 주문 수 -->
+    </select>
+
+    <select id="getTotalRevenue" resultType="double">
+        SELECT SUM(total_price) FROM t_order; <!-- 총 매출액 -->
+    </select>
+
 
 
     <!-- 전체 신고된 유저의 수 조회 -->

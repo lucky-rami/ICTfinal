@@ -130,6 +130,15 @@ public interface MasterService {
     List<Map<String, Object>> getAniSalesData();  // 애니메이션 매출 데이터 조회
     List<Map<String, Object>> getDailySalesData();
 
+    // 주문 테이블에서 총 회원 수 조회
+    int getTotalUsers();
+
+    // 주문 테이블에서 총 주문 수 조회
+    int getTotalOrders();
+
+    // 주문 테이블에서 총 매출액 조회
+    double getTotalRevenue();
+
     // 특정 범위의 FAQ 목록 조회
     List<MasterVO> getFAQListByPage(int startRecord, int pageSize);
     int getTotalEventCount(); // 전체 이벤트 개수 조회

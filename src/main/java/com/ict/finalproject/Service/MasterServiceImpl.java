@@ -590,6 +590,21 @@ public class MasterServiceImpl implements MasterService {
         return dao.getDailySalesData();
     }
 
+    @Override
+    public int getTotalUsers() {
+        return dao.getTotalUsers();
+    }
+
+    @Override
+    public int getTotalOrders() {
+        return dao.getTotalOrders();
+    }
+
+    @Override
+    public double getTotalRevenue() {
+        return dao.getTotalRevenue();
+    }
+
 
     @Override
     public List<MasterVO> getFAQListByPage(int startRecord, int pageSize) {
