@@ -20,7 +20,7 @@
                 <h2 class="ev_tit">${view.title}</h2> <!-- 제목 표시 -->
                 <hr/>
                 <div class="box_img">
-                    
+
                         ${view.content}
                 </div>
             </div>

@@ -29,7 +29,7 @@
                                 </ul>
                             </div>
                             <a href="/Event_view?idx=${newevent.idx}">
-                                <img src="/img/${newevent.thumfile}" alt="${newevent.title}" class="left-image">
+                                <img src="http://192.168.1.180:8000/${newevent.thumfile}" alt="${newevent.title}" class="left-image">
                             </a>
                         </div>
                     </div>
