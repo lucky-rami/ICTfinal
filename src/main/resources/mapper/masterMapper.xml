@@ -766,8 +766,14 @@
 
     <!-- 페이징된 이벤트 목록 조회 -->
     <select id="getEventListByPage" parameterType="map" resultType="MasterVO">
-        SELECT * FROM t_event
-        LIMIT #{startRecord}, #{pageSize}; <!-- Adjust the table name as needed -->
+        SELECT
+        *,
+        DATE_FORMAT(regDT, '%Y-%m-%d') AS regDT  -- regDT를 원하는 형식으로 포맷
+        FROM
+        t_event
+        ORDER BY
+        regDT DESC  -- 내림차순 정렬
+        LIMIT #{startRecord}, #{pageSize}
     </select>
 
     <!-- 특정 범위의 FAQ 목록 조회 쿼리 -->
