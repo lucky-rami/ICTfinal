@@ -670,22 +670,18 @@ $(document).ready(function() {
                         // 랜덤 유사 애니메이션을 HTML로 변환
                         data.randomSimilarAnis.forEach(function(ani) {
                             similarAnisHtml += `
-                                <div class="similar-ani" data-idx="${ani.idx}" data-title="${ani.title}">
-                                    <img src="http://192.168.1.180:8000/${ani.post_img}" alt="${ani.title}" style="width: 185px;" />
-                                    <h3 style="font-size: 17px; color:white;">${ani.title}</h3>
-                                </div>
+                                <li>
+                                    <div class="similar_ani_img" data-idx="${ani.idx}">
+                                        <img src="http://192.168.1.180:8000/${ani.post_img}" alt="${ani.title}"/>
+                                    </div>
+                                    <div class="similar_ani_title" data-title="${ani.title}">
+                                        <p>${ani.title}</p>
+                                    </div>
+                                </li>
                             `;
                         });
 
-                        $('.similar_ani_list').css({
-                            display: 'flex',
-                            padding: '0',
-                            gap: '5px',
-                            margin: '0',
-                            listStyleType: 'none',
-                        });
-
-                        $('.similar-ani').hover(
+                        $('.similar_ani_img img').hover(
                             function() {
                                 $(this).find('img').css({
                                     transform: 'scale(1.1)', // 이미지 확대
@@ -716,9 +712,9 @@ $(document).ready(function() {
     });
 });
 
- $(document).on('click', '.similar-ani', function (e) {
+ $(document).on('click', '.similar_ani_img', function (e) {
         e.preventDefault();
-        const title = $(this).data('title');
+        const title = $(this).closest("li").find(".similar_ani_title").data('title');
         const idx = $(this).data('idx'); // 클릭한 비슷한 애니메이션의 idx 가져오기
         console.log(title, idx);
 
