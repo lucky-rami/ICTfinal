@@ -78,6 +78,8 @@
         </form>
     </div>
 
+<%@include file="/WEB-INF/inc/footer.jspf" %>
+
 <script>
 
     setTimeout(function() {
@@ -157,4 +159,3 @@
      }
  </script>
 </body>
-</html>

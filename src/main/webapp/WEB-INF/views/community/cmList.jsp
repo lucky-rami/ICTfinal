@@ -5,8 +5,6 @@
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link href="/css/cmList.css" rel="stylesheet" type="text/css">
 </link>
@@ -162,7 +160,7 @@
 
 </div>
 
-
+<%@include file="/WEB-INF/inc/footer.jspf" %>
 <script>
 
 // 전체 탭을 클릭하면 필터를 초기화하고 탭 필터링을 수행
@@ -276,4 +274,3 @@ function checkLoginStatusForCommunity() {
 
 </body>
 
-</html>
