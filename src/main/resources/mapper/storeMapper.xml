@@ -19,6 +19,13 @@
         SELECT * FROM t_product WHERE ani_title = #{ani_title}
     </select>
 
+    <select id="getSecondCategoryListByAniTitle" parameterType="string" resultType="com.ict.finalproject.vo.StoreVO">
+        SELECT DISTINCT p.second_category, s.type AS category_name
+        FROM t_product p
+        JOIN t_secondcategory s ON p.second_category = s.code
+        WHERE p.ani_title = #{ani_title} AND p.second_category IS NOT NULL
+    </select>
+
     <!-- 페이징 처리된 상품 목록 가져오기 -->
 <!--        <select id="getPagedProducts" parameterType="map" resultType="com.ict.finalproject.vo.StoreVO">-->
 <!--            SELECT *-->

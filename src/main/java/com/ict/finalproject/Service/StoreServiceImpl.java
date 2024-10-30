@@ -35,6 +35,10 @@ public class StoreServiceImpl implements StoreService {
     public List<StoreVO> getProductsByImageTitle(String ani_title){
         return dao.getProductsByImageTitle(ani_title);
     }
+    @Override
+    public List<StoreVO> getSecondCategoryListByAniTitle(String ani_title) {
+        return dao.getSecondCategoryListByAniTitle(ani_title); // DAO 호출
+    }
 
 //    @Override
 //    public List<StoreVO> getPagedProducts(int pageSize, int offset, Integer category,  Integer second_category) {
