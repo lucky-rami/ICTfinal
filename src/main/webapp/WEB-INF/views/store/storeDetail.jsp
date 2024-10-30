@@ -75,8 +75,8 @@
     
                 <div class="total-price">총 결제금액:
                     <span id="total-price">
-                        <fmt:formatNumber value="${storeDetail.price}" type="number" pattern="#,###"/>
-                    </span>원
+                        <fmt:formatNumber value="${storeDetail.price}" type="number" pattern="#,###"/> 원
+                    </span>
                     <input type="hidden" id="total" name="total" value="">
                 </div>
                     
