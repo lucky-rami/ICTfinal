@@ -106,7 +106,7 @@
         <ul class="nav" style="display: block">
           <li><a href="/aniList">애니</a></li>
           <li><a class="active">쇼핑</a></li>
-          <li><a href="#">이벤트</a></li>
+          <li><a href="/Event">이벤트</a></li>
         </ul>
         <ul class="nav_util">
         </ul>

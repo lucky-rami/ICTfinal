@@ -103,7 +103,6 @@ $('.bottom_ani_content ul').html(similarAniList); // 비슷한 애니메이션 �
                 function updateStars(grade) {
                     const stars = document.querySelectorAll('#stars .fa-star');
                     stars.forEach((star, index) => {
-
                         if (index < grade) {
                             star.classList.remove('fa-regular'); // 빈 별
                             star.classList.add('fa-solid'); // 채워진 별
@@ -111,13 +110,7 @@ $('.bottom_ani_content ul').html(similarAniList); // 비슷한 애니메이션 �
                             star.classList.remove('fa-solid');
                             star.classList.add('fa-regular');
                         }
-                          star.addEventListener("click", () => {
-                            /*stars.classList.remove('fa-regular');*/
-                            star.classList.remove('fa-solid');
-
-                            setRating(index + 1); // animodal_usergrade ID를 인자로 전달하지 않음
-                        });
-                                    });
+                    });
                 }
 
 
@@ -283,6 +276,7 @@ $(document).ready(function () {
 });
 /*@@@@@@@@@@@@@@@@@@@@@오른쪽 필터@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 // 애니메이션 목록을 서버에서 받아오는 함수
+// 애니메이션 목록을 가져오는 함수
 function fetchAniList() {
     $.ajax({
         url: "/aniList", // 모든 애니메이션 목록을 가져오는 URL
@@ -299,20 +293,20 @@ function fetchAniList() {
 
 // 정렬 함수
 function sortAniList(sortCriteria) {
-    let sortedList = aniList;
+    let sortedList = aniList; // 전체 애니메이션 목록을 기준으로 정렬
 
     switch (sortCriteria) {
         case 'title':
-            sortedList = aniList.sort((a, b) => a.grade - b.grade); // 별점 기준 정렬
+            sortedList.sort((a, b) => a.title.localeCompare(b.title)); // 제목 기준 정렬
             break;
         case 'new':
-            sortedList = aniList.sort((a, b) => new Date(b.regDT) - new Date(a.regDT)); // 등록일 기준 정렬
+            sortedList.sort((a, b) => new Date(b.regDT) - new Date(a.regDT)); // 등록일 기준 정렬
             break;
         case 'popular':
-            sortedList = aniList.sort((a, b) => b.anilike - a.anilike); // 좋아요 수 기준 정렬
+            sortedList.sort((a, b) => b.anilike - a.anilike); // 좋아요 수 기준 정렬
             break;
         default:
-            sortedList = aniList; // 기본 정렬 (변경 없음)
+            break; // 기본 정렬 (변경 없음)
     }
 
     renderAniList(sortedList); // 정렬된 리스트 렌더링
@@ -329,35 +323,43 @@ function onSortChange() {
         success: function(data) {
             aniList = data; // 정렬된 목록 저장
             renderAniList(aniList); // 목록을 렌더링
-            const aniListString = JSON.stringify(aniList)
         },
         error: function(xhr, status, error) {
-            console.error("Error fetching ani list: ", error);
+            console.error("Error fetching sorted ani list: ", error);
         }
     });
 }
 
 // 애니메이션 목록을 화면에 렌더링하는 함수
 function renderAniList(list) {
+    if (!Array.isArray(list)) {
+        console.error("Provided list is not an array.");
+        return; // 배열이 아닐 경우 함수 종료
+    }
+
     let tag = '';
 
     list.forEach(function (el) {
-    console.log(el); // 디버깅용 로그
-    tag += `
-    <div class="div_li" data-anitype="`+el.anitype+`" data-agetype="`+el.agetype+`">
-        <div class="list_img_bg" data-title="`+el.title+`" data-director="`+el.director+`" data-idx="`+el.idx+`">
-            <img src="http://192.168.1.180:8000/`+el.post_img+`" alt="`+el.title+`">
-            <div class="overlay">상세 보기</div>
-        </div>
-        <p>${el.title}</p>
-        <p class="genre">
-            <span>`+el.anitype+`</span>
-            <span>`+el.agetype+`관람</span>
-        </p>
-    </div>`;
-});
+        console.log(el); // 디버깅용 로그
 
-    document.querySelector(".ani_viewList").innerHTML = tag;
+        // 이미지 URL 기본값 설정
+        const imageUrl = el.post_img ? `http://192.168.1.180:8000/${el.post_img}` : 'default-image-url.png';
+
+        tag += `
+        <div class="div_li" data-anitype="${el.anitype}" data-agetype="${el.agetype}">
+            <div class="list_img_bg" data-title="${el.title}" data-director="${el.director}" data-idx="${el.idx}">
+                <img src="${imageUrl}" alt="${el.title}">
+                <div class="overlay">상세 보기</div>
+            </div>
+            <p>${el.title}</p>
+            <p class="genre">
+                <span>${el.anitype}</span>
+                <span>${el.agetype} 관람</span>
+            </p>
+        </div>`;
+    });
+
+    document.querySelector(".ani_viewList").innerHTML = tag; // 생성된 HTML 추가
 
     // 렌더링 후 모달 이벤트를 다시 바인딩해야 함
     bindModalEvents();
@@ -365,7 +367,6 @@ function renderAniList(list) {
 
 // 모달을 열고 정보를 표시하는 함수
 function bindModalEvents() {
-    // .list_img_bg 요소가 존재하는지 확인
     const elements = $('.list_img_bg');
     if (elements.length === 0) {
         console.warn('No elements found with class .list_img_bg');
@@ -411,12 +412,6 @@ function bindModalEvents() {
                 `).join('');
                 $('.bottom_ani_content ul').html(similarAniList);
 
-                // 좋아요 상태 확인
-                checkLikeStatus(idx);
-
-                // 별점 상태 확인
-                checkUserRating(idx);
-
                 // 모달 열기
                 $('.animodal_body').fadeIn();
             },
@@ -433,62 +428,7 @@ function bindModalEvents() {
         $('.animodal_body').fadeOut();
     });
 }
-// 좋아요 상태 확인 함수
-function checkLikeStatus(idx) {
-    $.ajax({
-        url: '/checkLikeStatus',
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + token // 토큰 추가
-        },
-        data: { ani_idx: idx },
-        success: function (isLiked) {
-            const likeIcon = document.getElementById("likeIcon");
-            if (isLiked) {
-                likeIcon.classList.remove('fa-regular');
-                likeIcon.classList.add('fa-solid');
-            } else {
-                likeIcon.classList.remove('fa-solid');
-                likeIcon.classList.add('fa-regular');
-            }
-        },
-        error: function (error) {
-            console.error('좋아요 상태 확인 오류:', error);
-        }
-    });
-}
 
-// 별점 상태 확인 함수
-function checkUserRating(idx) {
-    $.ajax({
-        url: '/getUserRating',
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + token // 토큰 추가
-        },
-        data: { ani_idx: idx },
-        success: function (grade) {
-            updateStars(grade);
-        },
-        error: function (error) {
-            console.error('별점 상태 확인 오류:', error);
-        }
-    });
-}
-
-// 별점에 따라 별 아이콘 색칠
-function updateStars(grade) {
-    const stars = document.querySelectorAll('#stars .fa-star');
-    stars.forEach((star, index) => {
-        if (index < grade) {
-            star.classList.remove('fa-regular');
-            star.classList.add('fa-solid');
-        } else {
-            star.classList.remove('fa-solid');
-            star.classList.add('fa-regular');
-        }
-    });
-}
 // 페이지 로드 시 애니메이션 목록 요청
 $(document).ready(function() {
     fetchAniList();
@@ -523,10 +463,8 @@ function getSelectedGrade() {
 function submitRating() {
     const modal = document.getElementById('animodal_usergrade');
     const aniIdx = modal.getAttribute('data-idx'); // jQuery로 data-idx 값 가져오기
+    /*console.log("모달에서 가져온 인덱스:", aniIdx);*/
     const grade = getSelectedGrade();
-
-    const formattedGrade = parseFloat(grade).toFixed(1);
-
     const token = localStorage.getItem("token");
 
     // 유효성 검사
@@ -534,7 +472,7 @@ function submitRating() {
         alert("애니메이션 인덱스가 제공되지 않았습니다.");
         return;
     }
-    if (grade === 0.0) {
+    if (grade === 0) {
         alert("별점을 선택해 주세요.");
         return;
     }
@@ -546,7 +484,7 @@ function submitRating() {
 
     const gradeData = {
         ani_idx: aniIdx,
-        grade: formattedGrade
+        grade: grade
     };
 
     /*console.log("전송할 데이터:", gradeData);*/
@@ -678,6 +616,7 @@ function toggleLike() {
 document.addEventListener('DOMContentLoaded', () => {
     const ani_idx = document.querySelector('.animodal_usergrade').getAttribute('data-idx');
     const token = localStorage.getItem("token");
+    console.log("User ID:", useridx);
 
     // 서버에 요청하여 초기 좋아요 상태를 가져옴
     if (token) {
@@ -700,7 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 /*@@@@@@@@@@@@@@@@@@@@@비슷한 영상@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-const token = localStorage.getItem("token");
+
 $(document).ready(function() {
     // 상세보기 버튼 클릭 이벤트
     $(document).on('click', '.list_img_bg', function() {
@@ -730,22 +669,18 @@ $(document).ready(function() {
                         // 랜덤 유사 애니메이션을 HTML로 변환
                         data.randomSimilarAnis.forEach(function(ani) {
                             similarAnisHtml += `
-                                <div class="similar-ani" data-idx="${ani.idx}" data-title="${ani.title}">
-                                    <img src="http://192.168.1.180:8000/${ani.post_img}" alt="${ani.title}" style="width: 185px;" />
-                                    <h3 style="font-size: 17px; color:white;">${ani.title}</h3>
-                                </div>
+                                <li>
+                                    <div class="similar_ani_img" data-idx="${ani.idx}">
+                                        <img src="http://192.168.1.180:8000/${ani.post_img}" alt="${ani.title}"/>
+                                    </div>
+                                    <div class="similar_ani_title" data-title="${ani.title}">
+                                        <p>${ani.title}</p>
+                                    </div>
+                                </li>
                             `;
                         });
 
-                        $('.similar_ani_list').css({
-                            display: 'flex',
-                            padding: '0',
-                            gap: '5px',
-                            margin: '0',
-                            listStyleType: 'none',
-                        });
-
-                        $('.similar-ani').hover(
+                        $('.similar_ani_img img').hover(
                             function() {
                                 $(this).find('img').css({
                                     transform: 'scale(1.1)', // 이미지 확대
@@ -776,15 +711,14 @@ $(document).ready(function() {
     });
 });
 
- $(document).on('click', '.similar-ani', function (e) {
+ $(document).on('click', '.similar_ani_img', function (e) {
         e.preventDefault();
-        const title = $(this).data('title');
+        const title = $(this).closest("li").find(".similar_ani_title").data('title');
         const idx = $(this).data('idx'); // 클릭한 비슷한 애니메이션의 idx 가져오기
         console.log(title, idx);
 
         // 기존 모달을 닫고 새 AJAX 요청
         $('.animodal_body').fadeOut(function () {
-
             $.ajax({
                 url: '/aniDetail', // API URL
                 method: 'GET',
@@ -799,9 +733,7 @@ $(document).ready(function() {
                     const genre = ` 장르: ${response.anitype}`;
                     const age = ` 등급: ${response.agetype}관람`;
                     const director = response.director;
-                    const isLiked = response.isLiked; // 서버에서 받아온 좋아요 상태
-                    const userRating = response.userRating; // 서버에서 받아온 사용자 별점
-                    const averageRating = response.averageRating; // 서버에서 받아온 평균 별점
+
 
                     $('.animodal_item_infoDiv h1').text(title);
                     $('.animodal_item_imgBack img').attr('src', imageSrc);
@@ -812,20 +744,9 @@ $(document).ready(function() {
                     $('.animodal_item_infoDiv .ani_outline .summary').text(shortSummary);
                     $('.animodal_item_infoDiv .ani_outline .ouline_more').data('full-summary', summary);
 
-                       // 별점 초기화
-                    $('#stars i').removeClass('fa-solid').addClass('fa-regular'); // 모든 별을 비활성화
-                    if (userRating) {
-                        $('#stars i').slice(0, userRating).removeClass('fa-regular').addClass('fa-solid'); // 사용자의 별점만 활성화
-                    }
-                     // 좋아요 상태 업데이트
-                    if (isLiked) {
-                        $('#likeIcon').removeClass('fa-regular').addClass('fa-solid'); // 하트를 활성화
-                    } else {
-                        $('#likeIcon').removeClass('fa-solid').addClass('fa-regular'); // 하트를 비활성화
-                    }
-
-                    // 평균 별점 표시
-                    $('.ani_ageGrade .modal-grade').text(averageRating ? averageRating.toFixed(1) : '0');
+            // 별점과 좋아요 초기화
+            $('.animodal_item_infoDiv .star-rating .star').removeClass('active'); // 별점 초기화
+            $('.animodal_item_infoDiv .likes-count').text('0'); // 좋아요 초기화 (예: 0으로 설정)
                     // 새로운 모달 열기
                     $('.animodal_body').fadeIn();
                 },
