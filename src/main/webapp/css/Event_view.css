@@ -16,16 +16,16 @@ a:active {
 }
 
 .ev_tit {
-	/*overflow: hidden; */
-	font-weight: 800;
-	color: #333;
-	font-size: 40px;
-	letter-spacing: -1px;
-	word-break: keep-all;
-	text-align: center;
-	position: relative;
-
-	margin-left: 30px;
+	    /* overflow: hidden; */
+        font-weight: 800;
+        color: #333;
+        font-size: 40px;
+        letter-spacing: -1px;
+        word-break: keep-all;
+        text-align: center;
+        position: relative;
+        /* margin-left: 30px; */
+        margin-bottom: 30px;
 
 }
 
@@ -47,11 +47,6 @@ a:active {
 
 }
 
-.box_img {
-	display: flex;
-	justify-content: center;
-
-}
 
 .P1 {
 	margin-top: 25px;
@@ -62,6 +57,7 @@ a:active {
 .box_but {
 	display: flex;
 	justify-content: center;
+	margin-bottom:100px;
 }
 
 .but {
@@ -87,3 +83,27 @@ a:active {
 		top: 700px;
 		left: 500px;
 	}
+
+	/*.event_view_container{
+	    margin:0 auto;
+	}*/
+
+	.event_view_info{
+	    max-width:1500px;
+	    margin:0 auto;
+	}
+
+	.event_top span{
+        display: inline-block;
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #ffffff;
+            padding: 10px 45px;
+            background-color: rgb(0, 0, 0, 0.85);
+            border-radius: 40px;
+    }
+
+    .event_top{
+        text-align: center;
+        margin-bottom: 30px;
+    }

@@ -34,7 +34,7 @@
                 <th style="width:40%">제목</th>
                 <th style="width:8%">행사일</th>
                 <th style="width:8%">작성일</th>
-                <th style="width:12%">관리<a href="/master/EventAddMaster" class="btn btn-outline-success btn-sm">추가</a></th>
+                <th style="width:12%">관리<a href="/master/EventAddMaster" class="btn btn-secondary btn-sm" style="margin-left:5px">추가</a></th>
             </tr>
         </thead>
         <tbody>

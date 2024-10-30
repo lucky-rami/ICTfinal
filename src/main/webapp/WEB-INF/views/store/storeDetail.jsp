@@ -106,7 +106,7 @@
         <table class="product-info-table">
             <tr>
                 <th>출시일</th>
-                <td>${storeDetail.relDT}</td>
+                <td class="chaewon_td">${storeDetail.relDT}</td>
                 <th>정가</th>
                 <td> <fmt:formatNumber value="${storeDetail.price}" type="number" pattern="#,###"/> 원</td>
             </tr>
@@ -116,7 +116,7 @@
             </tr>
             <tr>
                 <th>작품명</th>
-                <td><a>#${storeDetail.ani_title}</a></td>
+                <td class="chaewon_td"><a>#${storeDetail.ani_title}</a></td>
                 <th>브랜드</th>
                 <td><a>#${storeDetail.brand}</a></td>
             </tr>
@@ -138,7 +138,7 @@
 
         <!-- 텍스트와 이미지 섹션 -->
         <div class="product-details-section">
-            <h2>${storeDetail.title}</h2>
+            <h2 class="pro_title_h2">${storeDetail.title}</h2>
             <div class="product-details-wrapper">
                 <!-- 이미지 섹션 -->
                 <div class="product-image">
@@ -148,7 +148,7 @@
 
                           <!-- 상품 설명 섹션 -->
                 <div class="product-description-section">
-                    <button class="toggle-description btn btn-secondary btn-lg" onclick="toggleDescription()">상품정보 더보기▼</button>
+                    <button class="toggle-description btn  btn-lg chaewon_more_btn" onclick="toggleDescription()">상품정보 더보기▼</button>
             </div>
 
 
@@ -162,29 +162,31 @@
    
 
         <!-- 배송/교환/반품 섹션 추가 -->
-    <div class="shipping-exchange-return-section">
+    <div>
         <h2>배송/교환/반품</h2>
-        <div class="shipping-info">
-            <h3>배송정보</h3>
-            <ul>
-                <li>발송 시기는 예고 없이 변경될 수 있습니다.</li>
-                <li>입고 상품의 배송 기간은 2~7일이 소요될 수 있습니다.</li>
-                <li>운송장 번호는 "마이 쇼핑 - 주문 내역 - 배송 정보"에서 확인 가능합니다.</li>
-            </ul>
-        </div>
-        <div class="exchange-info">
-            <h3>교환</h3>
-            <ul>
-                <li>상품을 수령하신 후 교환이 필요할 시 교환 조건에 따라 가능합니다.</li>
-                <li>상품 수령 후 7일 이내에 교환이 가능합니다.</li>
-            </ul>
-        </div>
-        <div class="return-info">
-            <h3>반품 및 환불</h3>
-            <ul>
-                <li>반품은 배송 완료 후 7일 이내에 가능하며, 제품에 손상이 없는 경우에 한해 환불이 진행됩니다.</li>
-                <li>반품 시 택배비는 고객님께서 부담하셔야 합니다.</li>
-            </ul>
+        <div class="shipping-exchange-return-section">
+            <div class="shipping-info">
+                <h3>배송정보</h3>
+                <ul>
+                    <li><span class="chaewon_dot">•</span> 발송 시기는 예고 없이 변경될 수 있습니다.</li>
+                    <li><span class="chaewon_dot">•</span> 입고 상품의 배송 기간은 2~7일이 소요될 수 있습니다.</li>
+                    <li><span class="chaewon_dot">•</span> 운송장 번호는 "마이페이지 - 주문/배송조회"에서 확인 가능합니다.</li>
+                </ul>
+            </div>
+            <div class="exchange-info">
+                <h3>교환</h3>
+                <ul>
+                    <li><span class="chaewon_dot">•</span> 상품을 수령하신 후 교환이 필요할 시 교환 조건에 따라 가능합니다.</li>
+                    <li><span class="chaewon_dot">•</span> 상품 수령 후 7일 이내에 교환이 가능합니다.</li>
+                </ul>
+            </div>
+            <div class="return-info">
+                <h3>반품 및 환불</h3>
+                <ul>
+                    <li><span class="chaewon_dot">•</span> 반품은 배송 완료 후 7일 이내에 가능하며, 제품에 손상이 없는 경우에 한해 환불이 진행됩니다.</li>
+                    <li><span class="chaewon_dot">•</span> 반품 시 택배비는 고객님께서 부담하셔야 합니다.</li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -198,10 +200,13 @@
     <!-- 상품 리뷰 제목 -->
     <div class="review-title">
         <h2>상품리뷰</h2>
-        <p>상품을 구매하신 분들만 본인이 작성하신 리뷰만 있습니다. 리뷰 작성시 아래 금액만큼 포인트가 적립됩니다.</p>
-        <div class="review-stats">
-            <span>텍스트 리뷰: 50원</span>
-            <span>포토/동영상 리뷰: 150원</span>
+        <div class="shipping-exchange-return-section review_section">
+            <p><span class="chaewon_dot">•</span> 상품을 구매하신 분들이 작성한 리뷰 내역입니다.</p>
+            <div class="review-stats">
+                <span><span class="chaewon_dot">•</span> 리뷰는 "마이페이지 - 리뷰내역"에서 작성하실 수 있습니다.</span>
+                <br>
+                <span><span class="chaewon_dot">•</span> 리뷰 운영 규정에 어긋난다고 판단되는 게시글은 신고 및 사전 통보 없이 블라인드 처리될 수 있습니다.</span>
+            </div>
         </div>
     </div>
 
@@ -209,18 +214,20 @@
     <div class="review-summary">
        <div class="average-rating">
            <h3>사용자 총 평점</h3>
-           <div class="stars">
-               <c:forEach var="i" begin="1" end="5">
-                   <i class="${i <= averageRating ? 'fa-solid fa-star' : 'fa-regular fa-star'}"></i>
-               </c:forEach>
-           </div>
-           <div class="rating-number">
-               ${averageRating} <small>/5</small>
+           <div class="grade_avg_chaewon">
+               <div class="stars">
+                   <c:forEach var="i" begin="1" end="5">
+                       <i class="${i <= averageRating ? 'fa-solid fa-star' : 'fa-regular fa-star'}"></i>
+                   </c:forEach>
+               </div>
+               <div class="rating-number">
+                   ${averageRating} <small>/5</small>
+               </div>
            </div>
        </div>
         <div class="total-reviews">
             <h3>전체 리뷰수</h3>
-            <div class="review-count">${reviewCount}</div>
+            <div class="review-count">${reviewCount}개</div>
         </div>
     </div>
 
@@ -245,7 +252,7 @@
                 <div class="review-content-container">
                     <div>
                         <!-- 별점 출력 -->
-                        <div>
+                        <div style="margin-bottom:10px">
                             <c:forEach var="i" begin="1" end="5">
                                 <i class="${i <= averageRating ? 'fa-solid fa-star' : 'fa-regular fa-star'}"></i>
                             </c:forEach>

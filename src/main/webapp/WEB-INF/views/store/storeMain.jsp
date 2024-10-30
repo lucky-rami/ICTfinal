@@ -33,20 +33,25 @@
 <section class="banner" id="banner">
     <div class="carousel-banner-images" id="slider-div">
     <div class="slide">
-        <a href="/storeList?title=hololive">
+        <a href="/storeDetail/16716">
             <img src="img/store/111.png" alt="Main Banner1">
         </a>
     </div>
      <div class="slide">
-         <a href="/storeList?title=나 혼자만 레벨업">
+         <a href="/storeDetail/">
              <img src="img/store/222.png" alt="Main Banner2">
          </a>
      </div>
   <div class="slide">
-      <a href="/storeList?title=블루 아카이브">
+      <a href="/storeDetail/16602">
           <img src="img/store/333.png" alt="Main Banner3">
       </a>
   </div>
+  <div class="slide">
+        <a href="/storeDetail/16522">
+            <img src="img/store/444.png" alt="Main Banner3">
+        </a>
+    </div>
     </div>
 </section>
 <section>

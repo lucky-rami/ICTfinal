@@ -45,7 +45,7 @@
                                 data-content="${qna.content}"
                                 data-reply="${qna.reply}"
                                 data-attachment="${qna.attachmentUrl}">답변</button>
-                        <button class="btn btn-outline-info btn-sm"
+                        <button class="btn btn-outline-info btn-sm btn_chaewon"
                                        data-idx="${qna.idx}"
                                        data-content="${qna.content}"
                                        data-reply="${qna.reply}"
@@ -55,6 +55,59 @@
              </c:forEach>
          </tbody>
      </table>
+     <!-- 페이지네이션 -->
+    <nav>
+           <ul class="pagination justify-content-center">
+               <c:set var="pageGroupSize" value="5" />
+               <c:set var="startPage" value="${((currentPage - 1) / pageGroupSize) * pageGroupSize + 1}" />
+               <c:set var="endPage" value="${startPage + pageGroupSize - 1 > totalPages ? totalPages : startPage + pageGroupSize - 1}" />
+
+               <!-- 첫 번째 페이지로 이동 -->
+               <c:if test="${startPage > 1}">
+                   <li class="page-item">
+                       <a class="page-link" href="/master/QNAMasterList?currentPage=1&pageSize=${pageSize}">
+                           &laquo;&laquo;
+                       </a>
+                   </li>
+               </c:if>
+
+               <!-- 이전 그룹으로 이동 -->
+               <c:if test="${startPage > 1}">
+                   <li class="page-item">
+                       <a class="page-link" href="/master/QNAMasterList?currentPage=${startPage - 1}&pageSize=${pageSize}">
+                           &lsaquo;
+                       </a>
+                   </li>
+               </c:if>
+
+               <!-- 페이지 번호 -->
+               <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                   <li class="page-item ${i == currentPage ? 'active' : ''}">
+                       <a class="page-link" href="/master/QNAMasterList?currentPage=${i}&pageSize=${pageSize}">
+                           ${i}
+                       </a>
+                   </li>
+               </c:forEach>
+
+               <!-- 다음 그룹으로 이동 -->
+               <c:if test="${endPage < totalPages}">
+                   <li class="page-item">
+                       <a class="page-link" href="/master/QNAMasterList?currentPage=${endPage + 1}&pageSize=${pageSize}">
+                           &rsaquo;
+                       </a>
+                   </li>
+               </c:if>
+
+               <!-- 마지막 페이지로 이동 -->
+               <c:if test="${endPage < totalPages}">
+                   <li class="page-item">
+                       <a class="page-link" href="/master/QNAMasterList?currentPage=${totalPages}&pageSize=${pageSize}">
+                           &raquo;&raquo;
+                       </a>
+                   </li>
+               </c:if>
+           </ul>
+       </nav>
  </div>
 
 
@@ -88,7 +141,7 @@
                      <div id="attachmentSection"></div> <!-- 첨부 파일 영역 -->
                      <div class="modal-footer">
                          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                         <button type="submit" class="btn btn-primary">답변 제출</button>
+                         <button type="submit" class="btn btn-primary" style="background:var(--primary); border:0">답변 제출</button>
                      </div>
                  </form>
              </div>
@@ -117,56 +170,3 @@
       </div>
     </div>
  </div>
- <!-- 페이지네이션 -->
-               <nav>
-                          <ul class="pagination justify-content-center">
-                              <c:set var="pageGroupSize" value="5" />
-                              <c:set var="startPage" value="${((currentPage - 1) / pageGroupSize) * pageGroupSize + 1}" />
-                              <c:set var="endPage" value="${startPage + pageGroupSize - 1 > totalPages ? totalPages : startPage + pageGroupSize - 1}" />
-
-                              <!-- 첫 번째 페이지로 이동 -->
-                              <c:if test="${startPage > 1}">
-                                  <li class="page-item">
-                                      <a class="page-link" href="/master/QNAMasterList?currentPage=1&pageSize=${pageSize}">
-                                          &laquo;&laquo;
-                                      </a>
-                                  </li>
-                              </c:if>
-
-                              <!-- 이전 그룹으로 이동 -->
-                              <c:if test="${startPage > 1}">
-                                  <li class="page-item">
-                                      <a class="page-link" href="/master/QNAMasterList?currentPage=${startPage - 1}&pageSize=${pageSize}">
-                                          &lsaquo;
-                                      </a>
-                                  </li>
-                              </c:if>
-
-                              <!-- 페이지 번호 -->
-                              <c:forEach var="i" begin="${startPage}" end="${endPage}">
-                                  <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                      <a class="page-link" href="/master/QNAMasterList?currentPage=${i}&pageSize=${pageSize}">
-                                          ${i}
-                                      </a>
-                                  </li>
-                              </c:forEach>
-
-                              <!-- 다음 그룹으로 이동 -->
-                              <c:if test="${endPage < totalPages}">
-                                  <li class="page-item">
-                                      <a class="page-link" href="/master/QNAMasterList?currentPage=${endPage + 1}&pageSize=${pageSize}">
-                                          &rsaquo;
-                                      </a>
-                                  </li>
-                              </c:if>
-
-                              <!-- 마지막 페이지로 이동 -->
-                              <c:if test="${endPage < totalPages}">
-                                  <li class="page-item">
-                                      <a class="page-link" href="/master/QNAMasterList?currentPage=${totalPages}&pageSize=${pageSize}">
-                                          &raquo;&raquo;
-                                      </a>
-                                  </li>
-                              </c:if>
-                          </ul>
-                      </nav>
