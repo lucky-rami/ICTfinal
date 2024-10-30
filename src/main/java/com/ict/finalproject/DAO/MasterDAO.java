@@ -73,6 +73,7 @@ public interface MasterDAO {
     int getTodayBoardCount();  // 오늘 작성된 게시글 수
     int getLastWeekBoardCount();
     void deleteBoard(int idx);
+    void deleteNotice(int idx);
     // 신고 내역을 t_report 테이블에 삽입
     void updateReport(@Param("idx") int idx, @Param("handleState") int handleState, @Param("handleDT") LocalDateTime handleDT);
 

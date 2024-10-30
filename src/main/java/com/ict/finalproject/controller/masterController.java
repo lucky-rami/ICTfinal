@@ -626,6 +626,8 @@ public class masterController {
         return mav;
     }
 
+
+
     // 해당 idx 값의 게시물 삭제하기
     @PostMapping("/boardMasterAllDelete/{idx}")
     public String boardMasterAllDelete(@PathVariable("idx") int idx) {
@@ -635,6 +637,16 @@ public class masterController {
         masterService.deleteBoard(idx);
 
         return "redirect:/master/boardMasterAll";  // 삭제 후 게시글 목록으로 리다이렉트
+    }
+
+    @PostMapping("/noticeMasterListDelete/{idx}")
+    public String noticeMasterList(@PathVariable("idx") int idx) {
+        System.out.println("게시글 삭제 요청: " + idx);
+
+        // 공지사항 삭제
+        masterService.deleteNotice(idx);
+
+        return "redirect:/master/noticeMasterList";  // 삭제 후 게시글 목록으로 리다이렉트
     }
 
     @PostMapping("/boardMasterReviewDelete/{idx}")

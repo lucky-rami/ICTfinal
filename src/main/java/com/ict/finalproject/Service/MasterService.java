@@ -58,6 +58,7 @@ public interface MasterService {
     MasterVO getReviewDetail(int idx);
     boolean updateAnimation(MasterVO vo);
     MasterVO aniSelect(int idx);
+    void deleteNotice(int idx);
     String getCurrentImgFile(int idx);
     List<MasterVO> getQNAList();
     int getUnansweredQnaCount();

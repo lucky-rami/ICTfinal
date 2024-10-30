@@ -694,6 +694,10 @@
         WHERE idx = #{idx}
     </update>
 
+    <delete id="deleteNotice" parameterType="int">
+        DELETE FROM t_notice WHERE idx = #{idx}
+    </delete>
+
     <!-- 해당 신고 삭제 하기 -->
     <delete id="deleteReport" parameterType="int">
         DELETE FROM t_ban WHERE idx = #{idx}

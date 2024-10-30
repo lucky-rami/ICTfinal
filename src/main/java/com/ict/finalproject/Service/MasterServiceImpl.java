@@ -255,6 +255,11 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
+    public void deleteNotice(int idx) {
+        dao.deleteNotice(idx);
+    }
+
+    @Override
     public String getCurrentImgFile(int idx) {
         return dao.getCurrentImgFile(idx);
     }
