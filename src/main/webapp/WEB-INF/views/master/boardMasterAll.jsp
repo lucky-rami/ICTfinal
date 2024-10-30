@@ -52,7 +52,7 @@
                         <td>${board.regDT}</td>
                         <td>${board.hit}</td>
                         <td>
-                            <a href="/cmView/${board.idx}" class="btn btn-outline-success btn-sm">상세보기</a>
+                            <a href="/cmView/${board.idx}" class="btn btn-outline-success btn-sm btn_chaewon">상세보기</a>
                             <button class="btn btn-outline-danger btn-sm deleteBoardBtn" data-idx="${board.idx}">삭제</button>
                         </td>
                     </tr>

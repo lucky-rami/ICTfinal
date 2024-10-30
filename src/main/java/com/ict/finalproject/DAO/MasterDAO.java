@@ -73,6 +73,7 @@ public interface MasterDAO {
     int getTodayBoardCount();  // 오늘 작성된 게시글 수
     int getLastWeekBoardCount();
     void deleteBoard(int idx);
+    void deleteNotice(int idx);
     // 신고 내역을 t_report 테이블에 삽입
     void updateReport(@Param("idx") int idx, @Param("handleState") int handleState, @Param("handleDT") LocalDateTime handleDT);
 
@@ -200,7 +201,7 @@ public interface MasterDAO {
     void updateFAQ(MasterVO faq);
 
     void deleteReport(int idx);
-
+    void deleteReport1(int idx);
     Map<String, Object> getCategoryCodeCountByani(int categorytCode);
 
     // 주문관리
@@ -275,4 +276,10 @@ public interface MasterDAO {
     Integer findUserIdByCommentIdx(int comment_idx);
     Integer findUserIdByReviewIdx(int review_idx);
     Integer findUserIdByCommunityIdx(int comunity_idx);
+
+    List<MasterVO> getReportinguserListWithPaging(int offset, int pageSize);
+    int getActiveReportCount();
+    int getInactiveReportCount();
+    int getCompletedReportCount();
+    int getNonCompletedReportCount();
 }

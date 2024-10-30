@@ -37,6 +37,12 @@ public interface MasterService {
     void deleteBoard(int idx);
     void deleteReply(int idx);
     void deleteComment(int idx);
+    List<MasterVO> getReportinguserListWithPaging(int offset, int pageSize);
+    int getActiveReportCount();
+    int getInactiveReportCount();
+    int getCompletedReportCount();
+    int getNonCompletedReportCount();
+    void deleteReport1(int idx);
     int getTodayBoardCount();  // 오늘 작성된 게시글 수
     int getLastWeekBoardCount();
     int getTotalUserDelCount();  // 총 탈퇴 회원 수 조회
@@ -52,6 +58,7 @@ public interface MasterService {
     MasterVO getReviewDetail(int idx);
     boolean updateAnimation(MasterVO vo);
     MasterVO aniSelect(int idx);
+    void deleteNotice(int idx);
     String getCurrentImgFile(int idx);
     List<MasterVO> getQNAList();
     int getUnansweredQnaCount();

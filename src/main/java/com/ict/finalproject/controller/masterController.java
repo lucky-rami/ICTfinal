@@ -274,13 +274,46 @@ public class masterController {
 
     // Dashboard - 회원관리 - 신고계정목록 리스트
     @GetMapping("/reportinguserListMaster")
-    public ModelAndView masterReportList(MasterVO vo) {
-        List<MasterVO> reportinguserList = masterService.getReportinguserList(vo);
-        mav = new ModelAndView();
+    public ModelAndView masterReportList(
+            @RequestParam(value = "currentPage", defaultValue = "1") String currentPage,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+
+        // currentPage를 정수형으로 변환
+        int currentPageInt;
+        try {
+            currentPageInt = Integer.parseInt(currentPage);
+        } catch (NumberFormatException e) {
+            currentPageInt = 1;
+        }
+
+        // 페이징 계산
+        int offset = Math.max(0, (currentPageInt - 1) * pageSize);
+        List<MasterVO> reportinguserList = masterService.getReportinguserListWithPaging(offset, pageSize);
+
+        // 총 신고 수, 접수중, 처리대기, 처리완료 수 조회
+        int totalReports = masterService.getTotalReportCount();
+        int activeReports = masterService.getActiveReportCount();
+        int inactiveReports = masterService.getInactiveReportCount();
+        int completedReports = masterService.getCompletedReportCount();
+        int noncompletedReports = masterService.getNonCompletedReportCount();
+
+        // 전체 페이지 수 계산
+        int totalPages = (int) Math.ceil((double) totalReports / pageSize);
+
+        ModelAndView mav = new ModelAndView();
         mav.addObject("reportinguserList", reportinguserList);
+        mav.addObject("totalReports", totalReports);
+        mav.addObject("activeReports", activeReports);
+        mav.addObject("inactiveReports", inactiveReports);
+        mav.addObject("completedReports", completedReports);
+        mav.addObject("noncompletedReports", noncompletedReports);
+        mav.addObject("currentPage", currentPageInt);
+        mav.addObject("pageSize", pageSize);
+        mav.addObject("totalPages", totalPages);
         mav.setViewName("master/reportinguserListMaster");
         return mav;
     }
+
 
 
     // Dashboard - 애니관리 - 애니 목록 - 애니 추가
@@ -593,6 +626,8 @@ public class masterController {
         return mav;
     }
 
+
+
     // 해당 idx 값의 게시물 삭제하기
     @PostMapping("/boardMasterAllDelete/{idx}")
     public String boardMasterAllDelete(@PathVariable("idx") int idx) {
@@ -602,6 +637,16 @@ public class masterController {
         masterService.deleteBoard(idx);
 
         return "redirect:/master/boardMasterAll";  // 삭제 후 게시글 목록으로 리다이렉트
+    }
+
+    @PostMapping("/noticeMasterListDelete/{idx}")
+    public String noticeMasterList(@PathVariable("idx") int idx) {
+        System.out.println("게시글 삭제 요청: " + idx);
+
+        // 공지사항 삭제
+        masterService.deleteNotice(idx);
+
+        return "redirect:/master/noticeMasterList";  // 삭제 후 게시글 목록으로 리다이렉트
     }
 
     @PostMapping("/boardMasterReviewDelete/{idx}")
@@ -748,29 +793,40 @@ public class masterController {
     //  Dashboard - 기타관리 - 공지사항 목록
     @GetMapping("/noticeMasterList")
     public ModelAndView noticeMasterList(
-            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "currentPage", defaultValue = "1") String currentPage,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+
         System.out.println("관리자페이지 공지사항 목록 불러오기");
+
+        // currentPage를 정수형으로 변환
+        int currentPageInt;
+        try {
+            currentPageInt = Integer.parseInt(currentPage); // 문자열을 정수로 변환
+        } catch (NumberFormatException e) {
+            currentPageInt = 1; // 변환 실패 시 기본값 설정
+        }
 
         // 공지사항 총 개수 조회
         int totalRecords = masterService.getTotalNoticeCount();
 
         // 페이징 계산
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-        int startRecord = (currentPage - 1) * pageSize;
+        int startRecord = Math.max(0, (currentPageInt - 1) * pageSize); // 시작 레코드 계산
 
         // 페이징된 공지사항 목록 조회
         List<MasterVO> noticeList = masterService.getNoticeListByPage(startRecord, pageSize);
 
         // ModelAndView 설정
-        mav = new ModelAndView();
+        ModelAndView mav = new ModelAndView(); // 새로운 ModelAndView 객체 생성
         mav.addObject("noticeList", noticeList);
-        mav.addObject("currentPage", currentPage);
+        mav.addObject("currentPage", currentPageInt); // 정수형 페이지로 설정
         mav.addObject("pageSize", pageSize);
         mav.addObject("totalPages", totalPages);
-        mav.setViewName("master/noticeMasterList");
-        return mav;
+        mav.addObject("totalRecords", totalRecords); // 전체 레코드 수 추가
+        mav.setViewName("master/noticeMasterList"); // 뷰 이름 설정
+        return mav; // 최종 ModelAndView 반환
     }
+
 
     //  Dashboard - 기타관리 - 공지사항 - 추가
     @GetMapping("/noticeAddMaster")
@@ -1672,6 +1728,7 @@ public class masterController {
     public String reportingDeleteMaster(@PathVariable("idx") int idx) {
         System.out.println("Received idx: " + idx); // 로그로 idx 값 출력
         masterService.deleteReport(idx);
+        masterService.deleteReport1(idx);
         return "redirect:/master/reportinguserListMaster";
     }
 

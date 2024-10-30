@@ -5,6 +5,7 @@
 <link href="/css/masterStyle.css" rel="stylesheet" type="text/css"></link>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/MasterPage.js"></script>
+<script src="/js/Master.js"></script>
 <div class="notice-list-container">
             <h2>공지사항 리스트</h2>
             <table class="notice-list table table-hover table-bordered">
@@ -28,7 +29,7 @@
                         <td>${notice.modifyDT}</td>
                         <td>
                             <button class="btn btn-outline-secondary btn-sm"><a href="/master/noticeEditMaster/${notice.idx}">수정</a></button>
-                            <button class="btn btn-outline-danger btn-sm">삭제</button>
+                            <button class="btn btn-outline-danger btn-sm deleteNoticeBtn" data-idx="${notice.idx}">삭제</button>
                         </td>
                     </tr>
                     </c:forEach>
