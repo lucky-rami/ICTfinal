@@ -81,12 +81,13 @@ function goToNoticePage() {
     window.location.href = "/notice2"; // notice 페이지로 이동
 }
 
-
-// 제목과 등록일자 불러오기
 function loadNoticeTitlesAndDates() {
     fetch('/api/notice/titlesAndDates')  // 서버의 API에 GET 요청
         .then(response => response.json())  // JSON 응답 처리
         .then(data => {
+            // 등록일을 기준으로 내림차순 정렬
+            data.sort((a, b) => new Date(b.regDT) - new Date(a.regDT));
+
             const noticeListElement = document.getElementById('noticeList');
             noticeListElement.innerHTML = '';  // 기존 내용을 비움
 

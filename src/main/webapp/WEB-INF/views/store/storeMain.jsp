@@ -58,14 +58,12 @@
   <div class="notification" onclick="goToNoticePage()">
       <div class="notification_top"><i class="fa-regular fa-bell"></i> 공지사항 내역</div>
       <div id="noticeList">
-
+        <!--Notification-->
         <!-- 제목과 등록일자가 여기에 표시됩니다 -->
       </div>
   </div>
 </section>
 <div class="storeMain_container">
-        <!--Notification-->
-
 
             <!-- 인기굿즈 -->
         <section class="products">
