@@ -154,14 +154,14 @@ function showWarning(message) {
     <h2>공지사항 등록</h2>
     <form id="noticeForm" method="POST" action="/master/noticeAddMasterOk" onsubmit="return submitNoticeForm()">
         <div>
-            <label for="title">제목:</label>
+            <label for="title">제목</label>
             <input type="hidden" name="idx" />
             <input type="hidden" id="token" name="token" />
             <input type="text" id="title" name="title" placeholder="공지사항 제목을 입력하세요.">
         </div>
 
         <div>
-            <label for="content">내용:</label>
+            <label for="content">내용</label>
             <textarea id="content" name="content" rows="10"></textarea>
         </div>
         <div>

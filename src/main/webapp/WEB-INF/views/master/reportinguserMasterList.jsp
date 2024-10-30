@@ -22,7 +22,22 @@
                 <tbody>
                <c:forEach var="ban" items="${reportingUser}">
                    <tr>
-                       <td>${ban.reportedUser}</td>
+                      <td>
+                                                         <c:choose>
+                                                             <c:when test="${not empty ban.commentAuthor}">
+                                                                 ${ban.commentAuthor}
+                                                             </c:when>
+                                                             <c:when test="${not empty ban.reviewAuthor}">
+                                                                 ${ban.reviewAuthor}
+                                                             </c:when>
+                                                             <c:when test="${not empty ban.communityAuthor}">
+                                                                 ${ban.communityAuthor}
+                                                             </c:when>
+                                                             <c:otherwise>
+                                                                 알 수 없음
+                                                             </c:otherwise>
+                                                         </c:choose>
+                                                     </td> <!-- 신고한 사용자의 ID -->
                        <td>
                            <c:choose>
                                <c:when test="${ban.report_type == 1}">관련없는 이미지</c:when>
@@ -41,7 +56,7 @@
                        <td>${ban.endDT}</td>
                        <td>${ban.report_count}</td>  <!-- 신고 횟수 출력 -->
                        <td>
-                           <button class="btn btn-outline-primary btn-sm">메모</button>
+                           <button class="btn btn-outline-secondary btn-sm">메모</button>
                            <button class="btn btn-outline-danger btn-sm">삭제</button>
                        </td>
                    </tr>

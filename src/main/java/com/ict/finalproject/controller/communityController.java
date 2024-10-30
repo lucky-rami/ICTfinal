@@ -233,31 +233,25 @@ public class communityController {
         try {
             int reportExists = 0;
 
-            // 게시물 신고일 경우 (comunity_idx만 존재)
-            if (reportDTO.getComunity_idx() != null && reportDTO.getComment_idx() == null) {
-                reportExists = commuService.checkPostReportExists(reportDTO);
-
-                // 댓글 신고일 경우 (comunity_idx와 comment_idx 모두 존재)
-            } else if (reportDTO.getComunity_idx() != null && reportDTO.getComment_idx() != null) {
-                reportExists = commuService.checkCommentReportExists(reportDTO);
-
-            } else {
-                // 잘못된 요청에 대한 예외 처리
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 요청입니다.");
+            //댓글 확인
+            reportExists = commuService.checkCommentReportExists(reportDTO);
+            System.out.println("댓글 : " +reportExists);
+            // 0인데 getComment_idx가 null이 아니면 신규 댓글이라 판단
+            if(reportExists == 0 && reportDTO.getComment_idx() != null){
+                commuService.insertReport(reportDTO);
+                return ResponseEntity.ok("신고가 접수되었습니다.");
+            }else if (reportExists > 0){    // 1이면 신고된댓글
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 신고된 댓글입니다.");
+            }
+            // 위에서 댓글 다 보냈으니 글 신고 된건지 확인
+            reportExists = commuService.checkPostReportExists(reportDTO);
+            if(reportExists > 0){   // 1이면 신고된 게시물
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 신고된 게시물입니다.");
+            }else{  // 아니면 신규 게시물신고
+                commuService.insertReport(reportDTO);
+                return ResponseEntity.ok("신고가 접수되었습니다.");
             }
 
-            // 이미 신고된 경우 예외 처리
-            if (reportExists > 0) {
-                if (reportDTO.getComment_idx() != null) {
-                    return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 신고된 댓글입니다.");
-                } else {
-                    return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 신고된 게시물입니다.");
-                }
-            }
-
-            // 신고 데이터 저장
-            commuService.insertReport(reportDTO);
-            return ResponseEntity.ok("신고가 접수되었습니다.");
 
         } catch (Exception e) {
             e.printStackTrace();

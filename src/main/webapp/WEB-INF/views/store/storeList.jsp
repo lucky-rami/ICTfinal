@@ -73,7 +73,7 @@
                     <li class="filter-item" onclick="applyFilter(4,'담요')"><span class="filter-text">담요</span></li>
                 </ul>
             </div>
-            <hr>
+
         </div>
     </section>
     <!-- 상품 섹션 위쪽에 필터 추가 -->
@@ -119,57 +119,57 @@
                 </li>
             </ul>
         </div>
+        <div class="pagination">
+            <!-- 이전 페이지 링크 -->
+            <c:if test="${currentPage > 1}">
+                <a href="<c:url value='/storeList'>
+                    <c:param name='pageNum' value='${currentPage - 1}' />
+                    <c:if test='${selectedCategory != null}'>
+                        <c:param name='category' value='${selectedCategory}' />
+                    </c:if>
+                    <c:if test='${selectedFilterType != null}'>
+                        <c:param name='filterType' value='${selectedFilterType}' />
+                    </c:if>
+                </c:url>">&laquo; 이전</a>
+            </c:if>
+
+            <!-- 페이지 번호 링크 -->
+            <c:forEach var="i" begin="${currentPage - 2 > 0 ? currentPage - 2 : 1}" end="${currentPage + 2 <= totalPages ? currentPage + 2 : totalPages}">
+                <c:choose>
+                    <c:when test="${i == currentPage}">
+                        <span class="current">${i}</span>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="<c:url value='/storeList'>
+                            <c:param name='pageNum' value='${i}' />
+                            <c:if test='${selectedCategory != null}'>
+                                <c:param name='category' value='${selectedCategory}' />
+                            </c:if>
+                            <c:if test='${selectedFilterType != null}'>
+                                <c:param name='filterType' value='${selectedFilterType}' />
+                            </c:if>
+                            <c:if test='${selectedTitle != null}'>
+                                <c:param name='ani_title' value='${selectedTitle}' />
+                            </c:if>
+                        </c:url>">${i}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <!-- 다음 페이지 링크 -->
+            <c:if test="${currentPage < totalPages}">
+                <a href="<c:url value='/storeList'>
+                    <c:param name='pageNum' value='${currentPage + 1}' />
+                    <c:if test='${selectedCategory != null}'>
+                        <c:param name='category' value='${selectedCategory}' />
+                    </c:if>
+                    <c:if test='${selectedFilterType != null}'>
+                        <c:param name='filterType' value='${selectedFilterType}' />
+                    </c:if>
+                </c:url>">다음 &raquo;</a>
+            </c:if>
+        </div>
     </section>
-    <div class="pagination">
-        <!-- 이전 페이지 링크 -->
-        <c:if test="${currentPage > 1}">
-            <a href="<c:url value='/storeList'>
-                <c:param name='pageNum' value='${currentPage - 1}' />
-                <c:if test='${selectedCategory != null}'>
-                    <c:param name='category' value='${selectedCategory}' />
-                </c:if>
-                <c:if test='${selectedFilterType != null}'>
-                    <c:param name='filterType' value='${selectedFilterType}' />
-                </c:if>
-            </c:url>">&laquo; 이전</a>
-        </c:if>
-
-        <!-- 페이지 번호 링크 -->
-        <c:forEach var="i" begin="${currentPage - 2 > 0 ? currentPage - 2 : 1}" end="${currentPage + 2 <= totalPages ? currentPage + 2 : totalPages}">
-            <c:choose>
-                <c:when test="${i == currentPage}">
-                    <span class="current">${i}</span>
-                </c:when>
-                <c:otherwise>
-                    <a href="<c:url value='/storeList'>
-                        <c:param name='pageNum' value='${i}' />
-                        <c:if test='${selectedCategory != null}'>
-                            <c:param name='category' value='${selectedCategory}' />
-                        </c:if>
-                        <c:if test='${selectedFilterType != null}'>
-                            <c:param name='filterType' value='${selectedFilterType}' />
-                        </c:if>
-                        <c:if test='${selectedTitle != null}'>
-                            <c:param name='ani_title' value='${selectedTitle}' />
-                        </c:if>
-                    </c:url>">${i}</a>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
-
-        <!-- 다음 페이지 링크 -->
-        <c:if test="${currentPage < totalPages}">
-            <a href="<c:url value='/storeList'>
-                <c:param name='pageNum' value='${currentPage + 1}' />
-                <c:if test='${selectedCategory != null}'>
-                    <c:param name='category' value='${selectedCategory}' />
-                </c:if>
-                <c:if test='${selectedFilterType != null}'>
-                    <c:param name='filterType' value='${selectedFilterType}' />
-                </c:if>
-            </c:url>">다음 &raquo;</a>
-        </c:if>
-    </div>
 
 
     <!-- 카테고리 변경 시 페이지 넘버를 1로 설정 -->

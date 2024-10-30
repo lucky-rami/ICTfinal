@@ -13,10 +13,10 @@
         </div>
 <!-- 차트 영역 -->
         <div class="chart">
-            <div class="combinedDailyChart">
-                <h4 class="text-center">일별 / 월별 통합 주문 통계</h4>
-                <canvas id="combinedDailyChartView"></canvas>
-            </div>
+           <div class="combinedDailyChart">
+               <h4 class="text-center">일별 매출 통계</h4>
+               <canvas id="combinedDailyChartView" width="400" height="200"></canvas>
+           </div>
             <div class="avgUserDailyChart">
                 <h4 class="text-center">회원가입 유저 수</h4>
             <canvas id="registrationChart" width="400" height="200"></canvas>
@@ -25,31 +25,25 @@
 
 
        <div class="summary-card">
-                   <div class="card">
-                       <div class="icon"><i class="fas fa-users"></i></div>
-                       <h4>총 회원 수</h4>
-                       <h5 id="totalUsers">1,200명</h5>
-                       <p>전체 등록된 회원 수</p>
-                   </div>
-                   <div class="card">
-                       <div class="icon"><i class="fas fa-shopping-cart"></i></div>
-                       <h4>총 주문 수</h4>
-                       <h5 id="totalOrders">5,000건</h5>
-                       <p>전체 주문 건수</p>
-                   </div>
-                   <div class="card">
-                       <div class="icon"><i class="fas fa-dollar-sign"></i></div>
-                       <h4>총 매출액</h4>
-                       <h5 id="totalRevenue">150,000,000원</h5>
-                       <p>전체 누적 매출</p>
-                   </div>
-                   <div class="card">
-                       <div class="icon"><i class="fas fa-chart-line"></i></div>
-                       <h4>실시간 접속자</h4>
-                       <h5 id="liveUsers">30명</h5>
-                       <p>현재 접속 중인 사용자</p>
-                   </div>
-               </div>
+           <div class="card">
+               <div class="icon"><i class="fas fa-users"></i></div>
+               <h4>총 회원 수</h4>
+               <h5 id="totalUsers">${totalUsers}명</h5>
+               <p>전체 등록된 회원 수</p>
+           </div>
+           <div class="card">
+               <div class="icon"><i class="fas fa-shopping-cart"></i></div>
+               <h4>총 주문 수</h4>
+               <h5 id="totalOrders">${totalOrders}건</h5>
+               <p>전체 주문 건수</p>
+           </div>
+           <div class="card">
+               <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+               <h4>총 매출액</h4>
+               <h5 id="totalRevenue">${totalRevenue}원</h5>
+               <p>전체 누적 매출</p>
+           </div>
+       </div>
 
  <div class="table-container">
          <!-- 첫 번째 테이블: 주문 활동 -->

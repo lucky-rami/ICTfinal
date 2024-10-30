@@ -28,13 +28,10 @@
 <form id="FAQEditForm" action="/master/FAQEditMasterOk" method="post">
     <input type="hidden" name="idx" id="idx" value="${FAQ.idx}">
             <input type="hidden" id="token" name="token">
-        <div>
-            <label for="question">질문</label>
-            <input type="text" id="question" name="question" placeholder="자주 묻는 질문 제목을 입력하세요."  value="${FAQ.question}">
-        </div>
+
 
         <div>
-                 <label for="faqtype">카테고리:</label>
+                 <label for="faqtype">카테고리</label>
                  <select id="code" name="code">
                      <option value="">카테고리 선택</option>
                      <option value="1">쇼핑</option>
@@ -43,6 +40,11 @@
                      <option value="4">애니</option>
                      <option value="5">서비스</option>
                  </select>
+             </div>
+
+             <div>
+               <label for="question">질문</label>
+               <input type="text" id="question" name="question" placeholder="자주 묻는 질문 제목을 입력하세요."  value="${FAQ.question}">
              </div>
 
         <div>

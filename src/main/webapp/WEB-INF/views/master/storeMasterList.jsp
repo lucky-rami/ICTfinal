@@ -25,7 +25,7 @@
         <div class="search-bar">
             <div class="d-flex">
                 <input type="text" id="searchInput" class="form-control" placeholder="상품명, 카테고리 검색">
-                <button class="btn btn-primary ms-2" onclick="searchTable2()">검색</button>
+                <button class="btn btn-secondary ms-2" onclick="searchTable2()" style="width:25%">검색</button>
             </div>
             <div>
                 <select class="form-select w-auto" id="filterSelect" onchange="filterStore()">
@@ -49,7 +49,7 @@
                     <th style="width:8%" class="sortable" onclick="sortTable2(4)">판매가</th>
                     <th style="width:8%" class="sortable" onclick="sortTable2(5)">재고</th>
                     <th style="width:10%" class="sortable" onclick="sortTable2(6)">등록일</th>
-                    <th style="width:12%">관리<a href="/master/storeAddMaster"class="btn btn-outline-success btn-sm" >추가</a></th>
+                    <th style="width:12%">관리<a href="/master/storeAddMaster"class="btn btn-secondary btn-sm" style="margin-left:5px">추가</a></th>
                 </tr>
             </thead>
             <tbody id="storeTableBody">

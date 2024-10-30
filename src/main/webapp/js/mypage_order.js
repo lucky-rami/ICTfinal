@@ -146,6 +146,23 @@ function getOrderStateText(orderState) {
 function setupPagination(totalPages, currentPage) {
     $(".custom-pagination").empty();
 
+    const pagesPerGroup = 5; // 한 그룹에 표시할 페이지 수
+    const currentGroup = Math.ceil(currentPage / pagesPerGroup);
+    const startPage = (currentGroup - 1) * pagesPerGroup + 1;
+    const endPage = Math.min(currentGroup * pagesPerGroup, totalPages);
+
+    console.log(`총 페이지: ${totalPages}, 현재 페이지: ${currentPage}`);
+    console.log(`현재 그룹: ${currentGroup}, 시작 페이지: ${startPage}, 끝 페이지: ${endPage}`);
+
+    // << 버튼 추가 (첫 그룹이 아닐 때만 표시)
+    if (currentGroup > 1) {
+        $(".custom-pagination").append(`
+            <span class="pageNumber_span">
+                <span data-page="${startPage - 1}" class="prev-group">&lt&lt;</span>
+            </span>
+        `);
+    }
+
     // 이전 페이지 버튼 추가 (첫 페이지가 아닐 때만 표시)
     if (currentPage > 1) {
         $(".custom-pagination").append(`
@@ -155,8 +172,8 @@ function setupPagination(totalPages, currentPage) {
         `);
     }
 
-    // 페이지 번호 버튼 생성
-    for (let i = 1; i <= totalPages; i++) {
+    // 페이지 번호 버튼 생성 (startPage부터 endPage까지)
+    for (let i = startPage; i <= endPage; i++) {
         $(".custom-pagination").append(`
             <span class="pageNumber_span">
                 <span data-page="${i}">${i}</span>
@@ -173,6 +190,15 @@ function setupPagination(totalPages, currentPage) {
         `);
     }
 
+    // >> 버튼 추가 (마지막 그룹이 아닐 때만 표시)
+    if (currentGroup < Math.ceil(totalPages / pagesPerGroup)) {
+        $(".custom-pagination").append(`
+            <span class="pageNumber_span">
+                <span data-page="${endPage + 1}" class="next-group">&gt&gt;</span>
+            </span>
+        `);
+    }
+
     // 현재 페이지에 'clicked' 클래스를 추가
     $(`.custom-pagination .pageNumber_span span[data-page='${currentPage}']`).addClass("clicked");
 
@@ -184,6 +210,8 @@ function setupPagination(totalPages, currentPage) {
         getOrderListAll(page);
     });
 }
+
+
 
 //결제취소
 $(document).on('click', '#payCancel_btn', function() {

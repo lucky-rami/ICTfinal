@@ -81,12 +81,24 @@ $(document).ready(function() {
         // 버튼에서 data-userid와 해당 행의 idx 가져오기
         const userid = $(this).data('userid');
         const idx = $(this).closest('tr').find('td:eq(1)').text();  // No 컬럼에서 idx 가져오기
-        const commentIdx = $(this).data('comment-idx'); // 버튼에서 data-comment-id 가져오기
+        const commentIdx = $(this).data('comment-idx'); // 버튼에서 data-comment-idx 가져오기
+        const reviewIdx = $(this).data('review-idx'); // 버튼에서 data-review-idx 가져오기
+        const comunityIdx = $(this).data('comunity-idx'); // 버튼에서 data-comunity-idx 가져오기
+        const reportType = $(this).data('report-type'); // 버튼에서 data-report-type 가져오기
 
         // 모달의 hidden input에 값 설정
         $('#userid').val(userid);
         $('#idx').val(idx);
         $('#comment_idx').val(commentIdx); // comment_idx 설정
+        $('#review_idx').val(reviewIdx); // review_idx 설정
+        $('#comunity_idx').val(comunityIdx); // comunity_idx 설정
+
+        // report_type이 없거나 빈 경우 기본값을 설정
+        if (reportType !== undefined && reportType !== "") {
+            $('#report_type').val(reportType); // report_type 설정
+        } else {
+            $('#report_type').val(1); // 기본값 설정 (예: 1)
+        }
 
         // 모달창 띄우기
         $('#reportModal').modal('show');
@@ -99,13 +111,6 @@ $(document).ready(function() {
         const token = localStorage.getItem('token'); // 로컬스토리지에서 토큰 가져오기
         if (!token) {
             alert("로그인 토큰이 없습니다.");
-            return;
-        }
-
-        // comment_idx가 설정되어 있는지 확인
-        const commentIdx = $('#comment_idx').val();
-        if (!commentIdx) {
-            alert("comment_idx가 설정되지 않았습니다.");
             return;
         }
 
@@ -131,6 +136,7 @@ $(document).ready(function() {
         });
     });
 });
+
 
 
 $(document).ready(function() {
@@ -182,6 +188,7 @@ $(document).ready(function() {
         });
     });
 });
+
 
 
 
@@ -648,7 +655,7 @@ $(document).ready(function() {
                      // 서버로부터 받은 댓글 데이터를 모달에 표시
                      var comment = response.comment;
                      $('#commentContent').text(comment.content || '내용 없음');
-                     $('#commentAuthor').text(comment.userid || '작성자 정보 없음');
+                     $('#commentAuthor').text(comment.userid || '작성자 정보 없음'); // 댓글 작성자의 ID
                      $('#commentDate').text(comment.regDT || '작성일 정보 없음');
 
                      // 답글 목록 표시
@@ -678,6 +685,8 @@ $(document).ready(function() {
          });
      });
  });
+
+
 
  $(document).ready(function() {
      $('#FAQEditForm').on('submit', function(event) {

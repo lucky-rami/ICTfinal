@@ -19,14 +19,14 @@ body {
 }
 
 .manage_menu {
-    width: 200px;
+    width: 250px;
     background-color: black;
     position: fixed;
-    top: 100px;
+    top: 156px;
     left: 0;
     height: 100%;
     color: white;
-    padding: 10px;
+    padding: 20px 20px 20px 50px;
 }
 
 .manage_menu ul {
@@ -38,6 +38,12 @@ body {
 .submenu a {
     color: white;
     text-decoration: none;
+}
+
+.menu-item{
+    font-size:21px;
+    font-weight:bold;
+    margin-bottom:10px;
 }
 
 .menu-item:hover,
@@ -94,7 +100,9 @@ body {
 
 /* 체크박스 스타일링 (선택 사항) */
 input[type="checkbox"] {
-    margin-right: 5px;
+    margin-right: 0.5em;
+    width: 1.3em;
+    height: 1.3em;
     /* 체크박스와 텍스트 사이 여백 추가 */
 }
 
@@ -105,12 +113,14 @@ input[type="checkbox"] {
     /* 체크박스와 텍스트를 수직으로 정렬 */
     justify-content: flex-start;
     /* 왼쪽 정렬 */
+    cursor: pointer;
+    height: 2rem;
 }
 
 .submenu {
-    font-size: 0.4em;
+    font-size: 17px;
     /* 체크박스 글자 크기 조정 (원하는 크기로 조정 가능) */
-    padding: 5px 0;
+    /*padding: 10px 0;*/
     /* 각 체크박스 사이 여백 추가 */
 }
 
@@ -136,7 +146,7 @@ input[type="checkbox"] {
 /* 개별 애니메이션 아이템 */
 .div_li {
     color: white;
-    text-align: center;
+    /*text-align: center;*/
     /* 텍스트를 중앙 정렬하여 내용이 가운데로 오도록 함 */
     width: 240px;
     /* 각 애니메이션 아이템의 고정 너비를 240px로 설정 */
@@ -216,14 +226,29 @@ input[type="checkbox"] {
 .genre {
     display: flex;
     /* Flexbox 레이아웃을 사용하여 자식 요소들을 유연하게 배치 */
-    justify-content: center;
+    /*justify-content: center;*/
     /* 자식 요소들을 중앙으로 정렬하여 가운데 배치 */
-    gap: 10px;
+    gap: 5px;
     /* 자식 요소들 간의 간격을 10px으로 설정 */
     font-size: 14px;
     /* 텍스트 크기를 14px으로 설정하여 가독성을 높임 */
     color: white;
     /* 텍스트 색상 */
+}
+
+.genre span{
+    background-color: #545454;
+    display: inline-block;
+    padding: 7px 10px;
+    border-radius: 20px;
+}
+
+.ani_title_p{
+    margin:7px 0;
+    width:100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* 반응형 디자인 */
@@ -390,8 +415,8 @@ margin-top: 2%;
 @media (max-width: 1920px) {
     .vod_list_select {
         margin-bottom: 1%;
-            margin-left: 91%;
-            margin-top: 5%
+        margin-left: 91%;
+        margin-top: 2.9%;
     }
 }
 @media (max-width: 1919px) and (min-width: 1820px) {
@@ -496,19 +521,29 @@ margin-right: 23%;
 }
 
 .select_input {
-            margin-bottom: -6%;
-                margin-top: 5%;
-                margin-left: 93%;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        border-radius: 4px;
-        padding: 6px 16px;
-        font-size: 14px;
-        color: #333;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        transition: border-color 0.3s, box-shadow 0.3s;
+   /* margin-bottom: -6%;
+    margin-top: 5%;
+    margin-left: 93%;
+    appearance: none;*/
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /*border-radius: 4px;*/
+    /*padding: 6px 16px;*/
+    font-size: 14px;
+    /*color: #333;*/
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    padding: 10px 10px 10px 15px;
+    background-color: #191919;
+    color: #ffffffa8;
+    border: 0;
+    width: 7em;
+    border-radius:5px;
+}
+
+.select_input:focus{
+    outline: none;
 }
 
 #modalImage{
@@ -543,8 +578,10 @@ margin-right: 23%;
 @media (min-width: 1920px) {
     .search-container {
             max-width: 1370px;
-                margin-top: -57px;
-                margin-left: 13%;
+            margin-top: -57px;
+            margin-left: 13%;
+            position:relative;
+            pointer:cursor;
     }
 }
 
@@ -999,8 +1036,8 @@ a {
   margin-left: -5.25rem;
   background: linear-gradient(270deg, rgb(25, 27, 42) 63.5%, rgba(25, 27, 42, 0) 100%);
   position: absolute;
-  bottom: 3px;
-  right: 0px;
+  bottom: -5px;
+  right: 3px;
 }
 
 .animodal_item_bottom_nav {
@@ -1052,37 +1089,37 @@ a {
   background-color: var(--primary);
   transition: left 300ms ease-in-out, width 300ms ease-in-out;
 }
-
+/*
 .bottom_ani_content > div {
   width: 100%;
   margin: 1.5rem 0px 1rem;
-}
-
+}*/
+/*
 .bottom_ani_content > div > ul {
   display: grid;
   gap: 0.8rem;
   width: 100%;
   grid-template-columns: repeat(5, 1fr);
-}
-
+}*/
+/*
 .bottom_ani_content > div > ul > li {
   width: 100%;
   overflow: hidden;
-}
-
+}*/
+/*
 .bottom_ani_content > div > ul > li > .similar_ani_img {
   width: 100%;
   z-index: 0;
   overflow: hidden;
   position: relative;
   border-radius: 0.25em;
-}
+}*/
 
-.bottom_ani_content > div > ul > li > .similar_ani_img img {
+/*.bottom_ani_content > div > ul > li > .similar_ani_img img {
   width: 100%;
   height: 100%;
-}
-
+}*/
+/*
 .bottom_ani_content > div > ul > li > .similar_ani_title {
   display: flex;
   flex-direction: column;
@@ -1090,9 +1127,9 @@ a {
   opacity: 1;
   padding-right: 0.5rem;
   min-height: 3em;
-}
+}*/
 
-.bottom_ani_content > div > ul > li > .similar_ani_title p {
+/*.bottom_ani_content > div > ul > li > .similar_ani_title p {
   margin: unset;
   color: #f7f7f7;
   font-weight: 400;
@@ -1103,7 +1140,7 @@ a {
   -webkit-box-orient: vertical;
   overflow: hidden;
   overflow-wrap: break-word;
-}
+}*/
 
 @media (max-width: 1024px) {
   .animodal_item_imgDiv > img {
@@ -1257,4 +1294,83 @@ a {
   padding: 5px 8px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.animodal_body .fa-star {
+    color: #ccc;
+    cursor: pointer;
+}
+
+.animodal_body .fa-star.selected {
+    color: gold;
+}
+
+#searchInput{
+    padding: 10px;
+    background-color: #191919;
+    color: #ffffffa8;
+    border: 0;
+    width: 20em;
+    border-radius:5px;
+    font-family: var(--e-font), var(--k-font);
+}
+
+#searchInput:focus{
+    outline: none;
+}
+
+.search-container .fa-magnifying-glass{
+    position: absolute;
+    left: 12.7em;
+    color: #ffffffa8;
+}
+
+.bottom_ani_content>div{
+    width: 100%;
+    margin: 1.5rem 0px 1rem;
+}
+
+.bottom_ani_content > div > ul {
+    display: grid;
+    gap: 0.8rem;
+    width: 100%;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.bottom_ani_content > div > ul > li {
+    width: 100%;
+    overflow: hidden;
+}
+
+.bottom_ani_content > div > ul > li > .similar_ani_img {
+    width: 100%;
+    z-index: 0;
+    overflow: hidden;
+    position: relative;
+    border-radius: 0.25em;
+}
+
+.bottom_ani_content > div > ul > li > .similar_ani_img img {
+    width: 100%;
+    height: 100%;
+}
+
+.bottom_ani_content > div > ul > li > .similar_ani_title {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    padding-right: 0.5rem;
+}
+
+.bottom_ani_content > div > ul > li > .similar_ani_title p {
+    margin: unset;
+    color: #f7f7f7;
+    font-weight: 400;
+    font-size: 0.9em;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: break-word;
 }

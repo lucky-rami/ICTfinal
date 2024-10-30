@@ -36,7 +36,7 @@
 
 /* 필터 섹션 스타일 */
 .filter-section {
-    background-color: #f5f5f5;
+    /*background-color: #f5f5f5;*/
     border-radius: 10px;
     padding: 15px;
     width: 20%; /* left-con 안에서 전체 너비 차지 */
@@ -54,9 +54,10 @@
 
 .filter-list{
     display: flex;
-    flex-wrap: wrap; /* 항목들이 가로로 배치되고 넘치면 줄 바꿈 */
-    gap: 10px; /* 항목 간 간격을 설정 */
-    padding: 10px; /* 컨테이너의 내부 여백 */
+    flex-wrap: wrap;
+    gap: 10px;
+    /* padding: 10px; */
+    margin-top: 20px;
 }
 
 .filter-item {
@@ -103,9 +104,10 @@
 
 /* 상품 섹션 스타일 */
 .list-products {
-    gap: 20px; /* 가로, 세로 간격 */
-    box-sizing: border-box; /* 패딩 포함 크기 계산 */
+    box-sizing: border-box;
     display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
 /* 개별 상품 스타일 */
@@ -131,11 +133,11 @@
 
 /* 상품 텍스트 스타일 */
 .list-product p {
-    margin: 10px 0; /* 상하로 여백 추가 */
+    /*margin: 10px 0; *//* 상하로 여백 추가 */
     width: 100%;
-    color: #888;
+    color: #303030;
     font-size: 1em;
-    text-align: center; /* 텍스트 가운데 정렬 */
+    /*text-align: center; *//* 텍스트 가운데 정렬 */
 }
 
 /* 첫 번째 자식 요소 스타일 (이미지) */
@@ -248,9 +250,10 @@ input:checked + .slider::before {
 .filter-options {
     display: flex;
     justify-content:space-between;
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
     padding: 0;
-    border-bottom: 1px solid #ccc;
+    /*border-bottom: 1px solid #ccc;*/
+    align-items: center;
 }
 
 /* 기본 filter-item 스타일 */
@@ -287,26 +290,28 @@ input:checked + .slider::before {
 /* 검색창 */
 .search-section {
     display: flex; /* Flexbox로 자식 요소들을 가로로 배치 */
+    align-items:center;
+    gap:10px;
 
 }
 
 .search-input {
-    width: 450px;
-    padding: 8px 12px;
-    background-color:#eeeeeeee ;
-    border: none; /* 전체 테두리 제거 */
-    margin-left: 60px;
-    margin-bottom: 5px;
+    width: 400px;
+    padding: 12px;
+    background-color: #eeeeeeee;
+    border: none;
+    margin-left: 1.3em;
+    /* margin-bottom: 5px; */
     border-radius: 5px;
     font-size: 16px;
-    outline: none; /* 포커스 시 기본 아웃라인 제거 */
+    outline: none;
 }
 
 .filter-option {
     display: flex;
     /* align-items: end; */
     cursor: pointer;
-    margin-right: 40px;
+    margin-right: 20px;
     font-size: 16px;
     color: #666;
 }
@@ -318,22 +323,24 @@ input:checked + .slider::before {
 
 .filter-option-keyword{
     display: flex;
+    margin-right:1.3em;
 }
 
 .filter-option.active {
     font-weight: bold;
-    color: #007BFF; /* 활성화된 필터는 파란색 */
+    color: #000; /* 활성화된 필터는 파란색 */
 }
 
 .filter-option:hover {
-    color: #007BFF; /* 마우스 오버 시 파란색 */
+    font-weight: bold;
+    color: #000; /* 마우스 오버 시 파란색 */
 }
 /*페이지 네이션*/
 .pagination {
+    display: inline-block;
     text-align: center;
-    margin-top: 20px;
-    display:flex;
-    justify-content: center; /* 가로 중앙 정렬 */
+    width: 100%;
+    margin: 20px auto 0;
 }
 
 .pagination a, .pagination span {
@@ -383,4 +390,13 @@ input:checked + .slider::before {
     z-index: 1;  /* 필요 시 우선순위 조정 */
     margin-top: 20px;  /* 콘텐츠와 푸터 사이의 간격 추가 */
     clear: both;  /* 이전 요소들과의 충돌 방지 */
+}
+
+.list-product a{
+    margin-bottom:7px;
+}
+
+h3{
+    font-size:1.5em;
+    color:#303030;
 }

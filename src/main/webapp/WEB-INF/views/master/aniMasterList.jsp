@@ -23,7 +23,7 @@
          <div class="search-bar">
              <div class="d-flex">
                  <input type="text" id="searchInput" class="form-control" placeholder="작품명, 카테고리 검색">
-                 <button class="btn btn-primary ms-2" onclick="searchTable1()">검색</button>
+                 <button class="btn btn-secondary ms-2" onclick="searchTable1()" style="width:20%">검색</button>
              </div>
              <div>
                  <select class="form-select w-auto" id="filterSelect" onchange="filterAnime()">
@@ -48,7 +48,7 @@
                      <th style="width:35%" class="sortable" onclick="sortTable1(3)">작품명</th>
                      <th style="width:9%" class="sortable" onclick="sortTable1(4)">감독</th>
                      <th style="width:6%" class="sortable" onclick="sortTable1(5)">등급</th>
-                     <th style="width:15%">관리<a href="/master/aniAddMaster" class="btn btn-outline-success btn-sm">추가</a></th>
+                     <th style="width:15%">관리<a href="/master/aniAddMaster" class="btn btn-secondary btn-sm" style="margin-left:5px;">추가</a></th>
                  </tr>
              </thead>
              <tbody id="animeTableBody">

@@ -1,3 +1,61 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--e-font), var(--k-font);
+}
+body {
+  background: white;
+  animation: fadeIn 1.5s ease-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+ul,
+li,
+dl,
+dt,
+dd,
+p,
+span,
+ol,
+button {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
+li {
+  list-style: none;
+}
+
+*,
+:after,
+:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #359c95;
+  --ani: cubic-bezier(0.26, 1.04, 0.54, 1);
+  --k-font: "Pretendard";
+  --e-font: "Outfit";
+}
+
+
 .outer-div {
 	display: flex;
 	/* 수평으로 나열 */
@@ -7,12 +65,12 @@
 }
 /*=====왼쪽사진=====*/
 .left-div {
-	margin-top: 95px;
+	margin-top: 40px;
 	width: 50%;
 	/* 왼쪽 div의 너비를 50%로 설정 */
 	position: sticky;
 	/* 스크롤 시 고정 */
-	top: 45px;
+	top: 180px;
 	/* 상단에 고정 */
 	height: calc(100vh - 95px);
 	/* 전체 높이에서 상단 마진을 뺀 높이 설정 */
@@ -43,42 +101,58 @@
 	/* 수직 중앙 정렬 */
 	flex-grow: 1;
 	/* 남은 공간을 차지 */
-	position: relative;
+	/*position: fixed;*/
 	/* 배너를 이미지 위에 고정하기 위한 상대 위치 */
 }
 
 .left-image {
-	width: 645px;
-	height: 555px;
+	width: 600px;
+	height: 600px;
+	object-fit: cover;
 }
 
 .banner-card {
-	margin-top: 92px;
+	/*margin-top: 92px;*/
 	background-color: white;
 	border-radius: 12px;
 	padding: 15px;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 5px 15px 0 rgba(0, 0, 0, .1);
 	max-width: 100%;
 	/* 배너 크기를 이미지에 맞게 조정 */
+	transition: transform 0.2s;
+    	/* 호버 효과를 위한 전환 */
+    	    cursor: pointer;
+}
+
+.banner-card:hover {
+	transform: scale(1.05);
+	/* 호버 시 카드 확대 */
 }
 
 .tag {
-	background-color: #ff007f;
-	color: white;
-	font-size: 14px;
-	padding: 5px 10px;
-	border-radius: 12px;
-	max-width: 95px;
+	background-color: var(--primary);
+        color: white;
+        font-size: 14px;
+        padding: 10px;
+        border-radius: 12px;
+        width: max-content;
 }
 
 .card-content {
 	margin-top: 10px;
 }
 
-.title {
-	font-size: 24px;
+.left-div .title {
+	font-size: 30px;
 	font-weight: bold;
 }
+
+.right-div .title{
+    font-size: 20px;
+	font-weight: bold;
+}
+}
+
 
 .subtitle {
 	font-size: 16px;
@@ -111,7 +185,7 @@
 
 /*=====오른쪽 사진=====*/
 .right-div {
-	margin-top: 160px;
+	margin: 30px 0;
 	width: 50%;
 	/* 오른쪽 div의 너비를 50%로 설정 */
 	padding: 10px;
@@ -122,10 +196,11 @@
 	/* 그리드 레이아웃 사용 */
 	grid-template-columns: repeat(2, 1fr);
 	/* 2개의 열 설정 */
-	gap: 65px;
+	gap: 35px;
 	/* 이미지 간격 */
-	margin: 0;
-	/* 기본 여백 제거 */
+
+    /*margin-top: 80px;*/
+
 	padding: 0;
 	/* 기본 패딩 제거 */
 	list-style: none;
@@ -133,46 +208,35 @@
 }
 
 .image-list li {
-	text-align: center;
+	/*text-align: center;*/
 	/* 이미지 중앙 정렬 */
-	margin-bottom: 20px;
+	/*margin-bottom: 20px;*/
 }
 
 .image-list img {
+    object-fit: cover;
 	width: 337px;
 	/* 이미지 너비 100% */
-	height: auto;
+	height: 337px;
 	/* 비율 유지 */
 	border-radius: 8px;
 	/* 모서리 둥글게 */
 }
 
-.image-list {
-	display: grid;
-	/* 그리드 레이아웃 사용 */
-	grid-template-columns: repeat(2, 1fr);
-	/* 2개의 열 설정 */
-	gap: 20px;
-	/* 카드 간의 간격 조정 */
-	margin: 0;
-	/* 기본 여백 제거 */
-	padding: 0;
-	/* 기본 패딩 제거 */
-	list-style: none;
-	/* 기본 리스트 스타일 제거 */
-}
 
 .right-banner-card {
+
 	background-color: #fff;
 	/* 카드 배경색 */
 	border-radius: 10px;
 	/* 카드 모서리 둥글게 */
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 5px 15px 0 rgba(0, 0, 0, .1);
 	/* 그림자 */
 	padding: 15px;
 	/* 카드 내부 패딩 */
 	transition: transform 0.2s;
 	/* 호버 효과를 위한 전환 */
+	    cursor: pointer;
 }
 
 .right-banner-card:hover {
@@ -183,8 +247,11 @@
 /* 반응형 스타일 */
 @media (max-width: 1920px) {
 
-	.left-div,
-	.right-div {
+	.left-div {
+		width: 46%;
+	}
+
+	.right-div{
 		width: 50%;
 	}
 }
@@ -240,4 +307,19 @@
 		grid-template-columns: 1fr;
 		/* 1열로 변경 */
 	}
+}
+
+.event_top{
+        margin-top: 170px;
+        text-align: center;
+}
+
+.event_top span{
+    display: inline-block;
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #ffffff;
+        padding: 10px 45px;
+        background-color: rgb(0, 0, 0, 0.85);
+        border-radius: 40px;
 }

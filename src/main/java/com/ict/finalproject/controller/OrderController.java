@@ -195,8 +195,11 @@ public class OrderController {
             // 적립금 빼기
             int useridx = service.getUseridx(order_idx);
             int use_point = service.getUsePoint(order_idx);
-            memberService.pointUpdate(useridx, 3, -use_point);
-            log.info("사용자 ID {}의 적립금 {}원이 차감 되었습니다.", useridx, use_point);
+            if(use_point>0){
+                memberService.pointUpdate(useridx, 3, -use_point);
+                log.info("사용자 ID {}의 적립금 {}원이 차감 되었습니다.", useridx, use_point);
+            }
+
 
             // 첫 번째 접근 후 세션에서 paymentKey 제거
             session.removeAttribute("paymentKey");

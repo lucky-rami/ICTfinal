@@ -45,3 +45,37 @@ function mypageCommInfo(){
 $(function(){
     mypageCommInfo();
 });
+
+window.addEventListener('scroll', function() {
+    const mypageWrap = document.querySelector('.mypage_wrap');
+    const mypageLeft = document.querySelector('.mypage_left');
+    const footer = document.querySelector('footer');
+
+    const wrapTop = mypageWrap.getBoundingClientRect().top + window.scrollY;
+    const footerTop = footer.getBoundingClientRect().top + window.scrollY;
+    const scrollTop = window.scrollY;
+    const mypageLeftHeight = mypageLeft.offsetHeight;
+    const offset = 210; // 원하는 고정 위치
+    const buffer = 150; // 푸터보다 위에서 멈추기 위한 추가 오프셋
+
+    // 1. 푸터보다 50px 위에서 멈추도록 수정
+    if (scrollTop >= wrapTop - offset && scrollTop + mypageLeftHeight < footerTop - offset - buffer) {
+        mypageLeft.style.position = 'fixed';
+        mypageLeft.style.top = `${offset}px`;
+    }
+    // 2. 푸터에서 50px 위에서 멈추게 설정
+    else if (scrollTop + mypageLeftHeight >= footerTop - offset - buffer) {
+        mypageLeft.style.position = 'absolute';
+        mypageLeft.style.top = `${footerTop - wrapTop - mypageLeftHeight - buffer}px`;
+    }
+    // 3. 스크롤이 상단으로 올라갈 때 원래 위치로
+    else {
+        mypageLeft.style.position = 'relative';
+        mypageLeft.style.top = '0';
+    }
+});
+
+
+
+
+

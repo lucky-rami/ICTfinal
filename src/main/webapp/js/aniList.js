@@ -6,8 +6,8 @@ $(document).ready(function () {
         e.preventDefault(); // 기본 동작 방지 (필요 시)
         const title = $(this).data('title'); // 클릭한 카드의 제목 가져오기
         const imageSrc = $(this).find('img').attr('src'); // 클릭한 카드의 이미지 경로 가져오기
-        const genre = $(this).find('.genre span').first().text(); // 장르 텍스트 가져오기
-        const age = $(this).find('.genre span').last().text(); // 나이 관람 텍스트 가져오기
+        const genre = $(this).find('.genre span').first().text() || "정보 없음"; // 장르 텍스트 가져오기
+        const age = $(this).find('.age span').last().text(); // 나이 관람 텍스트 가져오기
         const director = $(this).data('director'); // 감독 정보 가져오기
         const idx = $(this).data('idx');
         const grade = $(this).data('grade');
@@ -36,8 +36,8 @@ $(document).ready(function () {
     $('.animodal_item_infoDiv h1').text(title);
     $('.animodal_item_imgBack img').attr('src', imageSrc);
     $('.animodal_item_imgDiv img').attr('src', imageSrc);
-    $('.animodal_item_infoDiv .genre').text(` 장르: ${response.anitype}`);
-    $('.animodal_item_infoDiv .age').text(` 등급: ${response.agetype}관람  `);
+    $('.animodal_item_infoDiv .genre').text(`장르: ${response.anitype}`);
+    $('.animodal_item_infoDiv .age').text(`등급: ${response.agetype}관람  `);
     $('.animodal_item_infoDiv .director').text(` 감독: ${director}`);
     $('.animodal_item_infoDiv .ani_outline .summary').text(shortSummary);
     $('.animodal_item_infoDiv .ani_outline .ouline_more').data('full-summary', summary);
@@ -60,6 +60,7 @@ $('.bottom_ani_content ul').html(similarAniList); // 비슷한 애니메이션 �
 
                 const token = localStorage.getItem("token");
 
+                /*@@@@@좋아요 확인@@@@@*/
                 $.ajax({
                     url: '/checkLikeStatus', // 좋아요 상태 확인 API
                     method: 'GET',
@@ -82,6 +83,37 @@ $('.bottom_ani_content ul').html(similarAniList); // 비슷한 애니메이션 �
                         console.error('좋아요 상태 확인 오류:', error);
                     }
                 });
+
+                /*@@@@@별점@@@@@*/
+                $.ajax({
+                    url: '/getUserRating', // 별점 상태 확인 API 엔드포인트
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token // 토큰 추가
+                    },
+                    data: { ani_idx: idx },
+                    success: function (grade) {
+                        updateStars(grade); // 가져온 별점에 따라 별 아이콘 업데이트
+                    },
+                    error: function (error) {
+                        console.error('별점 상태 확인 오류:', error);
+                    }
+                });
+
+                // 별점에 따라 별 아이콘 색칠
+                function updateStars(grade) {
+                    const stars = document.querySelectorAll('#stars .fa-star');
+                    stars.forEach((star, index) => {
+                        if (index < grade) {
+                            star.classList.remove('fa-regular'); // 빈 별
+                            star.classList.add('fa-solid'); // 채워진 별
+                        } else {
+                            star.classList.remove('fa-solid');
+                            star.classList.add('fa-regular');
+                        }
+                    });
+                }
+
 
 
 
@@ -245,6 +277,7 @@ $(document).ready(function () {
 });
 /*@@@@@@@@@@@@@@@@@@@@@오른쪽 필터@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 // 애니메이션 목록을 서버에서 받아오는 함수
+// 애니메이션 목록을 가져오는 함수
 function fetchAniList() {
     $.ajax({
         url: "/aniList", // 모든 애니메이션 목록을 가져오는 URL
@@ -261,20 +294,20 @@ function fetchAniList() {
 
 // 정렬 함수
 function sortAniList(sortCriteria) {
-    let sortedList = aniList;
+    let sortedList = aniList; // 전체 애니메이션 목록을 기준으로 정렬
 
     switch (sortCriteria) {
         case 'title':
-            sortedList = aniList.sort((a, b) => a.grade - b.grade); // 별점 기준 정렬
+            sortedList.sort((a, b) => a.title.localeCompare(b.title)); // 제목 기준 정렬
             break;
         case 'new':
-            sortedList = aniList.sort((a, b) => new Date(b.regDT) - new Date(a.regDT)); // 등록일 기준 정렬
+            sortedList.sort((a, b) => new Date(b.regDT) - new Date(a.regDT)); // 등록일 기준 정렬
             break;
         case 'popular':
-            sortedList = aniList.sort((a, b) => b.anilike - a.anilike); // 좋아요 수 기준 정렬
+            sortedList.sort((a, b) => b.anilike - a.anilike); // 좋아요 수 기준 정렬
             break;
         default:
-            sortedList = aniList; // 기본 정렬 (변경 없음)
+            break; // 기본 정렬 (변경 없음)
     }
 
     renderAniList(sortedList); // 정렬된 리스트 렌더링
@@ -291,34 +324,43 @@ function onSortChange() {
         success: function(data) {
             aniList = data; // 정렬된 목록 저장
             renderAniList(aniList); // 목록을 렌더링
-            const aniListString = JSON.stringify(aniList)
         },
         error: function(xhr, status, error) {
-            console.error("Error fetching ani list: ", error);
+            console.error("Error fetching sorted ani list: ", error);
         }
     });
 }
 
 // 애니메이션 목록을 화면에 렌더링하는 함수
 function renderAniList(list) {
+    if (!Array.isArray(list)) {
+        console.error("Provided list is not an array.");
+        return; // 배열이 아닐 경우 함수 종료
+    }
+
     let tag = '';
 
     list.forEach(function (el) {
+        console.log(el); // 디버깅용 로그
+
+        // 이미지 URL 기본값 설정
+        const imageUrl = el.post_img ? `http://192.168.1.180:8000/${el.post_img}` : 'default-image-url.png';
+
         tag += `
-        <div class="div_li" data-anitype="`+el.anitype+`" data-agetype="`+el.agetype+`">
-            <div class="list_img_bg" data-title="`+el.title+`" data-director="`+el.director+`" data-idx="`+el.idx+`">
-                <img src="http://192.168.1.92:8000/`+el.post_img+`" alt="`+el.title+`">
+        <div class="div_li" data-anitype="${el.anitype}" data-agetype="${el.agetype}">
+            <div class="list_img_bg" data-title="${el.title}" data-director="${el.director}" data-idx="${el.idx}">
+                <img src="${imageUrl}" alt="${el.title}">
                 <div class="overlay">상세 보기</div>
             </div>
             <p>${el.title}</p>
             <p class="genre">
-                <span>`+el.anitype+`</span> <!-- 장르 문자열 -->
-                <span>`+el.agetype+`관람</span> <!-- 나이 관람 문자열 -->
+                <span>${el.anitype}</span>
+                <span>${el.agetype} 관람</span>
             </p>
         </div>`;
     });
 
-    document.querySelector(".ani_viewList").innerHTML = tag;
+    document.querySelector(".ani_viewList").innerHTML = tag; // 생성된 HTML 추가
 
     // 렌더링 후 모달 이벤트를 다시 바인딩해야 함
     bindModalEvents();
@@ -326,33 +368,40 @@ function renderAniList(list) {
 
 // 모달을 열고 정보를 표시하는 함수
 function bindModalEvents() {
-    $('.list_img_bg').on('click', function (e) {
+    const elements = $('.list_img_bg');
+    if (elements.length === 0) {
+        console.warn('No elements found with class .list_img_bg');
+        return; // 요소가 없으면 함수 종료
+    }
+
+    elements.on('click', function (e) {
         e.preventDefault(); // 기본 동작 방지
         const title = $(this).data('title');
         const imageSrc = $(this).find('img').attr('src');
         const director = $(this).data('director');
         const idx = $(this).data('idx');
-        console.log("테스트"+idx)
+
+        console.log("테스트: " + idx); // idx 로그 출력
+
         // AJAX 요청으로 줄거리 및 비슷한 애니메이션 가져오기
         $.ajax({
             url: '/aniDetail',
             method: 'GET',
-            data: { title: title },
+            data: { title: title, idx: idx }, // idx를 데이터에 포함
             success: function (response) {
                 const summary = response.outline;
                 const shortSummary = summary.length > 1000 ? summary.substring(0, 100) + '...' : summary;
-/*별점 초기화 시킬곳*/
+
                 // 모달 내용 업데이트
                 $('.animodal_usergrade').attr('data-idx', idx);
                 $('.animodal_item_infoDiv h1').text(title);
                 $('.animodal_item_imgBack img').attr('src', imageSrc);
                 $('.animodal_item_imgDiv img').attr('src', imageSrc);
                 $('.animodal_item_infoDiv .genre').text(` 장르: ${response.anitype}`);
-                $('.animodal_item_infoDiv .age').text(` 등급: ${response.agetype}관람  `);
+                $('.animodal_item_infoDiv .age').text(` 등급: ${response.agetype}관람`);
                 $('.animodal_item_infoDiv .director').text(` 감독: ${director}`);
                 $('.animodal_item_infoDiv .ani_outline .summary').text(shortSummary);
                 $('.animodal_item_infoDiv .ani_outline .ouline_more').data('full-summary', summary);
-
 
                 // 비슷한 애니메이션 목록 업데이트
                 const similarAnis = response.randomSimilarAnis || [];
@@ -568,6 +617,7 @@ function toggleLike() {
 document.addEventListener('DOMContentLoaded', () => {
     const ani_idx = document.querySelector('.animodal_usergrade').getAttribute('data-idx');
     const token = localStorage.getItem("token");
+    console.log("User ID:", useridx);
 
     // 서버에 요청하여 초기 좋아요 상태를 가져옴
     if (token) {
@@ -611,6 +661,8 @@ $(document).ready(function() {
                 success: function(data) {
                     console.log('Response data:', data); // 서버에서 반환된 데이터 로그 출력
 
+                $('#modal .modal-title').text(data.title); // 모달 제목 설정
+                $('#modal .modal-body').html(data.outline); // 모달 본문 설정
                     // 랜덤 유사 애니메이션이 있는지 확인
                     if (data.randomSimilarAnis && data.randomSimilarAnis.length > 0) {
                         let similarAnisHtml = '';
@@ -618,22 +670,18 @@ $(document).ready(function() {
                         // 랜덤 유사 애니메이션을 HTML로 변환
                         data.randomSimilarAnis.forEach(function(ani) {
                             similarAnisHtml += `
-                                <div class="similar-ani">
-                                    <img src="http://192.168.1.180:8000/${ani.post_img}" alt="${ani.title}" style="width: 185px;" />
-                                    <h3 style="font-size: 17px; color:white;">${ani.title}</h3>
-                                </div>
+                                <li>
+                                    <div class="similar_ani_img" data-idx="${ani.idx}">
+                                        <img src="http://192.168.1.180:8000/${ani.post_img}" alt="${ani.title}"/>
+                                    </div>
+                                    <div class="similar_ani_title" data-title="${ani.title}">
+                                        <p>${ani.title}</p>
+                                    </div>
+                                </li>
                             `;
                         });
 
-                        $('.similar_ani_list').css({
-                            display: 'flex',
-                            padding: '0',
-                            gap: '5px',
-                            margin: '0',
-                            listStyleType: 'none',
-                        });
-
-                        $('.similar-ani').hover(
+                        $('.similar_ani_img img').hover(
                             function() {
                                 $(this).find('img').css({
                                     transform: 'scale(1.1)', // 이미지 확대
@@ -653,6 +701,8 @@ $(document).ready(function() {
                     } else {
                         $('.similar_ani_list').html('<p>No similar animations found.</p>');
                     }
+                      // 모달 열기
+                $('#modal').modal('show');
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error('Error fetching anime details:', textStatus, errorThrown);
@@ -661,3 +711,56 @@ $(document).ready(function() {
         }, 100);
     });
 });
+
+ $(document).on('click', '.similar_ani_img', function (e) {
+        e.preventDefault();
+        const title = $(this).closest("li").find(".similar_ani_title").data('title');
+        const idx = $(this).data('idx'); // 클릭한 비슷한 애니메이션의 idx 가져오기
+        console.log(title, idx);
+
+        // 기존 모달을 닫고 새 AJAX 요청
+        $('.animodal_body').fadeOut(function () {
+            $.ajax({
+                url: '/aniDetail', // API URL
+                method: 'GET',
+                data: { title:title,
+                    idx:idx },
+                success: function (response) {
+                    // 새로운 모달 내용 업데이트
+                    const title = response.title;
+                    const imageSrc = "http://192.168.1.180:8000/" + response.post_img;
+                    const summary = response.outline;
+                    const shortSummary = response.outline.substring(0, 1000) + '...'; // 줄거리 일부
+                    const genre = ` 장르: ${response.anitype}`;
+                    const age = ` 등급: ${response.agetype}관람`;
+                    const director = response.director;
+
+
+                    $('.animodal_item_infoDiv h1').text(title);
+                    $('.animodal_item_imgBack img').attr('src', imageSrc);
+                    $('.animodal_item_imgDiv img').attr('src', imageSrc);
+                    $('.animodal_item_infoDiv .genre').text(` 장르: ${response.anitype}`);
+                    $('.animodal_item_infoDiv .age').text(` 등급: ${response.agetype}관람  `);
+                    $('.animodal_item_infoDiv .director').text(` 감독: ${director}`);
+                    $('.animodal_item_infoDiv .ani_outline .summary').text(shortSummary);
+                    $('.animodal_item_infoDiv .ani_outline .ouline_more').data('full-summary', summary);
+
+            // 별점과 좋아요 초기화
+            $('.animodal_item_infoDiv .star-rating .star').removeClass('active'); // 별점 초기화
+            $('.animodal_item_infoDiv .likes-count').text('0'); // 좋아요 초기화 (예: 0으로 설정)
+                    // 새로운 모달 열기
+                    $('.animodal_body').fadeIn();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error status:', textStatus);
+                    alert('줄거리를 가져오는 데 실패했습니다. 오류: ' + textStatus);
+                }
+            });
+        });
+    });
+
+    // 모달 닫기
+    $('.animodal_body').on('click', '.fa-x', function (e) {
+        e.stopPropagation();
+        $('.animodal_body').fadeOut(); // 모달 닫기
+    });

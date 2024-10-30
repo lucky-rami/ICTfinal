@@ -120,26 +120,33 @@ public class masterController {
     // Dashboard 매핑
     @GetMapping("/masterMain")
     public ModelAndView masterMain() {
-        ModelAndView mav = new ModelAndView("master/masterMain");  // 뷰 이름을 설정
+        ModelAndView mav = new ModelAndView("master/masterMain");
 
-        // 문의 사항 테이블에서 답변 안된 문의 개수 카운트
-        int unanswerCount = masterService.getUnansweredQnaCount();
-        mav.addObject("unanswerCount", unanswerCount);  // 문의 개수 추가
+        // 요약 데이터
+        int totalUsers = masterService.getTotalUsers();  // 총 사용자 수 조회
+        int totalOrders = masterService.getTotalOrders();  // 총 주문 수 조회
+        int totalRevenue = (int) Math.round(masterService.getTotalRevenue());
 
-        // 최신 가입한 회원 정보 가져오기
-        List<MemberVO> latestMembers = service.getLatestMembers();
-        mav.addObject("latestMembers", latestMembers);  // 최신 회원 정보 추가
+        mav.addObject("totalUsers", totalUsers);  // 총 사용자 수를 Model에 추가
+        mav.addObject("totalOrders", totalOrders);  // 총 주문 수를 Model에 추가
+        mav.addObject("totalRevenue", totalRevenue);  // 총 매출액을 Model에 추가 (Double 타입 유지)
 
-        // 최신 문의 및 리뷰 활동 가져오기
-        List<MasterVO> latestActivities = masterService.getLatestActivities();
-        mav.addObject("latestActivities", latestActivities);
+        // 기타 기존 데이터
+        int unanswerCount = masterService.getUnansweredQnaCount();  // 답변되지 않은 문의 개수 조회
+        mav.addObject("unanswerCount", unanswerCount);  // 답변되지 않은 문의 개수를 Model에 추가
 
-        // 최신 주문 활동 가져오기
-        List<MasterVO> latestOrders = masterService.getRecentOrders();
-        mav.addObject("latestOrders", latestOrders);  // 최신 주문 활동 추가
+        List<MemberVO> latestMembers = service.getLatestMembers();  // 최신 가입 회원 정보 조회
+        mav.addObject("latestMembers", latestMembers);  // 최신 가입 회원 정보를 Model에 추가
+
+        List<MasterVO> latestActivities = masterService.getLatestActivities();  // 최신 활동 정보 조회
+        mav.addObject("latestActivities", latestActivities);  // 최신 활동 정보를 Model에 추가
+
+        List<MasterVO> latestOrders = masterService.getRecentOrders();  // 최신 주문 정보 조회
+        mav.addObject("latestOrders", latestOrders);  // 최신 주문 정보를 Model에 추가
 
         return mav;  // 최종 ModelAndView 반환
     }
+
 
     //Dashboard - 회원관리 - 회원 목록 리스트
     @GetMapping("/userMasterList")
@@ -245,10 +252,24 @@ public class masterController {
 
     // Dashboard - 회원관리 - 신고계정목록 리스트
     @GetMapping("/reportinguserListMaster")
-    public ModelAndView masterReportList(MasterVO vo) {
-        List<MasterVO> reportinguserList = masterService.getReportinguserList(vo);
-        mav = new ModelAndView();
+    public ModelAndView masterReportList(
+            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+            MasterVO vo) {
+
+        int offset = (currentPage - 1) * pageSize; // 페이징을 위한 오프셋 계산
+
+        //  신고 사용자 목록 조회
+        List<MasterVO> reportinguserList = masterService.getReportinguserList(offset, pageSize, vo);
+
+        // 전체 신고 사용자 수를 가져와서 총 페이지 수 계산
+        int totalUsers = masterService.getTotalReportingUserCount();
+        int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
+
+        ModelAndView mav = new ModelAndView();
         mav.addObject("reportinguserList", reportinguserList);
+        mav.addObject("currentPage", currentPage); // 현재 페이지
+        mav.addObject("totalPages", totalPages);   // 총 페이지 수
         mav.setViewName("master/reportinguserListMaster");
         return mav;
     }
@@ -494,13 +515,16 @@ public class masterController {
         // 페이징을 적용한 신고된 유저 목록 조회
         List<MasterVO> reportingUser = masterService.getReportingUserWithPaging(offset, pageSize);
 
-        // 각 유저별로 개별 신고 횟수를 계산
-        for (MasterVO user : reportingUser) {
+        // 디버깅을 위한 로그
+        System.out.println("Retrieved reportingUser: " + reportingUser);
+
+        // 각 유저별로 개별 신고 횟수를 계산 및 추가
+        reportingUser.forEach(user -> {
             int totalUserReport = masterService.getTotalUserReport(user.getUserid());
             user.setTotalUserReport(totalUserReport);
-        }
+        });
 
-        // 전체 신고 누적 횟수 계산
+        // 전체 신고 누적 횟수 및 총 사용자 수 계산
         int totalReportUser = masterService.getTotalReportCount();
         int totalUsers = masterService.getTotalReportingUserCount();
         int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
@@ -516,6 +540,8 @@ public class masterController {
 
         return mav;
     }
+
+
 
 
 
@@ -614,15 +640,16 @@ public class masterController {
     @ResponseBody
     public Map<String, Object> getCommentDetails(@RequestParam("idx") int idx) {
         Map<String, Object> response = new HashMap<>();
-
-        // 댓글 정보 조회
-        MasterVO comment = masterService.getCommentByIdx(idx);
-        response.put("comment", comment);
-
-        // 해당 댓글에 대한 답글 목록 조회
-        List<MasterVO> replies = masterService.getRepliesByCommentIdx(idx);
-        response.put("replies", replies);
-
+        try {
+            MasterVO comment = masterService.getCommentByIdx(idx);
+            response.put("comment", comment);
+            List<MasterVO> replies = masterService.getRepliesByCommentIdx(idx);
+            response.put("replies", replies);
+        } catch (Exception e) {
+            response.put("error", "댓글 정보를 가져오는 중 오류가 발생했습니다.");
+            // Log the error for debugging
+            e.printStackTrace();
+        }
         return response;
     }
 
@@ -1512,40 +1539,69 @@ public class masterController {
                                   @RequestParam("handleDT") String handleDT,
                                   @RequestParam("endDT") String endDT,
                                   @RequestParam("handleState") int handleState,
-                                  @RequestParam("idx") int idx,
-                                  @RequestParam("comment_idx") int comment_idx,
+                                  @RequestParam("idx") int idx,  // 신고 ID
+                                  @RequestParam("comment_idx") Integer comment_idx,  // 댓글 ID (NULL일 수 있음)
+                                  @RequestParam("review_idx") Integer review_idx,    // 리뷰 ID (NULL일 수 있음)
+                                  @RequestParam("comunity_idx") Integer comunity_idx, // 커뮤니티 게시글 ID (NULL일 수 있음)
+                                  @RequestParam("report_type") int report_type, // 신고 유형
                                   HttpServletRequest request) {
 
         System.out.println("Received idx: " + idx);
         System.out.println("Received userid: " + userid);
         System.out.println("Received comment_idx: " + comment_idx);
+        System.out.println("Received review_idx: " + review_idx);
+        System.out.println("Received comunity_idx: " + comunity_idx);
+        System.out.println("Received report_type: " + report_type);
 
         LocalDateTime stopDT = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime parsedHandleDT = LocalDate.parse(handleDT, formatter).atStartOfDay();
         LocalDateTime parsedEndDT = LocalDate.parse(endDT, formatter).atStartOfDay();
 
-        Integer useridx = masterService.findUserIdxByUserid(userid);
+        // 신고할 대상의 useridx를 찾습니다.
+        Integer useridx = null; // 초기값 설정
+
+        // 댓글 신고인 경우
+        if (comment_idx != null) {
+            useridx = masterService.findUserIdByCommentIdx(comment_idx);  // 댓글 작성자의 ID를 찾는 메서드
+        }
+
+        // 리뷰 신고인 경우
+        if (review_idx != null) {
+            useridx = masterService.findUserIdByReviewIdx(review_idx);  // 리뷰 작성자의 ID를 찾는 메서드
+        }
+
+        // 커뮤니티 신고인 경우
+        if (comunity_idx != null) {
+            useridx = masterService.findUserIdByCommunityIdx(comunity_idx);  // 커뮤니티 게시글 작성자의 ID를 찾는 메서드
+        }
+
+        // 신고할 대상이 유효한지 체크
         if (useridx == null) {
-            throw new RuntimeException("유효하지 않은 사용자입니다.");
+            throw new RuntimeException("신고할 대상의 사용자 ID를 찾을 수 없습니다.");
         }
 
         System.out.println("Inserting report for user: " + useridx);
-
+        System.out.println("Comment user ID: " + masterService.findUserIdByCommentIdx(comment_idx));
+        System.out.println("Review user ID: " + masterService.findUserIdByReviewIdx(review_idx));
+        System.out.println("Community user ID: " + masterService.findUserIdByCommunityIdx(comunity_idx));
 
         // handleState가 2인 경우, handleDT 업데이트와 t_ban 테이블 등록을 건너뜁니다.
         if (handleState != 2) {
-                masterService.insertReport(useridx, reason, stopDT, parsedEndDT, comment_idx); // t_ban 테이블에 추가
+            // 신고 등록 메서드에서 모든 ID를 포함하도록 합니다.
+            masterService.insertReport(useridx, reason, stopDT, parsedEndDT, comment_idx, review_idx, comunity_idx, report_type); // 신고 등록
 
             masterService.updateAllEndDT(useridx, parsedEndDT); // endDT 업데이트
         }
-
 
         // 신고 상태와 처리 날짜 업데이트
         masterService.updateReport(idx, handleState, parsedHandleDT);
 
         return "redirect:/master/reportinguserListMaster";
     }
+
+
+
 
     @PostMapping("/reportingDeleteMaster/{idx}")
     public String reportingDeleteMaster(@PathVariable("idx") int idx) {
@@ -1887,5 +1943,22 @@ public class masterController {
         return ResponseEntity.ok(stats);
     }
 
+    // 관리자페이지 메인 일별 차트 보여주기
+    @GetMapping("/getCombinedSalesData")
+    @ResponseBody
+    public Map<String, Object> getCombinedSalesData() {
+        Map<String, Object> response = new HashMap<>();
 
+        // 애니메이션 매출 데이터 조회
+        List<Map<String, Object>> aniSalesData = masterService.getAniSalesData();
+        System.out.println("Ani Sales Data: " + aniSalesData); // 디버깅용 로그
+
+        // 일별 매출 데이터 조회
+        List<Map<String, Object>> dailySalesData = masterService.getDailySalesData();
+        System.out.println("Daily Sales Data: " + dailySalesData); // 디버깅용 로그
+
+        response.put("aniSalesData", aniSalesData);
+        response.put("dailySalesData", dailySalesData);
+        return response;
+    }
 }
