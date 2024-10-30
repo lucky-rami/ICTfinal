@@ -145,6 +145,36 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
+    public List<MasterVO> getReportinguserListWithPaging(int offset, int pageSize) {
+        return dao.getReportinguserListWithPaging(offset, pageSize);
+    }
+
+    @Override
+    public int getActiveReportCount() {
+        return dao.getActiveReportCount();
+    }
+
+    @Override
+    public int getInactiveReportCount() {
+        return dao.getInactiveReportCount();
+    }
+
+    @Override
+    public int getCompletedReportCount() {
+        return dao.getCompletedReportCount();
+    }
+
+    @Override
+    public int getNonCompletedReportCount() {
+        return dao.getNonCompletedReportCount();
+    }
+
+    @Override
+    public void deleteReport1(int idx) {
+        dao.deleteReport1(idx);
+    }
+
+    @Override
     public int getTodayBoardCount() {
         return dao.getTodayBoardCount();
     }
@@ -505,7 +535,12 @@ public class MasterServiceImpl implements MasterService {
 
     @Override
     public void deleteReport(int idx) {
-        dao.deleteReport(idx);
+        try {
+            dao.deleteReport1(idx);
+            dao.deleteReport(idx);
+        } catch (Exception e) {
+            System.err.println("삭제 중 오류 발생: " + e.getMessage());
+        }
     }
 
     @Override

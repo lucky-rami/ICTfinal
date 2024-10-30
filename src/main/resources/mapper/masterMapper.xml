@@ -254,7 +254,6 @@
     </select>
 
 
-
     <!-- 문의사항 전체 목록 보여주기 -->
     <select id="getQNAList" resultType="MasterVO">
         SELECT q.idx, qt.type AS qnatype, q.title, q.content, u.userid, DATE_FORMAT(q.regDT, '%Y-%m-%d') as regDT,
@@ -295,7 +294,7 @@
 
     <!-- 전체 신고 횟수를 구하는 쿼리 -->
     <select id="getTotalReportCount" resultType="int">
-        SELECT COUNT(*) FROM t_ban
+        SELECT COUNT(*) FROM t_report
     </select>
 
     <!-- qna 처리 상태 업데이트 -->
@@ -444,7 +443,8 @@
         FROM t_community c
         LEFT JOIN t_communitytype tc ON c.commtype = tc.code
         LEFT JOIN t_user u ON c.useridx = u.idx
-        ORDER BY c.regDT desc
+        WHERE c.delState != 1  <!-- delState가 1이 아닌 경우만 조회 -->
+        ORDER BY c.regDT DESC
         LIMIT #{offset}, #{limit}
     </select>
 
@@ -645,7 +645,7 @@
         FROM t_comment r
         JOIN t_user u ON r.useridx = u.idx
         WHERE r.parentidx IS NULL OR r.parentidx = 0
-        ORDER BY r.idx
+        ORDER BY r.regDT desc
         LIMIT #{offset}, #{pageSize}
     </select>
 
@@ -697,6 +697,10 @@
     <!-- 해당 신고 삭제 하기 -->
     <delete id="deleteReport" parameterType="int">
         DELETE FROM t_ban WHERE idx = #{idx}
+    </delete>
+
+    <delete id="deleteReport1" parameterType="int">
+        DELETE FROM t_report WHERE idx = #{idx}
     </delete>
 
     <!-- 전체 FAQ 개수 조회 쿼리 -->
@@ -772,7 +776,7 @@
         FROM
         t_event
         ORDER BY
-        regDT DESC  -- 내림차순 정렬
+        idx DESC  -- 내림차순 정렬
         LIMIT #{startRecord}, #{pageSize}
     </select>
 
@@ -806,6 +810,53 @@
 
     <select id="getWeekReviewCount" resultType="int">
         SELECT COUNT(*) FROM t_review WHERE regDT >= DATE_SUB(CURDATE(), INTERVAL 7 DAY);
+    </select>
+
+    <select id="getReportinguserListWithPaging" parameterType="map" resultType="MasterVO">
+        SELECT
+        r.*,
+        c.*,
+        v.*,
+        co.*,
+        u.userid AS commentAuthor,  -- 댓글 작성자의 ID
+        u2.userid AS reviewAuthor,   -- 리뷰 작성자의 ID
+        u3.userid AS communityAuthor, -- 커뮤니티 작성자의 ID
+        DATE_FORMAT(r.handleDT, '%Y-%m-%d') AS handleDT  -- 포맷팅된 handleDT
+        FROM
+        t_report r
+        LEFT JOIN
+        t_comment c ON r.comment_idx = c.idx  -- 댓글과 조인
+        LEFT JOIN
+        t_review v ON r.review_idx = v.idx    -- 리뷰와 조인
+        LEFT JOIN
+        t_community co ON r.comunity_idx = co.idx -- 커뮤니티와 조인
+        LEFT JOIN
+        t_user u ON c.useridx = u.idx        -- 댓글 작성자의 ID 조인
+        LEFT JOIN
+        t_user u2 ON v.useridx = u2.idx      -- 리뷰 작성자의 ID 조인
+        LEFT JOIN
+        t_user u3 ON co.useridx = u3.idx     -- 커뮤니티 작성자의 ID 조인
+        ORDER BY
+        r.reportDT DESC
+        LIMIT
+        #{offset}, #{pageSize}
+
+    </select>
+
+    <select id="getActiveReportCount" resultType="int">
+        SELECT COUNT(*) FROM t_report WHERE handleState = 0
+    </select>
+
+    <select id="getInactiveReportCount" resultType="int">
+        SELECT COUNT(*) FROM t_report WHERE handleState = 0
+    </select>
+
+    <select id="getCompletedReportCount" resultType="int">
+        SELECT COUNT(*) FROM t_report WHERE handleState = 1
+    </select>
+
+    <select id="getNonCompletedReportCount" resultType="int">
+        SELECT COUNT(*) FROM t_report WHERE handleState = 2
     </select>
 
     <select id="getWeekReplyCount" resultType="int">

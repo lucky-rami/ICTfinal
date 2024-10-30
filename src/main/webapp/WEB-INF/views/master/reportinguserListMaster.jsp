@@ -3,7 +3,10 @@
 <%@include file="/WEB-INF/inc/Masterheader.jspf" %>
 <title>DashBoard - 신고 목록 리스트</title>
 <link href="/css/masterStyle.css" rel="stylesheet" type="text/css"></link>
+<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script src="/js/Master.js"></script>
 
 <div class="reportinguserList-list-container">
@@ -12,19 +15,19 @@
         <div class="summary">
             <div>
                 <strong>총 신고 수</strong>
-                <p id="totalUsers">3 명</p>
+                <p id="totalReports">${totalReports} 개</p>
             </div>
             <div>
-                <strong>접수중</strong>
-                <p id="activeUsers">2 명</p>
+                <strong>접수중/처리중</strong>
+                <p id="activeReports">${activeReports} 개</p>
             </div>
-            <div>
-                <strong>처리대기</strong>
-                <p id="inactiveUsers">1 명</p>
-            </div>
+             <div>
+                            <strong>처리불가</strong>
+                            <p id="noncompletedReports">${noncompletedReports} 개</p>
+                        </div>
             <div>
                 <strong>처리완료</strong>
-                <p id="newUsers">1 명</p>
+                <p id="completedReports">${completedReports} 개</p>
             </div>
         </div>
 
@@ -34,7 +37,7 @@
                     <tr>
                         <th style="width:2%"></th>
                         <th style="width:5%">No</th>
-                        <th style="width:25%">내용</th>
+                        <th style="width:25%">신고사유</th>
                         <th style="width:10%">신고아이디</th>
                         <th style="width:10%">처리현황</th>
                         <th style="width:10%">처리날짜</th>
@@ -46,7 +49,19 @@
                    <tr>
                        <td><input type="checkbox" /></td>
                        <td>${reportinguser.idx}</td>
-                       <td>${reportinguser.reason}</td>
+                       <td>
+                                                  <c:choose>
+                                                      <c:when test="${reportinguser.report_type == 1}">관련없는 이미지</c:when>
+                                                      <c:when test="${reportinguser.report_type == 2}">관련없는 내용</c:when>
+                                                      <c:when test="${reportinguser.report_type == 3}">욕설/비방</c:when>
+                                                      <c:when test="${reportinguser.report_type == 4}">광고/홍보글</c:when>
+                                                      <c:when test="${reportinguser.report_type == 5}">개인정보 유출</c:when>
+                                                      <c:when test="${reportinguser.report_type == 6}">게시글 도배</c:when>
+                                                      <c:when test="${reportinguser.report_type == 7}">음란/선정성</c:when>
+                                                      <c:when test="${reportinguser.report_type == 8}">기타</c:when>
+                                                      <c:otherwise>알 수 없음</c:otherwise>
+                                                  </c:choose>
+                                              </td>
                        <td>
                                    <c:choose>
                                        <c:when test="${not empty reportinguser.commentAuthor}">
@@ -141,4 +156,35 @@
                         </form>
                     </div>
                 </div>
+            </div>
+
+             <!-- 페이징 영역 -->
+                <nav>
+                   <ul class="pagination justify-content-center">
+                       <c:set var="pageGroupSize" value="5" />
+                       <c:set var="startPage" value="${((currentPage - 1) / pageGroupSize) * pageGroupSize + 1}" />
+                       <c:set var="endPage" value="${startPage + pageGroupSize - 1 > totalPages ? totalPages : startPage + pageGroupSize - 1}" />
+
+                       <!-- 이전 그룹으로 이동 -->
+                       <c:if test="${startPage > 1}">
+                           <li class="page-item">
+                               <a class="page-link" href="/master/reportinguserListMaster?currentPage=${startPage - 1}&pageSize=${pageSize}">&laquo;</a>
+                           </li>
+                       </c:if>
+
+                       <!-- 페이지 번호 -->
+                       <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                           <li class="page-item ${i == currentPage ? 'active' : ''}">
+                               <a class="page-link" href="/master/reportinguserListMaster?currentPage=${i}&pageSize=${pageSize}">${i}</a>
+                           </li>
+                       </c:forEach>
+
+                       <!-- 다음 그룹으로 이동 -->
+                       <c:if test="${endPage < totalPages}">
+                           <li class="page-item">
+                               <a class="page-link" href="/master/reportinguserListMaster?currentPage=${endPage + 1}&pageSize=${pageSize}">&raquo</a>
+                           </li>
+                       </c:if>
+                   </ul>
+                </nav>
             </div>

@@ -200,7 +200,7 @@ public interface MasterDAO {
     void updateFAQ(MasterVO faq);
 
     void deleteReport(int idx);
-
+    void deleteReport1(int idx);
     Map<String, Object> getCategoryCodeCountByani(int categorytCode);
 
     // 주문관리
@@ -275,4 +275,10 @@ public interface MasterDAO {
     Integer findUserIdByCommentIdx(int comment_idx);
     Integer findUserIdByReviewIdx(int review_idx);
     Integer findUserIdByCommunityIdx(int comunity_idx);
+
+    List<MasterVO> getReportinguserListWithPaging(int offset, int pageSize);
+    int getActiveReportCount();
+    int getInactiveReportCount();
+    int getCompletedReportCount();
+    int getNonCompletedReportCount();
 }
