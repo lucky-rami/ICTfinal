@@ -100,69 +100,76 @@ public class storeMainController {
         return imageInfoList;
     }
 
-    @GetMapping("/storeList")
-    public ModelAndView getStoreListAndView(
-            @RequestParam(defaultValue = "1") int pageNum,
-            @RequestParam(defaultValue = "12") int pageSize,
-            @RequestParam(required = false) Integer category,
-            @RequestParam(required = false) Integer second_category,
-            @RequestParam(required = false) String filterType,
-            @RequestParam(required = false) String ani_title) { // 이미지 클릭 시 title 전달
-        // offset 계산
-        int offset = (pageNum - 1) * pageSize;
-        System.out.println("히히히 " + ani_title);
-        // 필터링된 상품 목록을 가져옴
-        List<StoreVO> pagedProducts;
+            @GetMapping("/storeList")
+            public ModelAndView getStoreListAndView(
+                    @RequestParam(defaultValue = "1") int pageNum,
+                    @RequestParam(defaultValue = "12") int pageSize,
+                    @RequestParam(required = false) Integer category,
+                    @RequestParam(required = false) Integer second_category,
+                    @RequestParam(required = false) String filterType,
+                    @RequestParam(required = false) String ani_title) { // 이미지 클릭 시 title 전달
+                // offset 계산
+                int offset = (pageNum - 1) * pageSize;
 
-        // 1. ani_title이 있는 경우 해당 title로 필터링
-        if (ani_title != null && !ani_title.isEmpty()) {
-            // ani_title을 이용해 필터링된 상품 목록을 가져옴
-            pagedProducts = storeService.getPagedProducts(pageSize, offset, null, null, ani_title);
-            System.out.println("12" + pagedProducts);
-        }
-        // 2. 카테고리 필터링이 있는 경우
-        else if (category != null) {
-            pagedProducts = storeService.getProductsByCategory(pageSize, offset, category);
-        }
-        // 3. 필터 타입(최신순, 인기순, 가격순 등) 필터링이 있는 경우
-        else if (filterType != null) {
-            pagedProducts = storeService.getStoreListByFilter(filterType);
-        }
-        // 4. 필터링 조건이 없는 경우 전체 상품을 가져옴
-        else{
-//            pagedProducts = storeService.getPagedProducts(pageSize, offset, null, null);
-            pagedProducts = storeService.getPagedProducts(pageSize, offset, null, null, null);
-        }
+                // 필터링된 상품 목록을 가져옴
+                List<StoreVO> pagedProducts;
 
-        // 총 상품 개수를 가져옴
-        int totalProducts = 0;
-        if (ani_title != null && !ani_title.isEmpty()) {
-            totalProducts = storeService.getPagedProductsCnt(null, null, ani_title);
-        }
-        else if (category != null) {
-//            totalProducts = storeService.getPagedProductsCnt(category, second_category);
-                totalProducts = storeService.getPagedProductsCnt(category, second_category, ani_title);
-        } else {
-            totalProducts = pagedProducts.isEmpty() ? 0 : storeService.getTotalProductCount();
-        }
+                // 1. ani_title이 있는 경우 해당 title로 필터링
+                if (ani_title != null && !ani_title.isEmpty()) {
+                    // ani_title을 이용해 필터링된 상품 목록을 가져옴
+                    pagedProducts = storeService.getPagedProducts(pageSize, offset, null, null, ani_title);
+                    System.out.println("12" + pagedProducts);
+                }
+                // 2. 카테고리 필터링이 있는 경우
+                else if (category != null) {
+                    pagedProducts = storeService.getProductsByCategory(pageSize, offset, category);
+                }
+                // 3. 필터 타입(최신순, 인기순, 가격순 등) 필터링이 있는 경우
+                else if (filterType != null) {
+                    pagedProducts = storeService.getStoreListByFilter(filterType);
+                }
+                // 4. 필터링 조건이 없는 경우 전체 상품을 가져옴
+                else{
+        //            pagedProducts = storeService.getPagedProducts(pageSize, offset, null, null);
+                    pagedProducts = storeService.getPagedProducts(pageSize, offset, null, null, null);
+                }
 
-        // 총 페이지 수 계산
-        int totalPages = totalProducts > 0 ? (int) Math.ceil((double) totalProducts / pageSize) : 0;
+                // 총 상품 개수를 가져옴
+                int totalProducts = 0;
+                if (ani_title != null && !ani_title.isEmpty()) {
+                    totalProducts = storeService.getPagedProductsCnt(null, null, ani_title);
+                }
+                else if (category != null) {
+        //            totalProducts = storeService.getPagedProductsCnt(category, second_category);
+                        totalProducts = storeService.getPagedProductsCnt(category, second_category, ani_title);
+                } else {
+                    totalProducts = pagedProducts.isEmpty() ? 0 : storeService.getTotalProductCount();
+                }
 
-        // 카테고리 목록을 가져옴
-        List<ProductFilterVO> firstCategoryList = storeService.getFirstCategoryList();
-        System.out.println("토탈페이지 : " + totalPages);
-        List<StoreVO> products = storeService.getProductsByImageTitle(ani_title);
-        // ModelAndView 설정
-        ModelAndView mav = new ModelAndView("store/storeList");
-        mav.addObject("pagedProducts", pagedProducts); // 페이지별 상품 목록 전달
-        mav.addObject("firstCategoryList", firstCategoryList); // 카테고리 필터 전달
-        mav.addObject("currentPage", pageNum); // 현재 페이지 전달
-        mav.addObject("totalPages", totalPages); // 총 페이지 수 전달
-        mav.addObject("selectedCategory", category); // 선택된 카테고리 전달 (null일 수 있음)
-        mav.addObject("selectedFilterType", filterType); // 선택된 필터 타입 전달 (null일 수 있음)
-        mav.addObject("selectedTitle", ani_title); // 선택된 배너 title 전달 (null일 수 있음)
-        mav.addObject("imageTitle", ani_title); // 선택한 이미지 제목 추가 (필요시)
+                // 총 페이지 수 계산
+                int totalPages = totalProducts > 0 ? (int) Math.ceil((double) totalProducts / pageSize) : 0;
+
+
+
+                // 카테고리 목록을 가져옴
+                List<ProductFilterVO> firstCategoryList = storeService.getFirstCategoryList();
+                System.out.println("토탈페이지 : " + totalPages);
+                List<StoreVO> products = storeService.getProductsByImageTitle(ani_title);
+                // ani_title에 해당하는 second_category 목록 가져오기
+                List<StoreVO> secondCategoryList = storeService.getSecondCategoryListByAniTitle(ani_title);
+                System.out.println("오리지널이미지 하위카테고리 " + secondCategoryList);
+                // ModelAndView 설정
+                ModelAndView mav = new ModelAndView("store/storeList");
+                mav.addObject("pagedProducts", pagedProducts); // 페이지별 상품 목록 전달
+                mav.addObject("firstCategoryList", firstCategoryList); // 카테고리 필터 전달
+                mav.addObject("currentPage", pageNum); // 현재 페이지 전달
+                mav.addObject("totalPages", totalPages); // 총 페이지 수 전달
+                mav.addObject("selectedCategory", category); // 선택된 카테고리 전달 (null일 수 있음)
+                mav.addObject("selectedFilterType", filterType); // 선택된 필터 타입 전달 (null일 수 있음)
+                mav.addObject("selectedTitle", ani_title); // 선택된 배너 title 전달 (null일 수 있음)
+                mav.addObject("imageTitle", ani_title); // 선택한 이미지 제목 추가 (필요시)
+                mav.addObject("secondCategoryList", secondCategoryList);
+
 
         return mav;
     }
@@ -197,7 +204,7 @@ public class storeMainController {
             @RequestParam(required = false) String ani_title) {
 
         int offset = (pageNum - 1) * pageSize;
-        System.out.println("lglglglglg" + ani_title);
+
         // 두 번째 카테고리를 포함한 상품 목록과 상품 개수를 가져옵니다.
         List<StoreVO> pagedProducts = storeService.getPagedProducts(pageSize, offset, category, second_category, ani_title);
         int pagedProductscnt = storeService.getPagedProductsCnt(category, second_category, ani_title);

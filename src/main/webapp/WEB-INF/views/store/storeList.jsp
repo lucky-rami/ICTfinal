@@ -52,6 +52,13 @@
                 <!-- 하위 카테고리를 표시할 영역 -->
                 <h3>하위 카테고리</h3>
                 <!-- mapper에서 커리문을 들고와서 해당하는 서브카테고리가 있으면 display : block, default는 none -->
+            <script>
+                // secondCategoryList 배열을 JavaScript에서 사용할 수 있도록 설정
+                const secondCategoryList = [];
+                <c:forEach var="category" items="${secondCategoryList}">
+                    secondCategoryList.push("${category.category_name}");
+                </c:forEach>
+            </script>
                 <ul id="subcategory-list" class="filter-list">
                     <li class="filter-item" onclick="applyFilter(1,'아우터')"><span class="filter-text">아우터</span></li>
                     <li class="filter-item" onclick="applyFilter(1,'상의')"><span class="filter-text">상의</span></li>
