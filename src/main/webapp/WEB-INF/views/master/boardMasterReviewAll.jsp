@@ -12,7 +12,7 @@
     <div class="summary">
         <div>
             <strong>총 리뷰 수</strong>
-            <p id="totalBoard">${totalUser} 개</p>
+            <p id="totalBoard">${totalReviews} 개</p>
         </div>
         <div>
             <strong>오늘 작성된 리뷰 수 </strong>
@@ -57,7 +57,7 @@
                                                     <td><fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd" /></td>
                                     <td>
                                         <a href="#" class="btn btn-outline-secondary btn-sm reviewDetailBtn" data-idx="${review.idx}">상세보기</a>
-                                        <a href="#" class="btn btn-outline-danger btn-sm" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                                        <a href="#" class="btn btn-outline-danger btn-sm deleteReviewBtn" data-idx="${review.idx}">삭제</a>
                                     </td>
                                 </tr>
                             </c:forEach>

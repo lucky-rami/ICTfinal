@@ -39,6 +39,11 @@ public interface MasterService {
     int getLastWeekBoardCount();
     int getTotalUserDelCount();  // 총 탈퇴 회원 수 조회
     void deleteEvent(int idx); // 이벤트 삭제 메서드
+    public int getTodayReplyCount();
+    public int getWeekReplyCount();
+    int getTodayReviewCount(); // 오늘 작성된 리뷰 수 조회
+    int getWeekReviewCount(); // 일주일간 작성된 리뷰 수 조회
+    void deleteReview(int idx); // 리뷰 삭제 메서드
     void updateReportAndBan(int idx, Integer useridx, String reason, LocalDateTime stopDT,
                             LocalDateTime handleDT, LocalDateTime endDT, int handleState, int comment_idx);
     List<MasterVO> getReplyList(MasterVO vo);

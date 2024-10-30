@@ -10,7 +10,7 @@
             <div class="summary">
                 <div>
                     <strong>총 댓글 수</strong>
-                    <p id="totalBoard">${totalUser} 개</p>
+                    <p id="totalBoard">${totalReplies} 개</p>
                 </div>
                 <div>
                     <strong>오늘 작성된 댓글 수 </strong>

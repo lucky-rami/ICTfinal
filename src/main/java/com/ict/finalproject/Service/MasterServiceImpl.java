@@ -153,6 +153,31 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
+    public int getTodayReplyCount() {
+        return dao.getTodayReplyCount();
+    }
+
+    @Override
+    public int getWeekReplyCount() {
+        return dao.getWeekReplyCount();
+    }
+
+    @Override
+    public int getTodayReviewCount() {
+        return dao.getTodayReviewCount();
+    }
+
+    @Override
+    public int getWeekReviewCount() {
+        return dao.getWeekReviewCount();
+    }
+
+    @Override
+    public void deleteReview(int idx) {
+        dao.deleteReview(idx);
+    }
+
+    @Override
     public void updateReportAndBan(int idx,Integer useridx, String reason, LocalDateTime stopDT, LocalDateTime handleDT, LocalDateTime endDT, int handleState, int comment_idx) {
         if (handleState == 2) {
             return;

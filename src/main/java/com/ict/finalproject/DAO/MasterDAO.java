@@ -63,7 +63,11 @@ public interface MasterDAO {
     void deleteFaq(int idx);
     int getTotalUserDelCount();
     void deleteEvent(int idx); // 이벤트 삭제 메서드
-
+    public int getTodayReplyCount();
+    public int getWeekReplyCount();
+    int getTodayReviewCount(); // 오늘 작성된 리뷰 수 조회
+    int getWeekReviewCount(); // 일주일간 작성된 리뷰 수 조회
+    void deleteReview(int idx); // 리뷰 삭제 메서드
     int getTodayBoardCount();  // 오늘 작성된 게시글 수
     int getLastWeekBoardCount();
     void deleteBoard(int idx);

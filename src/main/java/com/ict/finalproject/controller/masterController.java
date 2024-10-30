@@ -604,6 +604,15 @@ public class masterController {
         return "redirect:/master/boardMasterAll";  // 삭제 후 게시글 목록으로 리다이렉트
     }
 
+    @PostMapping("/boardMasterReviewDelete/{idx}")
+    public String boardMasterReviewDelete(@PathVariable("idx") int idx) {
+        System.out.println("리뷰 삭제 요청: " + idx);
+
+        // 리뷰 삭제
+        masterService.deleteReview(idx);
+
+        return "redirect:/master/boardMasterReviewAll";  // 삭제 후 리뷰 목록으로 리다이렉트
+    }
 
 
 
@@ -613,32 +622,39 @@ public class masterController {
             @RequestParam(value = "currentPage", defaultValue = "1") String currentPage,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
-        int currentPageInt; // 정수형 페이지 변수 선언
+        int currentPageInt;
         try {
-            currentPageInt = Integer.parseInt(currentPage); // 문자열을 정수로 변환
+            currentPageInt = Integer.parseInt(currentPage);
         } catch (NumberFormatException e) {
-            currentPageInt = 1; // 변환 실패 시 기본값 설정
+            currentPageInt = 1;
         }
 
         // 페이징 계산
         int offset = Math.max(0, (currentPageInt - 1) * pageSize);
         List<MasterVO> reviewList = masterService.getReviewListWithPaging(offset, pageSize);
 
-        // 전체 리뷰 수
+        // 전체 리뷰 수 조회
         int totalReviews = masterService.getTotalReviewCount();
         int totalPages = (int) Math.ceil((double) totalReviews / pageSize);
 
-        // 로그로 데이터 크기 확인
-        System.out.println("불러온 리뷰 개수: " + reviewList.size());
+        // 오늘 작성된 리뷰 수 조회
+        int newUsers = masterService.getTodayReviewCount();
+
+        // 일주일간 작성된 리뷰 수 조회
+        int newSignups = masterService.getWeekReviewCount();
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("reviewList", reviewList);
-        mav.addObject("currentPage", currentPageInt); // 정수형 페이지 변수 사용
+        mav.addObject("currentPage", currentPageInt);
         mav.addObject("pageSize", pageSize);
         mav.addObject("totalPages", totalPages);
+        mav.addObject("totalReviews", totalReviews); // 총 리뷰 수
+        mav.addObject("newUsers", newUsers); // 오늘 작성된 리뷰 수
+        mav.addObject("newSignups", newSignups); // 일주일간 작성된 리뷰 수
         mav.setViewName("master/boardMasterReviewAll");
         return mav;
     }
+
 
 
 
@@ -655,20 +671,28 @@ public class masterController {
         // 페이징을 적용한 댓글 목록 조회
         List<MasterVO> commentList = masterService.getReplyListWithPaging(offset, pageSize);
 
-
         // 전체 댓글 개수 조회
         int totalReplies = masterService.getTotalReplyCount();
         int totalPages = (int) Math.ceil((double) totalReplies / pageSize);
 
+        // 오늘 작성된 댓글 수 조회
+        int newUsers = masterService.getTodayReplyCount();
+
+        // 일주일간 작성된 댓글 수 조회
+        int newSignups = masterService.getWeekReplyCount();
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("commentList", commentList);
         mav.addObject("currentPage", currentPageInt);
         mav.addObject("totalPages", totalPages);
         mav.addObject("pageSize", pageSize);
+        mav.addObject("totalReplies", totalReplies); // 총 댓글 수
+        mav.addObject("newUsers", newUsers); // 오늘 작성된 댓글 수
+        mav.addObject("newSignups", newSignups); // 일주일간 작성된 댓글 수
         mav.setViewName("master/boardMasterCommentAll");
         return mav;
     }
+
 
     @GetMapping("/getCommentDetails")
     @ResponseBody

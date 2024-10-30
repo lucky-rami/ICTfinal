@@ -784,6 +784,26 @@
         LIMIT #{startRecord}, #{pageSize}
     </select>
 
+    <select id="getTodayReplyCount" resultType="int">
+        SELECT COUNT(*) FROM t_comment WHERE DATE(regDT) = CURDATE();
+    </select>
+
+    <select id="getTodayReviewCount" resultType="int">
+        SELECT COUNT(*) FROM t_review WHERE DATE(regDT) = CURDATE();
+    </select>
+
+    <delete id="deleteReview">
+        DELETE FROM t_review WHERE idx = #{idx}
+    </delete>
+
+    <select id="getWeekReviewCount" resultType="int">
+        SELECT COUNT(*) FROM t_review WHERE regDT >= DATE_SUB(CURDATE(), INTERVAL 7 DAY);
+    </select>
+
+    <select id="getWeekReplyCount" resultType="int">
+        SELECT COUNT(*) FROM t_comment WHERE regDT >= DATE_SUB(CURDATE(), INTERVAL 7 DAY);
+    </select>
+
     <select id="getCategoryCodeCountByani" resultType="map" parameterType="int">
         SELECT
         at.code AS anitype_code,
