@@ -27,6 +27,7 @@ public interface StoreService {
     public int getTotalProductCount();
     //오리지널 상품 목록
     public List<StoreVO> getProductsByImageTitle(String ani_Title);
+    List<StoreVO> getSecondCategoryListByAniTitle(String ani_title);
 
     //페이지네이션 처리를 위한 상품목록 가져오기
 //    public List<StoreVO> getPagedProducts(@Param("pageSize") int pageSize, @Param("offset") int offset, @Param("category")  Integer category,@Param("second_category")  Integer second_category); //페이지네이션

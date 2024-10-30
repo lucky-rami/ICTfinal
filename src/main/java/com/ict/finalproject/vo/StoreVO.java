@@ -27,5 +27,6 @@ public class StoreVO {
     private int likeCount;
     private String detailImg;
     //상세페이지 숨겨진 이미지ㅣ 불러오기
-    private List<String> detailImages;  // 여러 이미지 저장을 위한 리스트
+    private List<String> detailImages;
+    private String category_name;// 여러 이미지 저장을 위한 리스트
 }

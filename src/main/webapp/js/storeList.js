@@ -392,3 +392,24 @@ document.querySelectorAll('.category-filter a').forEach(function(categoryLink) {
         });
     });
 });
+
+function filterSubcategories() {
+    // 하드코딩된 하위 카테고리 요소 선택
+    const subcategoryItems = document.querySelectorAll('#subcategory-list .filter-item');
+
+    // 모든 하위 카테고리를 일단 숨기기
+    subcategoryItems.forEach(item => {
+        item.style.display = 'none';
+    });
+
+    // `secondCategoryList`에 포함된 항목만 다시 보이게 설정
+    subcategoryItems.forEach(item => {
+        const categoryName = item.textContent.trim();
+        if (secondCategoryList.includes(categoryName)) {
+            item.style.display = 'block';
+        }
+    });
+}
+
+// 페이지 로드 시 한 번 필터 적용
+document.addEventListener('DOMContentLoaded', filterSubcategories);
