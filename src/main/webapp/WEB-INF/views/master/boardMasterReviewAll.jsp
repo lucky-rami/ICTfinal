@@ -57,7 +57,7 @@
                                                     <td><fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd" /></td>
                                     <td>
                                         <a href="#" class="btn btn-outline-secondary btn-sm reviewDetailBtn" data-idx="${review.idx}">상세보기</a>
-                                        <a href="#" class="btn btn-outline-danger btn-sm deleteReviewBtn" data-idx="${review.idx}">삭제</a>
+                                        <button class="btn btn-outline-danger btn-sm deleteReviewBtn" data-idx="${review.idx}">삭제</button>
                                     </td>
                                 </tr>
                             </c:forEach>

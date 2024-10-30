@@ -63,6 +63,8 @@ public interface MasterDAO {
     void deleteFaq(int idx);
     int getTotalUserDelCount();
     void deleteEvent(int idx); // 이벤트 삭제 메서드
+    void deleteReply(int idx);
+    void deleteComment(int idx);
     public int getTodayReplyCount();
     public int getWeekReplyCount();
     int getTodayReviewCount(); // 오늘 작성된 리뷰 수 조회

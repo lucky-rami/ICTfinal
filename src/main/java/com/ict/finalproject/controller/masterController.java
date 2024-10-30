@@ -1204,6 +1204,13 @@ public class masterController {
         return "redirect:/master/EventMasterList"; // 삭제 후 이벤트 목록으로 리다이렉트
     }
 
+    @PostMapping("/boardreplyMasterDelete/{idx}")
+    public String boardreplyMasterDelete(@PathVariable("idx") int idx) {
+        System.out.println("이벤트 삭제 요청: " + idx);
+        masterService.deleteReply(idx); // 서비스 호출로 이벤트 삭제
+        return "redirect:/master/boardMasterCommentAll"; // 삭제 후 이벤트 목록으로 리다이렉트
+    }
+
 
     // Dashboard - 굿즈관리 - 상품 추가
     @GetMapping("/storeAddMaster")

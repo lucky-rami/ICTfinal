@@ -40,7 +40,7 @@
                         <td>${comment.regDT}</td>
                         <td>
                            <a href="#" class="btn btn-outline-secondary btn-sm commentDetailBtn" data-idx="${comment.idx}">상세보기</a>
-                            <a href="#" class="btn btn-outline-danger btn-sm" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                            <button class="btn btn-outline-danger btn-sm deleteReplyBtn" data-idx="${comment.idx}">삭제</button>
                         </td>
                     </tr>
                 </c:forEach>

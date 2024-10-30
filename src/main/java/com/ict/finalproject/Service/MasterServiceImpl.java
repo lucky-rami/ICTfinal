@@ -133,6 +133,18 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
+    public void deleteReply(int idx) {
+        dao.deleteComment(idx);
+        dao.deleteReport(idx);
+        dao.deleteReply(idx);
+    }
+
+    @Override
+    public void deleteComment(int idx) {
+        dao.deleteComment(idx);
+    }
+
+    @Override
     public int getTodayBoardCount() {
         return dao.getTodayBoardCount();
     }

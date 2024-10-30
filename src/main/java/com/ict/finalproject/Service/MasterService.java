@@ -35,6 +35,8 @@ public interface MasterService {
     List<MasterVO> getReportinguserList(MasterVO vo);
     void deleteFaq(int idx);
     void deleteBoard(int idx);
+    void deleteReply(int idx);
+    void deleteComment(int idx);
     int getTodayBoardCount();  // 오늘 작성된 게시글 수
     int getLastWeekBoardCount();
     int getTotalUserDelCount();  // 총 탈퇴 회원 수 조회

@@ -796,6 +796,14 @@
         DELETE FROM t_review WHERE idx = #{idx}
     </delete>
 
+    <delete id="deleteReply">
+        DELETE FROM t_comment WHERE idx = #{idx}
+    </delete>
+
+    <delete id="deleteComment">
+        DELETE FROM t_report WHERE comment_idx  = #{idx}
+    </delete>
+
     <select id="getWeekReviewCount" resultType="int">
         SELECT COUNT(*) FROM t_review WHERE regDT >= DATE_SUB(CURDATE(), INTERVAL 7 DAY);
     </select>
