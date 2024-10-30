@@ -12,8 +12,6 @@ public class ProlikeServiceimpl implements ProlikeService{
     @Autowired
     private ProlikeDAO dao;
 
-
-      @Override
     public void addLike(ProLikeVO likeVO) {
        dao.insertLike(likeVO);  // 좋아요 추가
     }

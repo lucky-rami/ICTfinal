@@ -1,0 +1,89 @@
+a:link,
+a:visited,
+a:hover,
+a:focus,
+a:active {
+	text-decoration: none;
+}
+
+.area_tag .name8 .ico {
+	/*이미지*/
+	margin-top: 80px;
+	margin-left: 30px;
+	position: relative;
+	color: black;
+
+}
+
+.ev_tit {
+	/*overflow: hidden; */
+	font-weight: 800;
+	color: #333;
+	font-size: 40px;
+	letter-spacing: -1px;
+	word-break: keep-all;
+	text-align: center;
+	position: relative;
+
+	margin-left: 30px;
+
+}
+
+.back {
+	display: flex;
+	justify-content: center;
+}
+
+.area_tag {
+	text-align: left;
+	width: 940px;
+	margin: 0 auto 25px auto;
+
+}
+
+.area_tag img {
+	width: 160px;
+	height: 35px;
+
+}
+
+.box_img {
+	display: flex;
+	justify-content: center;
+
+}
+
+.P1 {
+	margin-top: 25px;
+	width: 940px;
+	height: auto;
+}
+
+.box_but {
+	display: flex;
+	justify-content: center;
+}
+
+.but {
+	width: 600px;
+	height: 40px;
+	text-align: center;
+	border: 1px solid #4E4E4E;
+	font-weight: 500;
+	background: transparent;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	position: relative;
+	display: inline-block;
+	left: 0px;
+	margin-top: 30px;
+}
+	/* 호버 상태 추가 */
+
+	.num_view em {
+		color: red;
+		display: block;
+		position: relative;
+		top: 700px;
+		left: 500px;
+	}
