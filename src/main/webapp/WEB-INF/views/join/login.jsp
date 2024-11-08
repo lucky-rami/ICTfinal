@@ -91,7 +91,7 @@
             <span>•</span>
             <a href="/user/join">회원가입</a>
           </div>
-          <!-- <div class="login_bottom_line">
+          <div class="login_bottom_line">
               <div class="or_line"></div>
               <div class="or_txt">SNS 계정으로 로그인</div>
               <div class="or_line"></div>
@@ -122,7 +122,7 @@
                   </svg>
                 </a>
               </div>
-            </div> -->
+            </div>
         </div>
       </div>
     </div>
